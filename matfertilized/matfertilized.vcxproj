@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="build.bat" />
+    <None Include="fertilized\FertilizedObject.m" />
+    <None Include="fertilized\ObjectVector.m" />
+    <None Include="fertilized\Result_Types.m" />
+    <None Include="fertilized\Soil.m" />
+    <None Include="SConscript.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="global.h" />
+    <ClInclude Include="matlab_headers\global.h" />
+    <ClInclude Include="matlab_headers\matlab.h" />
+    <ClInclude Include="matlab_headers\objectvector.h" />
+    <ClInclude Include="matlab_headers\stringvector.h" />
+    <ClInclude Include="matlab_headers\__bagging.h" />
+    <ClInclude Include="matlab_headers\__data_providers.h" />
+    <ClInclude Include="matlab_headers\__deciders.h" />
+    <ClInclude Include="matlab_headers\__execution_strategies.h" />
+    <ClInclude Include="matlab_headers\__features.h" />
+    <ClInclude Include="matlab_headers\__functions_argsort.h" />
+    <ClInclude Include="matlab_headers\__functions_checks.h" />
+    <ClInclude Include="matlab_headers\__functions_exponentials.h" />
+    <ClInclude Include="matlab_headers\__functions_feature_extraction.h" />
+    <ClInclude Include="matlab_headers\__functions_feature_extraction_vision.h" />
+    <ClInclude Include="matlab_headers\__functions_feature_value_selection.h" />
+    <ClInclude Include="matlab_headers\__functions_houghleafmanager.h" />
+    <ClInclude Include="matlab_headers\__functions_mat.h" />
+    <ClInclude Include="matlab_headers\__functions_sampling.h" />
+    <ClInclude Include="matlab_headers\__functions_standard_forests.h" />
+    <ClInclude Include="matlab_headers\__functions_standard_trees.h" />
+    <ClInclude Include="matlab_headers\__functions_types.h" />
+    <ClInclude Include="matlab_headers\__gains.h" />
+    <ClInclude Include="matlab_headers\__impurities.h" />
+    <ClInclude Include="matlab_headers\__leafs.h" />
+    <ClInclude Include="matlab_headers\__regression.h" />
+    <ClInclude Include="matlab_headers\__rootdir.h" />
+    <ClInclude Include="matlab_headers\__threshold_optimizers.h" />
+    <ClInclude Include="matlab_headers\__trainings.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="exporters\__AlignedSurfaceCalculator_0.cpp" />
+    <ClCompile Include="exporters\__AlignedSurfaceCalculator_1.cpp" />
+    <ClCompile Include="exporters\__AlignedSurfaceCalculator_2.cpp" />
+    <ClCompile Include="exporters\__AlignedSurfaceCalculator_3.cpp" />
+    <ClCompile Include="exporters\__AlignedSurfaceCalculator_4.cpp" />
+    <ClCompile Include="exporters\__AlternatingThresholdOptimizer_0.cpp" />
+    <ClCompile Include="exporters\__AlternatingThresholdOptimizer_1.cpp" />
+    <ClCompile Include="exporters\__AlternatingThresholdOptimizer_10.cpp" />
+    <ClCompile Include="exporters\__AlternatingThresholdOptimizer_2.cpp" />
+    <ClCompile Include="exporters\__AlternatingThresholdOptimizer_3.cpp" />
+    <ClCompile Include="exporters\__AlternatingThresholdOptimizer_4.cpp" />
+    <ClCompile Include="exporters\__AlternatingThresholdOptimizer_5.cpp" />
+    <ClCompile Include="exporters\__AlternatingThresholdOptimizer_6.cpp" />
+    <ClCompile Include="exporters\__AlternatingThresholdOptimizer_7.cpp" />
+    <ClCompile Include="exporters\__AlternatingThresholdOptimizer_8.cpp" />
+    <ClCompile Include="exporters\__AlternatingThresholdOptimizer_9.cpp" />
+    <ClCompile Include="exporters\__bagging_0.cpp" />
+    <ClCompile Include="exporters\__bagging_1.cpp" />
+    <ClCompile Include="exporters\__bagging_2.cpp" />
+    <ClCompile Include="exporters\__bagging_3.cpp" />
+    <ClCompile Include="exporters\__bagging_4.cpp" />
+    <ClCompile Include="exporters\__bagging_5.cpp" />
+    <ClCompile Include="exporters\__bagging_6.cpp" />
+    <ClCompile Include="exporters\__bagging_7.cpp" />
+    <ClCompile Include="exporters\__ClassicTraining_0.cpp" />
+    <ClCompile Include="exporters\__ClassicTraining_1.cpp" />
+    <ClCompile Include="exporters\__ClassicTraining_2.cpp" />
+    <ClCompile Include="exporters\__ClassicTraining_3.cpp" />
+    <ClCompile Include="exporters\__ClassicTraining_4.cpp" />
+    <ClCompile Include="exporters\__ClassicTraining_5.cpp" />
+    <ClCompile Include="exporters\__ClassicTraining_6.cpp" />
+    <ClCompile Include="exporters\__ClassicTraining_7.cpp" />
+    <ClCompile Include="exporters\__ClassificationError_0.cpp" />
+    <ClCompile Include="exporters\__ClassificationError_1.cpp" />
+    <ClCompile Include="exporters\__ClassificationLeafManager_0.cpp" />
+    <ClCompile Include="exporters\__ClassificationLeafManager_1.cpp" />
+    <ClCompile Include="exporters\__ClassificationLeafManager_2.cpp" />
+    <ClCompile Include="exporters\__ClassificationLeafManager_3.cpp" />
+    <ClCompile Include="exporters\__ClassificationThresholdOptimizer_0.cpp" />
+    <ClCompile Include="exporters\__ClassificationThresholdOptimizer_1.cpp" />
+    <ClCompile Include="exporters\__ClassificationThresholdOptimizer_2.cpp" />
+    <ClCompile Include="exporters\__ClassificationThresholdOptimizer_3.cpp" />
+    <ClCompile Include="exporters\__ClassificationThresholdOptimizer_4.cpp" />
+    <ClCompile Include="exporters\__ClassificationThresholdOptimizer_5.cpp" />
+    <ClCompile Include="exporters\__ClassificationThresholdOptimizer_6.cpp" />
+    <ClCompile Include="exporters\__ClassificationThresholdOptimizer_7.cpp" />
+    <ClCompile Include="exporters\__ClassificationThresholdOptimizer_8.cpp" />
+    <ClCompile Include="exporters\__ConstantRegressionCalculator_0.cpp" />
+    <ClCompile Include="exporters\__ConstantRegressionCalculator_1.cpp" />
+    <ClCompile Include="exporters\__data_providers_0.cpp" />
+    <ClCompile Include="exporters\__data_providers_1.cpp" />
+    <ClCompile Include="exporters\__data_providers_2.cpp" />
+    <ClCompile Include="exporters\__data_providers_3.cpp" />
+    <ClCompile Include="exporters\__data_providers_4.cpp" />
+    <ClCompile Include="exporters\__data_providers_5.cpp" />
+    <ClCompile Include="exporters\__data_providers_6.cpp" />
+    <ClCompile Include="exporters\__deciders_0.cpp" />
+    <ClCompile Include="exporters\__deciders_1.cpp" />
+    <ClCompile Include="exporters\__deciders_2.cpp" />
+    <ClCompile Include="exporters\__deciders_3.cpp" />
+    <ClCompile Include="exporters\__deciders_4.cpp" />
+    <ClCompile Include="exporters\__deciders_5.cpp" />
+    <ClCompile Include="exporters\__deciders_6.cpp" />
+    <ClCompile Include="exporters\__DifferenceSurfaceCalculator_0.cpp" />
+    <ClCompile Include="exporters\__DifferenceSurfaceCalculator_1.cpp" />
+    <ClCompile Include="exporters\__DifferenceSurfaceCalculator_2.cpp" />
+    <ClCompile Include="exporters\__DifferenceSurfaceCalculator_3.cpp" />
+    <ClCompile Include="exporters\__DifferenceSurfaceCalculator_4.cpp" />
+    <ClCompile Include="exporters\__DifferenceSurfaceCalculator_5.cpp" />
+    <ClCompile Include="exporters\__DirectPatchDifferenceSurfCalculator_0.cpp" />
+    <ClCompile Include="exporters\__DirectPatchDifferenceSurfCalculator_1.cpp" />
+    <ClCompile Include="exporters\__EntropyGain_0.cpp" />
+    <ClCompile Include="exporters\__EntropyGain_1.cpp" />
+    <ClCompile Include="exporters\__EqualDistBagging_0.cpp" />
+    <ClCompile Include="exporters\__EqualDistBagging_1.cpp" />
+    <ClCompile Include="exporters\__EqualDistBagging_2.cpp" />
+    <ClCompile Include="exporters\__EqualDistBagging_3.cpp" />
+    <ClCompile Include="exporters\__EqualDistBagging_4.cpp" />
+    <ClCompile Include="exporters\__EqualDistBagging_5.cpp" />
+    <ClCompile Include="exporters\__EqualDistBagging_6.cpp" />
+    <ClCompile Include="exporters\__EqualDistBagging_7.cpp" />
+    <ClCompile Include="exporters\__execution_strategies_0.cpp" />
+    <ClCompile Include="exporters\__execution_strategies_1.cpp" />
+    <ClCompile Include="exporters\__execution_strategies_2.cpp" />
+    <ClCompile Include="exporters\__execution_strategies_3.cpp" />
+    <ClCompile Include="exporters\__execution_strategies_4.cpp" />
+    <ClCompile Include="exporters\__execution_strategies_5.cpp" />
+    <ClCompile Include="exporters\__execution_strategies_6.cpp" />
+    <ClCompile Include="exporters\__execution_strategies_7.cpp" />
+    <ClCompile Include="exporters\__FeatCalcParamSet.cpp" />
+    <ClCompile Include="exporters\__features.cpp" />
+    <ClCompile Include="exporters\__features_0.cpp" />
+    <ClCompile Include="exporters\__features_1.cpp" />
+    <ClCompile Include="exporters\__features_2.cpp" />
+    <ClCompile Include="exporters\__features_3.cpp" />
+    <ClCompile Include="exporters\__features_4.cpp" />
+    <ClCompile Include="exporters\__features_5.cpp" />
+    <ClCompile Include="exporters\__Forest_0.cpp" />
+    <ClCompile Include="exporters\__Forest_1.cpp" />
+    <ClCompile Include="exporters\__Forest_2.cpp" />
+    <ClCompile Include="exporters\__Forest_3.cpp" />
+    <ClCompile Include="exporters\__Forest_4.cpp" />
+    <ClCompile Include="exporters\__Forest_5.cpp" />
+    <ClCompile Include="exporters\__functions_feature_extraction_0.cpp" />
+    <ClCompile Include="exporters\__functions_standard_forests_0.cpp" />
+    <ClCompile Include="exporters\__functions_standard_forests_1.cpp" />
+    <ClCompile Include="exporters\__functions_standard_forests_2.cpp" />
+    <ClCompile Include="exporters\__functions_standard_trees_0.cpp" />
+    <ClCompile Include="exporters\__functions_standard_trees_1.cpp" />
+    <ClCompile Include="exporters\__functions_standard_trees_2.cpp" />
+    <ClCompile Include="exporters\__functions_standard_trees_3.cpp" />
+    <ClCompile Include="exporters\__gains_0.cpp" />
+    <ClCompile Include="exporters\__gains_1.cpp" />
+    <ClCompile Include="exporters\__HoughLeafManager_0.cpp" />
+    <ClCompile Include="exporters\__IBaggingStrategy_0.cpp" />
+    <ClCompile Include="exporters\__IBaggingStrategy_1.cpp" />
+    <ClCompile Include="exporters\__IBaggingStrategy_2.cpp" />
+    <ClCompile Include="exporters\__IBaggingStrategy_3.cpp" />
+    <ClCompile Include="exporters\__IBaggingStrategy_4.cpp" />
+    <ClCompile Include="exporters\__IBaggingStrategy_5.cpp" />
+    <ClCompile Include="exporters\__IBaggingStrategy_6.cpp" />
+    <ClCompile Include="exporters\__IBaggingStrategy_7.cpp" />
+    <ClCompile Include="exporters\__IDataProvider_0.cpp" />
+    <ClCompile Include="exporters\__IDataProvider_1.cpp" />
+    <ClCompile Include="exporters\__IDataProvider_2.cpp" />
+    <ClCompile Include="exporters\__IDataProvider_3.cpp" />
+    <ClCompile Include="exporters\__IDataProvider_4.cpp" />
+    <ClCompile Include="exporters\__IDataProvider_5.cpp" />
+    <ClCompile Include="exporters\__IDataProvider_6.cpp" />
+    <ClCompile Include="exporters\__IEntropyFunction_0.cpp" />
+    <ClCompile Include="exporters\__IEntropyFunction_1.cpp" />
+    <ClCompile Include="exporters\__IExecutionStrategy_0.cpp" />
+    <ClCompile Include="exporters\__IExecutionStrategy_1.cpp" />
+    <ClCompile Include="exporters\__IExecutionStrategy_2.cpp" />
+    <ClCompile Include="exporters\__IExecutionStrategy_3.cpp" />
+    <ClCompile Include="exporters\__IExecutionStrategy_4.cpp" />
+    <ClCompile Include="exporters\__IExecutionStrategy_5.cpp" />
+    <ClCompile Include="exporters\__IExecutionStrategy_6.cpp" />
+    <ClCompile Include="exporters\__IExecutionStrategy_7.cpp" />
+    <ClCompile Include="exporters\__IForestDataProvider_0.cpp" />
+    <ClCompile Include="exporters\__IForestDataProvider_1.cpp" />
+    <ClCompile Include="exporters\__IForestDataProvider_2.cpp" />
+    <ClCompile Include="exporters\__IForestDataProvider_3.cpp" />
+    <ClCompile Include="exporters\__IForestDataProvider_4.cpp" />
+    <ClCompile Include="exporters\__IForestDataProvider_5.cpp" />
+    <ClCompile Include="exporters\__IForestDataProvider_6.cpp" />
+    <ClCompile Include="exporters\__IGainCalculator_0.cpp" />
+    <ClCompile Include="exporters\__IGainCalculator_1.cpp" />
+    <ClCompile Include="exporters\__impurities_0.cpp" />
+    <ClCompile Include="exporters\__impurities_1.cpp" />
+    <ClCompile Include="exporters\__InducedEntropy_0.cpp" />
+    <ClCompile Include="exporters\__InducedEntropy_1.cpp" />
+    <ClCompile Include="exporters\__ITraining_0.cpp" />
+    <ClCompile Include="exporters\__ITraining_1.cpp" />
+    <ClCompile Include="exporters\__ITraining_2.cpp" />
+    <ClCompile Include="exporters\__ITraining_3.cpp" />
+    <ClCompile Include="exporters\__ITraining_4.cpp" />
+    <ClCompile Include="exporters\__ITraining_5.cpp" />
+    <ClCompile Include="exporters\__ITraining_6.cpp" />
+    <ClCompile Include="exporters\__ITraining_7.cpp" />
+    <ClCompile Include="exporters\__leafs_0.cpp" />
+    <ClCompile Include="exporters\__leafs_1.cpp" />
+    <ClCompile Include="exporters\__leafs_2.cpp" />
+    <ClCompile Include="exporters\__leafs_3.cpp" />
+    <ClCompile Include="exporters\__LinearRegressionCalculator_0.cpp" />
+    <ClCompile Include="exporters\__LinearRegressionCalculator_1.cpp" />
+    <ClCompile Include="exporters\__LinearSurfaceCalculator_0.cpp" />
+    <ClCompile Include="exporters\__LinearSurfaceCalculator_1.cpp" />
+    <ClCompile Include="exporters\__LinearSurfaceCalculator_2.cpp" />
+    <ClCompile Include="exporters\__LinearSurfaceCalculator_3.cpp" />
+    <ClCompile Include="exporters\__LinearSurfaceCalculator_4.cpp" />
+    <ClCompile Include="exporters\__LocalExecutionStrategy_0.cpp" />
+    <ClCompile Include="exporters\__LocalExecutionStrategy_1.cpp" />
+    <ClCompile Include="exporters\__LocalExecutionStrategy_2.cpp" />
+    <ClCompile Include="exporters\__LocalExecutionStrategy_3.cpp" />
+    <ClCompile Include="exporters\__LocalExecutionStrategy_4.cpp" />
+    <ClCompile Include="exporters\__LocalExecutionStrategy_5.cpp" />
+    <ClCompile Include="exporters\__LocalExecutionStrategy_6.cpp" />
+    <ClCompile Include="exporters\__LocalExecutionStrategy_7.cpp" />
+    <ClCompile Include="exporters\__NoBagging_0.cpp" />
+    <ClCompile Include="exporters\__NoBagging_1.cpp" />
+    <ClCompile Include="exporters\__NoBagging_2.cpp" />
+    <ClCompile Include="exporters\__NoBagging_3.cpp" />
+    <ClCompile Include="exporters\__NoBagging_4.cpp" />
+    <ClCompile Include="exporters\__NoBagging_5.cpp" />
+    <ClCompile Include="exporters\__NoBagging_6.cpp" />
+    <ClCompile Include="exporters\__NoBagging_7.cpp" />
+    <ClCompile Include="exporters\__NoCopyPatchSampleManager_0.cpp" />
+    <ClCompile Include="exporters\__NoCopyPatchSampleManager_1.cpp" />
+    <ClCompile Include="exporters\__QuadraticSurfaceCalculator_0.cpp" />
+    <ClCompile Include="exporters\__QuadraticSurfaceCalculator_1.cpp" />
+    <ClCompile Include="exporters\__QuadraticSurfaceCalculator_2.cpp" />
+    <ClCompile Include="exporters\__QuadraticSurfaceCalculator_3.cpp" />
+    <ClCompile Include="exporters\__QuadraticSurfaceCalculator_4.cpp" />
+    <ClCompile Include="exporters\__RandomizedClassificationThresholdOptimizer_0.cpp" />
+    <ClCompile Include="exporters\__RandomizedClassificationThresholdOptimizer_1.cpp" />
+    <ClCompile Include="exporters\__RandomizedClassificationThresholdOptimizer_2.cpp" />
+    <ClCompile Include="exporters\__RandomizedClassificationThresholdOptimizer_3.cpp" />
+    <ClCompile Include="exporters\__RandomizedClassificationThresholdOptimizer_4.cpp" />
+    <ClCompile Include="exporters\__RandomizedClassificationThresholdOptimizer_5.cpp" />
+    <ClCompile Include="exporters\__RandomizedClassificationThresholdOptimizer_6.cpp" />
+    <ClCompile Include="exporters\__RandomizedClassificationThresholdOptimizer_7.cpp" />
+    <ClCompile Include="exporters\__RandomizedClassificationThresholdOptimizer_8.cpp" />
+    <ClCompile Include="exporters\__RegressionLeafManager_0.cpp" />
+    <ClCompile Include="exporters\__RegressionLeafManager_1.cpp" />
+    <ClCompile Include="exporters\__RegressionThresholdOptimizer_0.cpp" />
+    <ClCompile Include="exporters\__RegressionThresholdOptimizer_1.cpp" />
+    <ClCompile Include="exporters\__regression_0.cpp" />
+    <ClCompile Include="exporters\__regression_1.cpp" />
+    <ClCompile Include="exporters\__RenyiEntropy_0.cpp" />
+    <ClCompile Include="exporters\__RenyiEntropy_1.cpp" />
+    <ClCompile Include="exporters\__rootdir_0.cpp" />
+    <ClCompile Include="exporters\__rootdir_1.cpp" />
+    <ClCompile Include="exporters\__rootdir_2.cpp" />
+    <ClCompile Include="exporters\__rootdir_3.cpp" />
+    <ClCompile Include="exporters\__rootdir_4.cpp" />
+    <ClCompile Include="exporters\__rootdir_5.cpp" />
+    <ClCompile Include="exporters\__rootdir_6.cpp" />
+    <ClCompile Include="exporters\__rootdir_7.cpp" />
+    <ClCompile Include="exporters\__ShannonEntropy_0.cpp" />
+    <ClCompile Include="exporters\__ShannonEntropy_1.cpp" />
+    <ClCompile Include="exporters\__StandardFeatureSelectionProvider.cpp" />
+    <ClCompile Include="exporters\__SubsamplingDataProvider_0.cpp" />
+    <ClCompile Include="exporters\__SubsamplingDataProvider_1.cpp" />
+    <ClCompile Include="exporters\__ThresholdDecider_0.cpp" />
+    <ClCompile Include="exporters\__ThresholdDecider_1.cpp" />
+    <ClCompile Include="exporters\__ThresholdDecider_2.cpp" />
+    <ClCompile Include="exporters\__ThresholdDecider_3.cpp" />
+    <ClCompile Include="exporters\__ThresholdDecider_4.cpp" />
+    <ClCompile Include="exporters\__ThresholdDecider_5.cpp" />
+    <ClCompile Include="exporters\__ThresholdDecider_6.cpp" />
+    <ClCompile Include="exporters\__threshold_optimizers_0.cpp" />
+    <ClCompile Include="exporters\__threshold_optimizers_1.cpp" />
+    <ClCompile Include="exporters\__threshold_optimizers_2.cpp" />
+    <ClCompile Include="exporters\__threshold_optimizers_3.cpp" />
+    <ClCompile Include="exporters\__threshold_optimizers_4.cpp" />
+    <ClCompile Include="exporters\__threshold_optimizers_5.cpp" />
+    <ClCompile Include="exporters\__threshold_optimizers_6.cpp" />
+    <ClCompile Include="exporters\__threshold_optimizers_7.cpp" />
+    <ClCompile Include="exporters\__threshold_optimizers_8.cpp" />
+    <ClCompile Include="exporters\__trainings_0.cpp" />
+    <ClCompile Include="exporters\__trainings_1.cpp" />
+    <ClCompile Include="exporters\__trainings_2.cpp" />
+    <ClCompile Include="exporters\__trainings_3.cpp" />
+    <ClCompile Include="exporters\__trainings_4.cpp" />
+    <ClCompile Include="exporters\__trainings_5.cpp" />
+    <ClCompile Include="exporters\__trainings_6.cpp" />
+    <ClCompile Include="exporters\__trainings_7.cpp" />
+    <ClCompile Include="exporters\__Tree_0.cpp" />
+    <ClCompile Include="exporters\__Tree_1.cpp" />
+    <ClCompile Include="exporters\__Tree_2.cpp" />
+    <ClCompile Include="exporters\__Tree_3.cpp" />
+    <ClCompile Include="exporters\__Tree_4.cpp" />
+    <ClCompile Include="exporters\__Tree_5.cpp" />
+    <ClCompile Include="exporters\__Tree_6.cpp" />
+    <ClCompile Include="exporters\__Tree_7.cpp" />
+    <ClCompile Include="exporters\__TsallisEntropy_0.cpp" />
+    <ClCompile Include="exporters\__TsallisEntropy_1.cpp" />
+    <ClCompile Include="exporters\__TwoSideClassificationThresholdOptimizer_0.cpp" />
+    <ClCompile Include="exporters\__TwoSideClassificationThresholdOptimizer_1.cpp" />
+    <ClCompile Include="exporters\__TwoSideClassificationThresholdOptimizer_2.cpp" />
+    <ClCompile Include="exporters\__TwoSideClassificationThresholdOptimizer_3.cpp" />
+    <ClCompile Include="exporters\__TwoSideClassificationThresholdOptimizer_4.cpp" />
+    <ClCompile Include="exporters\__TwoSideClassificationThresholdOptimizer_5.cpp" />
+    <ClCompile Include="exporters\__TwoSideClassificationThresholdOptimizer_6.cpp" />
+    <ClCompile Include="exporters\__TwoSideClassificationThresholdOptimizer_7.cpp" />
+    <ClCompile Include="exporters\__TwoSideClassificationThresholdOptimizer_8.cpp" />
+    <ClCompile Include="exporters\__VarianceClassificationThresholdOptimizer_0.cpp" />
+    <ClCompile Include="exporters\__VarianceClassificationThresholdOptimizer_1.cpp" />
+    <ClCompile Include="exporters\__VarianceClassificationThresholdOptimizer_2.cpp" />
+    <ClCompile Include="exporters\__VarianceClassificationThresholdOptimizer_3.cpp" />
+    <ClCompile Include="exporters\__VarianceClassificationThresholdOptimizer_4.cpp" />
+    <ClCompile Include="exporters\__VarianceClassificationThresholdOptimizer_5.cpp" />
+    <ClCompile Include="exporters\__VarianceClassificationThresholdOptimizer_6.cpp" />
+    <ClCompile Include="exporters\__VarianceClassificationThresholdOptimizer_7.cpp" />
+    <ClCompile Include="exporters\__VarianceClassificationThresholdOptimizer_8.cpp" />
+    <ClCompile Include="exporters\__VolumeFeatureSelectionProvider.cpp" />
+    <ClCompile Include="ObjectVector.cpp" />
+    <ClCompile Include="StringVector.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{261F9BAC-1F51-47B6-BA60-6284A48F2B34}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <IncludePath>$(MATLAB_ROOT)\extern\include;$(SolutionDir);$(IncludePath)</IncludePath>
+    <NMakeBuildCommandLine>build --with-matlab --disable-optimizations --jobs 10</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>build --with-matlab --with-serialization -c</NMakeCleanCommandLine>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <IncludePath>$(MATLAB_ROOT)\extern\include;$(SolutionDir);$(IncludePath)</IncludePath>
+    <NMakeBuildCommandLine>build --with-matlab --with-python-support --with-serialization --jobs 10</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>build --with-matlab --with-serialization -c</NMakeCleanCommandLine>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

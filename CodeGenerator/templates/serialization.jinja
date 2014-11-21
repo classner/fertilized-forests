@@ -1,0 +1,38 @@
+## Author: Christoph Lassner.
+{% include "cpp_disclaimer.jinja" %}
+
+
+#if defined SERIALIZATION_ENABLED
+#include "../global.h"
+
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+
+#include "./serialization.h"
+
+namespace fertilized {
+  // Forward declarations.
+@ for tplid in tplids
+    template <typename T>
+    void __serialization_register_{{tplid}}(T &);
+@ endfor
+
+  /**
+   * \brief Template helper function for all archive types to register
+   * derived classes with boost serialization.
+   */
+  template <class Archive>
+  void register_fertilized_objects_(Archive &ar) {
+@ for tplid in tplids
+    __serialization_register_{{tplid}}(ar);
+@ endfor
+  };
+
+  TemplateFuncExport DllExport void register_fertilized_objects_(
+    boost::archive::text_iarchive &ar);
+
+  TemplateFuncExport DllExport void register_fertilized_objects_(
+    boost::archive::text_oarchive &ar);
+
+}  // namespace fertilized
+#endif  // SERIALIZATION_ENABLED

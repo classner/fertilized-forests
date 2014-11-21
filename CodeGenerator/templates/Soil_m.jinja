@@ -1,0 +1,241 @@
+## Authors: Philipp Harzig, Christoph Lassner.
+classdef Soil
+    % Convenience factory class for creating forest objects of specified types.
+    %
+    % You can create a `Soil` once with a given set of types that you want to
+    % work with. All following objects constructed by the soil objects work
+    % with according types, so that you don't have to worry about this detail.
+    %
+    % Take into account, that not all objects can be created by a `Soil` of a
+    % specific type! Calling the respective functions throws an exception.
+    %
+    % The datatype strings are translated into an internal string representation,
+    % so they can be specified quite freely, e.g. specyfing `f` or `float` is
+    % both understood as `float`. Take into account, that these datatypes are
+    % interpreted like the C++ datatypes, i.e. `float` is (usually) a 32-bit
+    % floating point number, and `double` is (usually) the 64-bit counterpart.
+    %
+    % There is the enum `Result_Types` available in this package, that provides
+    % access to the different result types.
+    %
+    % Example usage:
+    %
+    % >>> soil = Soil(result_type=Result_Types.probabilities)
+    % >>> leaf_manager = soil.ClassificationLeafManager(2)
+    %
+    % A leaf manager working with the proper types (in this case
+    % `float` and `unsigned int`) has been created.
+    %
+    {% include 'matlab_disclaimer.jinja' %}
+
+    properties (SetAccess = private)
+        LibName = 'matfertilized';
+        MainHeader = 'matlab.h';
+        AdditionalHeaders = { 'objectvector.h', 'stringvector.h', {% for header in matlab_header_files %}'{{ header }}'{% if not loop.last %}, {% endif %}{% endfor %} };
+        
+        % DataTypes order: input_dtype, feature_dtype, annotation_dtype, leaf_return_dtype, forest_return_dtype	
+        inp_str = 'f';
+        feat_str = 'f';
+        ann_str = 'uint';
+        res_type = Result_Types.probabilities
+        tres = 'fv';
+        fres = 'fv';
+        dtype_str_translation = containers.Map;
+        res_type_str_translation = containers.Map;
+    end
+
+    methods (Static = true)
+        function [res] = DEFAULT_ENTROPY_P1_2()
+          res = single([2, 1]);
+        end
+
+        function [res] = DEFAULT_ENTROPY_VEC_2()
+          res = {'induced', 'induced'};
+        end
+    end
+
+    methods
+        function this = Soil(input_dtype,...
+                             feature_dtype,...
+                             annotation_dtype,...
+                             result_type)
+            @ for key, val in translations.items()
+            this.dtype_str_translation('{{key}}') = '{{val}}';
+            @ endfor
+            this.res_type_str_translation(Result_Types.probabilities.name) = {'fv' ;'fv'};
+            this.res_type_str_translation(Result_Types.hough_map.name) = {'hp'; 'vhp'};
+            this.res_type_str_translation(Result_Types.regression.name) = {'rp'; 'vprpf'};
+            %if libisloaded(this.LibName)
+            %    unloadlibrary(this.LibName);
+            %end
+            % add the generated folder to the path if necessary
+            genpath = strcat(fileparts(mfilename('fullpath')), filesep, 'generated;');
+            if isempty(strfind(path, genpath))
+              addpath(genpath);
+            end    
+            if ~libisloaded(this.LibName)
+                % create additional loadlibray arguments...
+                args = {};
+                for header = this.AdditionalHeaders
+                    args = [args, 'addheader'];
+                    args = [args, strcat(fileparts(mfilename('fullpath')), ...
+                                                   filesep, ...
+                                                   'headers', ...
+                                                   filesep, ...
+                                                   header)];
+                end
+
+                mainheader = strcat(fileparts(mfilename('fullpath')), ...
+                                    filesep, ...
+                                    'headers', ...
+                                    filesep, ...
+                                    this.MainHeader);
+            
+                if strcmp(getenv('OS'), 'Windows_NT')
+                    dllsuff = '.dll';
+                else
+                    dllsuff = '.so';
+                end
+                dllName = strcat(fileparts(mfilename('fullpath')), ...
+                                 filesep, ...
+                                 this.LibName, ...
+                                 dllsuff);
+                [notfound,warnings] = loadlibrary(dllName, mainheader, args{:});
+            end
+            % Initialize values.
+            if exist('input_dtype', 'var')
+              if find(ismember(keys(this.dtype_str_translation), input_dtype))
+                this.inp_str = this.dtype_str_translation(input_dtype);
+              else
+                throw(MException('fertilized:soil_inp_dtype_wrong', 'Unknown input dtype!'));
+              end
+            end
+            if exist('feature_dtype', 'var')
+              if find(ismember(keys(this.dtype_str_translation), feature_dtype))
+                this.feat_str = this.dtype_str_translation(feature_dtype);
+              else
+                throw(MException('fertilized:soil_feat_dtype_wrong', 'Unknown feature dtype!'));
+              end
+            end
+            if exist('annotation_dtype', 'var')
+              if find(ismember(keys(this.dtype_str_translation), annotation_dtype))
+                this.ann_str = this.dtype_str_translation(annotation_dtype);
+              else
+                throw(MException('fertilized:soil_ann_dtype_wrong', 'Unknown annotation dtype!'));
+              end
+            end
+            if exist('result_type', 'var')
+              this.res_type = result_type;
+              tmp_rest = this.res_type_str_translation(result_type.name);
+              if this.res_type == Result_Types.regression
+                this.tres = strcat(tmp_rest{1}, this.inp_str);
+                this.fres = strcat(tmp_rest{2}, this.inp_str);
+              else
+                if this.res_type == Result_Types.probabilities ||...
+                   this.res_type == Result_Types.hough_map
+                  this.tres = tmp_rest{1};
+                  this.fres = tmp_rest{2};
+                else
+                  throw(MException('fertilized:soil_ret_dtype_wrong', 'Unknown return dtype!'));
+                end
+              end
+            end
+        end
+
+        function [out] = getDataTypes(this, index)
+            % Gets a cell array with the data type strings of this soil object.
+            out = {this.inp_str, this.feat_str, this.ann_str, this.tres, this.fres};
+            if exist('index', 'var')
+              out = out{index};
+            end
+        end
+       
+        function listLibFunctions(this)
+            % Prints all library functions of the underlying C library module.
+            libfunctions(this.LibName);
+        end
+
+        % start generated methods
+@ for cls in classes
+@   for m in cls.Constructors
+@     if 'Matlab' in m.AvailableIn
+        function [res] = {% if m.ExportedName is none %}{{cls.ClassName}}{%else%}{{m.ExportedName}}{% endif %}(this{% for arg in m.Arguments %}{% if loop.first %}, {% endif %}{{ arg.name }}{% if not loop.last %}, {% endif %}{% endfor %})
+{{ m.Documentations['Matlab'].render_at(12, prepend=('Class information:\n*==================\n*\n*' + cls.Documentations['C++'][5:-2]+'\n*Constructor:\n*============\n*\n*'), string_enclosure=False, docstarter='% ') }}
+@       for arg in m.Arguments
+@         if not arg.defaultvalue == None
+            if ~exist('{{arg.name}}', 'var') || {{arg.name}} == -1
+                {{ arg.name }} = {{ arg.renderDefaultMatlab() }};
+            end    
+@         endif
+@         if arg.type.needsConversion(allow_vector_of=True, instantiation_types=cls.getSampleInstantiationTypes(), template_params=cls.ClassType.TemplateParams) and arg.type.IsVectorOfType and arg.type.isFertilizedObjectInMatlab(allow_vector_of=True, instantiation_types=cls.getSampleInstantiationTypes(), template_params=cls.ClassType.TemplateParams)
+            tmp_{{arg.name}} = ObjectVector();
+            for tmp_{{arg.name}}_idx = 1:length({{arg.name}})
+              tmp_{{arg.name}}.append({{arg.name}}{tmp_{{arg.name}}_idx});
+            end
+            {{arg.name}} = tmp_{{arg.name}}.ClassifierPtr;
+@         endif
+@         if arg.type.IsVectorOfType and arg.type.TypeString == 'std::string'
+            tmp_{{arg.name}} = StringVector();
+            for tmp_{{arg.name}}_idx = 1:length({{arg.name}})
+              tmp_{{arg.name}}.append({{arg.name}}{tmp_{{arg.name}}_idx});
+            end
+            {{arg.name}} = tmp_{{arg.name}}.ClassifierPtr;
+@         endif
+@       endfor
+@       if not cls.ExclusiveSoilUsage is none
+            tmp = '_{{cls.getExclusiveSoilUsageAbbreviation()}}';
+@       else
+            position_list = [{% for position in cls.ClassType.getTemplateParamStandardPositions() %}{{position+1}}{% if loop.index != cls.ClassType.getTemplateParamStandardPositions()|length %},{% endif %}{% endfor %}];
+            tmp = '';
+            for i = position_list
+                tmp = strcat(tmp, '_', this.getDataTypes(i));
+            end
+@       endif
+            getter = sprintf('%s%s%s', '{{m.prefixForMatlab(m.FunctionPrefix)}}', '{{ m.NameFormat|format(cls.ClassName, "") }}', tmp);
+            ptr = calllib(this.LibName, getter{% for arg in m.Arguments %}{% if loop.first %}, {% endif %}{{ arg.name }}{% if arg.type.isFertilizedObjectInMatlab() %}.ClassifierPtr{% endif %}{% if not loop.last %}, {% endif %}{% endfor %});
+            res = {{cls.ClassName}}(this.getDataTypes(), this.LibName, ptr, '%s%s');    
+        end
+@     endif
+@   endfor
+@ endfor
+
+@ for m in functions
+        function {% if not m.ReturnType.TypeString == 'void' %}[res] = {% endif %}{{ m.NameFormat|format(m.prefixForMatlab(m.FunctionPrefix), "") }} (this{% for arg in m.Arguments %}{% if loop.first %}, {% endif %}{{ arg.name }}{% if not loop.last %}, {% endif %}{% endfor %})
+{{ m.Documentations['Matlab'].render_at(12, string_enclosure=False, docstarter='% ') }}
+@       for arg in m.Arguments
+@          if not arg.defaultvalue == None
+            if ~exist('{{arg.name}}', 'var') || {{arg.name}} == -1
+                {{ arg.name }} = {{ arg.renderDefaultMatlab() }};
+            end    
+@          endif
+@         if arg.type.needsConversion(allow_vector_of=True, instantiation_types=m.getSampleInstantiationTypes(), template_params=m.TemplateArguments) and arg.type.IsVectorOfType and arg.type.isFertilizedObjectInMatlab(allow_vector_of=True, instantiation_types=m.getSampleInstantiationTypes(), template_params=m.TemplateArguments)
+            tmp_{{arg.name}} = ObjectVector();
+            for tmp_{{arg.name}}_idx = 1:length({{arg.name}})
+              tmp_{{arg.name}}.append({{arg.name}}{tmp_{{arg.name}}_idx});
+            end
+            {{arg.name}} = tmp_{{arg.name}}.ClassifierPtr;
+@         endif
+@         if arg.type.IsVectorOfType and arg.type.TypeString == 'std::string'
+            tmp_{{arg.name}} = StringVector();
+            for tmp_{{arg.name}}_idx = 1:length({{arg.name}})
+              tmp_{{arg.name}}.append({{arg.name}}{tmp_{{arg.name}}_idx});
+            end
+            {{arg.name}} = tmp_{{arg.name}}.ClassifierPtr;
+@         endif
+@       endfor
+{% macro _typenames() %}{% for i in range(m.getTemplateArgumentsLength()) %}'_', this.{{ tmpl_soil_transl[m.TemplateArguments[i]] }}{% if not loop.last %}, {% endif %}{% endfor %}{% endmacro  %}
+            suffix = {% if _typenames() == ''  %}''{% else %}strcat({{ _typenames() }}){% endif %};
+            getter = sprintf('%s%s', '{{ m.NameFormat|format(m.prefixForMatlab(m.FunctionPrefix), "") }}', suffix);
+            ptr = calllib(this.LibName, getter{% for arg in m.Arguments %}{% if loop.first %}, {% endif %}{{ arg.name }}{% if arg.type.isFertilizedObjectInMatlab() %}.ClassifierPtr{% endif %}{% if not loop.last %}, {% endif %}{% endfor %});
+
+@       if m.ReturnType.isFertilizedObjectInMatlab()
+            res = {{m.ReturnType.getClassName(remove_qualifier=True)}}(this.getDataTypes(), this.LibName, ptr, '%s%s');    
+@       else
+            res = ptr;
+@       endif            
+        end
+@ endfor
+
+        % end generated methods         
+    end % methods    
+end % class

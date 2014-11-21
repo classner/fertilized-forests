@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="build.bat" />
+    <None Include="build.sh" />
+    <None Include="fertilized\TypeTranslations.py" />
+    <None Include="fertilized\__init__.py" />
+    <None Include="SConscript.py" />
+    <None Include="setup.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="exporters\__0_exporter.cpp" />
+    <ClCompile Include="exporters\__100_exporter.cpp" />
+    <ClCompile Include="exporters\__101_exporter.cpp" />
+    <ClCompile Include="exporters\__102_exporter.cpp" />
+    <ClCompile Include="exporters\__103_exporter.cpp" />
+    <ClCompile Include="exporters\__104_exporter.cpp" />
+    <ClCompile Include="exporters\__105_exporter.cpp" />
+    <ClCompile Include="exporters\__106_exporter.cpp" />
+    <ClCompile Include="exporters\__107_exporter.cpp" />
+    <ClCompile Include="exporters\__108_exporter.cpp" />
+    <ClCompile Include="exporters\__109_exporter.cpp" />
+    <ClCompile Include="exporters\__10_exporter.cpp" />
+    <ClCompile Include="exporters\__110_exporter.cpp" />
+    <ClCompile Include="exporters\__111_exporter.cpp" />
+    <ClCompile Include="exporters\__112_exporter.cpp" />
+    <ClCompile Include="exporters\__113_exporter.cpp" />
+    <ClCompile Include="exporters\__114_exporter.cpp" />
+    <ClCompile Include="exporters\__115_exporter.cpp" />
+    <ClCompile Include="exporters\__116_exporter.cpp" />
+    <ClCompile Include="exporters\__117_exporter.cpp" />
+    <ClCompile Include="exporters\__118_exporter.cpp" />
+    <ClCompile Include="exporters\__119_exporter.cpp" />
+    <ClCompile Include="exporters\__11_exporter.cpp" />
+    <ClCompile Include="exporters\__120_exporter.cpp" />
+    <ClCompile Include="exporters\__121_exporter.cpp" />
+    <ClCompile Include="exporters\__122_exporter.cpp" />
+    <ClCompile Include="exporters\__123_exporter.cpp" />
+    <ClCompile Include="exporters\__124_exporter.cpp" />
+    <ClCompile Include="exporters\__125_exporter.cpp" />
+    <ClCompile Include="exporters\__126_exporter.cpp" />
+    <ClCompile Include="exporters\__127_exporter.cpp" />
+    <ClCompile Include="exporters\__128_exporter.cpp" />
+    <ClCompile Include="exporters\__129_exporter.cpp" />
+    <ClCompile Include="exporters\__12_exporter.cpp" />
+    <ClCompile Include="exporters\__130_exporter.cpp" />
+    <ClCompile Include="exporters\__131_exporter.cpp" />
+    <ClCompile Include="exporters\__132_exporter.cpp" />
+    <ClCompile Include="exporters\__133_exporter.cpp" />
+    <ClCompile Include="exporters\__134_exporter.cpp" />
+    <ClCompile Include="exporters\__135_exporter.cpp" />
+    <ClCompile Include="exporters\__136_exporter.cpp" />
+    <ClCompile Include="exporters\__137_exporter.cpp" />
+    <ClCompile Include="exporters\__138_exporter.cpp" />
+    <ClCompile Include="exporters\__139_exporter.cpp" />
+    <ClCompile Include="exporters\__13_exporter.cpp" />
+    <ClCompile Include="exporters\__140_exporter.cpp" />
+    <ClCompile Include="exporters\__141_exporter.cpp" />
+    <ClCompile Include="exporters\__142_exporter.cpp" />
+    <ClCompile Include="exporters\__143_exporter.cpp" />
+    <ClCompile Include="exporters\__144_exporter.cpp" />
+    <ClCompile Include="exporters\__145_exporter.cpp" />
+    <ClCompile Include="exporters\__146_exporter.cpp" />
+    <ClCompile Include="exporters\__147_exporter.cpp" />
+    <ClCompile Include="exporters\__148_exporter.cpp" />
+    <ClCompile Include="exporters\__149_exporter.cpp" />
+    <ClCompile Include="exporters\__14_exporter.cpp" />
+    <ClCompile Include="exporters\__150_exporter.cpp" />
+    <ClCompile Include="exporters\__151_exporter.cpp" />
+    <ClCompile Include="exporters\__152_exporter.cpp" />
+    <ClCompile Include="exporters\__153_exporter.cpp" />
+    <ClCompile Include="exporters\__154_exporter.cpp" />
+    <ClCompile Include="exporters\__155_exporter.cpp" />
+    <ClCompile Include="exporters\__156_exporter.cpp" />
+    <ClCompile Include="exporters\__157_exporter.cpp" />
+    <ClCompile Include="exporters\__158_exporter.cpp" />
+    <ClCompile Include="exporters\__159_exporter.cpp" />
+    <ClCompile Include="exporters\__15_exporter.cpp" />
+    <ClCompile Include="exporters\__160_exporter.cpp" />
+    <ClCompile Include="exporters\__161_exporter.cpp" />
+    <ClCompile Include="exporters\__162_exporter.cpp" />
+    <ClCompile Include="exporters\__163_exporter.cpp" />
+    <ClCompile Include="exporters\__164_exporter.cpp" />
+    <ClCompile Include="exporters\__165_exporter.cpp" />
+    <ClCompile Include="exporters\__166_exporter.cpp" />
+    <ClCompile Include="exporters\__167_exporter.cpp" />
+    <ClCompile Include="exporters\__168_exporter.cpp" />
+    <ClCompile Include="exporters\__169_exporter.cpp" />
+    <ClCompile Include="exporters\__16_exporter.cpp" />
+    <ClCompile Include="exporters\__170_exporter.cpp" />
+    <ClCompile Include="exporters\__171_exporter.cpp" />
+    <ClCompile Include="exporters\__172_exporter.cpp" />
+    <ClCompile Include="exporters\__173_exporter.cpp" />
+    <ClCompile Include="exporters\__174_exporter.cpp" />
+    <ClCompile Include="exporters\__175_exporter.cpp" />
+    <ClCompile Include="exporters\__176_exporter.cpp" />
+    <ClCompile Include="exporters\__177_exporter.cpp" />
+    <ClCompile Include="exporters\__178_exporter.cpp" />
+    <ClCompile Include="exporters\__179_exporter.cpp" />
+    <ClCompile Include="exporters\__17_exporter.cpp" />
+    <ClCompile Include="exporters\__180_exporter.cpp" />
+    <ClCompile Include="exporters\__181_exporter.cpp" />
+    <ClCompile Include="exporters\__182_exporter.cpp" />
+    <ClCompile Include="exporters\__183_exporter.cpp" />
+    <ClCompile Include="exporters\__184_exporter.cpp" />
+    <ClCompile Include="exporters\__185_exporter.cpp" />
+    <ClCompile Include="exporters\__186_exporter.cpp" />
+    <ClCompile Include="exporters\__187_exporter.cpp" />
+    <ClCompile Include="exporters\__188_exporter.cpp" />
+    <ClCompile Include="exporters\__189_exporter.cpp" />
+    <ClCompile Include="exporters\__18_exporter.cpp" />
+    <ClCompile Include="exporters\__190_exporter.cpp" />
+    <ClCompile Include="exporters\__191_exporter.cpp" />
+    <ClCompile Include="exporters\__192_exporter.cpp" />
+    <ClCompile Include="exporters\__193_exporter.cpp" />
+    <ClCompile Include="exporters\__194_exporter.cpp" />
+    <ClCompile Include="exporters\__195_exporter.cpp" />
+    <ClCompile Include="exporters\__196_exporter.cpp" />
+    <ClCompile Include="exporters\__197_exporter.cpp" />
+    <ClCompile Include="exporters\__198_exporter.cpp" />
+    <ClCompile Include="exporters\__199_exporter.cpp" />
+    <ClCompile Include="exporters\__19_exporter.cpp" />
+    <ClCompile Include="exporters\__1_exporter.cpp" />
+    <ClCompile Include="exporters\__200_exporter.cpp" />
+    <ClCompile Include="exporters\__201_exporter.cpp" />
+    <ClCompile Include="exporters\__202_exporter.cpp" />
+    <ClCompile Include="exporters\__203_exporter.cpp" />
+    <ClCompile Include="exporters\__204_exporter.cpp" />
+    <ClCompile Include="exporters\__205_exporter.cpp" />
+    <ClCompile Include="exporters\__206_exporter.cpp" />
+    <ClCompile Include="exporters\__207_exporter.cpp" />
+    <ClCompile Include="exporters\__208_exporter.cpp" />
+    <ClCompile Include="exporters\__209_exporter.cpp" />
+    <ClCompile Include="exporters\__20_exporter.cpp" />
+    <ClCompile Include="exporters\__210_exporter.cpp" />
+    <ClCompile Include="exporters\__211_exporter.cpp" />
+    <ClCompile Include="exporters\__212_exporter.cpp" />
+    <ClCompile Include="exporters\__213_exporter.cpp" />
+    <ClCompile Include="exporters\__214_exporter.cpp" />
+    <ClCompile Include="exporters\__215_exporter.cpp" />
+    <ClCompile Include="exporters\__216_exporter.cpp" />
+    <ClCompile Include="exporters\__217_exporter.cpp" />
+    <ClCompile Include="exporters\__218_exporter.cpp" />
+    <ClCompile Include="exporters\__219_exporter.cpp" />
+    <ClCompile Include="exporters\__21_exporter.cpp" />
+    <ClCompile Include="exporters\__220_exporter.cpp" />
+    <ClCompile Include="exporters\__221_exporter.cpp" />
+    <ClCompile Include="exporters\__222_exporter.cpp" />
+    <ClCompile Include="exporters\__223_exporter.cpp" />
+    <ClCompile Include="exporters\__224_exporter.cpp" />
+    <ClCompile Include="exporters\__225_exporter.cpp" />
+    <ClCompile Include="exporters\__226_exporter.cpp" />
+    <ClCompile Include="exporters\__227_exporter.cpp" />
+    <ClCompile Include="exporters\__228_exporter.cpp" />
+    <ClCompile Include="exporters\__229_exporter.cpp" />
+    <ClCompile Include="exporters\__22_exporter.cpp" />
+    <ClCompile Include="exporters\__230_exporter.cpp" />
+    <ClCompile Include="exporters\__231_exporter.cpp" />
+    <ClCompile Include="exporters\__232_exporter.cpp" />
+    <ClCompile Include="exporters\__233_exporter.cpp" />
+    <ClCompile Include="exporters\__234_exporter.cpp" />
+    <ClCompile Include="exporters\__235_exporter.cpp" />
+    <ClCompile Include="exporters\__236_exporter.cpp" />
+    <ClCompile Include="exporters\__237_exporter.cpp" />
+    <ClCompile Include="exporters\__238_exporter.cpp" />
+    <ClCompile Include="exporters\__239_exporter.cpp" />
+    <ClCompile Include="exporters\__23_exporter.cpp" />
+    <ClCompile Include="exporters\__240_exporter.cpp" />
+    <ClCompile Include="exporters\__241_exporter.cpp" />
+    <ClCompile Include="exporters\__242_exporter.cpp" />
+    <ClCompile Include="exporters\__243_exporter.cpp" />
+    <ClCompile Include="exporters\__244_exporter.cpp" />
+    <ClCompile Include="exporters\__245_exporter.cpp" />
+    <ClCompile Include="exporters\__246_exporter.cpp" />
+    <ClCompile Include="exporters\__247_exporter.cpp" />
+    <ClCompile Include="exporters\__248_exporter.cpp" />
+    <ClCompile Include="exporters\__249_exporter.cpp" />
+    <ClCompile Include="exporters\__24_exporter.cpp" />
+    <ClCompile Include="exporters\__250_exporter.cpp" />
+    <ClCompile Include="exporters\__251_exporter.cpp" />
+    <ClCompile Include="exporters\__252_exporter.cpp" />
+    <ClCompile Include="exporters\__253_exporter.cpp" />
+    <ClCompile Include="exporters\__25_exporter.cpp" />
+    <ClCompile Include="exporters\__26_exporter.cpp" />
+    <ClCompile Include="exporters\__27_exporter.cpp" />
+    <ClCompile Include="exporters\__28_exporter.cpp" />
+    <ClCompile Include="exporters\__29_exporter.cpp" />
+    <ClCompile Include="exporters\__2_exporter.cpp" />
+    <ClCompile Include="exporters\__30_exporter.cpp" />
+    <ClCompile Include="exporters\__31_exporter.cpp" />
+    <ClCompile Include="exporters\__32_exporter.cpp" />
+    <ClCompile Include="exporters\__33_exporter.cpp" />
+    <ClCompile Include="exporters\__34_exporter.cpp" />
+    <ClCompile Include="exporters\__35_exporter.cpp" />
+    <ClCompile Include="exporters\__36_exporter.cpp" />
+    <ClCompile Include="exporters\__37_exporter.cpp" />
+    <ClCompile Include="exporters\__38_exporter.cpp" />
+    <ClCompile Include="exporters\__39_exporter.cpp" />
+    <ClCompile Include="exporters\__3_exporter.cpp" />
+    <ClCompile Include="exporters\__40_exporter.cpp" />
+    <ClCompile Include="exporters\__41_exporter.cpp" />
+    <ClCompile Include="exporters\__42_exporter.cpp" />
+    <ClCompile Include="exporters\__43_exporter.cpp" />
+    <ClCompile Include="exporters\__44_exporter.cpp" />
+    <ClCompile Include="exporters\__45_exporter.cpp" />
+    <ClCompile Include="exporters\__46_exporter.cpp" />
+    <ClCompile Include="exporters\__47_exporter.cpp" />
+    <ClCompile Include="exporters\__48_exporter.cpp" />
+    <ClCompile Include="exporters\__49_exporter.cpp" />
+    <ClCompile Include="exporters\__4_exporter.cpp" />
+    <ClCompile Include="exporters\__50_exporter.cpp" />
+    <ClCompile Include="exporters\__51_exporter.cpp" />
+    <ClCompile Include="exporters\__52_exporter.cpp" />
+    <ClCompile Include="exporters\__53_exporter.cpp" />
+    <ClCompile Include="exporters\__54_exporter.cpp" />
+    <ClCompile Include="exporters\__55_exporter.cpp" />
+    <ClCompile Include="exporters\__56_exporter.cpp" />
+    <ClCompile Include="exporters\__57_exporter.cpp" />
+    <ClCompile Include="exporters\__58_exporter.cpp" />
+    <ClCompile Include="exporters\__59_exporter.cpp" />
+    <ClCompile Include="exporters\__5_exporter.cpp" />
+    <ClCompile Include="exporters\__60_exporter.cpp" />
+    <ClCompile Include="exporters\__61_exporter.cpp" />
+    <ClCompile Include="exporters\__62_exporter.cpp" />
+    <ClCompile Include="exporters\__63_exporter.cpp" />
+    <ClCompile Include="exporters\__64_exporter.cpp" />
+    <ClCompile Include="exporters\__65_exporter.cpp" />
+    <ClCompile Include="exporters\__66_exporter.cpp" />
+    <ClCompile Include="exporters\__67_exporter.cpp" />
+    <ClCompile Include="exporters\__68_exporter.cpp" />
+    <ClCompile Include="exporters\__69_exporter.cpp" />
+    <ClCompile Include="exporters\__6_exporter.cpp" />
+    <ClCompile Include="exporters\__70_exporter.cpp" />
+    <ClCompile Include="exporters\__71_exporter.cpp" />
+    <ClCompile Include="exporters\__72_exporter.cpp" />
+    <ClCompile Include="exporters\__73_exporter.cpp" />
+    <ClCompile Include="exporters\__74_exporter.cpp" />
+    <ClCompile Include="exporters\__75_exporter.cpp" />
+    <ClCompile Include="exporters\__76_exporter.cpp" />
+    <ClCompile Include="exporters\__77_exporter.cpp" />
+    <ClCompile Include="exporters\__78_exporter.cpp" />
+    <ClCompile Include="exporters\__79_exporter.cpp" />
+    <ClCompile Include="exporters\__7_exporter.cpp" />
+    <ClCompile Include="exporters\__80_exporter.cpp" />
+    <ClCompile Include="exporters\__81_exporter.cpp" />
+    <ClCompile Include="exporters\__82_exporter.cpp" />
+    <ClCompile Include="exporters\__83_exporter.cpp" />
+    <ClCompile Include="exporters\__84_exporter.cpp" />
+    <ClCompile Include="exporters\__85_exporter.cpp" />
+    <ClCompile Include="exporters\__86_exporter.cpp" />
+    <ClCompile Include="exporters\__87_exporter.cpp" />
+    <ClCompile Include="exporters\__88_exporter.cpp" />
+    <ClCompile Include="exporters\__89_exporter.cpp" />
+    <ClCompile Include="exporters\__8_exporter.cpp" />
+    <ClCompile Include="exporters\__90_exporter.cpp" />
+    <ClCompile Include="exporters\__91_exporter.cpp" />
+    <ClCompile Include="exporters\__92_exporter.cpp" />
+    <ClCompile Include="exporters\__93_exporter.cpp" />
+    <ClCompile Include="exporters\__94_exporter.cpp" />
+    <ClCompile Include="exporters\__95_exporter.cpp" />
+    <ClCompile Include="exporters\__96_exporter.cpp" />
+    <ClCompile Include="exporters\__97_exporter.cpp" />
+    <ClCompile Include="exporters\__98_exporter.cpp" />
+    <ClCompile Include="exporters\__99_exporter.cpp" />
+    <ClCompile Include="exporters\__9_exporter.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_0.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_1.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_10.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_11.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_12.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_13.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_14.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_15.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_2.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_3.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_4.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_5.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_6.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_7.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_8.cpp" />
+    <ClCompile Include="exporters_mod_funcs\__export_module_function_9.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_0.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_1.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_10.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_11.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_12.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_13.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_14.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_15.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_16.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_17.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_18.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_19.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_2.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_20.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_21.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_22.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_3.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_4.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_5.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_6.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_7.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_8.cpp" />
+    <ClCompile Include="exporters_vec_types\__vec_exporter_9.cpp" />
+    <ClCompile Include="pyfertilized.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="exporters\__AlignedSurfaceCalculator_exporter.h" />
+    <ClInclude Include="exporters\__AlternatingThresholdOptimizer_exporter.h" />
+    <ClInclude Include="exporters\__ClassicTraining_exporter.h" />
+    <ClInclude Include="exporters\__ClassificationError_exporter.h" />
+    <ClInclude Include="exporters\__ClassificationLeafManager_exporter.h" />
+    <ClInclude Include="exporters\__ClassificationThresholdOptimizer_exporter.h" />
+    <ClInclude Include="exporters\__ConstantRegressionCalculator_exporter.h" />
+    <ClInclude Include="exporters\__DifferenceSurfaceCalculator_exporter.h" />
+    <ClInclude Include="exporters\__DirectPatchDifferenceSurfCalculator_exporter.h" />
+    <ClInclude Include="exporters\__EntropyGain_exporter.h" />
+    <ClInclude Include="exporters\__EqualDistBagging_exporter.h" />
+    <ClInclude Include="exporters\__FeatCalcParamSet_exporter.h" />
+    <ClInclude Include="exporters\__Forest_exporter.h" />
+    <ClInclude Include="exporters\__HoughLeafManager_exporter.h" />
+    <ClInclude Include="exporters\__IBaggingStrategy_exporter.h" />
+    <ClInclude Include="exporters\__IDataProvider_exporter.h" />
+    <ClInclude Include="exporters\__IDecider_exporter.h" />
+    <ClInclude Include="exporters\__IEntropyFunction_exporter.h" />
+    <ClInclude Include="exporters\__IExecutionStrategy_exporter.h" />
+    <ClInclude Include="exporters\__IFeatureSelectionProvider_exporter.h" />
+    <ClInclude Include="exporters\__IForestDataProvider_exporter.h" />
+    <ClInclude Include="exporters\__IGainCalculator_exporter.h" />
+    <ClInclude Include="exporters\__ILeafManager_exporter.h" />
+    <ClInclude Include="exporters\__InducedEntropy_exporter.h" />
+    <ClInclude Include="exporters\__IRegressionCalculator_exporter.h" />
+    <ClInclude Include="exporters\__ISampleManager_exporter.h" />
+    <ClInclude Include="exporters\__ISurfaceCalculator_exporter.h" />
+    <ClInclude Include="exporters\__IThresholdOptimizer_exporter.h" />
+    <ClInclude Include="exporters\__ITraining_exporter.h" />
+    <ClInclude Include="exporters\__LinearRegressionCalculator_exporter.h" />
+    <ClInclude Include="exporters\__LinearSurfaceCalculator_exporter.h" />
+    <ClInclude Include="exporters\__LocalExecutionStrategy_exporter.h" />
+    <ClInclude Include="exporters\__NoBagging_exporter.h" />
+    <ClInclude Include="exporters\__NoCopyPatchSampleManager_exporter.h" />
+    <ClInclude Include="exporters\__PatchSampleManager_exporter.h" />
+    <ClInclude Include="exporters\__QuadraticSurfaceCalculator_exporter.h" />
+    <ClInclude Include="exporters\__RandomizedClassificationThresholdOptimizer_exporter.h" />
+    <ClInclude Include="exporters\__RegressionLeafManager_exporter.h" />
+    <ClInclude Include="exporters\__RegressionThresholdOptimizer_exporter.h" />
+    <ClInclude Include="exporters\__RenyiEntropy_exporter.h" />
+    <ClInclude Include="exporters\__ShannonEntropy_exporter.h" />
+    <ClInclude Include="exporters\__StandardFeatureSelectionProvider_exporter.h" />
+    <ClInclude Include="exporters\__SubsamplingDataProvider_exporter.h" />
+    <ClInclude Include="exporters\__ThresholdDecider_exporter.h" />
+    <ClInclude Include="exporters\__Tree_exporter.h" />
+    <ClInclude Include="exporters\__TsallisEntropy_exporter.h" />
+    <ClInclude Include="exporters\__TwoSideClassificationThresholdOptimizer_exporter.h" />
+    <ClInclude Include="exporters\__UnchangedDataProvider_exporter.h" />
+    <ClInclude Include="exporters\__UnchangedFDataProvider_exporter.h" />
+    <ClInclude Include="exporters\__VarianceClassificationThresholdOptimizer_exporter.h" />
+    <ClInclude Include="exporters\__VolumeFeatureSelectionProvider_exporter.h" />
+    <ClInclude Include="exporters_mod_funcs\export_module_functions.h" />
+    <ClInclude Include="exporters_vec_types\vec_exporter.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="serialization.h" />
+    <ClInclude Include="util.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CC74E343-85F9-461E-9607-BA20965589DC}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeBuildCommandLine>build</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>build -c</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>SERIALIZATION_ENABLED;WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(BOOST_ROOT);$(PYTHON_INCLUDE);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <IncludePath>..\fertilized;$(BOOST_INCLUDE_DIR);$(SolutionDir)external\ndarray\Boost.NumPy;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NMakeBuildCommandLine>build --jobs 20 --with-serialization --with-python --with-checks --disable-optimizations</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>build -c --with-python</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>SERIALIZATION_ENABLED;WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>..;$(BOOST_ROOT);$(PYTHON_INCLUDE);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <IncludePath>..\fertilized;$(BOOST_INCLUDE_DIR);$(SolutionDir)external\ndarray\Boost.NumPy;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeBuildCommandLine>build --with-serialization --with-checks --disable-optimizations</NMakeBuildCommandLine>
+    <NMakeOutput>pyfertilized.exe</NMakeOutput>
+    <NMakeCleanCommandLine>build -c</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>SERIALIZATION_ENABLED;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(BOOST_ROOT);$(PYTHON_INCLUDE);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <IncludePath>..\fertilized;$(BOOST_INCLUDE_DIR);$(SolutionDir)external\ndarray\Boost.NumPy;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NMakeBuildCommandLine>build --jobs 10 --with-python</NMakeBuildCommandLine>
+    <NMakeOutput>
+    </NMakeOutput>
+    <NMakeCleanCommandLine>build -c --with-python</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>SERIALIZATION_ENABLED;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>..;$(OPENCV_INC_DIR);$(BOOST_ROOT);$(PYTHON_INCLUDE);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <IncludePath>..\fertilized;$(BOOST_INCLUDE_DIR);$(SolutionDir)external\ndarray\Boost.NumPy;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

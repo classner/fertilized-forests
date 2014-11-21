@@ -1,0 +1,144 @@
+## Author: Christoph Lassner.
+{% include "cpp_disclaimer.jinja" %}
+{% import 'cpptools.jinja' as cpptools %}
+
+
+#pragma once
+#ifndef PYFERTILIZED_EXPORTERS___{{cls.ClassName|upper}}_EXPORTER_H_
+#define PYFERTILIZED_EXPORTERS___{{cls.ClassName|upper}}_EXPORTER_H_
+
+#include "../global.h"
+
+#pragma warning(push, 0)
+#include <fertilized/ndarray/bp/auto.h>
+#pragma warning(pop)
+#ifdef SERIALIZATION_ENABLED
+#include <boost/serialization/serialization.hpp>
+#endif
+
+#include "../util.h"
+#include "../serialization.h"
+
+@ if cls.Package != 'rootdir'
+#include <fertilized/{{cls.Package}}/{{cls.ClassName|lower}}.h>
+@ else
+#include <fertilized/{{cls.ClassName|lower}}.h>
+@ endif
+
+namespace py = boost::python;
+using namespace fertilized;
+
+namespace pyfertilized {
+@ if cls.isSerializable() and not cls.hasParameterlessConstructor('Python') and not cls.IsAbstract
+#ifdef SERIALIZATION_ENABLED
+  {{cpptools.render_template_params(cls, as_declaration=True)}}
+  std::shared_ptr<{{cls.ClassName}}{{cpptools.render_template_params(cls)}}> __construct_{{cls.ClassName}}() {
+    auto *ptr = ({{cls.ClassName}}{{cpptools.render_template_params(cls)}}*) malloc(sizeof({{cls.ClassName}}{{cpptools.render_template_params(cls)}}));
+    boost::serialization::access::construct(ptr);
+    return std::shared_ptr<{{cls.ClassName}}{{cpptools.render_template_params(cls)}}>(ptr, free);
+  };
+#endif
+@ endif
+
+@ for func in cls.Methods
+@   set func_name = func.FunctionPrefix
+@   if func_name == "operator()"
+@     set func_name = "__call__"
+@   endif
+@   if func_name == "operator=="
+@     set func_name = "__eq__"
+@   endif
+@   if func.FunctionPrefix != "get" and "Python" in func.AvailableIn
+@     if func.num_default_arguments() > 0
+  BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS({{cls.ClassName}}_{{func_name}}_overloads, {{func.FunctionPrefix}}, {{func.Arguments|length - func.num_default_arguments()}}, {{func.Arguments|length}})
+@     endif
+@   endif
+@ endfor
+
+  {{cpptools.render_template_params(cls, for_soil=False, as_declaration=True)}}
+  void export_{{cls.ClassName}}(const std::string &type_short) {
+    // Explicit function pointers and overloads.
+@ set ptrcount = []
+@ set export_tuples = []
+@ if not cls.IsAbstract
+@ for func in cls.Methods
+@   set func_name = func.FunctionPrefix
+@   if func_name == "operator()"
+@     set func_name = "__call__"
+@   endif
+@   if func_name == "operator=="
+@     set func_name = "__eq__"
+@   endif
+@   if func_name == "operator!="
+@     set func_name = "__ne__"
+@   endif
+@   set overload_class = none
+@   if func.FunctionPrefix != "get" and "Python" in func.AvailableIn
+@     if func.num_default_arguments() > 0
+@       set overload_class = "%s_%s_overloads" % (cls.ClassName, func_name)
+@       if export_tuples.append((func_name, 'ptr_%s_%d' % (cls.ClassName, ptrcount|length), overload_class, func.Documentations["Python"].render_at(0, newline_str="\\n\\\n", escape=["\""], string_enclosure=False)))
+@       endif
+@     else
+@       if export_tuples.append((func_name, 'ptr_%s_%d' % (cls.ClassName, ptrcount|length), func.Documentations["Python"].render_at(0, newline_str="\\n\\\n", escape=["\\", "\""], string_enclosure=False)))
+@       endif
+@     endif
+    {{func.ReturnType.render()}} (fertilized::{{cls.ClassName}}{{cpptools.render_template_params(cls)}}::*ptr_{{cls.ClassName}}_{{ptrcount|length}})
+    ({{cpptools.render_arguments(func, render_defaults=False, render_name=False)}}){% if func.Const %} const{% endif %} =
+      &fertilized::{{cls.ClassName}}{{cpptools.render_template_params(cls)}}::{{func.FunctionPrefix}};
+@     if ptrcount.append('')
+@     endif
+@   endif
+@ endfor
+@ if cls.lackingOperatorNE()
+    bool (*ptr_{{cls.ClassName}}_{{ptrcount|length}})
+    ({{cpptools.render_arguments(cls.getOperatorEQ(), render_defaults=False, render_name=False)}},
+     {{cpptools.render_arguments(cls.getOperatorEQ(), render_defaults=False, render_name=False)}}) =
+    &ne_from_eq<{{cls.getOperatorEQ().Arguments[0].type.render(omit_reference=True, omit_pointer=True, omit_const=True)}}>;
+@   if export_tuples.append(('__ne__', 'ptr_%s_%d' % (cls.ClassName, ptrcount|length), ''))
+@   endif
+@   if ptrcount.append('')
+@   endif
+@ endif
+@ endif
+
+    py::class_<{{cls.ClassName}}{{cpptools.render_template_params(cls)}},
+@ if not cls.IsAbstract
+               std::shared_ptr<{{cls.ClassName}}{{cpptools.render_template_params(cls)}}>,
+@ endif
+               boost::noncopyable{% if not cls.Inherits is none %},
+               py::bases<{{cls.Inherits}}>{% endif %}>
+               (("{{cls.ClassName}}" + type_short).c_str(),
+                "{{cls.Documentations["Python"].render_at(0, newline_str="\\n\\\n", escape=["\\", "\""], string_enclosure=False)}}",
+                 {%if cls.IsAbstract or cls.getConstructorsFor('Python') | length == 0%}py::no_init{%else%}py::init<{{cpptools.render_arguments(cls.getConstructorsFor('Python')[0], render_defaults=False, render_name=False, default_wrap_start="py::optional<", default_wrap_end=">")}}                         >(){%endif%})
+@ if not cls.IsAbstract and cls.getConstructorsFor('Python') | length > 1
+    // Constructors.
+@   for constructor in cls.getConstructorsFor('Python')[1:]
+    .def(py::init<{{cpptools.render_arguments(constructor, render_defaults=False, render_name=False, default_wrap_start="py::optional<", default_wrap_end=">")}}                 >())
+@   endfor
+@ endif
+#ifdef SERIALIZATION_ENABLED
+@ if cls.isSerializable() and not cls.hasParameterlessConstructor('Python') and not cls.IsAbstract
+    // Pickle support constructor.
+    .def("__init__", py::make_constructor(__construct_{{cls.ClassName}}{{cpptools.render_template_params(cls)}}))
+@ endif
+@ if cls.isSerializable() and not cls.IsAbstract
+    .def_pickle(ParameterlessPickleSuite<{{cls.ClassName}}{{cpptools.render_template_params(cls)}}>())
+@ endif
+#endif
+@ for exp_tuple in export_tuples
+@   if exp_tuple | length == 4
+    .def("{{exp_tuple[0]}}", {{exp_tuple[1]}}, {{exp_tuple[2]}}())
+@   else
+    .def("{{exp_tuple[0]}}", {{exp_tuple[1]}}, "{{exp_tuple[2]}}")
+@   endif
+@ endfor
+    ;
+
+@ if not cls.Inherits is none
+    py::implicitly_convertible<std::shared_ptr<{{cls.ClassName}}{{cpptools.render_template_params(cls)}}>,
+                               std::shared_ptr<{{cls.Inherits}}> >();
+@ endif
+  };
+}  // namespace fertilized
+
+#endif  // PYFERTILIZED_EXPORTERS___{{cls.ClassName|upper}}_EXPORTER_H_

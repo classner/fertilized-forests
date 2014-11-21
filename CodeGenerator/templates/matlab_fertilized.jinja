@@ -1,0 +1,81 @@
+## Author: Christoph Lassner.
+{%- import 'cpptools.jinja' as cpptools -%}
+classdef {{cls.ClassName}} < FertilizedObject
+{{ cls.Documentations['Matlab'].render_at(4, string_enclosure=False, docstarter='% ') }}
+    %
+    % This object can only be constructed by using a `Soil` object!
+    %
+{% include 'matlab_disclaimer.jinja' %}
+
+    properties (Access = private)
+        FunctionFormat = '';
+    end 
+    
+    methods (Access = {?Soil, ?{{cls.ClassName}}})
+        function this = {{cls.ClassName}}(dataTypes, libName, ptr, functionFormat)
+@       if not cls.ExclusiveSoilUsage is none
+            tmp = '_{{cls.getExclusiveSoilUsageAbbreviation()}}';
+@       else
+            position_list = [{% for position in cls.ClassType.getTemplateParamStandardPositions() %}{{position+1}}{% if loop.index != cls.ClassType.getTemplateParamStandardPositions()|length %},{% endif %}{% endfor %}];
+            tmp = '';
+            for i = position_list
+                tmp = strcat(tmp, '_', dataTypes(i));
+            end
+            if iscell(tmp)
+              tmp = tmp{1};
+            end
+@       endif
+            delFuncName = ['delete_{{cls.ClassName}}' tmp];
+            this = this@FertilizedObject(dataTypes, libName, ptr, tmp, delFuncName); 
+            this.FunctionFormat = functionFormat;
+        end
+    end
+
+    methods (Access = public)
+@ for m in cls.Methods
+@   if not m.IsConstructor and 'Matlab' in m.AvailableIn
+        function {% if not m.ReturnType.TypeString == 'void' %}[res] = {% endif %}{{m.prefixForMatlab(m.FunctionPrefix)}}(this{% for arg in m.Arguments %}{% if loop.first %}, {% endif %}{{ arg.name }}{% if not loop.last %}, {% endif %}{% endfor %}) 
+{{ m.Documentations['Matlab'].render_at(12, string_enclosure=False, docstarter='% ') }}
+@       for arg in m.Arguments
+@          if not arg.defaultvalue == None
+            if ~exist('{{arg.name}}', 'var') || {{arg.name}} == -1
+                {{ arg.name }} = {{ arg.defaultvalue | replace('"', "'") }};
+            end
+@          endif
+@         if arg.type.needsConversion(allow_vector_of=True, instantiation_types=cls.getSampleInstantiationTypes(), template_params=cls.ClassType.TemplateParams) and arg.type.IsVectorOfType and arg.type.isFertilizedObjectInMatlab(allow_vector_of=True, instantiation_types=cls.getSampleInstantiationTypes(), template_params=cls.ClassType.TemplateParams)
+            tmp_{{arg.name}} = ObjectVector();
+            for tmp_{{arg.name}}_idx = 1:length({{arg.name}})
+              tmp_{{arg.name}}.append({{arg.name}}{tmp_{{arg.name}}_idx});
+            end
+            {{arg.name}} = tmp_{{arg.name}}.ClassifierPtr;
+@         endif
+@         if arg.type.IsVectorOfType and arg.type.TypeString == 'std::string'
+            tmp_{{arg.name}} = StringVector();
+            for tmp_{{arg.name}}_idx = 1:length({{arg.name}})
+              tmp_{{arg.name}}.append({{arg.name}}{tmp_{{arg.name}}_idx});
+            end
+            {{arg.name}} = tmp_{{arg.name}}.ClassifierPtr;
+@         endif
+@       endfor
+            suffix = this.TypeSuffix;
+            getter = sprintf('%s%s%s', '{{m.prefixForMatlab(m.FunctionPrefix)}}', '{{cls.ClassName}}', suffix);
+            ptr = calllib(this.LibName, getter, this.ClassifierPtr{% for arg in m.Arguments %}{% if loop.first %}, {% endif %}{{ arg.name }}{% if arg.type.isFertilizedObjectInMatlab() %}.ClassifierPtr{% endif %}{% if not loop.last %}, {% endif %}{% endfor %});
+
+@       if m.ReturnType.isFertilizedObjectInMatlab()
+            res = {{m.ReturnType.getClassName(remove_qualifier=True)}}(this.getDataTypes(), this.LibName, ptr, '%s%s');    
+@       else
+            res = ptr;
+@       endif            
+        end
+@   endif
+@ endfor
+@ if cls.lackingOperatorNE()
+
+        function [res] = ne(this, other)
+            res = ~this.eq(other);
+        end
+@ endif
+    end
+    
+end
+

@@ -1,0 +1,746 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="build">
+      <UniqueIdentifier>{6882748a-9755-4a25-9e63-f0deff430179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{bd41aad7-f8ab-4fc7-9dd3-9fad9b8d2646}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deciders">
+      <UniqueIdentifier>{497f496f-7f09-4a0c-ac6d-abd59dcbcb1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data_providers">
+      <UniqueIdentifier>{7676f56c-994e-4496-ae7f-721d102978a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="execution_strategies">
+      <UniqueIdentifier>{c5266d30-7712-40d2-8860-a39a55d2353a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="features">
+      <UniqueIdentifier>{5abfa84c-f703-4bb5-ac36-c37a45b3f407}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gains">
+      <UniqueIdentifier>{aec5d880-3370-4359-a807-87c89af49a8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="impurities">
+      <UniqueIdentifier>{3424c28a-b40b-47a7-a334-23934d5d6d0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="leafs">
+      <UniqueIdentifier>{8901f388-3641-4d0a-9c18-45ff4f077652}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="regression">
+      <UniqueIdentifier>{dfd16260-84c7-4eae-9288-2c239dee4a61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="serialization">
+      <UniqueIdentifier>{4555b0bd-6475-4a8a-93e0-27eb4e26d392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="serialization\serialization_extensions">
+      <UniqueIdentifier>{9d5b5c95-6b00-42ef-9642-0d760b66ac14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bagging">
+      <UniqueIdentifier>{58a0a03c-f851-45e6-b7d2-b32127ec9af0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="threshold_optimizers">
+      <UniqueIdentifier>{31c1745a-fd69-4613-9197-f1d4366b932b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="trainings">
+      <UniqueIdentifier>{e9b82f4f-3f48-4e0a-8101-387cb5accd57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="feature_extraction">
+      <UniqueIdentifier>{bdcb1675-6c10-4498-9bb9-be7fe22b69fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="feature_extraction\hog">
+      <UniqueIdentifier>{4e9013bc-22c2-4319-b294-84bead87d162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ndarray">
+      <UniqueIdentifier>{8b0e8a09-d6ad-41c2-8fac-beb7dac4abcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ndarray\detail">
+      <UniqueIdentifier>{9339ab2c-b1a9-4a46-a313-f68842b6bfcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ndarray\bp">
+      <UniqueIdentifier>{8ba0d7b0-1cb4-4549-8a12-9d8f406a1448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ndarray\bp\auto">
+      <UniqueIdentifier>{09414398-f4c9-40d6-8771-38bff5fd75b7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="util\checks.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="deciders\idecider.h">
+      <Filter>deciders</Filter>
+    </ClInclude>
+    <ClInclude Include="data_providers\idataprovider.h">
+      <Filter>data_providers</Filter>
+    </ClInclude>
+    <ClInclude Include="data_providers\iforestdataprovider.h">
+      <Filter>data_providers</Filter>
+    </ClInclude>
+    <ClInclude Include="data_providers\isamplemanager.h">
+      <Filter>data_providers</Filter>
+    </ClInclude>
+    <ClInclude Include="data_providers\nocopypatchsamplemanager.h">
+      <Filter>data_providers</Filter>
+    </ClInclude>
+    <ClInclude Include="data_providers\patchsamplemanager.h">
+      <Filter>data_providers</Filter>
+    </ClInclude>
+    <ClInclude Include="data_providers\patchtoimagecoordinatetransformer.h">
+      <Filter>data_providers</Filter>
+    </ClInclude>
+    <ClInclude Include="data_providers\sample.h">
+      <Filter>data_providers</Filter>
+    </ClInclude>
+    <ClInclude Include="data_providers\subsamplingdataprovider.h">
+      <Filter>data_providers</Filter>
+    </ClInclude>
+    <ClInclude Include="data_providers\unchangeddataprovider.h">
+      <Filter>data_providers</Filter>
+    </ClInclude>
+    <ClInclude Include="data_providers\unchangedfdataprovider.h">
+      <Filter>data_providers</Filter>
+    </ClInclude>
+    <ClInclude Include="util\mat.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="util\sampling.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="execution_strategies\iexecutionstrategy.h">
+      <Filter>execution_strategies</Filter>
+    </ClInclude>
+    <ClInclude Include="execution_strategies\localexecutionstrategy.h">
+      <Filter>execution_strategies</Filter>
+    </ClInclude>
+    <ClInclude Include="execution_strategies\trainingaction.h">
+      <Filter>execution_strategies</Filter>
+    </ClInclude>
+    <ClInclude Include="features\alignedsurfacecalculator.h">
+      <Filter>features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\differencesurfacecalculator.h">
+      <Filter>features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\ifeatureselectiongenerator.h">
+      <Filter>features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\ifeatureselectionprovider.h">
+      <Filter>features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\isurfacecalculator.h">
+      <Filter>features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\linearsurfacecalculator.h">
+      <Filter>features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\quadraticsurfacecalculator.h">
+      <Filter>features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\standardfeatureselectiongenerator.h">
+      <Filter>features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\standardfeatureselectionprovider.h">
+      <Filter>features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\volumefeatureselectiongenerator.h">
+      <Filter>features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\volumefeatureselectionprovider.h">
+      <Filter>features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\directpatchdifferencesurfcalculator.h">
+      <Filter>features</Filter>
+    </ClInclude>
+    <ClInclude Include="gains\entropygain.h">
+      <Filter>gains</Filter>
+    </ClInclude>
+    <ClInclude Include="gains\igaincalculator.h">
+      <Filter>gains</Filter>
+    </ClInclude>
+    <ClInclude Include="util\exponentials.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="impurities\classificationerror.h">
+      <Filter>impurities</Filter>
+    </ClInclude>
+    <ClInclude Include="impurities\ientropyfunction.h">
+      <Filter>impurities</Filter>
+    </ClInclude>
+    <ClInclude Include="impurities\inducedentropy.h">
+      <Filter>impurities</Filter>
+    </ClInclude>
+    <ClInclude Include="impurities\renyientropy.h">
+      <Filter>impurities</Filter>
+    </ClInclude>
+    <ClInclude Include="impurities\shannonentropy.h">
+      <Filter>impurities</Filter>
+    </ClInclude>
+    <ClInclude Include="impurities\tsallisentropy.h">
+      <Filter>impurities</Filter>
+    </ClInclude>
+    <ClInclude Include="leafs\classificationleafmanager.h">
+      <Filter>leafs</Filter>
+    </ClInclude>
+    <ClInclude Include="leafs\ileafmanager.h">
+      <Filter>leafs</Filter>
+    </ClInclude>
+    <ClInclude Include="leafs\regressionleafmanager.h">
+      <Filter>leafs</Filter>
+    </ClInclude>
+    <ClInclude Include="leafs\houghleafmanager.h">
+      <Filter>leafs</Filter>
+    </ClInclude>
+    <ClInclude Include="regression\constantregressioncalculator.h">
+      <Filter>regression</Filter>
+    </ClInclude>
+    <ClInclude Include="regression\iregressioncalculator.h">
+      <Filter>regression</Filter>
+    </ClInclude>
+    <ClInclude Include="regression\linearregressioncalculator.h">
+      <Filter>regression</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\serialization.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\serialization_extensions\eigen_serialization.h">
+      <Filter>serialization\serialization_extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\serialization_extensions\mersenne_twister_engine.h">
+      <Filter>serialization\serialization_extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\serialization_extensions\shared_ptr.h">
+      <Filter>serialization\serialization_extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\serialization_extensions\shuffle_order_engine.h">
+      <Filter>serialization\serialization_extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\serialization_extensions\tuple.h">
+      <Filter>serialization\serialization_extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\serialization_extensions\unique_ptr.h">
+      <Filter>serialization\serialization_extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\serialization_extensions\unordered_collections_load_imp.hpp">
+      <Filter>serialization\serialization_extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\serialization_extensions\unordered_collections_save_imp.hpp">
+      <Filter>serialization\serialization_extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\serialization_extensions\unordered_map.hpp">
+      <Filter>serialization\serialization_extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\serialization_extensions\unordered_set.hpp">
+      <Filter>serialization\serialization_extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="bagging\equaldistbagging.h">
+      <Filter>bagging</Filter>
+    </ClInclude>
+    <ClInclude Include="bagging\ibaggingstrategy.h">
+      <Filter>bagging</Filter>
+    </ClInclude>
+    <ClInclude Include="bagging\nobagging.h">
+      <Filter>bagging</Filter>
+    </ClInclude>
+    <ClInclude Include="threshold_optimizers\alternatingthresholdoptimizer.h">
+      <Filter>threshold_optimizers</Filter>
+    </ClInclude>
+    <ClInclude Include="threshold_optimizers\classificationthresholdoptimizer.h">
+      <Filter>threshold_optimizers</Filter>
+    </ClInclude>
+    <ClInclude Include="threshold_optimizers\ithresholdoptimizer.h">
+      <Filter>threshold_optimizers</Filter>
+    </ClInclude>
+    <ClInclude Include="threshold_optimizers\randomizedclassificationthresholdoptimizer.h">
+      <Filter>threshold_optimizers</Filter>
+    </ClInclude>
+    <ClInclude Include="threshold_optimizers\regressionthresholdoptimizer.h">
+      <Filter>threshold_optimizers</Filter>
+    </ClInclude>
+    <ClInclude Include="threshold_optimizers\twosideclassificationthresholdoptimizer.h">
+      <Filter>threshold_optimizers</Filter>
+    </ClInclude>
+    <ClInclude Include="threshold_optimizers\varianceclassificationthresholdoptimizer.h">
+      <Filter>threshold_optimizers</Filter>
+    </ClInclude>
+    <ClInclude Include="util\argsort.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="threshold_optimizers\feature_value_selection.h">
+      <Filter>threshold_optimizers</Filter>
+    </ClInclude>
+    <ClInclude Include="trainings\classictraining.h">
+      <Filter>trainings</Filter>
+    </ClInclude>
+    <ClInclude Include="trainings\itraining.h">
+      <Filter>trainings</Filter>
+    </ClInclude>
+    <ClInclude Include="deciders\thresholddecider.h">
+      <Filter>deciders</Filter>
+    </ClInclude>
+    <ClInclude Include="forest.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="standard_forests.h" />
+    <ClInclude Include="standard_trees.h" />
+    <ClInclude Include="tree.h" />
+    <ClInclude Include="types.h" />
+    <ClInclude Include="feature_extraction\feature_extraction.h">
+      <Filter>feature_extraction</Filter>
+    </ClInclude>
+    <ClInclude Include="feature_extraction\hog_extractor.h">
+      <Filter>feature_extraction</Filter>
+    </ClInclude>
+    <ClInclude Include="feature_extraction\hog\hog.h">
+      <Filter>feature_extraction\hog</Filter>
+    </ClInclude>
+    <ClInclude Include="feature_extraction\feature_extraction_vision.h">
+      <Filter>feature_extraction</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray.h" />
+    <ClInclude Include="ndarray_fwd.h" />
+    <ClInclude Include="ndarray\arange.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\Array.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\ArrayBase.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\ArrayTraits.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\bp.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\bp_fwd.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\casts.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\eigen.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\eigen_fwd.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\ExpressionBase.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\ExpressionTraits.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\fft.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\fft_fwd.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\formatting.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\initialization.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\Manager.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\swig.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\types.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\vectorize.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\views.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\ArrayBaseN.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\ArrayRef.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\operators.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\Vector.h">
+      <Filter>ndarray</Filter>
+    </ClInclude>
+    <ClInclude Include="util\gil.hpp">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\detail\ArrayAccess.h">
+      <Filter>ndarray\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\detail\BinaryOp.h">
+      <Filter>ndarray\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\detail\Core.h">
+      <Filter>ndarray\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\detail\NestedIterator.h">
+      <Filter>ndarray\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\detail\StridedIterator.h">
+      <Filter>ndarray\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\detail\UnaryOp.h">
+      <Filter>ndarray\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\detail\ViewBuilder.h">
+      <Filter>ndarray\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\bp\Array.h">
+      <Filter>ndarray\bp</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\bp\ArrayRef.h">
+      <Filter>ndarray\bp</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\bp\auto.h">
+      <Filter>ndarray\bp</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\bp\eigen.h">
+      <Filter>ndarray\bp</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\bp\Vector.h">
+      <Filter>ndarray\bp</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\bp\auto\Array.h">
+      <Filter>ndarray\bp\auto</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\bp\auto\ArrayRef.h">
+      <Filter>ndarray\bp\auto</Filter>
+    </ClInclude>
+    <ClInclude Include="ndarray\bp\auto\Vector.h">
+      <Filter>ndarray\bp\auto</Filter>
+    </ClInclude>
+    <ClInclude Include="fertilized_fwd.h" />
+    <ClInclude Include="fertilized.h" />
+    <ClInclude Include="soil.h" />
+    <ClInclude Include="serialization\_serialization_definition.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="features\featcalcparamset.h">
+      <Filter>features</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_AlignedSurfaceCalculator.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_ClassicTraining.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_ClassificationLeafManager.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_ClassificationThresholdOptimizer.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_EntropyGain.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_FeatCalcParamSet.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_Forest.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_IDataProvider.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_IFeatureSelectionProvider.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_InducedEntropy.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_LinearSurfaceCalculator.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_PatchToImageCoordinateTransformer.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_RandomizedClassificationThresholdOptimizer.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_ShannonEntropy.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_StandardFeatureSelectionProvider.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_ThresholdDecider.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_Tree.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_VolumeFeatureSelectionProvider.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_ClassificationError.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_ConstantRegressionCalculator.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_IEntropyFunction.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_IGainCalculator.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_LinearRegressionCalculator.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_RegressionLeafManager.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_RegressionThresholdOptimizer.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_LocalExecutionStrategy.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="default_values.h" />
+    <ClInclude Include="serialization\__serialize_AlternatingThresholdOptimizer.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_DifferenceSurfaceCalculator.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_DirectPatchDifferenceSurfCalculator.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_EqualDistBagging.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_HoughLeafManager.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_NoBagging.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_QuadraticSurfaceCalculator.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_TwoSideClassificationThresholdOptimizer.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_VarianceClassificationThresholdOptimizer.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_IBaggingStrategy.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_IDecider.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_IExecutionStrategy.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_IForestDataProvider.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_ILeafManager.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_IRegressionCalculator.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_ISurfaceCalculator.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_IThresholdOptimizer.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\__serialize_ITraining.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="build.bat">
+      <Filter>build</Filter>
+    </None>
+    <None Include="SConscript.py">
+      <Filter>build</Filter>
+    </None>
+    <None Include="ndarray\ArrayBaseN.h.m4">
+      <Filter>ndarray</Filter>
+    </None>
+    <None Include="ndarray\ArrayRef.h.m4">
+      <Filter>ndarray</Filter>
+    </None>
+    <None Include="ndarray\operators.h.m4">
+      <Filter>ndarray</Filter>
+    </None>
+    <None Include="ndarray\Vector.h.m4">
+      <Filter>ndarray</Filter>
+    </None>
+    <None Include="ndarray\bp\eigen">
+      <Filter>ndarray\bp</Filter>
+    </None>
+    <None Include="ndarray\bp\auto\Array.h.m4">
+      <Filter>ndarray\bp\auto</Filter>
+    </None>
+    <None Include="ndarray\bp\auto\ArrayRef.h.m4">
+      <Filter>ndarray\bp\auto</Filter>
+    </None>
+    <None Include="ndarray\bp\auto\Vector.h.m4">
+      <Filter>ndarray\bp\auto</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="feature_extraction\feature_extraction.cpp">
+      <Filter>feature_extraction</Filter>
+    </ClCompile>
+    <ClCompile Include="feature_extraction\hog_extractor.cpp">
+      <Filter>feature_extraction</Filter>
+    </ClCompile>
+    <ClCompile Include="feature_extraction\hog\hog.cpp">
+      <Filter>feature_extraction\hog</Filter>
+    </ClCompile>
+    <ClCompile Include="util\gil.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\serialization.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_AlignedSurfaceCalculator.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_ClassicTraining.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_ClassificationLeafManager.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_ClassificationThresholdOptimizer.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_EntropyGain.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_FeatCalcParamSet.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_Forest.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_IDataProvider.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_IFeatureSelectionProvider.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_InducedEntropy.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_LinearSurfaceCalculator.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_PatchToImageCoordinateTransformer.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_RandomizedClassificationThresholdOptimizer.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_ShannonEntropy.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_StandardFeatureSelectionProvider.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_ThresholdDecider.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_Tree.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_VolumeFeatureSelectionProvider.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_ClassificationError.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_ConstantRegressionCalculator.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_IEntropyFunction.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_IGainCalculator.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_LinearRegressionCalculator.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_RegressionLeafManager.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_RegressionThresholdOptimizer.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_LocalExecutionStrategy.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_AlternatingThresholdOptimizer.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_DifferenceSurfaceCalculator.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_DirectPatchDifferenceSurfCalculator.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_EqualDistBagging.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_HoughLeafManager.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_NoBagging.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_QuadraticSurfaceCalculator.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_TwoSideClassificationThresholdOptimizer.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_VarianceClassificationThresholdOptimizer.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_IBaggingStrategy.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_IDecider.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_IExecutionStrategy.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_IForestDataProvider.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_ILeafManager.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_IRegressionCalculator.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_ISurfaceCalculator.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_IThresholdOptimizer.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_ITraining.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

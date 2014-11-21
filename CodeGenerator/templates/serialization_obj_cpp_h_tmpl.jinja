@@ -1,0 +1,17 @@
+## Author: Christoph Lassner.
+{% include 'disclaimer_cpp.jinja' %}
+#pragma once
+#ifndef FERTILIZED_SERIALIZATION___SERIALIZE_{{cls.ClassName|upper}}_H_
+#define FERTILIZED_SERIALIZATION___SERIALIZE_{{cls.ClassName|upper}}_H_
+#ifdef SERIALIZATION_ENABLED
+
+#include "../global.h"
+#include "./serialization.h"
+
+namespace fertilized {
+    template <class Archive>
+    void _serialization_register_{{cls.ClassName}}(Archive &ar);
+}  // namespace fertilized
+#endif  // SERIALIZATION_ENABLED
+#endif  // FERTILIZED_SERIALIZATION___SERIALIZE_{{cls.ClassName|upper}}_H_
+

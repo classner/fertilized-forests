@@ -1,0 +1,36 @@
+## Author: Christoph Lassner.
+{% include 'cpp_disclaimer.jinja' %}
+#pragma once
+#ifndef FERTILIZED_FERTILIZED_H_
+#define FERTILIZED_FERTILIZED_H_
+
+/// \defgroup ndarrayPackageGroup ndarray
+
+/// \defgroup fertilizedbaggingGroup Bagging
+
+/// \defgroup fertilizeddata_providersGroup Data Providers
+
+/// \defgroup fertilizeddecidersGroup Deciders
+
+/// \defgroup fertilizedexecution_strategiesGroup Execution Strategies
+
+/// \defgroup fertilizedfeaturesGroup Features
+
+/// \defgroup fertilizedgainsGroup Gains
+
+/// \defgroup fertilizedimpuritiesGroup Impurity Measures
+
+/// \defgroup fertilizedleafsGroup Leafs
+
+/// \defgroup fertilizedthreshold_optimizersGroup Threshold Optimizers
+
+/// \defgroup fertilizedtrainingsGroup Trainings
+
+#include "./global.h"
+#include "./ndarray.h"
+@ for header in lib_headers
+#include "{{ header }}"
+@ endfor
+#include "./soil.h"
+
+#endif  // FERTILIZED_FERTILIZED_H_

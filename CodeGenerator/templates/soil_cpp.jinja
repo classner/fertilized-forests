@@ -1,0 +1,106 @@
+## Author: Christoph Lassner.
+{% include "cpp_disclaimer.jinja" %}
+{% import 'cpptools.jinja' as cpptools %}
+
+#pragma once
+#ifndef FERTILIZED_SOIL_H_
+#define FERTILIZED_SOIL_H_
+#if !defined(FERTILIZED_FERTILIZED_H_)
+#error The soil header may only be included within the fertilized.h header! Include fertilized.h itself to use the soil object.
+#endif
+
+namespace fertilized {
+  /**
+   * \brief Provides convenience summary types for the result types similar to Python and Matlab.
+   */
+  namespace Result_Types {
+    /**
+     * \brief Classification result types.
+     * 
+     * They are always defined as std::vector<float>.
+     */
+    struct probabilities {
+      template <typename input_dtype, typename feature_dtype, typename annotation_dtype>
+      struct leaf_return_dtype {
+        typedef std::vector<float> type;
+      };
+      template <typename input_dtype, typename feature_dtype, typename annotation_dtype>
+      struct forest_return_dtype {
+        typedef std::vector<float> type;
+      };
+    };
+    /**
+     * \brief Regression result types.
+     * 
+     * They depend on the input_dtype. See the documentation of the
+     * \ref RegressionLeafManager.
+     */
+    struct regression {
+      template <typename input_dtype, typename feature_dtype, typename annotation_dtype>
+      struct leaf_return_dtype {
+        typedef std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>> type;
+      };
+      template <typename input_dtype, typename feature_dtype, typename annotation_dtype>
+      struct forest_return_dtype {
+        typedef std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>> type;
+      };
+    };
+    /**
+     * \brief Hough Forest result types.
+     * 
+     * They consist of a pair of float (foreground prob.) and a pointer to
+     * a vector of int16_t (offsets). For a forest, contains a vector of these
+     * pairs.
+     */
+    struct hough_map {
+      template <typename input_dtype, typename feature_dtype, typename annotation_dtype>
+      struct leaf_return_dtype {
+        typedef std::pair<float, std::shared_ptr<std::vector<int16_t>>> type;
+      };
+      template <typename input_dtype, typename feature_dtype, typename annotation_dtype>
+      struct forest_return_dtype {
+        typedef std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>> type;
+      };
+    };
+  };
+
+  template <typename input_dtype=float,
+            typename feature_dtype=float,
+            typename annotation_dtype=unsigned int,
+            typename result_type=Result_Types::probabilities>
+  struct Soil {
+  Soil() {};
+  ~Soil() {};
+
+  typedef typename result_type::template leaf_return_dtype<input_dtype, feature_dtype, annotation_dtype>::type leaf_return_dtype;
+  typedef typename result_type::template forest_return_dtype<input_dtype, feature_dtype, annotation_dtype>::type forest_return_dtype;
+
+@ for class in classes
+@   if 'C++' in class.AvailableIn
+  auto {{ class.ClassName | lower }}_vec_t() -> std::vector<std::shared_ptr<fertilized::{{ class.ClassName }}{{cpptools.render_template_params(class, True)}}>>;
+@   for constructor in class.Constructors
+@     if 'C++' in constructor.AvailableIn
+  {{ class.Documentations['C++'] }}
+  std::shared_ptr<fertilized::{{ class.ClassName }}{{cpptools.render_template_params(class, True)}}>
+  {% if not constructor.ExportedName is none %}{{constructor.ExportedName}}{%else%}{{ class.ClassName }}{%endif%}({{cpptools.render_arguments(constructor)}}    ) {
+   return std::shared_ptr<fertilized::{{ class.ClassName }}{{cpptools.render_template_params(class,True)}}>(
+     new fertilized::{{ class.ClassName }}{{cpptools.render_template_params(class,True)}}({{cpptools.render_arguments(constructor, render_types=False, render_defaults=False)}}	   ));
+  };
+
+@     endif
+@   endfor
+@   endif
+@ endfor
+
+@ for func in functions
+@ if 'C++' in func.AvailableIn
+  {{ func.Documentations['C++'] }}
+  {{func.ReturnType.render()}} {% if not func.ExportedName is none %}{{func.ExportedName}}{%else%}{{func.FunctionPrefix}}{%endif%}({{cpptools.render_arguments(func)}}    ) {
+    return fertilized::{{func.FunctionPrefix}}{{cpptools.render_function_template_params(func, for_soil=True)}}({{cpptools.render_arguments(func, render_types=False, render_defaults=False)}}       );
+    };
+
+@ endif
+@ endfor
+  };
+}  // namespace fertilized
+#endif  // FERTILIZED_SOIL_H_

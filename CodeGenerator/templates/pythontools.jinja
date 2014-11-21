@@ -1,0 +1,54 @@
+## Author: Christoph Lassner.
+{% macro render_arguments(function, render_defaults=True, render_name=True, default_wrap_start="", default_wrap_end="", up_to=-1) %}
+
+{% set defaults_started=False %}
+{% if up_to == -1 %}
+{%   set up_to = function.Arguments | length %}
+{% endif %}
+@ for argument in function.Arguments[:up_to]
+        {% if not argument.defaultvalue is none and not defaults_started%}{{default_wrap_start}}{% set defaults_started=True%}{% endif %}{% if render_name %}{{ argument.name }}{% endif %}{% if render_defaults and not argument.defaultvalue is none %}={{ argument.renderDefaultPython() }}{%endif%}{%if loop.index != up_to %},{% endif %}{%if loop.index == up_to and defaults_started %}{{default_wrap_end}}{%endif%}
+
+@ endfor
+{% endmacro %}
+
+{% macro render_template_args_to_soil(class) %}
+{%- if not class.ExclusiveSoilUsage is none -%}
+'{{class.getExclusiveSoilUsageAbbreviation()}}'
+{%- else -%}
+@ if not class.ClassType.TemplateParams is none
+@ set first = True
+@ for tmplname in class.ClassType.TemplateParams
+{%-  if tmplname == 'input_dtype' -%}
+{%- if not first %}, {% else %}{% set first=False %}{% endif %}self._inp_str
+{%- elif tmplname == 'feature_dtype' -%}
+{%- if not first %}, {% else %}{% set first=False %}{% endif %}self._feat_str
+{%- elif tmplname == 'annotation_dtype' -%}
+{%- if not first %}, {% else %}{% set first=False %}{% endif %}self._ann_str
+{%- elif tmplname == 'leaf_return_dtype' -%}
+{%- if not first %}, {% else %}{% set first=False %}{% endif %}self._tres
+{%-   elif tmplname == 'forest_return_dtype' -%}
+{%- if not first %}, {% else %}{% set first=False %}{% endif %}self._fres
+{%-   endif -%}
+@ endfor
+@ endif
+@ endif
+{% endmacro %}
+
+{% macro render_func_template_args_to_soil(func) %}
+@ if not func.TemplateArguments is none
+@ set first = True
+@ for tmplname in func.TemplateArguments
+{%-  if tmplname == 'input_dtype' -%}
+{%- if not first %}, {% else %}{% set first=False %}{% endif %}self._inp_str
+{%- elif tmplname == 'feature_dtype' -%}
+{%- if not first %}, {% else %}{% set first=False %}{% endif %}self._feat_str
+{%- elif tmplname == 'annotation_dtype' -%}
+{%- if not first %}, {% else %}{% set first=False %}{% endif %}self._ann_str
+{%- elif tmplname == 'leaf_return_dtype' -%}
+{%- if not first %}, {% else %}{% set first=False %}{% endif %}self._tres
+{%-   elif tmplname == 'forest_return_dtype' -%}
+{%- if not first %}, {% else %}{% set first=False %}{% endif %}self._fres
+{%-   endif -%}
+@ endfor
+@ endif
+{% endmacro %}

@@ -1,0 +1,13 @@
+## Author: Christoph Lassner.
+{% include 'cpp_disclaimer.jinja' %}
+
+#ifndef MATFERTILIZED_MATLAB_HEADERS_MATLAB_H_
+#define MATFERTILIZED_MATLAB_HEADERS_MATLAB_H_
+
+#include "objectvector.h"
+#include "stringvector.h"
+@ for header in matlab_header_files
+#include "{{ header }}"
+@ endfor
+
+#endif  // MATFERTILIZED_MATLAB_HEADERS_MATLAB_H_

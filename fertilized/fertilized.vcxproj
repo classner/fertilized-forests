@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bagging\equaldistbagging.h" />
+    <ClInclude Include="bagging\ibaggingstrategy.h" />
+    <ClInclude Include="bagging\nobagging.h" />
+    <ClInclude Include="data_providers\idataprovider.h" />
+    <ClInclude Include="data_providers\iforestdataprovider.h" />
+    <ClInclude Include="data_providers\isamplemanager.h" />
+    <ClInclude Include="data_providers\nocopypatchsamplemanager.h" />
+    <ClInclude Include="data_providers\patchsamplemanager.h" />
+    <ClInclude Include="data_providers\patchtoimagecoordinatetransformer.h" />
+    <ClInclude Include="data_providers\sample.h" />
+    <ClInclude Include="data_providers\subsamplingdataprovider.h" />
+    <ClInclude Include="data_providers\unchangeddataprovider.h" />
+    <ClInclude Include="data_providers\unchangedfdataprovider.h" />
+    <ClInclude Include="deciders\idecider.h" />
+    <ClInclude Include="deciders\thresholddecider.h" />
+    <ClInclude Include="default_values.h" />
+    <ClInclude Include="execution_strategies\iexecutionstrategy.h" />
+    <ClInclude Include="execution_strategies\localexecutionstrategy.h" />
+    <ClInclude Include="execution_strategies\trainingaction.h" />
+    <ClInclude Include="features\alignedsurfacecalculator.h" />
+    <ClInclude Include="features\differencesurfacecalculator.h" />
+    <ClInclude Include="features\directpatchdifferencesurfcalculator.h" />
+    <ClInclude Include="features\featcalcparamset.h" />
+    <ClInclude Include="features\ifeatureselectiongenerator.h" />
+    <ClInclude Include="features\ifeatureselectionprovider.h" />
+    <ClInclude Include="features\isurfacecalculator.h" />
+    <ClInclude Include="features\linearsurfacecalculator.h" />
+    <ClInclude Include="features\quadraticsurfacecalculator.h" />
+    <ClInclude Include="features\standardfeatureselectiongenerator.h" />
+    <ClInclude Include="features\standardfeatureselectionprovider.h" />
+    <ClInclude Include="features\volumefeatureselectiongenerator.h" />
+    <ClInclude Include="features\volumefeatureselectionprovider.h" />
+    <ClInclude Include="feature_extraction\feature_extraction.h" />
+    <ClInclude Include="feature_extraction\feature_extraction_vision.h" />
+    <ClInclude Include="feature_extraction\hog\hog.h" />
+    <ClInclude Include="feature_extraction\hog_extractor.h" />
+    <ClInclude Include="fertilized.h" />
+    <ClInclude Include="fertilized_fwd.h" />
+    <ClInclude Include="forest.h" />
+    <ClInclude Include="gains\entropygain.h" />
+    <ClInclude Include="gains\igaincalculator.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="impurities\classificationerror.h" />
+    <ClInclude Include="impurities\ientropyfunction.h" />
+    <ClInclude Include="impurities\inducedentropy.h" />
+    <ClInclude Include="impurities\renyientropy.h" />
+    <ClInclude Include="impurities\shannonentropy.h" />
+    <ClInclude Include="impurities\tsallisentropy.h" />
+    <ClInclude Include="leafs\classificationleafmanager.h" />
+    <ClInclude Include="leafs\houghleafmanager.h" />
+    <ClInclude Include="leafs\ileafmanager.h" />
+    <ClInclude Include="leafs\regressionleafmanager.h" />
+    <ClInclude Include="ndarray.h" />
+    <ClInclude Include="ndarray\arange.h" />
+    <ClInclude Include="ndarray\Array.h" />
+    <ClInclude Include="ndarray\ArrayBase.h" />
+    <ClInclude Include="ndarray\ArrayBaseN.h" />
+    <ClInclude Include="ndarray\ArrayRef.h" />
+    <ClInclude Include="ndarray\ArrayTraits.h" />
+    <ClInclude Include="ndarray\bp.h" />
+    <ClInclude Include="ndarray\bp\Array.h" />
+    <ClInclude Include="ndarray\bp\ArrayRef.h" />
+    <ClInclude Include="ndarray\bp\auto.h" />
+    <ClInclude Include="ndarray\bp\auto\Array.h" />
+    <ClInclude Include="ndarray\bp\auto\ArrayRef.h" />
+    <ClInclude Include="ndarray\bp\auto\Vector.h" />
+    <ClInclude Include="ndarray\bp\eigen.h" />
+    <ClInclude Include="ndarray\bp\Vector.h" />
+    <ClInclude Include="ndarray\bp_fwd.h" />
+    <ClInclude Include="ndarray\casts.h" />
+    <ClInclude Include="ndarray\detail\ArrayAccess.h" />
+    <ClInclude Include="ndarray\detail\BinaryOp.h" />
+    <ClInclude Include="ndarray\detail\Core.h" />
+    <ClInclude Include="ndarray\detail\NestedIterator.h" />
+    <ClInclude Include="ndarray\detail\StridedIterator.h" />
+    <ClInclude Include="ndarray\detail\UnaryOp.h" />
+    <ClInclude Include="ndarray\detail\ViewBuilder.h" />
+    <ClInclude Include="ndarray\eigen.h" />
+    <ClInclude Include="ndarray\eigen_fwd.h" />
+    <ClInclude Include="ndarray\ExpressionBase.h" />
+    <ClInclude Include="ndarray\ExpressionTraits.h" />
+    <ClInclude Include="ndarray\fft.h" />
+    <ClInclude Include="ndarray\fft_fwd.h" />
+    <ClInclude Include="ndarray\formatting.h" />
+    <ClInclude Include="ndarray\initialization.h" />
+    <ClInclude Include="ndarray\Manager.h" />
+    <ClInclude Include="ndarray\operators.h" />
+    <ClInclude Include="ndarray\swig.h" />
+    <ClInclude Include="ndarray\types.h" />
+    <ClInclude Include="ndarray\Vector.h" />
+    <ClInclude Include="ndarray\vectorize.h" />
+    <ClInclude Include="ndarray\views.h" />
+    <ClInclude Include="ndarray_fwd.h" />
+    <ClInclude Include="regression\constantregressioncalculator.h" />
+    <ClInclude Include="regression\iregressioncalculator.h" />
+    <ClInclude Include="regression\linearregressioncalculator.h" />
+    <ClInclude Include="serialization\serialization.h" />
+    <ClInclude Include="serialization\serialization_extensions\eigen_serialization.h" />
+    <ClInclude Include="serialization\serialization_extensions\mersenne_twister_engine.h" />
+    <ClInclude Include="serialization\serialization_extensions\shared_ptr.h" />
+    <ClInclude Include="serialization\serialization_extensions\shuffle_order_engine.h" />
+    <ClInclude Include="serialization\serialization_extensions\tuple.h" />
+    <ClInclude Include="serialization\serialization_extensions\unique_ptr.h" />
+    <ClInclude Include="serialization\serialization_extensions\unordered_collections_load_imp.hpp" />
+    <ClInclude Include="serialization\serialization_extensions\unordered_collections_save_imp.hpp" />
+    <ClInclude Include="serialization\serialization_extensions\unordered_map.hpp" />
+    <ClInclude Include="serialization\serialization_extensions\unordered_set.hpp" />
+    <ClInclude Include="serialization\_serialization_definition.h" />
+    <ClInclude Include="serialization\__serialize_AlignedSurfaceCalculator.h" />
+    <ClInclude Include="serialization\__serialize_AlternatingThresholdOptimizer.h" />
+    <ClInclude Include="serialization\__serialize_ClassicTraining.h" />
+    <ClInclude Include="serialization\__serialize_ClassificationError.h" />
+    <ClInclude Include="serialization\__serialize_ClassificationLeafManager.h" />
+    <ClInclude Include="serialization\__serialize_ClassificationThresholdOptimizer.h" />
+    <ClInclude Include="serialization\__serialize_ConstantRegressionCalculator.h" />
+    <ClInclude Include="serialization\__serialize_DifferenceSurfaceCalculator.h" />
+    <ClInclude Include="serialization\__serialize_DirectPatchDifferenceSurfCalculator.h" />
+    <ClInclude Include="serialization\__serialize_EntropyGain.h" />
+    <ClInclude Include="serialization\__serialize_EqualDistBagging.h" />
+    <ClInclude Include="serialization\__serialize_FeatCalcParamSet.h" />
+    <ClInclude Include="serialization\__serialize_Forest.h" />
+    <ClInclude Include="serialization\__serialize_HoughLeafManager.h" />
+    <ClInclude Include="serialization\__serialize_IBaggingStrategy.h" />
+    <ClInclude Include="serialization\__serialize_IDataProvider.h" />
+    <ClInclude Include="serialization\__serialize_IDecider.h" />
+    <ClInclude Include="serialization\__serialize_IEntropyFunction.h" />
+    <ClInclude Include="serialization\__serialize_IExecutionStrategy.h" />
+    <ClInclude Include="serialization\__serialize_IFeatureSelectionProvider.h" />
+    <ClInclude Include="serialization\__serialize_IForestDataProvider.h" />
+    <ClInclude Include="serialization\__serialize_IGainCalculator.h" />
+    <ClInclude Include="serialization\__serialize_ILeafManager.h" />
+    <ClInclude Include="serialization\__serialize_InducedEntropy.h" />
+    <ClInclude Include="serialization\__serialize_IRegressionCalculator.h" />
+    <ClInclude Include="serialization\__serialize_ISurfaceCalculator.h" />
+    <ClInclude Include="serialization\__serialize_IThresholdOptimizer.h" />
+    <ClInclude Include="serialization\__serialize_ITraining.h" />
+    <ClInclude Include="serialization\__serialize_LinearRegressionCalculator.h" />
+    <ClInclude Include="serialization\__serialize_LinearSurfaceCalculator.h" />
+    <ClInclude Include="serialization\__serialize_LocalExecutionStrategy.h" />
+    <ClInclude Include="serialization\__serialize_NoBagging.h" />
+    <ClInclude Include="serialization\__serialize_PatchToImageCoordinateTransformer.h" />
+    <ClInclude Include="serialization\__serialize_QuadraticSurfaceCalculator.h" />
+    <ClInclude Include="serialization\__serialize_RandomizedClassificationThresholdOptimizer.h" />
+    <ClInclude Include="serialization\__serialize_RegressionLeafManager.h" />
+    <ClInclude Include="serialization\__serialize_RegressionThresholdOptimizer.h" />
+    <ClInclude Include="serialization\__serialize_ShannonEntropy.h" />
+    <ClInclude Include="serialization\__serialize_StandardFeatureSelectionProvider.h" />
+    <ClInclude Include="serialization\__serialize_ThresholdDecider.h" />
+    <ClInclude Include="serialization\__serialize_Tree.h" />
+    <ClInclude Include="serialization\__serialize_TwoSideClassificationThresholdOptimizer.h" />
+    <ClInclude Include="serialization\__serialize_VarianceClassificationThresholdOptimizer.h" />
+    <ClInclude Include="serialization\__serialize_VolumeFeatureSelectionProvider.h" />
+    <ClInclude Include="soil.h" />
+    <ClInclude Include="standard_forests.h" />
+    <ClInclude Include="standard_trees.h" />
+    <ClInclude Include="threshold_optimizers\alternatingthresholdoptimizer.h" />
+    <ClInclude Include="threshold_optimizers\classificationthresholdoptimizer.h" />
+    <ClInclude Include="threshold_optimizers\feature_value_selection.h" />
+    <ClInclude Include="threshold_optimizers\ithresholdoptimizer.h" />
+    <ClInclude Include="threshold_optimizers\randomizedclassificationthresholdoptimizer.h" />
+    <ClInclude Include="threshold_optimizers\regressionthresholdoptimizer.h" />
+    <ClInclude Include="threshold_optimizers\twosideclassificationthresholdoptimizer.h" />
+    <ClInclude Include="threshold_optimizers\varianceclassificationthresholdoptimizer.h" />
+    <ClInclude Include="trainings\classictraining.h" />
+    <ClInclude Include="trainings\itraining.h" />
+    <ClInclude Include="tree.h" />
+    <ClInclude Include="types.h" />
+    <ClInclude Include="util\argsort.h" />
+    <ClInclude Include="util\checks.h" />
+    <ClInclude Include="util\exponentials.h" />
+    <ClInclude Include="util\gil.hpp" />
+    <ClInclude Include="util\mat.h" />
+    <ClInclude Include="util\sampling.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="build.bat" />
+    <None Include="ndarray\ArrayBaseN.h.m4" />
+    <None Include="ndarray\ArrayRef.h.m4" />
+    <None Include="ndarray\bp\auto\Array.h.m4" />
+    <None Include="ndarray\bp\auto\ArrayRef.h.m4" />
+    <None Include="ndarray\bp\auto\Vector.h.m4" />
+    <None Include="ndarray\bp\eigen" />
+    <None Include="ndarray\operators.h.m4" />
+    <None Include="ndarray\Vector.h.m4" />
+    <None Include="SConscript.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="feature_extraction\feature_extraction.cpp" />
+    <ClCompile Include="feature_extraction\hog\hog.cpp" />
+    <ClCompile Include="feature_extraction\hog_extractor.cpp" />
+    <ClCompile Include="serialization\serialization.cpp" />
+    <ClCompile Include="serialization\__serialize_AlignedSurfaceCalculator.cpp" />
+    <ClCompile Include="serialization\__serialize_AlternatingThresholdOptimizer.cpp" />
+    <ClCompile Include="serialization\__serialize_ClassicTraining.cpp" />
+    <ClCompile Include="serialization\__serialize_ClassificationError.cpp" />
+    <ClCompile Include="serialization\__serialize_ClassificationLeafManager.cpp" />
+    <ClCompile Include="serialization\__serialize_ClassificationThresholdOptimizer.cpp" />
+    <ClCompile Include="serialization\__serialize_ConstantRegressionCalculator.cpp" />
+    <ClCompile Include="serialization\__serialize_DifferenceSurfaceCalculator.cpp" />
+    <ClCompile Include="serialization\__serialize_DirectPatchDifferenceSurfCalculator.cpp" />
+    <ClCompile Include="serialization\__serialize_EntropyGain.cpp" />
+    <ClCompile Include="serialization\__serialize_EqualDistBagging.cpp" />
+    <ClCompile Include="serialization\__serialize_FeatCalcParamSet.cpp" />
+    <ClCompile Include="serialization\__serialize_Forest.cpp" />
+    <ClCompile Include="serialization\__serialize_HoughLeafManager.cpp" />
+    <ClCompile Include="serialization\__serialize_IBaggingStrategy.cpp" />
+    <ClCompile Include="serialization\__serialize_IDataProvider.cpp" />
+    <ClCompile Include="serialization\__serialize_IDecider.cpp" />
+    <ClCompile Include="serialization\__serialize_IEntropyFunction.cpp" />
+    <ClCompile Include="serialization\__serialize_IExecutionStrategy.cpp" />
+    <ClCompile Include="serialization\__serialize_IFeatureSelectionProvider.cpp" />
+    <ClCompile Include="serialization\__serialize_IForestDataProvider.cpp" />
+    <ClCompile Include="serialization\__serialize_IGainCalculator.cpp" />
+    <ClCompile Include="serialization\__serialize_ILeafManager.cpp" />
+    <ClCompile Include="serialization\__serialize_InducedEntropy.cpp" />
+    <ClCompile Include="serialization\__serialize_IRegressionCalculator.cpp" />
+    <ClCompile Include="serialization\__serialize_ISurfaceCalculator.cpp" />
+    <ClCompile Include="serialization\__serialize_IThresholdOptimizer.cpp" />
+    <ClCompile Include="serialization\__serialize_ITraining.cpp" />
+    <ClCompile Include="serialization\__serialize_LinearRegressionCalculator.cpp" />
+    <ClCompile Include="serialization\__serialize_LinearSurfaceCalculator.cpp" />
+    <ClCompile Include="serialization\__serialize_LocalExecutionStrategy.cpp" />
+    <ClCompile Include="serialization\__serialize_NoBagging.cpp" />
+    <ClCompile Include="serialization\__serialize_PatchToImageCoordinateTransformer.cpp" />
+    <ClCompile Include="serialization\__serialize_QuadraticSurfaceCalculator.cpp" />
+    <ClCompile Include="serialization\__serialize_RandomizedClassificationThresholdOptimizer.cpp" />
+    <ClCompile Include="serialization\__serialize_RegressionLeafManager.cpp" />
+    <ClCompile Include="serialization\__serialize_RegressionThresholdOptimizer.cpp" />
+    <ClCompile Include="serialization\__serialize_ShannonEntropy.cpp" />
+    <ClCompile Include="serialization\__serialize_StandardFeatureSelectionProvider.cpp" />
+    <ClCompile Include="serialization\__serialize_ThresholdDecider.cpp" />
+    <ClCompile Include="serialization\__serialize_Tree.cpp" />
+    <ClCompile Include="serialization\__serialize_TwoSideClassificationThresholdOptimizer.cpp" />
+    <ClCompile Include="serialization\__serialize_VarianceClassificationThresholdOptimizer.cpp" />
+    <ClCompile Include="serialization\__serialize_VolumeFeatureSelectionProvider.cpp" />
+    <ClCompile Include="util\gil.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1AA35DFB-9560-4EDB-9E8B-3DA6D6EEC6BF}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeBuildCommandLine>build --with-serialization --jobs 8</NMakeBuildCommandLine>
+    <NMakeOutput>fertilized.exe</NMakeOutput>
+    <NMakeCleanCommandLine>build --clean</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(BOOST_ROOT);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)external\ndarray\include;$(OPENCV_INCLUDE_DIR);$(BOOST_INCLUDE_DIR);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NMakeBuildCommandLine>build --with-checks --disable-optimizations  --with-python-support</NMakeBuildCommandLine>
+    <NMakeOutput>fertilized.exe</NMakeOutput>
+    <NMakeCleanCommandLine>build -c</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>WIN32;_DEBUG;__BUILD_FERTILIZED_LIBRARY;SERIALIZATION_ENABLED;RUNTIME_CHECKS;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(BOOST_ROOT);$(EIGEN_ROOT);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)external\ndarray\include;$(OPENCV_INCLUDE_DIR);$(BOOST_INCLUDE_DIR);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeBuildCommandLine>build --with-serialization --with-checks --disable-optimizations</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>build --c</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>WIN32;NDEBUG;SERIALIZATION_ENABLED;__BUILD_FERTILIZED_LIBRARY;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(BOOST_ROOT);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)external\ndarray\include;$(OPENCV_INCLUDE_DIR);$(BOOST_INCLUDE_DIR);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NMakeBuildCommandLine>build --with-serialization  --with-python-support --jobs=10</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>build -c</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>WIN32;NDEBUG;SERIALIZATION_ENABLED;__BUILD_FERTILIZED_LIBRARY;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(BOOST_ROOT);$(EIGEN_ROOT);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)external\ndarray\include;$(OPENCV_INCLUDE_DIR);$(BOOST_INCLUDE_DIR);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

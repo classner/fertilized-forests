@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>a57d344d-0ddc-4f0f-a4db-1bd34200ac1a</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>Presentation</Name>
+    <RootNamespace>Presentation</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments />
+    <InterpreterPath />
+    <InterpreterArguments />
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Matlab\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="C++\" />
+    <Folder Include="Python\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Python\classification.py" />
+    <Compile Include="Python\custom.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Python\effect_depth.py" />
+    <Compile Include="Python\effect_weak_learner_rand.py" />
+    <Compile Include="Python\hough_detect.py" />
+    <Compile Include="Python\hough_preferences.py" />
+    <Compile Include="Python\hough_train.py" />
+    <Compile Include="Python\impurities.py" />
+    <Compile Include="Python\leafs.py" />
+    <Compile Include="Python\overview.py" />
+    <Compile Include="Python\plottools.py" />
+    <Compile Include="Python\quadrics.py" />
+    <Compile Include="Python\regression.py" />
+    <Compile Include="Python\regression_prob.py" />
+    <Compile Include="Python\regression_tools.py" />
+    <Compile Include="Python\spiral_ann.py" />
+    <Compile Include="Python\spiral_rf.py" />
+    <Compile Include="Python\spiral_svm.py" />
+    <Compile Include="Python\threshold_classifiers.py" />
+    <Compile Include="run_examples_as_tests.py" />
+    <Compile Include="SConscript.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="C++\custom.cpp">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="C++\overview.cpp">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="C++\regression.cpp">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Matlab\custom.m" />
+    <Content Include="Matlab\ex_3.m" />
+    <Content Include="Matlab\ex_classification.m" />
+    <Content Include="Matlab\ex_effect_depth.m" />
+    <Content Include="Matlab\ex_effect_weak_learner_rand.m" />
+    <Content Include="Matlab\ex_regression.m" />
+    <Content Include="Matlab\ex_serialization.m" />
+    <Content Include="Matlab\make_spiral.m" />
+    <Content Include="Matlab\overview.m" />
+    <Content Include="Matlab\point_prob_plot.m" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>

@@ -1,0 +1,15 @@
+## Author: Christoph Lassner.
+{% include 'cpp_disclaimer.jinja' %}
+#pragma once
+#ifndef FERTILIZED_FERTILIZED_FWD_H_
+#define FERTILIZED_FERTILIZED_FWD_H_
+
+namespace fertilized {
+@ for class in classes
+  {{ class.TemplatingString }}
+  {{ class.DeclarationMethod }} {{ class.ClassName }};
+
+@ endfor
+}  // namespace fertilized
+#endif  // FERTILIZED_FERTILIZED_FWD_H_
+
