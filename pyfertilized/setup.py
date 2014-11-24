@@ -13,14 +13,16 @@ from distutils.core import setup
 import sys
 import os
 import platform
+from glob import glob
 
 # Import version
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from version import VERSION
 
 if platform.system() == 'Windows':
-  ext_files = ['fertilized.dll',
-               'pyfertilized.pyd']
+  ext_files = ['pyfertilized.pyd']
+  bindeps = glob(os.path.join(os.path.dirname(__file__), 'fertilized', '*.dll'))
+  ext_files.extend([os.path.basename(fname) for fname in bindeps])
 else:
   ext_files = ['libfertilized.so',
                'libboost_numpy.so',
