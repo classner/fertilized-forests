@@ -11,9 +11,9 @@
 #ifndef NDARRAY_EIGEN_BP_auto_h_INCLUDED
 #define NDARRAY_EIGEN_BP_auto_h_INCLUDED
 
-#include "fertilized/ndarrayeigen/bp/auto/EigenView.h"
-#include "fertilized/ndarrayeigen/bp/auto/Array.h"
-#include "fertilized/ndarrayeigen/bp/auto/Matrix.h"
-#include "fertilized/ndarrayeigen/bp.h"
+#include "fertilized/ndarray/eigen/bp/auto/EigenView.h"
+#include "fertilized/ndarray/eigen/bp/auto/Array.h"
+#include "fertilized/ndarray/eigen/bp/auto/Matrix.h"
+#include "fertilized/ndarray/eigen/bp.h"
 
 #endif // !NDARRAY_EIGEN_BP_auto_h_INCLUDED

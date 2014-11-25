@@ -17,6 +17,10 @@ Presentation/results*
 Presentation/test.png
 Presentation/*.csv
 Presentation/*.png
+Presentation/*/*.png
+Presentation/C++/custom
+Presentation/C++/overview
+Presentation/C++/regression
 build/
 .sconsign.dblite
 config.log

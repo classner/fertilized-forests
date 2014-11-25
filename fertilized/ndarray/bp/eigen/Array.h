@@ -11,7 +11,7 @@
 #ifndef NDARRAY_EIGEN_BP_Array_h_INCLUDED
 #define NDARRAY_EIGEN_BP_Array_h_INCLUDED
 
-#include "fertilized/ndarrayeigen/bp/EigenView.h"
+#include "fertilized/ndarray/eigen/bp/EigenView.h"
 
 namespace ndarray {
 
