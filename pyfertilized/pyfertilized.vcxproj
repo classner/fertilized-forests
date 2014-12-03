@@ -444,7 +444,7 @@
     <IncludePath>..\fertilized;$(BOOST_INCLUDE_DIR);$(SolutionDir)external\ndarray\Boost.NumPy;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <NMakeBuildCommandLine>build --jobs 10 --with-python</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build --jobs 10 --with-python --with-serialization</NMakeBuildCommandLine>
     <NMakeOutput>
     </NMakeOutput>
     <NMakeCleanCommandLine>build -c --with-python</NMakeCleanCommandLine>

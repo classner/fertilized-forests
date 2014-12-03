@@ -72,7 +72,7 @@ namespace fertilized {
    * \param test_n_features_per_node size_t>=0
    *     The number of features to evaluate as split criteria at each tree
    *     node. If 0, it is set to sqrt(n_features). Optional.
-   * \param n_thresholds_per_features size_t>=0
+   * \param n_thresholds_per_feature size_t>=0
    *     The number of thresholds to evaluate per feature. If set to zero,
    *     search for the perfect split. Optional.
    * \param min_samples_per_leaf uint>0
@@ -94,6 +94,8 @@ namespace fertilized {
    * \param entropy_p1 float
    *     The entropy parameter. Might be unused (e.g. for the Shannon entropy).
    *     Optional.
+   * \param threshold_optimization_threads uint>0
+   *     The number of threads to use for threshold optimization. Default: 1.
    */
   template <typename input_dtype>
   std::shared_ptr<fertilized::Tree<input_dtype, input_dtype, uint,
@@ -109,7 +111,8 @@ namespace fertilized {
     const bool &allow_redraw=true,
     const uint &random_seed=1,
     std::string entropy_name="induced",
-    const float &entropy_p1=2.f) {
+    const float &entropy_p1=2.f,
+    const uint threshold_optimization_threads=1) {
     if (n_classes < 2) {
       throw Fertilized_Exception("It is not possible to create a classifier "
         "for less than two classes!");
@@ -151,7 +154,7 @@ namespace fertilized {
     if (allow_redraw)
       n_valids_to_use = test_n_features_per_node;
     auto classifier = std::make_shared<ThresholdDecider<input_dtype, input_dtype, uint>>(
-      featsel, featc, threshopt, n_valids_to_use);
+      featsel, featc, threshopt, n_valids_to_use, threshold_optimization_threads);
     auto leafm = std::make_shared<ClassificationLeafManager<input_dtype, uint>>(n_classes);
     return std::make_shared<Tree<input_dtype, input_dtype, uint, std::vector<float>, std::vector<float>>>(
       max_depth, min_samples_per_leaf, min_samples_per_split, classifier, leafm);

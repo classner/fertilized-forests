@@ -72,6 +72,8 @@ namespace fertilized {
    * \param entropy_p1 float
    *     The entropy parameter. Might be unused (e.g. for the Shannon entropy).
    *     Optional.
+   * \param threshold_optimization_threads uint>0
+   *     The number of threads to use for threshold optimization. Default: 1.
    */
   template <typename input_dtype>
   std::shared_ptr<fertilized::Forest<input_dtype, input_dtype, uint,
@@ -88,7 +90,8 @@ namespace fertilized {
     const bool &allow_redraw=true,
     const uint &random_seed=1,
     std::string entropy_name="induced",
-    const float &entropy_p1=2.f) {
+    const float &entropy_p1=2.f,
+    const uint threshold_optimization_threads=1) {
     if (n_trees < 2) {
       throw Fertilized_Exception("A forest must consist of at least 2 trees.");
     }
@@ -119,7 +122,8 @@ namespace fertilized {
                                             allow_redraw,
                                             random_seed + i,
                                             entropy_name,
-                                            entropy_p1);
+                                            entropy_p1,
+                                            threshold_optimization_threads);
       tree_ptr_vec.push_back(tree);
     }
     auto split_strat = std::make_shared<NoBagging<input_dtype,
