@@ -12,8 +12,8 @@
 #define NDARRAY_EIGEN_BP_EigenView_h_INCLUDED
 
 #include "boost/numpy.hpp"
-#include "fertilized/ndarraybp/Array.h"
-#include "fertilized/ndarrayeigen.h"
+#include "fertilized/ndarray/bp/Array.h"
+#include "fertilized/ndarray/eigen.h"
 
 namespace ndarray {
 
