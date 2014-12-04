@@ -30,7 +30,7 @@ def color_for_likelihood (likelihood, max_likelihood):
 # The interface is identical to the point_prob_plot-function for the
 # classification example.
 def forest_probabilistic_plot(forest, X_train, Y_train, plotX, plotY):
-  # Define the x values for prediciton input.
+  # Define the x values for prediction input.
   X_test = np.linspace(plotX[0], plotX[1], num=plotX[2])
   X_test.shape = (X_test.shape[0],1)
   # Predict the y values based on X_test

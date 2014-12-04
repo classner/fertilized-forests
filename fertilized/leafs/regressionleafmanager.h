@@ -439,7 +439,7 @@ namespace fertilized {
                 (tree_result.first) -> end(),
                 result_row.getData());
       std::copy((tree_result.second) -> begin(),
-                (tree_result.first) -> end(),
+                (tree_result.second) -> end(),
                 result_row.getData() + get_summary_dimensions() / 2);
     };
 

@@ -429,7 +429,7 @@
     <IncludePath>..\fertilized;$(BOOST_INCLUDE_DIR);$(SolutionDir)external\ndarray\Boost.NumPy;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <NMakeBuildCommandLine>build --jobs 20 --with-serialization --with-python --with-checks --disable-optimizations</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build --jobs 20 --with-python --with-checks --disable-optimizations</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>build -c --with-python</NMakeCleanCommandLine>
     <NMakePreprocessorDefinitions>SERIALIZATION_ENABLED;WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>..;$(BOOST_ROOT);$(PYTHON_INCLUDE);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>

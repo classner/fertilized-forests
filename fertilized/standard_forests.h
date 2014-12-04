@@ -44,34 +44,34 @@ namespace fertilized {
    *     The number of features available.
    * \param max_depth uint>=0
    *     The maximum tree depth. If 0, it is set to UINT_MAX to allow for
-   *     maximally large trees. Optional.
+   *     maximally large trees. Default: 0.
    * \param test_n_features_per_node size_t>=0
    *     The number of features to evaluate as split criteria at each tree
-   *     node. If 0, it is set to sqrt(n_features). Optional.
+   *     node. If 0, it is set to sqrt(n_features). Default: 0.
    * \param n_thresholds_per_features size_t>=0
    *     The number of thresholds to evaluate per feature. If set to zero,
-   *     search for the perfect split. Optional.
+   *     search for the perfect split. Default: 0.
    * \param n_trees uint>1
-   *     The number of trees to use. Optional.
+   *     The number of trees to use. Default: 10.
    * \param min_samples_per_leaf uint>0
-   *     The minimum number of samples at a leaf node.  Optional.
+   *     The minimum number of samples at a leaf node.  Default: 1.
    * \param min_samples_per_split uint>2*min_samples_per_leaf
-   *     The minimum number of samples to continue splitting. Optional.
+   *     The minimum number of samples to continue splitting. Default: 2.
    * \param min_gain_threshold
-   *     The minimum gain that must be reached to continue splitting. Optional.
+   *     The minimum gain that must be reached to continue splitting. Default: 1E-7.
    * \param allow_redraw bool
    *     If set to true, allows to try a new feature when optimizing for a
    *     split, when for a feature no split could be found that satisfied
    *     the minimum number of samples per leaf for each subgroup. This may be
-   *     done until all features have been checked. Optional.
+   *     done until all features have been checked. Default: true.
    * \param random_seed uint>=1
-   *     The random seed to initialize the RNG.
+   *     The random seed to initialize the RNG. Default: 1.
    * \param entropy_name string in ["induced", "classification_error", "renyi", "tsallis", "shannon"]
    *     The entropy type to use. For the specification of induced entropy,
-   *     see the "Publications" page. Optional.
+   *     see the "Publications" page. Default: 'induced'.
    * \param entropy_p1 float
    *     The entropy parameter. Might be unused (e.g. for the Shannon entropy).
-   *     Optional.
+   *     Default: 2.
    * \param threshold_optimization_threads uint>0
    *     The number of threads to use for threshold optimization. Default: 1.
    */
@@ -166,34 +166,34 @@ namespace fertilized {
    *     The number of features available.
    * \param max_depth uint>=0
    *     The maximum tree depth. If 0, it is set to UINT_MAX to allow for
-   *     maximally large trees.
+   *     maximally large trees. Default: 0.
    * \param test_n_features_per_node size_t>=0
    *     The number of features to evaluate as split criteria at each tree
-   *     node. If 0, it is set to sqrt(n_features).
+   *     node. If 0, it is set to sqrt(n_features). Default: 0.
    * \param n_thresholds_per_feature size_t>=0
    *     The number of thresholds to evaluate per feature. If set to zero,
-   *     search for the perfect split.
+   *     search for the perfect split. Default: 0.
    * \param n_trees size_t>1
-   *     The number of trees to use.
+   *     The number of trees to use. Default: 10.
    * \param min_samples_per_leaf uint>0
-   *     The minimum number of samples at a leaf node.  Optional.
+   *     The minimum number of samples at a leaf node.  Default: 3.
    * \param min_samples_per_split uint>2*min_samples_per_leaf
-   *     The minimum number of samples to continue splitting. Optional.
+   *     The minimum number of samples to continue splitting. Default: 6.
    * \param min_gain_threshold
-   *     The minimum gain that must be reached to continue splitting. Optional.
+   *     The minimum gain that must be reached to continue splitting. Default: 1E-7.
    * \param allow_redraw bool
    *     If set to true, allows to try a new feature when optimizing for a
    *     split, when for a feature no split could be found that satisfied
    *     the minimum number of samples per leaf for each subgroup. This may be
-   *     done until all features have been checked. Optional.
+   *     done until all features have been checked. Default: true.
    * \param random_seed uint>=1
-   *     The random seed to initialize the RNG.
+   *     The random seed to initialize the RNG. Default: 1.
    * \param entropy_name string in ["induced", "classification_error", "renyi", "tsallis", "shannon"]
    *     The entropy type to use. For the specification of induced entropy,
-   *     see the "Publications" page. Optional.
+   *     see the "Publications" page. Default: 'shannon'.
    * \param entropy_p1 float
    *     The entropy parameter. Might be unused (e.g. for the Shannon entropy).
-   *     Optional.
+   *     Default: 2.
    * \param numerical_zero_threshold float>=0.f || -1.f
    *     The threshold below of which all values are treated as zeros.
    *     If set to -1.f, use the value suggested by Eigen. Default: -1.f.
@@ -207,12 +207,12 @@ namespace fertilized {
        std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>>>> 
     construct_regression_forest(
       const size_t &n_features,
-      uint max_depth,
-      size_t test_n_features_per_node,
-      const size_t &n_thresholds_per_feature,
-      const size_t &n_trees,
-      const uint &min_samples_per_leaf=1,
-      const uint &min_samples_per_split=2,
+      uint max_depth=0,
+      size_t test_n_features_per_node=0,
+      const size_t &n_thresholds_per_feature=0,
+      const size_t &n_trees=10,
+      const uint &min_samples_per_leaf=3,
+      const uint &min_samples_per_split=6,
       const float &min_gain_threshold=1E-7,
       const bool &allow_redraw=true,
       const uint &random_seed=1,
@@ -291,34 +291,34 @@ namespace fertilized {
    *     The number of features available.
    * \param max_depth uint>=0
    *     The maximum tree depth. If 0, it is set to UINT_MAX to allow for
-   *     maximally large trees.
+   *     maximally large trees. Default: 0.
    * \param test_n_features_per_node size_t>=0
    *     The number of features to evaluate as split criteria at each tree
-   *     node. If 0, it is set to sqrt(n_features).
+   *     node. If 0, it is set to sqrt(n_features). Default: 0.
    * \param n_thresholds_per_feature size_t>=0
    *     The number of thresholds to evaluate per feature. If set to zero,
-   *     search for the perfect split.
+   *     search for the perfect split. Default: 0.
    * \param n_trees size_t>1
-   *     The number of trees.
+   *     The number of trees. Default: 10.
    * \param min_samples_per_leaf uint>0
-   *     The minimum number of samples at a leaf node.  Optional.
+   *     The minimum number of samples at a leaf node.  Default: 3.
    * \param min_samples_per_split uint>2*min_samples_per_leaf
-   *     The minimum number of samples to continue splitting. Optional.
+   *     The minimum number of samples to continue splitting. Default: 6.
    * \param min_gain_threshold
-   *     The minimum gain that must be reached to continue splitting. Optional.
+   *     The minimum gain that must be reached to continue splitting. Default: 1E-7.
    * \param allow_redraw bool
    *     If set to true, allows to try a new feature when optimizing for a
    *     split, when for a feature no split could be found that satisfied
    *     the minimum number of samples per leaf for each subgroup. This may be
-   *     done until all features have been checked. Optional.
+   *     done until all features have been checked. Default: true.
    * \param random_seed uint>=1
-   *     The random seed to initialize the RNG.
+   *     The random seed to initialize the RNG. Default: 1.
    * \param entropy_name string in ["induced", "classification_error", "renyi", "tsallis", "shannon"]
    *     The entropy type to use. For the specification of induced entropy,
-   *     see the "Publications" page. Optional.
+   *     see the "Publications" page. Default: 'shannon'.
    * \param entropy_p1 float
    *     The entropy parameter. Might be unused (e.g. for the Shannon entropy).
-   *     Optional.
+   *     Default: 1E-7.
    * \param numerical_zero_threshold float>=0.f || -1.f
    *     The threshold below of which all values are treated as zeros.
    *     If set to -1.f, use the value suggested by Eigen. Default: -1.f.
@@ -332,12 +332,12 @@ namespace fertilized {
        std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>>>> 
     construct_fast_regression_forest(
       const size_t &n_features,
-      uint max_depth,
-      size_t test_n_features_per_node,
-      const size_t &n_thresholds_per_feature,
-      const size_t &n_trees,
-      const uint &min_samples_per_leaf=1,
-      const uint &min_samples_per_split=2,
+      uint max_depth=0,
+      size_t test_n_features_per_node=0,
+      const size_t &n_thresholds_per_feature=0,
+      const size_t &n_trees=10,
+      const uint &min_samples_per_leaf=3,
+      const uint &min_samples_per_split=6,
       const float &min_gain_threshold=1E-7,
       const bool &allow_redraw=true,
       const uint &random_seed=1,
