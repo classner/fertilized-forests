@@ -171,6 +171,7 @@ namespace fertilized {
       if (num_threads > 1) {
         throw Fertilized_Exception("This executable has been built without "
           "OpenMP support. The number of threads must =1!");
+      }
 #endif
       if (use_hough_heuristic) {
         if (!std::is_integral<annotation_dtype>::value) {
@@ -291,7 +292,6 @@ namespace fertilized {
       // TODO(Christoph): Remove locks in non-parallel mode to improve perf.?
       std::mutex mutex_track;
       std::mutex mutex_opt;
-#if defined(_OPENMP)
 #if defined(_MSC_VER)
 #define ADDITIONAL_SHARED_VARS , elem_id_vec_t
 #else
@@ -315,7 +315,6 @@ namespace fertilized {
         mutex_track, mutex_opt, suggestion_index, node_id,\
         prepared_annots, prepared_weights, used_elems, sample_list)
 #endif
-#endif // _OPENMP
       {
 #undef ADDITIONAL_SHARED_VARS
         while (suggested_feature_sets -> available() &&

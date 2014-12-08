@@ -138,6 +138,7 @@ namespace fertilized {
       if (num_threads > 1) {
         throw Fertilized_Exception("This executable has been built without "
           "OpenMP support. The number of threads must =1!");
+      }
 #endif
       while (thread_engines.size() < num_threads) {
         thread_engines.emplace_back(new std::mt19937());
