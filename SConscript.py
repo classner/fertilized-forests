@@ -46,27 +46,35 @@ def getRequiredLibs():
 ####################################
 # Command line length fix for compilers other than MSVC on Windows.
 # http://scons.org/wiki/LongCmdLinesOnWin32
-class ourSpawn:
-    def ourspawn(self, sh, escape, cmd, args, env):
-        newargs = ' '.join(args[1:])
+if os.name == 'nt':
+    import win32file
+    import win32event
+    import win32process    
+    import win32security
+    def my_spawn(sh, escape, cmd, args, spawnenv):
+        for var in spawnenv:
+            spawnenv[var] = spawnenv[var].encode('ascii', 'replace')
+        sAttrs = win32security.SECURITY_ATTRIBUTES()
+        StartupInfo = win32process.STARTUPINFO()
+        newargs = ' '.join(map(escape, args[1:]))
         cmdline = cmd + " " + newargs
-        startupinfo = subprocess.STARTUPINFO()
-        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-        proc = subprocess.Popen(cmdline, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE, startupinfo=startupinfo, shell = False, env = env)
-        data, err = proc.communicate()
-        rv = proc.wait()
-        if rv:
-            print "====="
-            print err
-            print "====="
-        return rv
+        # check for any special operating system commands
+        if cmd == 'del':
+            for arg in args[1:]:
+                win32file.DeleteFile(arg)
+            exit_code = 0
+        else:
+            # otherwise execute the command.
+            hProcess, hThread, dwPid, dwTid = win32process.CreateProcess(None, cmdline, None, None, 1, 0, spawnenv, None, StartupInfo)
+            win32event.WaitForSingleObject(hProcess, win32event.INFINITE)
+            exit_code = win32process.GetExitCodeProcess(hProcess)
+            win32file.CloseHandle(hProcess);
+            win32file.CloseHandle(hThread);
+        return exit_code
 
 def SetupSpawn( env ):
     if sys.platform == 'win32':
-        buf = ourSpawn()
-        buf.ourenv = env
-        env['SPAWN'] = buf.ourspawn
+        env['SPAWN'] = my_spawn
 #####################################
 
 # Setup command-line options
