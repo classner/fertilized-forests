@@ -43,6 +43,32 @@ def getRequiredLibs():
     req_libs = []
   return req_libs
 
+####################################
+# Command line length fix for compilers other than MSVC on Windows.
+# http://scons.org/wiki/LongCmdLinesOnWin32
+class ourSpawn:
+    def ourspawn(self, sh, escape, cmd, args, env):
+        newargs = ' '.join(args[1:])
+        cmdline = cmd + " " + newargs
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        proc = subprocess.Popen(cmdline, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, startupinfo=startupinfo, shell = False, env = env)
+        data, err = proc.communicate()
+        rv = proc.wait()
+        if rv:
+            print "====="
+            print err
+            print "====="
+        return rv
+
+def SetupSpawn( env ):
+    if sys.platform == 'win32':
+        buf = ourSpawn()
+        buf.ourenv = env
+        env['SPAWN'] = buf.ourspawn
+#####################################
+
 # Setup command-line options
 def setupOptions():
     default_toolchain = 'default'
@@ -112,6 +138,7 @@ def makeEnvironment(variables):
             shellEnv[key] = os.environ[key]
     # Create build enviromnent.
     env = Environment(tools=['default', GetOption("toolchain"), 'm4'], variables=variables, ENV=shellEnv)
+    SetupSpawn(env)
     # Append environment compiler flags.
     if env.Dictionary().has_key("CCFLAGS"):
         if isinstance(env['CCFLAGS'], basestring):

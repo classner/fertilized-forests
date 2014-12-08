@@ -143,9 +143,7 @@ namespace fertilized {
      * The abstract method must be called at the end!
      */
     void execute_steps(const std::vector<train_act_t> &action_storage) {
-#ifdef _OPENMP
       #pragma omp parallel for schedule(dynamic) num_threads(num_threads) if(num_threads != 1)
-#endif
       for (int i = 0; i < action_storage.size(); ++i) {
         const train_act_t &step = action_storage[i];
         switch (step.action) {
