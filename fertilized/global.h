@@ -73,7 +73,7 @@ namespace fertilized {
   // This library's exception type.
   class Fertilized_Exception: public std::exception {
    public:
-    explicit Fertilized_Exception(const std::string what)
+    explicit Fertilized_Exception(const std::string &what)
       : whatstr(what) {}
 
     virtual const char* what() const throw() {

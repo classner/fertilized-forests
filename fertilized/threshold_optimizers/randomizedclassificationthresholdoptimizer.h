@@ -140,6 +140,12 @@ namespace fertilized {
     /** Initializes the random engines for parallel processing. */
     void prepare_for_optimizing(const size_t &node_id,
                                 const int &num_threads) {
+      FASSERT (num_threads > 0);
+#ifndef _OPENMP
+      if (num_threads > 1) {
+        throw Fertilized_Exception("This executable has been built without "
+          "OpenMP support. The number of threads must =1!");
+#endif
       while (thread_engines.size() < num_threads) {
         thread_engines.emplace_back(new std::mt19937());
       }

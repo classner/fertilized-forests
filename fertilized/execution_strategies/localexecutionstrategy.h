@@ -11,7 +11,9 @@
 #include <utility>
 #include <memory>
 
+#ifdef _OPENMP
 #include <omp.h>
+#endif
 
 #include "../global.h"
 #include "../types.h"
@@ -80,6 +82,12 @@ namespace fertilized {
       if (num_threads < 1) {
         throw Fertilized_Exception("The number of threads must be >0!");
       }
+#ifndef _OPENMP
+      if (num_threads > 1) {
+        throw Fertilized_Exception("This binary has been built without "
+          "OpenMP support! The number of threads must be =1!");
+      }
+#endif
     }
 
     /**
@@ -88,17 +96,21 @@ namespace fertilized {
     void initialize(
       const std::shared_ptr<fdprov_t> &fdata_provider,
       const std::shared_ptr<tree_ptr_vec_t> &tree_list) {
+#ifdef _OPENMP
       // Allow for nested parallelism.
       original_nested_state = omp_get_nested();
       omp_set_nested(true);
+#endif
 
       aexec_strat_t::initialize(fdata_provider, tree_list);
     };
 
     /** Resets the OpenMP nested state. */
     void cleanup() {
+#ifdef _OPENMP
       // Reset OpenMP nested state.
       omp_set_nested(original_nested_state);
+#endif
     }
 
     /**
@@ -131,7 +143,9 @@ namespace fertilized {
      * The abstract method must be called at the end!
      */
     void execute_steps(const std::vector<train_act_t> &action_storage) {
+#ifdef _OPENMP
       #pragma omp parallel for schedule(dynamic) num_threads(num_threads) if(num_threads != 1)
+#endif
       for (int i = 0; i < action_storage.size(); ++i) {
         const train_act_t &step = action_storage[i];
         switch (step.action) {

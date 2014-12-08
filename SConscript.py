@@ -146,9 +146,16 @@ def makeEnvironment(variables):
         #env.AppendUnique(CCFLAGS=['/Qipo-jobs4'])
     # Specifics for gcc.
     if env['CC'] == 'g++' or env['CC'] == 'gcc':
+        # Replace default /O2 on Windows if MinGW is used.
+        if '/O2' in env['CCFLAGS']:
+          env.Replace(CCFLAGS=[flag for flag in env['CCFLAGS'] \
+            if flag not in ['/O2']] + ['-O2'])
         # Enable C++ 11 support, OpenMP, and generation of debug symbols.
-        env.AppendUnique(CCFLAGS=['-std=c++11', '-fopenmp', '-g'])
-        env.AppendUnique(LINKFLAGS=['-fopenmp', '-g'])
+        env.AppendUnique(CCFLAGS=['-std=c++11', '-g'])
+        env.AppendUnique(LINKFLAGS=['-g'])
+        if not os.name=='nt' and not os.name == 'mac':
+          env.AppendUnique(CCFLAGS=['-fopenmp'])
+          env.AppendUnique(LINKFLAGS=['-fopenmp'])
     # RPATH.
     custom_rpath = GetOption("custom_rpath")
     if custom_rpath is not None:

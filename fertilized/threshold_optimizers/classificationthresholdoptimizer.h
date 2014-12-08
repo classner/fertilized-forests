@@ -8,10 +8,6 @@
 #include <boost/serialization/base_object.hpp>
 #endif
 
-#if defined(_OPENMP)
-#include <omp.h>
-#endif
-
 #include <type_traits>
 #include <vector>
 #include <limits>

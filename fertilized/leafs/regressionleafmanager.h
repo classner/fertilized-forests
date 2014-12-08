@@ -110,6 +110,14 @@ namespace fertilized {
      use_fallback_reg_calc(use_fallback_constant_regression),
      num_threads(num_threads),
      leaf_regression_map(std::unordered_map<node_id_t, regression_result_t>()) {
+      if (num_threads <= 0) {
+        throw Fertilized_Exception("The number of threads must be >0!");
+      }
+#ifndef _OPENMP
+      if (num_threads > 1) {
+        throw Fertilized_Exception("This executable has been built without "
+          "OpenMP support. The number of threads must =1!");
+#endif
       static_assert(std::is_floating_point<input_dtype>::value,
         "Regression datatype must be floating point.");
     };
@@ -162,6 +170,7 @@ namespace fertilized {
         // TODO(Christoph): Remove locks in non-parallel mode to improve perf.?
         std::mutex mutex_track;
         std::mutex mutex_opt;
+#if defined(_OPENMP)
        #pragma omp parallel num_threads(num_threads) if(num_threads != 1) \
           default(none) /* Require explicit spec. */\
           shared(best_entropy, best_regression_result, best_config_index, \
@@ -170,6 +179,7 @@ namespace fertilized {
           sample_list, annot_mat, mutex_track, mutex_opt, annot_dim,  \
           suggestion_index, node_id, valid_feature_found, \
           processed_total)
+#endif
         {
           auto private_reg_calc = std::unique_ptr<IRegressionCalculator<input_dtype>>(reg_calc_template->get_descendant_copy());
           while (suggested_feature_sets -> available() &&
@@ -180,7 +190,9 @@ namespace fertilized {
             size_t hom_sel_input_dim;
             {
               std::lock_guard<std::mutex> lock(mutex_track);
+#if defined(_OPENMP)
               #pragma omp flush(suggestion_index, processed_val_count)
+#endif
               if (suggested_feature_sets -> available() &&
                   processed_val_count < processed_val_max) {
                 // Assume that this run is valid.
@@ -276,7 +288,9 @@ namespace fertilized {
             {
               std::lock_guard<std::mutex> lock(mutex_track);
               processed_val_count--;
+#if defined(_OPENMP)
               #pragma omp flush(processed_val_count)
+#endif
             }
             }
 
