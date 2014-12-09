@@ -259,10 +259,11 @@ delfiles = glob.glob(os.path.join('..', 'fertilized', 'serialization', '__*'))
 for delfile in delfiles:
     os.remove(delfile)
 serialization_classes = [cls for cls in classes if cls.isSerializable()]
+serialization_classes.sort(key=lambda x: x.ClassName)
 ser_insttypes_tpls = []
 for cls in serialization_classes:
   if not cls.SupportedTypes is None:
-    for insttypes in cls.SupportedTypes:
+    for insttypes in sorted(cls.SupportedTypes, key=lambda x: str(x)):
       ser_insttypes_tpls.append((cls, insttypes))
   else:
     ser_insttypes_tpls.append((cls, None))

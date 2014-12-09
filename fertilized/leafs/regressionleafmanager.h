@@ -117,6 +117,7 @@ namespace fertilized {
       if (num_threads > 1) {
         throw Fertilized_Exception("This executable has been built without "
           "OpenMP support. The number of threads must =1!");
+      }
 #endif
       static_assert(std::is_floating_point<input_dtype>::value,
         "Regression datatype must be floating point.");

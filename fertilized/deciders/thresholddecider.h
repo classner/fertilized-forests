@@ -171,6 +171,7 @@ namespace fertilized {
       if (num_threads > 1) {
         throw Fertilized_Exception("This executable has been built without "
           "OpenMP support. The number of threads must =1!");
+      }
 #endif
       if (use_hough_heuristic) {
         if (!std::is_integral<annotation_dtype>::value) {

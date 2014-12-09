@@ -46,27 +46,39 @@ def getRequiredLibs():
 ####################################
 # Command line length fix for compilers other than MSVC on Windows.
 # http://scons.org/wiki/LongCmdLinesOnWin32
-class ourSpawn:
-    def ourspawn(self, sh, escape, cmd, args, env):
-        newargs = ' '.join(args[1:])
+if os.name == 'nt':
+    import win32file
+    import win32event
+    import win32process    
+    import win32security
+    def my_spawn(sh, escape, cmd, args, spawnenv):
+        for var in spawnenv:
+            spawnenv[var] = spawnenv[var].encode('ascii', 'replace')
+        sAttrs = win32security.SECURITY_ATTRIBUTES()
+        StartupInfo = win32process.STARTUPINFO()
+        newargs = ' '.join(map(escape, args[1:]))
         cmdline = cmd + " " + newargs
-        startupinfo = subprocess.STARTUPINFO()
-        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-        proc = subprocess.Popen(cmdline, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE, startupinfo=startupinfo, shell = False, env = env)
-        data, err = proc.communicate()
-        rv = proc.wait()
-        if rv:
-            print "====="
-            print err
-            print "====="
-        return rv
+        # check for any special operating system commands
+        if cmd == 'del':
+            for arg in args[1:]:
+                win32file.DeleteFile(arg)
+            exit_code = 0
+        else:
+            # otherwise execute the command.
+            hProcess, hThread, dwPid, dwTid = win32process.CreateProcess(None, cmdline, None, None, 1, 0, spawnenv, None, StartupInfo)
+            win32event.WaitForSingleObject(hProcess, win32event.INFINITE)
+            exit_code = win32process.GetExitCodeProcess(hProcess)
+            win32file.CloseHandle(hProcess);
+            win32file.CloseHandle(hThread);
+        return exit_code
 
 def SetupSpawn( env ):
-    if sys.platform == 'win32':
-        buf = ourSpawn()
-        buf.ourenv = env
-        env['SPAWN'] = buf.ourspawn
+    if env['CC'] == 'g++' and sys.platform == 'win32':
+        # Enable workaround for handling of extralong
+        # command lines. This is not handled by the
+        # default toolchain spawner of SCons in this
+        # case.
+        env['SPAWN'] = my_spawn
 #####################################
 
 # Setup command-line options
@@ -111,6 +123,9 @@ def setupOptions():
     AddOption("--with-examples", dest="with_examples",
               action="store_true", help="enables building the examples (you can find them in the Presentation folder)",
               default=False),
+    AddOption("--with-openmp", dest="with_openmp",
+              action="store_true", help="enables OpenMP. Required for parallel execution",
+			  default=True),
     AddOption("--toolchain", dest="toolchain",
               action="store", metavar="NAME", help="toolchain to use for the build. Supported: msvc (Microsoft compiler), icl (Intel compiler), g++ (GNU compiler)",
               default=default_toolchain)
@@ -138,7 +153,7 @@ def makeEnvironment(variables):
             shellEnv[key] = os.environ[key]
     # Create build enviromnent.
     env = Environment(tools=['default', GetOption("toolchain"), 'm4'], variables=variables, ENV=shellEnv)
-    SetupSpawn(env)
+    #SetupSpawn(env)
     # Append environment compiler flags.
     if env.Dictionary().has_key("CCFLAGS"):
         if isinstance(env['CCFLAGS'], basestring):
@@ -155,8 +170,9 @@ def makeEnvironment(variables):
         env.AppendUnique(LINKFLAGS=["/DEBUG", "/LTCG"])
         # Enable whole program optimization.
         env.AppendUnique(CCFLAGS=['/GL'])
-        # Enable OpenMP.
-        env.AppendUnique(CPPFLAGS=['/openmp'])
+        if GetOption("with_openmp"):
+            # Enable OpenMP.
+            env.AppendUnique(CPPFLAGS=['/openmp'])
         # Suppress Microsoft disclaimer display on console.
         env.AppendUnique(CPPFLAGS=['/nologo'])
         # Each object has its own pdb, so -jN works
@@ -180,7 +196,7 @@ def makeEnvironment(variables):
         # Enable C++ 11 support, OpenMP, and generation of debug symbols.
         env.AppendUnique(CCFLAGS=['-std=c++11', '-g'])
         env.AppendUnique(LINKFLAGS=['-g'])
-        if not os.name=='nt' and not os.name == 'mac':
+        if GetOption("with_openmp"):
           env.AppendUnique(CCFLAGS=['-fopenmp'])
           env.AppendUnique(LINKFLAGS=['-fopenmp'])
     # RPATH.
