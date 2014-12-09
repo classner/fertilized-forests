@@ -428,139 +428,7 @@
     <ClInclude Include="features\featcalcparamset.h">
       <Filter>features</Filter>
     </ClInclude>
-    <ClInclude Include="serialization\__serialize_AlignedSurfaceCalculator.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_ClassicTraining.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_ClassificationLeafManager.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_ClassificationThresholdOptimizer.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_EntropyGain.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_FeatCalcParamSet.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_Forest.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_IDataProvider.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_IFeatureSelectionProvider.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_InducedEntropy.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_LinearSurfaceCalculator.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_PatchToImageCoordinateTransformer.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_RandomizedClassificationThresholdOptimizer.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_ShannonEntropy.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_StandardFeatureSelectionProvider.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_ThresholdDecider.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_Tree.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_VolumeFeatureSelectionProvider.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_ClassificationError.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_ConstantRegressionCalculator.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_IEntropyFunction.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_IGainCalculator.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_LinearRegressionCalculator.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_RegressionLeafManager.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_RegressionThresholdOptimizer.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_LocalExecutionStrategy.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
     <ClInclude Include="default_values.h" />
-    <ClInclude Include="serialization\__serialize_AlternatingThresholdOptimizer.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_DifferenceSurfaceCalculator.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_DirectPatchDifferenceSurfCalculator.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_EqualDistBagging.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_HoughLeafManager.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_NoBagging.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_QuadraticSurfaceCalculator.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_TwoSideClassificationThresholdOptimizer.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_VarianceClassificationThresholdOptimizer.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_IBaggingStrategy.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_IDecider.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_IExecutionStrategy.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_IForestDataProvider.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_ILeafManager.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_IRegressionCalculator.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_ISurfaceCalculator.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_IThresholdOptimizer.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\__serialize_ITraining.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="build.bat">
@@ -610,136 +478,703 @@
     <ClCompile Include="serialization\serialization.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_AlignedSurfaceCalculator.cpp">
+    <ClCompile Include="serialization\__serialize_0.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_ClassicTraining.cpp">
+    <ClCompile Include="serialization\__serialize_1.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_ClassificationLeafManager.cpp">
+    <ClCompile Include="serialization\__serialize_2.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_ClassificationThresholdOptimizer.cpp">
+    <ClCompile Include="serialization\__serialize_3.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_EntropyGain.cpp">
+    <ClCompile Include="serialization\__serialize_4.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_FeatCalcParamSet.cpp">
+    <ClCompile Include="serialization\__serialize_5.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_Forest.cpp">
+    <ClCompile Include="serialization\__serialize_6.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_IDataProvider.cpp">
+    <ClCompile Include="serialization\__serialize_7.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_IFeatureSelectionProvider.cpp">
+    <ClCompile Include="serialization\__serialize_8.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_InducedEntropy.cpp">
+    <ClCompile Include="serialization\__serialize_9.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_LinearSurfaceCalculator.cpp">
+    <ClCompile Include="serialization\__serialize_10.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_PatchToImageCoordinateTransformer.cpp">
+    <ClCompile Include="serialization\__serialize_11.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_RandomizedClassificationThresholdOptimizer.cpp">
+    <ClCompile Include="serialization\__serialize_12.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_ShannonEntropy.cpp">
+    <ClCompile Include="serialization\__serialize_13.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_StandardFeatureSelectionProvider.cpp">
+    <ClCompile Include="serialization\__serialize_14.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_ThresholdDecider.cpp">
+    <ClCompile Include="serialization\__serialize_15.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_Tree.cpp">
+    <ClCompile Include="serialization\__serialize_16.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_VolumeFeatureSelectionProvider.cpp">
+    <ClCompile Include="serialization\__serialize_17.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_ClassificationError.cpp">
+    <ClCompile Include="serialization\__serialize_18.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_ConstantRegressionCalculator.cpp">
+    <ClCompile Include="serialization\__serialize_19.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_IEntropyFunction.cpp">
+    <ClCompile Include="serialization\__serialize_20.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_IGainCalculator.cpp">
+    <ClCompile Include="serialization\__serialize_21.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_LinearRegressionCalculator.cpp">
+    <ClCompile Include="serialization\__serialize_22.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_RegressionLeafManager.cpp">
+    <ClCompile Include="serialization\__serialize_23.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_RegressionThresholdOptimizer.cpp">
+    <ClCompile Include="serialization\__serialize_24.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_LocalExecutionStrategy.cpp">
+    <ClCompile Include="serialization\__serialize_25.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_AlternatingThresholdOptimizer.cpp">
+    <ClCompile Include="serialization\__serialize_26.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_DifferenceSurfaceCalculator.cpp">
+    <ClCompile Include="serialization\__serialize_27.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_DirectPatchDifferenceSurfCalculator.cpp">
+    <ClCompile Include="serialization\__serialize_28.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_EqualDistBagging.cpp">
+    <ClCompile Include="serialization\__serialize_29.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_HoughLeafManager.cpp">
+    <ClCompile Include="serialization\__serialize_30.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_NoBagging.cpp">
+    <ClCompile Include="serialization\__serialize_31.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_QuadraticSurfaceCalculator.cpp">
+    <ClCompile Include="serialization\__serialize_32.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_TwoSideClassificationThresholdOptimizer.cpp">
+    <ClCompile Include="serialization\__serialize_33.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_VarianceClassificationThresholdOptimizer.cpp">
+    <ClCompile Include="serialization\__serialize_34.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_IBaggingStrategy.cpp">
+    <ClCompile Include="serialization\__serialize_35.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_IDecider.cpp">
+    <ClCompile Include="serialization\__serialize_36.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_IExecutionStrategy.cpp">
+    <ClCompile Include="serialization\__serialize_37.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_IForestDataProvider.cpp">
+    <ClCompile Include="serialization\__serialize_38.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_ILeafManager.cpp">
+    <ClCompile Include="serialization\__serialize_39.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_IRegressionCalculator.cpp">
+    <ClCompile Include="serialization\__serialize_40.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_ISurfaceCalculator.cpp">
+    <ClCompile Include="serialization\__serialize_41.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_IThresholdOptimizer.cpp">
+    <ClCompile Include="serialization\__serialize_42.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\__serialize_ITraining.cpp">
+    <ClCompile Include="serialization\__serialize_43.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_44.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_45.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_46.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_47.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_48.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_49.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_50.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_51.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_52.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_53.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_54.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_55.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_56.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_57.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_58.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_59.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_60.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_61.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_62.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_63.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_64.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_65.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_66.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_67.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_68.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_69.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_70.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_71.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_72.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_73.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_74.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_75.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_76.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_77.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_78.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_79.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_80.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_81.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_82.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_83.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_84.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_85.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_86.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_87.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_88.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_89.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_90.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_91.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_92.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_93.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_94.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_95.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_96.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_97.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_98.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_99.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_100.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_101.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_102.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_103.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_104.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_105.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_106.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_107.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_108.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_109.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_110.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_111.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_112.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_113.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_114.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_115.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_116.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_117.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_118.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_119.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_120.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_121.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_122.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_123.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_124.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_125.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_126.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_127.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_128.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_129.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_130.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_131.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_132.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_133.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_134.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_135.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_136.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_137.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_138.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_139.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_140.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_141.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_142.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_143.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_144.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_145.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_146.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_147.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_148.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_149.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_150.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_151.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_152.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_153.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_154.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_155.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_156.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_157.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_158.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_159.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_160.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_161.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_162.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_163.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_164.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_165.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_166.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_167.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_168.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_169.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_170.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_171.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_172.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_173.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_174.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_175.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_176.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_177.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_178.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_179.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_180.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_181.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_182.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_183.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_184.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_185.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_186.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_187.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_188.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_189.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_190.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_191.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_192.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_193.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_194.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_195.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_196.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_197.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_198.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_199.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_200.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_201.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_202.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_203.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_204.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_205.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_206.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_207.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_208.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_209.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_210.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_211.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_212.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_213.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_214.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_215.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_216.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_217.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_218.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_219.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_220.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_221.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_222.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_223.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_224.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_225.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_226.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_227.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_228.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_229.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_230.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_231.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\__serialize_232.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
   </ItemGroup>
