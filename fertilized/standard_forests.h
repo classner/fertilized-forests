@@ -170,9 +170,8 @@ namespace fertilized {
    * \param test_n_features_per_node size_t>=0
    *     The number of features to evaluate as split criteria at each tree
    *     node. If 0, it is set to sqrt(n_features). Default: 0.
-   * \param n_thresholds_per_feature size_t>=0
-   *     The number of thresholds to evaluate per feature. If set to zero,
-   *     search for the perfect split. Default: 0.
+   * \param n_thresholds_per_feature size_t>0
+   *     The number of thresholds to evaluate per feature. Default: 10.
    * \param n_trees size_t>1
    *     The number of trees to use. Default: 10.
    * \param min_samples_per_leaf uint>0
@@ -197,9 +196,8 @@ namespace fertilized {
    * \param numerical_zero_threshold float>=0.f || -1.f
    *     The threshold below of which all values are treated as zeros.
    *     If set to -1.f, use the value suggested by Eigen. Default: -1.f.
-   * \param n_threads int>0
-   *     The number of threads to use for optimizing the split nodes.
-   *     Default: 1.
+   * \param threshold_optimization_threads uint>0
+   *     The number of threads to use for threshold optimization. Default: 1.
    */
    template <typename input_dtype>
    std::shared_ptr<fertilized::Forest<input_dtype, input_dtype, input_dtype,
@@ -209,7 +207,7 @@ namespace fertilized {
       const size_t &n_features,
       uint max_depth=0,
       size_t test_n_features_per_node=0,
-      const size_t &n_thresholds_per_feature=0,
+      const size_t &n_thresholds_per_feature=10,
       const size_t &n_trees=10,
       const uint &min_samples_per_leaf=3,
       const uint &min_samples_per_split=6,
@@ -218,7 +216,8 @@ namespace fertilized {
       const uint &random_seed=1,
       std::string entropy_name="shannon",
       const float &entropy_p1=2,
-      const float &numerical_zero_threshold=-1.f) {
+      const float &numerical_zero_threshold=-1.f,
+      const uint &threshold_optimization_threads=1) {
     if (n_trees < 2) {
       throw Fertilized_Exception("A forest must consist of at least 2 trees.");
     }
@@ -249,7 +248,8 @@ namespace fertilized {
                                             random_seed + i,
                                             entropy_name,
                                             entropy_p1,
-                                            numerical_zero_threshold);
+                                            numerical_zero_threshold,
+                                            threshold_optimization_threads);
       tree_ptr_vec.push_back(tree);
     }
     auto split_strat = std::make_shared<NoBagging<input_dtype,
@@ -295,9 +295,8 @@ namespace fertilized {
    * \param test_n_features_per_node size_t>=0
    *     The number of features to evaluate as split criteria at each tree
    *     node. If 0, it is set to sqrt(n_features). Default: 0.
-   * \param n_thresholds_per_feature size_t>=0
-   *     The number of thresholds to evaluate per feature. If set to zero,
-   *     search for the perfect split. Default: 0.
+   * \param n_thresholds_per_feature size_t>0
+   *     The number of thresholds to evaluate per feature. Default: 10.
    * \param n_trees size_t>1
    *     The number of trees. Default: 10.
    * \param min_samples_per_leaf uint>0
@@ -322,9 +321,8 @@ namespace fertilized {
    * \param numerical_zero_threshold float>=0.f || -1.f
    *     The threshold below of which all values are treated as zeros.
    *     If set to -1.f, use the value suggested by Eigen. Default: -1.f.
-   * \param n_threads int>0
-   *     The number of threads to use for optimizing the split nodes.
-   *     Default: 1.
+   * \param threshold_optimization_threads uint>0
+   *     The number of threads to use for threshold optimization. Default: 1.
    */
    template <typename input_dtype>
    std::shared_ptr<fertilized::Forest<input_dtype, input_dtype, input_dtype,
@@ -334,7 +332,7 @@ namespace fertilized {
       const size_t &n_features,
       uint max_depth=0,
       size_t test_n_features_per_node=0,
-      const size_t &n_thresholds_per_feature=0,
+      const size_t &n_thresholds_per_feature=10,
       const size_t &n_trees=10,
       const uint &min_samples_per_leaf=3,
       const uint &min_samples_per_split=6,
@@ -343,7 +341,8 @@ namespace fertilized {
       const uint &random_seed=1,
       std::string entropy_name="shannon",
       const float &entropy_p1=2.f,
-      const float &numerical_zero_threshold=-1.f) {
+      const float &numerical_zero_threshold=-1.f,
+      const uint &threshold_optimization_threads=1) {
     if (n_trees < 2) {
       throw Fertilized_Exception("A forest must consist of at least 2 trees.");
     }
@@ -374,7 +373,8 @@ namespace fertilized {
                                             random_seed + i,
                                             entropy_name,
                                             entropy_p1,
-                                            numerical_zero_threshold);
+                                            numerical_zero_threshold,
+                                            threshold_optimization_threads);
       tree_ptr_vec.push_back(tree);
     }
     auto split_strat = std::make_shared<NoBagging<input_dtype,

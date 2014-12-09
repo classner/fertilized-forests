@@ -10,7 +10,8 @@ for tfilename in ['classification.py',
                   'custom.py',
                   'spiral_rf.py',
                   'threshold_classifiers.py',
-                  'regression.py']:
+                  'regression.py',
+                  'serialization.py']:
   subprocess.check_call(['python',
                          tfilename,
                          'quiet'])

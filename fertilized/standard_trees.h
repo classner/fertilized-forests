@@ -188,9 +188,8 @@ namespace fertilized {
    * \param test_n_features_per_node size_t>=0
    *     The number of features to evaluate as split criteria at each tree
    *     node. If 0, it is set to sqrt(n_features). Default: 0.
-   * \param n_thresholds_per_feature size_t>=0
-   *     The number of thresholds to evaluate per feature. If set to zero,
-   *     search for the perfect split. Default: 0.
+   * \param n_thresholds_per_feature size_t>0
+   *     The number of thresholds to evaluate per feature. Default: 10.
    * \param min_samples_per_leaf uint>0
    *     The minimum number of samples at a leaf node. Default: 3.
    * \param min_samples_per_split uint>2*min_samples_per_leaf
@@ -213,9 +212,8 @@ namespace fertilized {
    * \param numerical_zero_threshold float>=0.f || -1.f
    *     The threshold below of which all values are treated as zeros.
    *     If set to -1.f, use the value suggested by Eigen. Default: -1.f.
-   * \param n_threads int>0
-   *     The number of threads to use for optimizing the split nodes.
-   *     Default: 1.
+   * \param threshold_optimization_threads uint>0
+   *     The number of threads to use for threshold optimization. Default: 1.
    */
   template <typename input_dtype>
   std::shared_ptr<fertilized::Tree<input_dtype, input_dtype, input_dtype,
@@ -225,7 +223,7 @@ namespace fertilized {
       const size_t &n_features,
       uint max_depth=0,
       size_t test_n_features_per_node=0,
-      const size_t &n_thresholds_per_feature=0,
+      const size_t &n_thresholds_per_feature=10,
       const uint &min_samples_per_leaf=3,
       const uint &min_samples_per_split=6,
       const float &min_gain_threshold=1E-7,
@@ -234,7 +232,7 @@ namespace fertilized {
       std::string entropy_name="shannon",
       const float &entropy_p1=2.f,
       const float &numerical_zero_threshold=-1.f,
-      const int &n_threads=1) {
+      const uint &threshold_optimization_threads=1) {
     if (test_n_features_per_node == 0) {
       test_n_features_per_node = static_cast<size_t>(floor(sqrt(static_cast<double>(n_features))));
     }
@@ -272,8 +270,8 @@ namespace fertilized {
     if (allow_redraw)
       n_valids_to_use = test_n_features_per_node;
     auto classifier = std::make_shared<ThresholdDecider<input_dtype, input_dtype, input_dtype>>(
-      class_featsel, featc, threshopt, n_valids_to_use,n_threads);
-    auto leafm = std::shared_ptr<RegressionLeafManager<input_dtype>>(new RegressionLeafManager<input_dtype>(leaf_featsel,n_valids_to_use, linear_reg_calc, entropy, true, n_threads));
+      class_featsel, featc, threshopt, n_valids_to_use,threshold_optimization_threads);
+    auto leafm = std::shared_ptr<RegressionLeafManager<input_dtype>>(new RegressionLeafManager<input_dtype>(leaf_featsel,n_valids_to_use, linear_reg_calc, entropy, true, threshold_optimization_threads));
     return std::make_shared<Tree<input_dtype, input_dtype, input_dtype, std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>, std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>>>>(
       max_depth, min_samples_per_leaf, min_samples_per_split, classifier, leafm);
   };
@@ -306,9 +304,8 @@ namespace fertilized {
    * \param test_n_features_per_node size_t>=0
    *     The number of features to evaluate as split criteria at each tree
    *     node. If 0, it is set to sqrt(n_features). Default: 0.
-   * \param n_thresholds_per_feature size_t>=0
-   *     The number of thresholds to evaluate per feature. If set to zero,
-   *     search for the perfect split. Default: 0.
+   * \param n_thresholds_per_feature size_t>0
+   *     The number of thresholds to evaluate per feature. Default: 10.
    * \param min_samples_per_leaf uint>0
    *     The minimum number of samples at a leaf node.  Default: 3.
    * \param min_samples_per_split uint>2*min_samples_per_leaf
@@ -331,9 +328,8 @@ namespace fertilized {
    * \param numerical_zero_threshold float>=0.f || -1.f
    *     The threshold below of which all values are treated as zeros.
    *     If set to -1.f, use the value suggested by Eigen. Default: -1.f.
-   * \param n_threads int>0
-   *     The number of threads to use for optimizing the split nodes.
-   *     Default: 1.
+   * \param threshold_optimization_threads uint>0
+   *     The number of threads to use for threshold optimization. Default: 1.
    */
   template <typename input_dtype>
   std::shared_ptr<fertilized::Tree<input_dtype, input_dtype, input_dtype,
@@ -343,7 +339,7 @@ namespace fertilized {
       const size_t &n_features,
       uint max_depth=0,
       size_t test_n_features_per_node=0,
-      const size_t &n_thresholds_per_feature=0,
+      const size_t &n_thresholds_per_feature=10,
       const uint &min_samples_per_leaf=3,
       const uint &min_samples_per_split=6,
       const float &min_gain_threshold=1E-7,
@@ -352,7 +348,7 @@ namespace fertilized {
       std::string entropy_name="shannon",
       const float &entropy_p1=2.f,
       const float &numerical_zero_threshold=-1.f,
-      const int &n_threads=1) {
+      const uint &threshold_optimization_threads=1) {
     if (test_n_features_per_node == 0) {
       test_n_features_per_node = static_cast<size_t>(floor(sqrt(static_cast<double>(n_features))));
     }
@@ -383,8 +379,8 @@ namespace fertilized {
     if (allow_redraw)
       n_valids_to_use = test_n_features_per_node;
     auto classifier = std::make_shared<ThresholdDecider<input_dtype, input_dtype, input_dtype>>(
-      class_featsel, featc, threshopt, n_valids_to_use,n_threads);
-    auto leafm = std::shared_ptr<RegressionLeafManager<input_dtype>>(new RegressionLeafManager<input_dtype>(leaf_featsel,n_valids_to_use, linear_reg_calc, entropy, true, n_threads));
+      class_featsel, featc, threshopt, n_valids_to_use,threshold_optimization_threads);
+    auto leafm = std::shared_ptr<RegressionLeafManager<input_dtype>>(new RegressionLeafManager<input_dtype>(leaf_featsel,n_valids_to_use, linear_reg_calc, entropy, true, threshold_optimization_threads));
     return std::make_shared<Tree<input_dtype, input_dtype, input_dtype, std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>, std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>>>>(
       max_depth, min_samples_per_leaf, min_samples_per_split, classifier, leafm);
   };
