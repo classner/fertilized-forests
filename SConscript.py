@@ -73,7 +73,11 @@ if os.name == 'nt':
         return exit_code
 
 def SetupSpawn( env ):
-    if sys.platform == 'win32':
+    if env['CC'] == 'g++' and sys.platform == 'win32':
+        # Enable workaround for handling of extralong
+        # command lines. This is not handled by the
+        # default toolchain spawner of SCons in this
+        # case.
         env['SPAWN'] = my_spawn
 #####################################
 
@@ -119,6 +123,9 @@ def setupOptions():
     AddOption("--with-examples", dest="with_examples",
               action="store_true", help="enables building the examples (you can find them in the Presentation folder)",
               default=False),
+    AddOption("--with-openmp", dest="with_openmp",
+              action="store_true", help="enables OpenMP. Required for parallel execution",
+			  default=True),
     AddOption("--toolchain", dest="toolchain",
               action="store", metavar="NAME", help="toolchain to use for the build. Supported: msvc (Microsoft compiler), icl (Intel compiler), g++ (GNU compiler)",
               default=default_toolchain)
@@ -146,7 +153,7 @@ def makeEnvironment(variables):
             shellEnv[key] = os.environ[key]
     # Create build enviromnent.
     env = Environment(tools=['default', GetOption("toolchain"), 'm4'], variables=variables, ENV=shellEnv)
-    SetupSpawn(env)
+    #SetupSpawn(env)
     # Append environment compiler flags.
     if env.Dictionary().has_key("CCFLAGS"):
         if isinstance(env['CCFLAGS'], basestring):
@@ -163,8 +170,9 @@ def makeEnvironment(variables):
         env.AppendUnique(LINKFLAGS=["/DEBUG", "/LTCG"])
         # Enable whole program optimization.
         env.AppendUnique(CCFLAGS=['/GL'])
-        # Enable OpenMP.
-        env.AppendUnique(CPPFLAGS=['/openmp'])
+        if GetOption("with_openmp"):
+            # Enable OpenMP.
+            env.AppendUnique(CPPFLAGS=['/openmp'])
         # Suppress Microsoft disclaimer display on console.
         env.AppendUnique(CPPFLAGS=['/nologo'])
         # Each object has its own pdb, so -jN works
@@ -188,7 +196,7 @@ def makeEnvironment(variables):
         # Enable C++ 11 support, OpenMP, and generation of debug symbols.
         env.AppendUnique(CCFLAGS=['-std=c++11', '-g'])
         env.AppendUnique(LINKFLAGS=['-g'])
-        if not os.name=='nt' and not os.name == 'mac':
+        if GetOption("with_openmp"):
           env.AppendUnique(CCFLAGS=['-fopenmp'])
           env.AppendUnique(LINKFLAGS=['-fopenmp'])
     # RPATH.
