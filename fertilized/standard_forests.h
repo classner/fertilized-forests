@@ -170,9 +170,8 @@ namespace fertilized {
    * \param test_n_features_per_node size_t>=0
    *     The number of features to evaluate as split criteria at each tree
    *     node. If 0, it is set to sqrt(n_features). Default: 0.
-   * \param n_thresholds_per_feature size_t>=0
-   *     The number of thresholds to evaluate per feature. If set to zero,
-   *     search for the perfect split. Default: 0.
+   * \param n_thresholds_per_feature size_t>0
+   *     The number of thresholds to evaluate per feature. Default: 10.
    * \param n_trees size_t>1
    *     The number of trees to use. Default: 10.
    * \param min_samples_per_leaf uint>0
@@ -208,7 +207,7 @@ namespace fertilized {
       const size_t &n_features,
       uint max_depth=0,
       size_t test_n_features_per_node=0,
-      const size_t &n_thresholds_per_feature=0,
+      const size_t &n_thresholds_per_feature=10,
       const size_t &n_trees=10,
       const uint &min_samples_per_leaf=3,
       const uint &min_samples_per_split=6,
@@ -296,9 +295,8 @@ namespace fertilized {
    * \param test_n_features_per_node size_t>=0
    *     The number of features to evaluate as split criteria at each tree
    *     node. If 0, it is set to sqrt(n_features). Default: 0.
-   * \param n_thresholds_per_feature size_t>=0
-   *     The number of thresholds to evaluate per feature. If set to zero,
-   *     search for the perfect split. Default: 0.
+   * \param n_thresholds_per_feature size_t>0
+   *     The number of thresholds to evaluate per feature. Default: 10.
    * \param n_trees size_t>1
    *     The number of trees. Default: 10.
    * \param min_samples_per_leaf uint>0
@@ -334,7 +332,7 @@ namespace fertilized {
       const size_t &n_features,
       uint max_depth=0,
       size_t test_n_features_per_node=0,
-      const size_t &n_thresholds_per_feature=0,
+      const size_t &n_thresholds_per_feature=10,
       const size_t &n_trees=10,
       const uint &min_samples_per_leaf=3,
       const uint &min_samples_per_split=6,
