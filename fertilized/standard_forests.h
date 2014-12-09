@@ -197,9 +197,8 @@ namespace fertilized {
    * \param numerical_zero_threshold float>=0.f || -1.f
    *     The threshold below of which all values are treated as zeros.
    *     If set to -1.f, use the value suggested by Eigen. Default: -1.f.
-   * \param n_threads int>0
-   *     The number of threads to use for optimizing the split nodes.
-   *     Default: 1.
+   * \param threshold_optimization_threads uint>0
+   *     The number of threads to use for threshold optimization. Default: 1.
    */
    template <typename input_dtype>
    std::shared_ptr<fertilized::Forest<input_dtype, input_dtype, input_dtype,
@@ -218,7 +217,8 @@ namespace fertilized {
       const uint &random_seed=1,
       std::string entropy_name="shannon",
       const float &entropy_p1=2,
-      const float &numerical_zero_threshold=-1.f) {
+      const float &numerical_zero_threshold=-1.f,
+      const uint &threshold_optimization_threads=1) {
     if (n_trees < 2) {
       throw Fertilized_Exception("A forest must consist of at least 2 trees.");
     }
@@ -249,7 +249,8 @@ namespace fertilized {
                                             random_seed + i,
                                             entropy_name,
                                             entropy_p1,
-                                            numerical_zero_threshold);
+                                            numerical_zero_threshold,
+                                            threshold_optimization_threads);
       tree_ptr_vec.push_back(tree);
     }
     auto split_strat = std::make_shared<NoBagging<input_dtype,
@@ -322,9 +323,8 @@ namespace fertilized {
    * \param numerical_zero_threshold float>=0.f || -1.f
    *     The threshold below of which all values are treated as zeros.
    *     If set to -1.f, use the value suggested by Eigen. Default: -1.f.
-   * \param n_threads int>0
-   *     The number of threads to use for optimizing the split nodes.
-   *     Default: 1.
+   * \param threshold_optimization_threads uint>0
+   *     The number of threads to use for threshold optimization. Default: 1.
    */
    template <typename input_dtype>
    std::shared_ptr<fertilized::Forest<input_dtype, input_dtype, input_dtype,
@@ -343,7 +343,8 @@ namespace fertilized {
       const uint &random_seed=1,
       std::string entropy_name="shannon",
       const float &entropy_p1=2.f,
-      const float &numerical_zero_threshold=-1.f) {
+      const float &numerical_zero_threshold=-1.f,
+      const uint &threshold_optimization_threads=1) {
     if (n_trees < 2) {
       throw Fertilized_Exception("A forest must consist of at least 2 trees.");
     }
@@ -374,7 +375,8 @@ namespace fertilized {
                                             random_seed + i,
                                             entropy_name,
                                             entropy_p1,
-                                            numerical_zero_threshold);
+                                            numerical_zero_threshold,
+                                            threshold_optimization_threads);
       tree_ptr_vec.push_back(tree);
     }
     auto split_strat = std::make_shared<NoBagging<input_dtype,
