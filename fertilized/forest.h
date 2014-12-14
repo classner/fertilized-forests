@@ -310,7 +310,7 @@ namespace fertilized {
       auto leaf_manager = get_leaf_manager();
       Array<double, 2, 2> result_array = allocate(data.TPLMETH getSize<0>(),
                                                   leaf_manager ->
-                                                    get_summary_dimensions());
+                                                    get_summary_dimensions(trees -> size()));
       {
 #ifdef PYTHON_ENABLED
         py::gil_guard_release guard;

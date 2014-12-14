@@ -90,7 +90,8 @@ namespace fertilized {
       const VIRTUAL(bool);
 
     /** Gets the number of summary dimensions per sample. */
-    virtual int get_summary_dimensions() const VIRTUAL(int);
+    virtual size_t get_summary_dimensions(const size_t &n_trees) const
+      VIRTUAL(size_t);
 
     /** Creates a summarized result vector from a tree result. */
     virtual void summarize_tree_result(const leaf_return_dtype &tree_result,

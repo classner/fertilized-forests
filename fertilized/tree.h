@@ -506,7 +506,7 @@ namespace fertilized {
       const {
       Array<double, 2, 2> result_array = allocate(data.TPLMETH getSize<0>(),
                                                   leaf_manager ->
-                                                    get_summary_dimensions());
+                                                    get_summary_dimensions(1));
       {
 #ifdef PYTHON_ENABLED
         py::gil_guard_release guard;
