@@ -15,7 +15,7 @@ soil = fertilized.Soil('d', 'd', 'd', fertilized.Result_Types.regression)
 tree = soil.StandardRegressionTree(1, 0, 1, 5, 2, 4)
 
 X = np.array([[0.], [0.]])
-Y = np.array([[0.], [10**4]])
+Y = np.array([[0.], [10**3]])
 tree.fit(X, Y)
 
 print 'Tree: %f, STD: %f' % (np.sqrt(tree.predict(np.array([[0.]]))[0,1]), np.std(Y[:, 0]))
