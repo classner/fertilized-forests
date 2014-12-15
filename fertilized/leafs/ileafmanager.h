@@ -37,6 +37,7 @@ namespace fertilized {
    * Instantiations:
    * - int; uint; std::vector<float>; std::vector<float>
    * - float; uint; std::vector<float>; std::vector<float>
+   * - double; uint; std::vector<float>; std::vector<float>
    * - uint8_t; uint; std::vector<float>; std::vector<float>
    * - uint8_t; int16_t; std::vector<float>; std::vector<float>
    * - uint8_t; int16_t; std::pair<float, std::shared_ptr<std::vector<int16_t>>>; std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>>

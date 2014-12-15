@@ -40,6 +40,7 @@ namespace fertilized {
    * - uint8_t; uint
    * - float; uint
    * - float; float
+   * - double; uint
    * - double; double
    * .
    *

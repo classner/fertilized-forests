@@ -42,6 +42,7 @@ namespace fertilized {
    * - float; float; uint
    * - float; float; float
    * - double; double; uint
+   * - double; float; uint
    * - double; double; double
    * - double; float; double
    * .

@@ -41,6 +41,7 @@ namespace fertilized {
    * - uint8_t; uint8_t; uint
    * - uint8_t; int16_t; uint
    * - float; float; uint
+   * - double; double; uint
    * - uint8_t; int16_t; int16_t
    * - float; float; float
    * - double; double; double
