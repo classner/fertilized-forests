@@ -493,7 +493,7 @@ namespace fertilized {
                 result_row.getData());
       std::copy((tree_result.second) -> begin(),
                 (tree_result.second) -> end(),
-                result_row.getData() + tree_result.first -> size() / 2);
+                result_row.getData() + tree_result.first -> size());
     };
 
     /** Returns the prediction value and the variance of a mixed gaussian distribution. */
