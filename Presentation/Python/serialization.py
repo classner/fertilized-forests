@@ -19,5 +19,5 @@ assert prediction[0,0] == 500.
 assert prediction[0,1] == 500000.
 
 prediction = tree_lin.predict(np.array([[0.]]))
-assert prediction[0,0] == 500.
+assert prediction[0,0] == 500., 'Expected 500.: %f' % (prediction[0,0])
 assert prediction[0,1] == 500000.
