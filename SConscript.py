@@ -246,17 +246,6 @@ def makeEnvironment(variables):
     return env
 
 def setupTargets(env, root="."):
-    # After configuring, OpenCV highgui ist included.
-    # Remove OpenCV highgui lib, since it is not required.
-    print env['LIBS']
-    tmp_libs = []
-    for libitem in env['LIBS']:
-      if isinstance(libitem, list):
-        tmp_libs.extend(libitem)
-      else:
-        tmp_libs.append(libitem)
-    env.Replace(LIBS=[lib for lib in tmp_libs \
-      if not lib.startswith("opencv_highgui")])
     # It should be possible to build without ndarray installed. Similarly,
     # it should be an extra step to build documentation and generate the
     # interface code. This is, why I introduce three extra command line
@@ -317,6 +306,16 @@ def setupTargets(env, root="."):
         print interfaces_emsg
         sys.exit(1)
     if not generate_mode:
+      # After configuring, OpenCV highgui ist included.
+      # Remove OpenCV highgui lib, since it is not required.
+      tmp_libs = []
+      for libitem in env['LIBS']:
+        if isinstance(libitem, list):
+          tmp_libs.extend(libitem)
+        else:
+          tmp_libs.append(libitem)
+        env.Replace(LIBS=[lib for lib in tmp_libs \
+                            if not lib.startswith("opencv_highgui")])
       lib, headers = SConscript(os.path.join(root, "fertilized", "SConscript.py"),
                                 exports=['env'],
                                 variant_dir='build/'+env['VARIANT_DIR_PREF']+'/fertilized')
