@@ -125,7 +125,7 @@ def setupOptions():
               default=False),
     AddOption("--disable-openmp", dest="with_openmp",
               action="store_false", help="disables OpenMP. Disables parallel execution.",
-			  default=True),
+              default=True),
     AddOption("--toolchain", dest="toolchain",
               action="store", metavar="NAME", help="toolchain to use for the build. Supported: msvc (Microsoft compiler), icl (Intel compiler), g++ (GNU compiler)",
               default=default_toolchain)
@@ -246,6 +246,17 @@ def makeEnvironment(variables):
     return env
 
 def setupTargets(env, root="."):
+    # After configuring, OpenCV highgui ist included.
+    # Remove OpenCV highgui lib, since it is not required.
+    print env['LIBS']
+    tmp_libs = []
+    for libitem in env['LIBS']:
+      if isinstance(libitem, list):
+        tmp_libs.extend(libitem)
+      else:
+        tmp_libs.append(libitem)
+    env.Replace(LIBS=[lib for lib in tmp_libs \
+      if not lib.startswith("opencv_highgui")])
     # It should be possible to build without ndarray installed. Similarly,
     # it should be an extra step to build documentation and generate the
     # interface code. This is, why I introduce three extra command line
