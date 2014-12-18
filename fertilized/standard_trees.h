@@ -55,6 +55,7 @@ namespace fertilized {
    * Instantiations:
    * - int
    * - float
+   * - double
    * - uint8_t
    * .
    * Exported name: StandardClassificationTree
