@@ -116,6 +116,7 @@ namespace fertilized {
         random_engine(std::make_shared<std::mt19937>(random_seed)),
         gain_threshold(gain_threshold),
         annotation_step(annotation_step),
+        main_seed(0),
         seed_dist(0U, std::numeric_limits<unsigned int>::max()) {
       if (n_thresholds == 0) {
         throw Fertilized_Exception("The RandomizedClassificationThresholdOptimizer "

@@ -493,8 +493,8 @@ namespace fertilized {
           }
         }
         // Check.
-        FASSERT(std::get<2>(std::get<2>(best_configuration)) == (*element_list_left)-> size() &&
-                std::get<3>(std::get<2>(best_configuration)) == (*element_list_right)->size())
+        FASSERT(std::get<2>(std::get<2>(best_configuration)) == (*element_list_left) -> size() &&
+                std::get<3>(std::get<2>(best_configuration)) == (*element_list_right)-> size())
         FASSERT((*element_list_left)  -> size() +
                 (*element_list_right) -> size() == element_id_list.size())
       }

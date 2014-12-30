@@ -60,14 +60,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <NMakeBuildCommandLine>build --with-tests  --with-python-support --disable-optimizations --jobs=10</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build --with-tests  --with-python-support --with-checks --disable-optimizations --jobs=10</NMakeBuildCommandLine>
     <NMakeOutput>fertilized_tests.exe</NMakeOutput>
     <NMakeCleanCommandLine>build -c</NMakeCleanCommandLine>
     <NMakePreprocessorDefinitions>SERIALIZATION_ENABLED;WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>../;$(BOOST_ROOT);$(EIGEN_ROOT)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <NMakeBuildCommandLine>build --with-tests --with-python-support --jobs=10</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build --with-tests --with-serialization --with-python-support --jobs=10</NMakeBuildCommandLine>
     <NMakeOutput>fertilized_tests.exe</NMakeOutput>
     <NMakeCleanCommandLine>build -c</NMakeCleanCommandLine>
     <NMakePreprocessorDefinitions>SERIALIZATION_ENABLED;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>

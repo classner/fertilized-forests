@@ -100,7 +100,10 @@ namespace fertilized {
          const std::shared_ptr<leaf_man_t> &leaf_manager)
       : max_depth(max_depth),
         min_samples_at_leaf(min_samples_at_leaf),
-        min_samples_at_node(min_samples_at_node), weight(1.0f),
+        min_samples_at_node(min_samples_at_node),
+        weight(1.0f),
+        tree(),
+        marks(),
         decider(decider),
         is_initialized_for_training(false),
         stored_in_leafs(0),
@@ -806,6 +809,13 @@ namespace fertilized {
      */
     size_t get_samples_stored() const {
       return stored_in_leafs;
+    }
+
+    /**
+     * Get the vector of marked nodes.
+     */
+    std::deque<node_todo_tuple_t> get_marks() const {
+      return marks;
     }
 
     /**
