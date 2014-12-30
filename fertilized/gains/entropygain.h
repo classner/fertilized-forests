@@ -126,6 +126,26 @@ namespace fertilized {
       return operator()(entropy, members_numbers_left, members_numbers_right);
     };
 
+    /**
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     *
+     * -----
+     */
+    bool operator==(const IGainCalculator<input_dtype> &rhs) const {
+      const auto *rhs_c = dynamic_cast<EntropyGain<input_dtype> const *>(&rhs);
+      if (rhs_c == nullptr) {
+        return false;
+      } else {
+        bool eq_ef = *entropy_function == *(rhs_c -> entropy_function);
+        return eq_ef;
+      }
+    };
+
 #ifdef SERIALIZATION_ENABLED
     friend class boost::serialization::access;
     template<class Archive>

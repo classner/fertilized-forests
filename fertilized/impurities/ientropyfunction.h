@@ -100,6 +100,12 @@ namespace fertilized {
     virtual float differential_normal(const float &det, const uint &dim)
       const VIRTUAL(float);
 
+    /**
+     * Deep equality comparison.
+     */
+    virtual bool operator==(const IEntropyFunction<input_dtype> &rhs)
+      const VIRTUAL(bool);
+
 #ifdef SERIALIZATION_ENABLED
 #ifndef __MIC__
     friend class boost::serialization::access;

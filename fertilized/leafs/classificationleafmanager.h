@@ -37,6 +37,7 @@ namespace fertilized {
    * Instantiations:
    * - int; uint
    * - float; uint
+   * - double; uint
    * - uint8_t; uint
    * - uint8_t; int16_t
    * .
@@ -167,8 +168,8 @@ namespace fertilized {
     };
 
     /** Returns the number of classes. */
-    int get_summary_dimensions() const {
-      return static_cast<int>(n_classes); 
+    size_t get_summary_dimensions(const size_t &n_trees) const {
+      return static_cast<size_t>(n_classes);
     };
 
     /** Copies the tree result. */

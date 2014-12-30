@@ -53,6 +53,7 @@
     <Compile Include="Python\regression.py" />
     <Compile Include="Python\regression_prob.py" />
     <Compile Include="Python\regression_tools.py" />
+    <Compile Include="Python\serialization.py" />
     <Compile Include="Python\spiral_ann.py" />
     <Compile Include="Python\spiral_rf.py" />
     <Compile Include="Python\spiral_svm.py" />

@@ -432,7 +432,35 @@ namespace fertilized {
        return best_result;
      };
 
-
+    /**
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     *
+     * -----
+     */
+    bool operator==(const IThresholdOptimizer<input_dtype,
+                    feature_dtype,
+                    input_dtype> &rhs) const {
+      const auto *rhs_c = dynamic_cast<RegressionThresholdOptimizer<input_dtype,
+                                                           feature_dtype> const *>(&rhs);
+      if (rhs_c == nullptr) {
+        return false;
+      } else {
+        bool eq_thresh = n_thresholds == rhs_c -> n_thresholds;
+        bool eq_ef = *entropy_function == *(rhs_c -> entropy_function);
+        bool eq_rc = *reg_calc_template == *(rhs_c -> reg_calc_template);
+        bool eq_gaint = gain_threshold == rhs_c -> gain_threshold;
+        bool eq_ann_step = annotation_step == rhs_c -> annotation_step;
+        bool eq_re = *random_engine == *(rhs_c -> random_engine);
+        bool eq_ms = main_seed == rhs_c -> main_seed;
+        return eq_thresh && eq_ef && eq_rc && eq_gaint && eq_ann_step && 
+               eq_re && eq_ms;
+      }
+    };
 
 #ifdef SERIALIZATION_ENABLED
     friend class boost::serialization::access;

@@ -211,7 +211,7 @@ namespace fertilized {
     };
 
     /** Throws. */
-    int get_summary_dimensions() const {
+    size_t get_summary_dimensions(const size_t &n_trees) const {
       throw Fertilized_Exception("Can not get a fixed summary for a hough "
         "forest! This prohibits the use of the standard 'predict' method. "
         "Use the 'predict_image' method instead.");

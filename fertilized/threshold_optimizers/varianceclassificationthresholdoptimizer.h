@@ -63,6 +63,7 @@ namespace fertilized {
    * - uint8_t; float; uint
    * - uint8_t; int16_t; uint
    * - float; float; uint
+   * - double; double; uint
    * - uint8_t; int16_t; int16_t
    * .
    *
@@ -449,6 +450,37 @@ namespace fertilized {
           std::get<3>(best_result) >= min_samples_at_leaf)
       { *valid = true; } else { *valid = false; }
       return best_result;
+    };
+
+    /**
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     *
+     * -----
+     */
+    bool operator==(const IThresholdOptimizer<input_dtype,
+                    feature_dtype,
+                    annotation_dtype> &rhs) const {
+      const auto *rhs_c = dynamic_cast<VarianceClassificationThresholdOptimizer<input_dtype,
+                                                           feature_dtype,
+                                                           annotation_dtype> const *>(&rhs);
+      if (rhs_c == nullptr) {
+        return false;
+      } else {
+        bool eq_thresh = n_thresholds == rhs_c -> n_thresholds;
+        bool eq_cls = n_classes == rhs_c -> n_classes;
+        bool eq_ofs = offset_dim == rhs_c -> offset_dim;
+        bool eq_re = *random_engine == *(rhs_c -> random_engine);
+        bool eq_gaint = gain_threshold == rhs_c -> gain_threshold;
+        bool eq_ms = main_seed == rhs_c -> main_seed;
+        bool eq_ec = *entropy_calculator == *(rhs_c -> entropy_calculator);
+        return eq_thresh && eq_cls && eq_ofs && eq_re && eq_gaint &&
+               eq_ms && eq_ec;
+      }
     };
 
 #ifdef SERIALIZATION_ENABLED

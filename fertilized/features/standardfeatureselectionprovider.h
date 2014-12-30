@@ -84,7 +84,8 @@ namespace fertilized {
       size_t max_to_use=0,
       const uint &random_seed = 1)
       : how_many_per_node(n_selections_per_node),
-        how_many_available(how_many_available), dimension(selection_dimension),
+        how_many_available(how_many_available),
+        dimension(selection_dimension),
         max_to_use(max_to_use),
         random_engine(std::make_shared<std::mt19937>(random_seed)) {
       // TODO(Christoph): Remove max_to_use option for large speed gain.
@@ -142,7 +143,8 @@ namespace fertilized {
     std::shared_ptr<IFeatureSelectionGenerator> get_proposal_generator() {
       // The maximum amount of new indices that may be used in the generated
       // selection proposals.
-      size_t new_to_include = max_to_use - used_indices -> size();
+      size_t new_to_include = (max_to_use > 0 ? max_to_use - used_indices -> size() :
+                               available_indices -> size() - used_indices -> size());
       size_t index_max = used_indices -> size() +
           std::min<size_t>(new_to_include, available_indices -> size()) - 1;
 
@@ -213,15 +215,32 @@ namespace fertilized {
       const auto *rhs_c = dynamic_cast<StandardFeatureSelectionProvider const *>(&rhs);
       if (rhs_c == nullptr)
         return false;
-      else
-        return dimension == rhs_c -> dimension &&
-               how_many_per_node == rhs_c -> how_many_per_node &&
-               how_many_available == rhs_c -> how_many_available &&
-               max_to_use == rhs_c -> max_to_use &&
-               *used_indices == *(rhs_c -> used_indices) &&
-               used_index_markers == rhs_c -> used_index_markers &&
-               *available_indices == *(rhs_c -> available_indices) &&
-               *random_engine == *(rhs_c -> random_engine);
+      else {
+        bool eq_dim = dimension == rhs_c -> dimension;
+        bool eq_hmpn = how_many_per_node == rhs_c -> how_many_per_node;
+        bool eq_hmav = how_many_available == rhs_c -> how_many_available;
+        bool eq_mtu = max_to_use == rhs_c -> max_to_use;
+        bool eq_used = *used_indices == *(rhs_c -> used_indices);
+        bool eq_mrks = used_index_markers == rhs_c -> used_index_markers;
+        bool eq_av = *available_indices == *(rhs_c -> available_indices);
+        bool eq_re = *random_engine == *(rhs_c -> random_engine);
+        //std::cout << eq_dim << std::endl;
+        //std::cout << eq_hmpn << std::endl;
+        //std::cout << eq_hmav << std::endl;
+        //std::cout << eq_mtu << std::endl;
+        //std::cout << eq_used << std::endl;
+        //std::cout << eq_mrks << std::endl;
+        //std::cout << eq_av << std::endl;
+        //std::cout << eq_re << std::endl;
+        return eq_dim &&
+               eq_hmpn &&
+               eq_hmav &&
+               eq_mtu &&
+               eq_used &&
+               eq_mrks &&
+               eq_av &&
+               eq_re;
+      }
     };
 
 #ifdef SERIALIZATION_ENABLED

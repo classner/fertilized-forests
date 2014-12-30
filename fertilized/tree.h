@@ -45,6 +45,7 @@ namespace fertilized {
    * Instantiations:
    * - int; int; uint; std::vector<float>; std::vector<float>
    * - float; float; uint; std::vector<float>; std::vector<float>
+   * - double; double; uint; std::vector<float>; std::vector<float>
    * - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
    * - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
    * - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
@@ -99,7 +100,10 @@ namespace fertilized {
          const std::shared_ptr<leaf_man_t> &leaf_manager)
       : max_depth(max_depth),
         min_samples_at_leaf(min_samples_at_leaf),
-        min_samples_at_node(min_samples_at_node), weight(1.0f),
+        min_samples_at_node(min_samples_at_node),
+        weight(1.0f),
+        tree(),
+        marks(),
         decider(decider),
         is_initialized_for_training(false),
         stored_in_leafs(0),
@@ -144,7 +148,6 @@ namespace fertilized {
      *   The filename to deserialize the tree from.
      */
     Tree(std::string filename)  {
-#ifdef SERIALIZATION_ENABLED
       std::ifstream fstream(filename);
       std::stringstream sstream;
       if (fstream) {
@@ -155,9 +158,6 @@ namespace fertilized {
         throw Fertilized_Exception("Could not load tree from file: " +
           filename);
       }
-#else
-      throw Fertilized_Exception("The library must be built using the symbol SERIALIZATION_ENABLED to use serialization!");
-#endif
     };
 
     /**
@@ -506,7 +506,7 @@ namespace fertilized {
       const {
       Array<double, 2, 2> result_array = allocate(data.TPLMETH getSize<0>(),
                                                   leaf_manager ->
-                                                    get_summary_dimensions());
+                                                    get_summary_dimensions(1));
       {
 #ifdef PYTHON_ENABLED
         py::gil_guard_release guard;
@@ -812,6 +812,13 @@ namespace fertilized {
     }
 
     /**
+     * Get the vector of marked nodes.
+     */
+    std::deque<node_todo_tuple_t> get_marks() const {
+      return marks;
+    }
+
+    /**
      *
      * -----
      * Available in:
@@ -823,14 +830,33 @@ namespace fertilized {
      * -----
      */
     bool operator==(tree_t const &rhs) const {
-      return (max_depth == rhs.max_depth &&
-              is_initialized_for_training == rhs.is_initialized_for_training &&
-              min_samples_at_node == rhs.min_samples_at_node &&
-              weight == rhs.weight &&
-              *decider == *(rhs.decider) &&
-              *leaf_manager == *(rhs.leaf_manager) &&
-              tree == rhs.tree &&
-              marks == rhs.marks);
+      bool eq_depth = max_depth == rhs.max_depth;
+      bool eq_init = is_initialized_for_training == rhs.is_initialized_for_training;
+      bool eq_min_samples = min_samples_at_node == rhs.min_samples_at_node;
+      bool eq_min_samples_leaf = min_samples_at_leaf == rhs.min_samples_at_leaf;
+      bool eq_weight = weight == rhs.weight;
+      bool eq_dec = *decider == *(rhs.decider);
+      bool eq_lm = *leaf_manager == *(rhs.leaf_manager);
+      bool eq_tree = tree == rhs.tree;
+      bool eq_marks = marks == rhs.marks;
+      //std::cout << eq_depth << std::endl;
+      //std::cout << eq_init << std::endl;
+      //std::cout << eq_min_samples << std::endl;
+      //std::cout << eq_min_samples_leaf << std::endl;
+      //std::cout << eq_weight << std::endl;
+      //std::cout << eq_dec << std::endl;
+      //std::cout << eq_lm << std::endl;
+      //std::cout << eq_tree << std::endl;
+      //std::cout << eq_marks << std::endl;
+      return (eq_depth &&
+              eq_init &&
+              eq_min_samples &&
+              eq_min_samples_leaf &&
+              eq_weight &&
+              eq_dec &&
+              eq_lm &&
+              eq_tree &&
+              eq_marks);
     }
 
     /**
@@ -852,14 +878,10 @@ namespace fertilized {
      *   The filename of the file to store the tree in.
      */
     void save(const std::string &filename) {
-#ifdef SERIALIZATION_ENABLED
       std::string serialized = fertilized::serialize(this, true);
       std::ofstream fstream(filename);
       fstream << serialized;
       fstream.close();
-#else
-      throw Fertilized_Exception("The library must be built using the symbol SERIALIZATION_ENABLED to use serialization!");
-#endif
     }
 #ifdef SERIALIZATION_ENABLED
     friend class boost::serialization::access;

@@ -125,7 +125,7 @@ def setupOptions():
               default=False),
     AddOption("--disable-openmp", dest="with_openmp",
               action="store_false", help="disables OpenMP. Disables parallel execution.",
-			  default=True),
+              default=True),
     AddOption("--toolchain", dest="toolchain",
               action="store", metavar="NAME", help="toolchain to use for the build. Supported: msvc (Microsoft compiler), icl (Intel compiler), g++ (GNU compiler)",
               default=default_toolchain)
@@ -306,6 +306,16 @@ def setupTargets(env, root="."):
         print interfaces_emsg
         sys.exit(1)
     if not generate_mode:
+      # After configuring, OpenCV highgui ist included.
+      # Remove OpenCV highgui lib, since it is not required.
+      tmp_libs = []
+      for libitem in env['LIBS']:
+        if isinstance(libitem, list):
+          tmp_libs.extend(libitem)
+        else:
+          tmp_libs.append(libitem)
+        env.Replace(LIBS=[lib for lib in tmp_libs \
+                            if not lib.startswith("opencv_highgui")])
       lib, headers = SConscript(os.path.join(root, "fertilized", "SConscript.py"),
                                 exports=['env'],
                                 variant_dir='build/'+env['VARIANT_DIR_PREF']+'/fertilized')

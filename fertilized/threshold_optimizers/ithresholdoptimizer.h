@@ -43,6 +43,7 @@ namespace fertilized {
    * - uint8_t; float; uint
    * - uint8_t; int16_t; uint
    * - float; float; uint
+   * - double; double; uint
    * - uint8_t; int16_t; int16_t
    * .
    *
@@ -106,6 +107,25 @@ namespace fertilized {
      * during the optimization.
      */
     virtual bool supports_weights() const VIRTUAL(bool);
+
+    /**
+     * \brief Check for early stopping.
+     *
+     * If true is returned, a leaf is created without searching for a threshold.
+     */
+    virtual bool check_for_early_stop(const annotation_dtype * annotations,
+                                      const size_t &annot_dim,
+                                      const size_t &n_samples,
+                                      const node_id_t &node_id) {
+      return false;
+    };
+
+    /**
+     * Deep equality check.
+     */
+    virtual bool operator==(const IThresholdOptimizer<input_dtype,
+                    feature_dtype,
+                    annotation_dtype> &rhs) const VIRTUAL(bool);
 
 #ifdef SERIALIZATION_ENABLED
     friend class boost::serialization::access;

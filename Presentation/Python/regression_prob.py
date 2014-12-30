@@ -36,14 +36,6 @@ def forest_probabilistic_plot(forest, X_train, Y_train, plotX, plotY):
   # Predict the y values based on X_test
   prediction = forest.predict(X_test.astype(dtype='float32', order='C'))
 
-#  ### This code segment is only needed, when the 'old' fertilized interface is used ###
-#  # Transform the prediction result from the 'old' fertilized interface to the new one
-#  prediction2 = np.ndarray((X_test.shape[0], 2))
-#  prediction2[:,0] = np.mean(prediction[:,:,0,0], axis=1, dtype='float64')
-#  prediction2[:,1] = np.mean(prediction[:,:,1,0], axis=1, dtype='float64')
-#  prediction = prediction2
-#  ########################################################################
-
   # Adjust the plotted area, if the predicitons exceed the initial y-bounds
   minY = prediction[:,0].min()
   maxY = prediction[:,0].max()

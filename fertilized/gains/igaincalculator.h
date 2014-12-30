@@ -63,6 +63,12 @@ namespace fertilized {
       const std::vector<counting_dtype> &members_numbers_left,
       const std::vector<counting_dtype> &members_numbers_right) VIRTUAL(float);
 
+    /**
+     * Deep equality comparison.
+     */
+    virtual bool operator==(const IGainCalculator<counting_dtype> &rhs)
+      const VIRTUAL(bool);
+
 #ifdef SERIALIZATION_ENABLED
     friend class boost::serialization::access;
     template<class Archive>

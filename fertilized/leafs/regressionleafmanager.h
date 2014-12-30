@@ -77,17 +77,6 @@ namespace fertilized {
      * For each leaf, a number of dimension selections used as regressors is asessed.
      * The selection resulting in the regression model with the lowest entropy is used.
      *
-     * \param selection_provider Selection provider, where random selections can be drawn from.
-     * It specifies, how many regressors are used.
-     * \param n_valids_to_use How many valid selections are asessed, until the selection process is stopped.
-     * \param regression_calculator The regression calculator that is used to generate a regression model for each leaf.
-     * \param entropy_function The entropy function used to evaluate the regression models.
-     * \param use_fallback_constant_regression When no valid dimension selections can be found and this flag is set to true,
-     * a ConstantRegressionCalculator (independent from regressor selections) is used instead.
-     * Otherwise, this case results in a runtime exception.
-     * \param num_threads The number of threads used when evaluating different selections.
-     * \returns A new RegressionLeafManager.
-     *
      * -----
      * Available in:
      * - C++
@@ -96,22 +85,66 @@ namespace fertilized {
      * .
      *
      * -----
+     *
+     * \param selection_provider ISelectionProvider
+     *   Selection provider creating random feature selections.
+     *   It specifies, how many regressors are used.
+     * \param n_valids_to_use size_t>0
+     *   How many valid selections are asessed, until the selection process is
+     *   stopped.
+     * \param regression_calculator IRegressionCalculator
+     *   The regression calculator that is used to generate a regression model for each leaf.
+     * \param entropy_function IEntropyFunction
+     *   The entropy function used to evaluate the regression models.
+     * \param use_fallback_constant_regression bool
+     *   When no valid dimension selections can be found and this flag is set to true,
+     *   a ConstantRegressionCalculator (independent from regressor selections) is used instead.
+     *   Otherwise, this case results in a runtime exception. Default: false.
+     * \param num_threads int>0
+     *   The number of threads used when evaluating different selections.
+     *   Default: 1.
+     * \param summary_mode uint<3
+     *   Determines the meaning of the values in the prediction 2D matrix of
+     *   a forest (the output of the convenience `predict` method of a forest).
+     *   Case 0: Each row contains the prediction for each regressor (the first
+     *           half of its entries) and the expected variances for each
+     *           regressor (second half of its entries). To estimate the joint
+     *           variance, a gaussian is fitted over the multimodal distributions
+     *           defined by each tree.
+     *   Case 1: Each row contains the prediction for each regressor (the first
+     *           half of its entries) and the mean of the expected variances of
+     *           each tree. This has no direct semantic meaning, but can give
+     *           better results in active learning applications.
+     *   Case 2: Each row contains the prediction for each regressor and
+     *           the variance estimate for each regressor for each tree, e.g.,
+     *           (r11, r12, v11, v12, r21, r22, v21, v22, ...), with `r` and `v`
+     *           denoting regressor prediction and variacne, the first index
+     *           the tree and the second index the regressor index.
+     * \returns A new RegressionLeafManager.
      */
     explicit RegressionLeafManager(const std::shared_ptr<IFeatureSelectionProvider> &selection_provider,
                                    const size_t &n_valids_to_use,
                                    const std::shared_ptr<IRegressionCalculator<input_dtype>> & regression_calculator,
                                    const std::shared_ptr<IEntropyFunction<float>> &entropy_function,
                                    const bool &use_fallback_constant_regression=false,
-                                   const int &num_threads=1)
+                                   const int &num_threads=1,
+                                   const uint &summary_mode=0)
     :n_valids_to_use(n_valids_to_use),
      selection_provider(selection_provider),
      reg_calc_template(regression_calculator),
      entropy_function(entropy_function),
      use_fallback_reg_calc(use_fallback_constant_regression),
      num_threads(num_threads),
-     leaf_regression_map(std::unordered_map<node_id_t, regression_result_t>()) {
+     leaf_regression_map(std::unordered_map<node_id_t, regression_result_t>()),
+     summary_mode(summary_mode) {
+      static_assert(std::is_floating_point<input_dtype>::value,
+        "Regression datatype must be floating point.");
+
       if (num_threads <= 0) {
         throw Fertilized_Exception("The number of threads must be >0!");
+      }
+      if (n_valids_to_use == 0) {
+        throw Fertilized_Exception("The number of valid features must be >0!");
       }
 #ifndef _OPENMP
       if (num_threads > 1) {
@@ -119,8 +152,9 @@ namespace fertilized {
           "OpenMP support. The number of threads must =1!");
       }
 #endif
-      static_assert(std::is_floating_point<input_dtype>::value,
-        "Regression datatype must be floating point.");
+      if (summary_mode > 2) {
+        throw Fertilized_Exception("Unknown summary mode (supported: 0,1,2)!");
+      }
     };
 
     /**
@@ -439,11 +473,15 @@ namespace fertilized {
     };
 
     /** Twice the prediction dimension. */
-    int get_summary_dimensions() const {
+    size_t get_summary_dimensions(const size_t &n_trees) const {
       const auto &best_result = *(leaf_regression_map.begin());
       auto reg_calc = best_result.second.first;
       size_t annot_dim = reg_calc->get_annotation_dimension();
-      return static_cast<int>(2 * annot_dim);
+      if (summary_mode == 2) {
+        return static_cast<int>(2 * annot_dim * n_trees);
+      } else {
+        return static_cast<int>(2 * annot_dim);
+      }
     };
 
     /** Returns the prediction value and the covariance values. */
@@ -455,30 +493,69 @@ namespace fertilized {
                 result_row.getData());
       std::copy((tree_result.second) -> begin(),
                 (tree_result.second) -> end(),
-                result_row.getData() + get_summary_dimensions() / 2);
+                result_row.getData() + tree_result.first -> size());
     };
 
-    /** Returns the prediction value and the mean of the covariance values. */
+    /** Returns the prediction value and the variance of a mixed gaussian distribution. */
     void summarize_forest_result(const std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>> &forest_result,
                                  const ArrayRef<double, 1, 1> &result_row)
       const {
       // Initialize the row to zeros.
       result_row.deep() = 0.;
       float weight_sum = 0.f;
+      FASSERT(result_row.getNumElements() % 2 == 0);
+      size_t n_elements = result_row.getNumElements() / 2;
+      if (summary_mode == 2) {
+        FASSERT(n_elements % forest_result.size() == 0);
+        n_elements /= forest_result.size();
+      }
+      size_t tree_idx = 0;
       for (const auto &res_pair : forest_result) {
         float weight = res_pair.second;
         weight_sum += weight;
         const auto &value_pair = res_pair.first;
         const auto &value_vec = *(value_pair.first);
         const auto &covd_vec = *(value_pair.second);
-        for (int i = 0; i < value_vec.size(); ++i) {
-          result_row[i] += value_vec[i] * weight;
-        }
-        for (int i = 0; i < covd_vec.size(); ++i) {
-          result_row[i + static_cast<int>(covd_vec.size())] += covd_vec[i] * weight;
+        switch (summary_mode) {
+        case 0:
+          // Here, a new Gaussian distribution will be determined that spans
+          // all the different models returned by the trees. This does, in
+          // general, not make much sense, since the distribution can be strongly
+          // multimodal. However, for this convenience interface, the value CAN
+          // be helpful to determine the degree of uncertainty at this very
+          // position. For the maths, see, e.g.,
+          // http://stats.stackexchange.com/questions/16608/what-is-the-variance-of-the-weighted-mixture-of-two-gaussians.
+          for (size_t i = 0; i < n_elements; ++i) {
+            result_row[i] += value_vec[i] * weight;
+            result_row[i + n_elements] += weight * (value_vec[i]*value_vec[i] + covd_vec[i]);
+          }
+          break;
+        case 1:
+          // Mean prediction, mean variances.
+          for (size_t i = 0; i < n_elements; ++i) {
+            result_row[i] += value_vec[i] * weight;
+            result_row[i + n_elements] += covd_vec[i] * weight;
+          }
+          break;
+        case 2:
+          // All values.
+          for (size_t i = 0; i < n_elements; ++i) {
+            result_row[tree_idx*n_elements*2+i] = value_vec[i];
+            result_row[tree_idx*n_elements*2+i+n_elements] = covd_vec[i];
+          }
+          tree_idx++;
+          break;
         }
       }
       result_row /= weight_sum;
+      if (summary_mode == 0) {
+        // The first part of the vector now contains \mu, the second \mu^{(2)}
+        // (the second moment). The variance (assuming a normal distribution)
+        // is then given by \mu^{(2)}-\mu^2.
+        for (size_t i = 0; i < n_elements; ++i) {
+          result_row[i + n_elements] -= result_row[i] * result_row[i];
+        }
+      }
     };
 
     /** Throws. */
@@ -513,6 +590,7 @@ namespace fertilized {
       ar & selection_provider;
       ar & use_fallback_reg_calc;
       ar & leaf_regression_map;
+      ar & summary_mode;
     }
 #endif
 
@@ -528,6 +606,7 @@ namespace fertilized {
     std::shared_ptr<IFeatureSelectionProvider> selection_provider;
     bool use_fallback_reg_calc;
     std::unordered_map<node_id_t, regression_result_t> leaf_regression_map;
+    size_t summary_mode;
  };
 
 

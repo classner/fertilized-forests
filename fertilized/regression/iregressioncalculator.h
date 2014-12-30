@@ -45,7 +45,7 @@ namespace fertilized {
    * 
    * -----
    */
-  template<typename input_dtype>
+  template <typename input_dtype>
   class IRegressionCalculator {
    public:
     typedef Eigen::Matrix<input_dtype, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor, Eigen::Dynamic, Eigen::Dynamic> Matrix_regression_t;
@@ -180,6 +180,11 @@ namespace fertilized {
     */
     virtual void freeze_interval() VIRTUAL(void);
 
+    /**
+     * Deep comparison operator.
+     */
+    virtual bool operator==(const IRegressionCalculator<input_dtype> &rhs) 
+      const VIRTUAL(bool);
 
 #ifdef SERIALIZATION_ENABLED
     friend class boost::serialization::access;

@@ -140,6 +140,26 @@ namespace fertilized {
     using IEntropyFunction<input_dtype>::operator();
     using IEntropyFunction<input_dtype>::differential_normal;
 
+    /**
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     *
+     * -----
+     */
+    bool operator==(const IEntropyFunction<input_dtype> &rhs) const {
+      const auto *rhs_c = dynamic_cast<TsallisEntropy<input_dtype> const *>(&rhs);
+      if (rhs_c == nullptr) {
+        return false;
+      } else {
+        bool eq_q = q == rhs_c -> q;
+        return eq_q;
+      }
+    };
+
 #ifdef SERIALIZATION_ENABLED
     friend class boost::serialization::access;
     template<class Archive>

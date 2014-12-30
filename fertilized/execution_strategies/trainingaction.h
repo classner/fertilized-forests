@@ -20,6 +20,7 @@ namespace fertilized {
    * Instantiations:
    * - int; uint
    * - float; uint
+   * - double; uint
    * - uint8_t; uint
    * - uint8_t; int16_t
    * - float; float
