@@ -103,6 +103,20 @@ namespace fertilized {
       opt2 -> prepare_for_optimizing(node_id, num_threads);
     }
 
+    /**
+     * \brief Check for early stopping.
+     *
+     * If true is returned, a leaf is created without searching for a threshold.
+     */
+    bool check_for_early_stop(const annotation_dtype * annotations,
+                              const size_t &annot_dim,
+                              const node_id_t &node_id) {
+      if (opt_sel_map.at(node_id))
+        return opt1 -> check_for_early_stop(annotations, annot_dim, node_id);
+      else
+        return opt2 -> check_for_early_stop(annotations, annot_dim, node_id);
+    };
+
     /** 
      * Gets the gain threshold of the threshold optimizer selected for the node. 
      * 
@@ -177,6 +191,33 @@ namespace fertilized {
         return opt1 -> needs_negatives(node_id);
       else
         return opt2 -> needs_negatives(node_id);
+    };
+
+    /**
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     *
+     * -----
+     */
+    bool operator==(const IThresholdOptimizer<input_dtype,
+                    feature_dtype,
+                    annotation_dtype> &rhs) const {
+      const auto *rhs_c = dynamic_cast<AlternatingThresholdOptimizer<input_dtype,
+                                                           feature_dtype,
+                                                           annotation_dtype> const *>(&rhs);
+      if (rhs_c == nullptr) {
+        return false;
+      } else {
+        bool eq_re = *random_engine == *(rhs_c -> random_engine);
+        bool eq_opt1 = *opt1 == *(rhs_c -> opt1);
+        bool eq_opt2 = *opt2 == *(rhs_c -> opt2);
+        bool eq_map = opt_sel_map == rhs_c -> opt_sel_map;
+        return eq_re && eq_opt1 && eq_opt2 && eq_map;
+      }
     };
 
 #ifdef SERIALIZATION_ENABLED

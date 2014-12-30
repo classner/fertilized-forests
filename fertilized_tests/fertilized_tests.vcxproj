@@ -19,6 +19,7 @@
     <ClCompile Include="impurities.cpp" />
     <ClCompile Include="regression_calculator.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="threshold_decider.cpp" />
     <ClCompile Include="threshold_optimizer.cpp" />
     <ClCompile Include="trees.cpp" />
     <ClCompile Include="util.cpp" />
@@ -66,7 +67,7 @@
     <NMakeIncludeSearchPath>../;$(BOOST_ROOT);$(EIGEN_ROOT)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <NMakeBuildCommandLine>build --with-tests --with-serialization --with-python-support --jobs=10</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build --with-tests --with-python-support --jobs=10</NMakeBuildCommandLine>
     <NMakeOutput>fertilized_tests.exe</NMakeOutput>
     <NMakeCleanCommandLine>build -c</NMakeCleanCommandLine>
     <NMakePreprocessorDefinitions>SERIALIZATION_ENABLED;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>

@@ -158,6 +158,27 @@ namespace fertilized {
     bool supports_weights() const { return true; }
 
     /**
+     * \brief Check for early stopping.
+     *
+     * If true is returned, a leaf is created without searching for a threshold.
+     */
+    virtual bool check_for_early_stop(const annotation_dtype * annotations,
+                                      const size_t &annot_dim,
+                                      const size_t &n_samples,
+                                      const node_id_t &node_id) {
+      if (annot_dim != 1) {
+        throw Fertilized_Exception("Early stopping only possible for 1D annotations!");
+      }
+      annotation_dtype first_class = annotations[0];
+      for (size_t i = 1; i < n_samples; ++i) {
+        if (annotations[i * annot_dim] != first_class) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    /**
      *\brief See \ref IThresholdOptimizer.
      *
      * Additionally, this method has the following constraints:
@@ -317,6 +338,37 @@ namespace fertilized {
           std::get<3>(best_result) >= min_samples_at_leaf)
       { *valid = true; } else { *valid = false; }
       return best_result;
+    };
+
+    /**
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     *
+     * -----
+     */
+    bool operator==(const IThresholdOptimizer<input_dtype,
+                    feature_dtype,
+                    annotation_dtype> &rhs) const {
+      const auto *rhs_c = dynamic_cast<RandomizedClassificationThresholdOptimizer<input_dtype,
+                                                           feature_dtype,
+                                                           annotation_dtype> const *>(&rhs);
+      if (rhs_c == nullptr) {
+        return false;
+      } else {
+        bool eq_thresh = n_thresholds == rhs_c -> n_thresholds;
+        bool eq_cls = n_classes == rhs_c -> n_classes;
+        bool eq_gainc = *gain_calculator == *(rhs_c -> gain_calculator);
+        bool eq_re = *random_engine == *(rhs_c -> random_engine);
+        bool eq_gaint = gain_threshold == rhs_c -> gain_threshold;
+        bool eq_ann_step = annotation_step == rhs_c -> annotation_step;
+        bool eq_main_seed = main_seed == rhs_c -> main_seed;
+        return eq_thresh && eq_cls && eq_gainc && eq_re && eq_gaint &&
+               eq_ann_step && eq_main_seed;
+      }
     };
 
 #ifdef SERIALIZATION_ENABLED

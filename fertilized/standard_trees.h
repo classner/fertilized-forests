@@ -154,8 +154,9 @@ namespace fertilized {
     size_t n_valids_to_use = 0;
     if (allow_redraw)
       n_valids_to_use = test_n_features_per_node;
-    auto classifier = std::make_shared<ThresholdDecider<input_dtype, input_dtype, uint>>(
-      featsel, featc, threshopt, n_valids_to_use, threshold_optimization_threads);
+    auto classifier = std::shared_ptr<ThresholdDecider<input_dtype, input_dtype, uint>>(
+      new ThresholdDecider<input_dtype, input_dtype, uint>(
+      featsel, featc, threshopt, n_valids_to_use, threshold_optimization_threads, false, 0.05f, 0, true));
     auto leafm = std::make_shared<ClassificationLeafManager<input_dtype, uint>>(n_classes);
     return std::make_shared<Tree<input_dtype, input_dtype, uint, std::vector<float>, std::vector<float>>>(
       max_depth, min_samples_per_leaf, min_samples_per_split, classifier, leafm);

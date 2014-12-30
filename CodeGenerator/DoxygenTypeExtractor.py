@@ -93,6 +93,9 @@ class DoxygenTypeExtractor(object):
         if soilUsage != None:
           assert soilUsage in instantiationsTmp, 'The soil usage type must be '+\
             'an instantiation type!'
+          types = re.split(";[\s]+", soilUsage)
+          result = [x.strip(' ') for x in types]
+          soilUsage = InstantiationTypes(result)
 
         if instantiations.count == 0:
             return availableIn, None, soilUsage

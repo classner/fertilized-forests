@@ -82,7 +82,7 @@ namespace fertilized {
 @     if 'C++' in constructor.AvailableIn
   {{ class.Documentations['C++'] }}
   std::shared_ptr<fertilized::{{ class.ClassName }}{{cpptools.render_template_params(class, True)}}>
-  {% if not constructor.ExportedName is none %}{{constructor.ExportedName}}{%else%}{{ class.ClassName }}{%endif%}({{cpptools.render_arguments(constructor)}}    ) {
+  {% if not constructor.ExportedName is none %}{{constructor.ExportedName}}{%else%}{{ class.ClassName }}{%endif%}({{cpptools.render_arguments(constructor, for_soil=True, instantiation_types=class.ExclusiveSoilUsage)}}    ) {
    return std::shared_ptr<fertilized::{{ class.ClassName }}{{cpptools.render_template_params(class,True)}}>(
      new fertilized::{{ class.ClassName }}{{cpptools.render_template_params(class,True)}}({{cpptools.render_arguments(constructor, render_types=False, render_defaults=False)}}	   ));
   };

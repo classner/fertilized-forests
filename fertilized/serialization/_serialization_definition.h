@@ -56,37 +56,5 @@ template <typename T>
     ia >> *obj;
   };
 }
-#else
-namespace fertilized {
-  template <typename T>
-  std::string serialize(T *) {
-    throw Fertilized_Exception("To use the libraries serialization features, "
-      "you must define the symbol ENABLE_SERIALIZATION with a preprocessor "
-      "define. This adds a dependency to boost serialization.");
-    return std::string();
-  };
-
-  template <typename T>
-  T* deserialize(std::stringstream &) {
-    throw Fertilized_Exception("To use the libraries serialization features, "
-      "you must define the symbol ENABLE_SERIALIZATION with a preprocessor "
-      "define. This adds a dependency to boost serialization.");
-    return nullptr;
-  };
-
-  template <typename T>
-  void deserialize(std::stringstream &, T*) {
-    throw Fertilized_Exception("To use the libraries serialization features, "
-      "you must define the symbol ENABLE_SERIALIZATION with a preprocessor "
-      "define. This adds a dependency to boost serialization.");
-    return nullptr;
-  };
-
-  //std::vector<int> __SERIALIZATION_OFFLOAD_DEVICES = std::vector<int>(0);
-
-  //DllExport void offload_after_serialization_to(const std::vector<int> &devices) {
-  //  __SERIALIZATION_OFFLOAD_DEVICES = devices;
-  //};
-}  // namespace fertilized
 #endif  // SERIALIZATION_ENABLED
 #endif  // FERTILIZED_SERIALIZATION__SERIALIZATION_DEFINITION_H_

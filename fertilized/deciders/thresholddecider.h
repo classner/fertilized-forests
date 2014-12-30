@@ -137,6 +137,11 @@ namespace fertilized {
      *   Default: 0.05f.
      * \param hough_heuristic_maxd uint
      *   Default: 0.
+     * \param allow_early_stopping bool
+     *   Allows the threshold optimizer to stop training if, e.g., all samples
+     *   are of the same class in a classification setting. This is currently
+     *   only supported by the classification threshold optimizers for 1D
+     *   class annotations. Default: false.
      */
     ThresholdDecider(
       const std::shared_ptr<IFeatureSelectionProvider> &selection_provider,
@@ -146,7 +151,8 @@ namespace fertilized {
       const int &num_threads = 1,
       const bool &use_hough_heuristic = false,
       const float &hough_heuristic_ratio = 0.05f,
-      const uint &hough_heuristic_maxd = 0)
+      const uint &hough_heuristic_maxd = 0,
+      const bool &allow_early_stopping = false)
     : selection_provider(selection_provider),
       feature_calculator(feature_calculator),
       threshold_optimizer(threshold_optimizer),
@@ -156,7 +162,8 @@ namespace fertilized {
       heuristic_ratio(hough_heuristic_ratio),
       heuristic_maxd(hough_heuristic_maxd),
       compat_SurfCalc_DProv_checked(false),
-      decision_param_map(std::unordered_map<node_id_t, decision_tuple_t>()) {
+      decision_param_map(std::unordered_map<node_id_t, decision_tuple_t>()),
+      allow_early_stopping(allow_early_stopping) {
       // Compatibility check of seleciton provider and feature calculator
       // dimensions.
       if (this -> selection_provider -> get_selection_dimension() !=
@@ -277,6 +284,15 @@ namespace fertilized {
         }
         prepared_weights[i] = (*sample_list)[(*used_elems)[i]].weight;
       }
+      // Check for early stopping.
+      if (allow_early_stopping) {
+        bool early_stop = threshold_optimizer -> check_for_early_stop(&prepared_annots[0],
+          data_provider.get_annot_vec_dim(), used_elems -> size(), node_id);
+        if (early_stop) {
+          *make_to_leaf = true;
+          return;
+        }
+      }
       // Apply the hough heuristic if necessary.
       if (use_heuristic &&
           !(static_cast<float>(neg_count) /
@@ -324,13 +340,13 @@ namespace fertilized {
           int my_suggestion_index;
           {
             std::lock_guard<std::mutex> lock(mutex_track);
-            // #pragma omp flush(suggestion_index, processed_val_count)
+            #pragma omp flush(suggestion_index, processed_val_count)
             if (suggested_feature_sets -> available() &&
                 processed_val_count < processed_val_max) {
               // Assume that this run is valid.
               processed_val_count++;
               my_suggestion_index = suggestion_index++;
-              // #pragma omp flush(suggestion_index, processed_val_count)
+              #pragma omp flush(suggestion_index, processed_val_count)
               feature_selection_vector = suggested_feature_sets -> get_next();
               //std::cout << "Checking feature " << feature_selection_vector[0] << std::endl;
             } else {
@@ -408,7 +424,7 @@ namespace fertilized {
             //#pragma omp critical (FERTILIZED_CLASSIFIERS_H_THRESHOLD_CLASSIFIER_1_)
             {
               std::lock_guard<std::mutex> lock(mutex_opt);
-              //#pragma omp flush(best_gain, best_configuration, best_config_index)
+              #pragma omp flush(best_gain, best_configuration, best_config_index)
               if (std::get<4>(optimization_result) > best_gain ||
                   std::get<4>(optimization_result) == best_gain &&
                   my_suggestion_index < best_config_index) {
@@ -417,7 +433,7 @@ namespace fertilized {
                                                      param_set,
                                                      optimization_result);
                 best_config_index = my_suggestion_index;
-                //#pragma omp flush(best_gain, best_configuration, best_config_index)
+                #pragma omp flush(best_gain, best_configuration, best_config_index)
               }
             }
           }
@@ -429,12 +445,16 @@ namespace fertilized {
           {
             std::lock_guard<std::mutex> lock(mutex_track);
             processed_val_count--;
-            //#pragma omp flush(processed_val_count)
+            #pragma omp flush(processed_val_count)
           }
           }
         }
       }
 
+      //std::cout << "S. left: " << std::get<2>(std::get<2>(best_configuration)) <<
+      //  ". S. right: " << std::get<3>(std::get<2>(best_configuration)) <<
+      //  ". Gain: " << std::get<4>(std::get<2>(best_configuration)) <<
+      //  ". Index: " << best_config_index << "." << std::endl;
       // Check whether this node must become a leaf or a decision node.
       if (std::get<2>(std::get<2>(best_configuration)) < min_samples_at_leaf ||
           std::get<3>(std::get<2>(best_configuration)) < min_samples_at_leaf ||
@@ -558,16 +578,47 @@ namespace fertilized {
       const auto *rhs_c = dynamic_cast<ThresholdDecider<input_dtype,
                                                            feature_dtype,
                                                            annotation_dtype> const *>(&rhs);
-      if (rhs_c == nullptr)
+      if (rhs_c == nullptr) {
         return false;
-      else
-        return (typeid(*feature_calculator) == typeid(*(rhs_c -> feature_calculator)) ||
+      } else {
+        bool eq_surf = (typeid(*feature_calculator) == typeid(*(rhs_c -> feature_calculator)) ||
                 (typeid(*feature_calculator) == typeid(DirectPatchDifferenceSurfCalculator<input_dtype, feature_dtype, annotation_dtype>) &&
                  typeid(*(rhs_c -> feature_calculator)) == typeid(DifferenceSurfaceCalculator<input_dtype, feature_dtype, annotation_dtype>)) ||
                 (typeid(*feature_calculator) == typeid(DifferenceSurfaceCalculator<input_dtype, feature_dtype, annotation_dtype>) &&
-                 typeid(*(rhs_c -> feature_calculator)) == typeid(DirectPatchDifferenceSurfCalculator<input_dtype, feature_dtype, annotation_dtype>))) &&
-               n_valids_to_use == rhs_c -> n_valids_to_use &&
-               decision_param_map == rhs_c -> decision_param_map;
+                 typeid(*(rhs_c -> feature_calculator)) == typeid(DirectPatchDifferenceSurfCalculator<input_dtype, feature_dtype, annotation_dtype>)));
+        bool eq_valid = n_valids_to_use == rhs_c -> n_valids_to_use;
+        bool eq_map = decision_param_map == rhs_c -> decision_param_map;
+        bool app_equiv = eq_surf &&
+                         eq_map &&
+                         eq_valid;
+        bool eq_sel = *selection_provider == *(rhs_c -> selection_provider);
+        bool eq_opt = *threshold_optimizer == *(rhs_c -> threshold_optimizer);
+        bool eq_heur = use_heuristic == rhs_c -> use_heuristic;
+        bool eq_heur_r = heuristic_ratio == rhs_c -> heuristic_ratio;
+        bool eq_heur_d = heuristic_maxd == rhs_c -> heuristic_maxd;
+        bool eq_ear = allow_early_stopping == rhs_c -> allow_early_stopping;
+        bool train_equiv = eq_sel &&
+                           eq_opt &&
+                           eq_heur &&
+                           eq_heur_r &&
+                           eq_heur_d &&
+                           eq_valid &&
+                           eq_ear;
+        //std::cout << eq_surf << std::endl;
+        //std::cout << eq_valid << std::endl;
+        //std::cout << eq_map << std::endl;
+        //std::cout << eq_sel << std::endl;
+        //std::cout << eq_opt << std::endl;
+        //std::cout << eq_heur << std::endl;
+        //std::cout << eq_heur_r << std::endl;
+        //std::cout << eq_heur_d << std::endl;
+        //std::cout << eq_ear << std::endl;
+        if (decision_param_map.size() == 0) {
+          return app_equiv && train_equiv;
+        } else {
+          return app_equiv;
+        }
+      }
     };
 
 #ifdef SERIALIZATION_ENABLED
@@ -584,6 +635,7 @@ namespace fertilized {
       ar & use_heuristic;
       ar & heuristic_ratio;
       ar & heuristic_maxd;
+      ar & allow_early_stopping;
     }
 #endif
 
@@ -600,6 +652,7 @@ namespace fertilized {
     float heuristic_ratio;
     uint heuristic_maxd;
     bool compat_SurfCalc_DProv_checked;
+    bool allow_early_stopping;
   };
 };  // namespace fertilized
 #endif  // FERTILIZED_DECIDERS_THRESHOLDDECIDER_H_

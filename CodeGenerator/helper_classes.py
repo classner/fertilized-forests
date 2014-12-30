@@ -96,24 +96,8 @@ class FertilizedClass(object):
           return self.SupportedTypes[0]
 
     def getExclusiveSoilUsageAbbreviation(self):
-        parts = []
-        inside_count = 0
-        last_part_end = 0
-        for index in xrange(len(self.ExclusiveSoilUsage)):
-          if self.ExclusiveSoilUsage[index] == ',' and inside_count == 0:
-            parts.append(self.ExclusiveSoilUsage[last_part_end:index].strip())
-            last_part_end = index
-          elif self.ExclusiveSoilUsage[index] in ['(', '<']:
-            inside_count += 1
-          elif self.ExclusiveSoilUsage[index] in [')', '>']:
-            inside_count -= 1
-          elif index == len(self.ExclusiveSoilUsage) - 1:
-            if not inside_count == 0:
-              raise Exception("Error parsing exclusive soil usage!")
-            if not last_part_end == index:
-              parts.append(self.ExclusiveSoilUsage[last_part_end:index+1].strip())
         translated_parts = []
-        for part in parts:
+        for part in self.ExclusiveSoilUsage.Types:
           if _dtype_str_translation.has_key(part):
             translated_parts.append(_dtype_str_translation[part])
           else:
@@ -890,24 +874,8 @@ class WrappedMethod(object):
         return inst_vec_types
 
     def getExclusiveSoilUsageAbbreviation(self):
-        parts = []
-        inside_count = 0
-        last_part_end = 0
-        for index in xrange(len(self.ExclusiveSoilUsage)):
-          if self.ExclusiveSoilUsage[index] == ',' and inside_count == 0:
-            parts.append(self.ExclusiveSoilUsage[last_part_end:index].strip())
-            last_part_end = index
-          elif self.ExclusiveSoilUsage[index] in ['(', '<']:
-            inside_count += 1
-          elif self.ExclusiveSoilUsage[index] in [')', '>']:
-            inside_count -= 1
-          elif index == len(self.ExclusiveSoilUsage) - 1:
-            if not inside_count == 0:
-              raise Exception("Error parsing exclusive soil usage!")
-            if not last_part_end == index:
-              parts.append(self.ExclusiveSoilUsage[last_part_end:index+1].strip())
         translated_parts = []
-        for part in parts:
+        for part in self.ExclusiveSoilUsage.Types:
           if _dtype_str_translation.has_key(part):
             translated_parts.append(_dtype_str_translation[part])
           else:

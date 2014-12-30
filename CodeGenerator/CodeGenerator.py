@@ -112,7 +112,7 @@ def parse_using_instantiations(relations):
   exc = False
   for (child, parent) in relations:
     if child.ClassName == 'ThresholdDecider' and (parent.ClassName == 'DirectPatchDifferenceSurfCalculator' or parent.ClassName == 'DifferenceSurfaceCalculator') or\
-       not parent.ExclusiveSoilUsage is None and parent.ExclusiveSoilUsage != '':
+       not parent.ExclusiveSoilUsage is None:
       continue
     if not parent.ClassType.TemplateParams is None and \
        len(parent.ClassType.TemplateParams) > 0:

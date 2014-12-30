@@ -188,6 +188,33 @@ namespace fertilized {
     /** Does not allow an interval change anymore. */
     void freeze_interval(){interval_freezed = true;};
 
+    /**
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     *
+     * -----
+     */
+    bool operator==(const IRegressionCalculator<input_dtype> &rhs) const {
+      const auto *rhs_c = dynamic_cast<ConstantRegressionCalculator<input_dtype> const *>(&rhs);
+      if (rhs_c == nullptr) {
+        return false;
+      } else {
+        bool eq_adim = annot_dim == rhs_c -> annot_dim;
+        bool eq_nsamples = n_samples == rhs_c -> n_samples;
+        bool eq_int = current_interval == rhs_c -> current_interval;
+        bool eq_sol = solution == rhs_c -> solution;
+        bool eq_ev = error_vars == rhs_c -> error_vars;
+        bool eq_av = solution_available == rhs_c -> solution_available;
+        bool eq_frz = interval_freezed == rhs_c -> interval_freezed;
+        return eq_adim && eq_nsamples && eq_int && eq_sol && eq_ev &&
+               eq_av && eq_frz;
+      }
+    };
+
 #ifdef SERIALIZATION_ENABLED
     friend class boost::serialization::access;
     template<class Archive>

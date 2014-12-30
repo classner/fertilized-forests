@@ -42,18 +42,32 @@ namespace fertilized {
   DllExport void deserialize(std::stringstream &, T*);
 
 #else
-  template <typename T>
-  DllExport std::string serialize(T *);
 
   template <typename T>
-  DllExport T* deserialize(std::stringstream &);
+  std::string serialize(T *, const bool &direct=false) {
+    throw Fertilized_Exception("To use the libraries serialization features, "
+      "you must define the symbol SERIALIZATION_ENABLED with a preprocessor "
+      "define (or use SCons with the flag --with-serialization). "
+      "This adds a dependency to boost serialization.");
+    return std::string();
+  };
 
   template <typename T>
-  DllExport void deserialize(std::stringstream &, T*);
+  T* deserialize(std::stringstream &) {
+    throw Fertilized_Exception("To use the libraries serialization features, "
+      "you must define the symbol SERIALIZATION_ENABLED with a preprocessor "
+      "define (or use SCons with the flag --with-serialization). "
+      "This adds a dependency to boost serialization.");
+    return nullptr;
+  };
 
-  DllExport void offload_after_serialization_to(const std::vector<int> &devices);
-
-  DllExport extern std::vector<int> __SERIALIZATION_OFFLOAD_DEVICES;
+  template <typename T>
+  void deserialize(std::stringstream &, T*) {
+    throw Fertilized_Exception("To use the libraries serialization features, "
+      "you must define the symbol SERIALIZATION_ENABLED with a preprocessor "
+      "define (or use SCons with the flag --with-serialization). "
+      "This adds a dependency to boost serialization.");
+  };
 
 #endif  // SERIALIZATION_ENABLED
 }  // namespace fertilized

@@ -197,7 +197,6 @@ namespace fertilized {
      *   The file to load the forest from.
      */
     Forest(std::string filename) {
-#ifdef SERIALIZATION_ENABLED
       std::ifstream fstream(filename);
       std::stringstream sstream;
       if (fstream) {
@@ -208,9 +207,6 @@ namespace fertilized {
         throw Fertilized_Exception("Could not load forest from file: " +
           filename);
       }
-#else
-      throw Fertilized_Exception("The library must be built using the symbol SERIALIZATION_ENABLED to use serialization!");
-#endif
     };
 
 
@@ -521,6 +517,20 @@ namespace fertilized {
     };
 
     /**
+     * Gets the tree vector.
+     *
+     * -----
+     * Available in:
+     * - C++
+     * .
+     *
+     * -----
+     */ 
+    std::shared_ptr<const tree_ptr_vec_t> get_trees() const {
+      return trees;
+    }
+
+    /**
      * Gets the leaf manager of the first tree.
      *
      * -----
@@ -604,14 +614,10 @@ namespace fertilized {
      *   The filename to use.
      */
     void save(const std::string &filename) {
-#ifdef SERIALIZATION_ENABLED
       std::string serialized = fertilized::serialize(this, true);
       std::ofstream fstream(filename);
       fstream << serialized;
       fstream.close();
-#else
-      throw Fertilized_Exception("The library must be built using the symbol SERIALIZATION_ENABLED to use serialization!");
-#endif
     }
 
 #ifdef SERIALIZATION_ENABLED
