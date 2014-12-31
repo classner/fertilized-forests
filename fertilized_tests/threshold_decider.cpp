@@ -167,8 +167,8 @@ BOOST_AUTO_TEST_CASE(Correctness_Deciders_early_stop) {
   while (tree_early -> get_marks().size() > 0) {
     tree_early -> make_node(dprov_fixture_threaded.dprov.get(), false);
     tree_nonearly -> make_node(dprov_fixture_nonearly.dprov.get(), false);
-    std::deque<node_todo_tuple_t> &marks_early = tree_early -> get_marks();
-    std::deque<node_todo_tuple_t> &marks_nonearly = tree_nonearly -> get_marks();
+    const std::deque<node_todo_tuple_t> &marks_early = tree_early -> get_marks();
+    const std::deque<node_todo_tuple_t> &marks_nonearly = tree_nonearly -> get_marks();
     BOOST_REQUIRE(marks_early.size() == marks_nonearly.size());
     for (size_t i = 0; i < marks_early.size(); ++i) {
       BOOST_CHECK(*std::get<0>(marks_early.at(i)) == *(std::get<0>(marks_early.at(i))));
