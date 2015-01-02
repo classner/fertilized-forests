@@ -22,6 +22,16 @@ extern "C"
     DllExport void * getClassificationError_uint (
 
 );
+
+
+    DllExport int eqClassificationError_f (void *__instance,
+
+        void * rhs
+);
+    DllExport int eqClassificationError_uint (void *__instance,
+
+        void * rhs
+);
     DllExport void delete_ClassificationError_f(void *ptr);
     DllExport void delete_ClassificationError_uint(void *ptr);
     DllExport void delete_IEntropyFunction_f(void *ptr);
@@ -48,6 +58,16 @@ extern "C"
         mxArray * class_members_numbers,
         float fsum
 );
+
+
+    DllExport int eqInducedEntropy_f (void *__instance,
+
+        void * rhs
+);
+    DllExport int eqInducedEntropy_uint (void *__instance,
+
+        void * rhs
+);
     DllExport void delete_InducedEntropy_f(void *ptr);
     DllExport void delete_InducedEntropy_uint(void *ptr);
 
@@ -59,6 +79,16 @@ extern "C"
     DllExport void * getRenyiEntropy_uint (
 
         float alpha
+);
+
+
+    DllExport int eqRenyiEntropy_f (void *__instance,
+
+        void * rhs
+);
+    DllExport int eqRenyiEntropy_uint (void *__instance,
+
+        void * rhs
 );
     DllExport void delete_RenyiEntropy_f(void *ptr);
     DllExport void delete_RenyiEntropy_uint(void *ptr);
@@ -82,6 +112,16 @@ extern "C"
         mxArray * class_members_numbers,
         float fsum
 );
+
+
+    DllExport int eqShannonEntropy_f (void *__instance,
+
+        void * rhs
+);
+    DllExport int eqShannonEntropy_uint (void *__instance,
+
+        void * rhs
+);
     DllExport void delete_ShannonEntropy_f(void *ptr);
     DllExport void delete_ShannonEntropy_uint(void *ptr);
 
@@ -93,6 +133,16 @@ extern "C"
     DllExport void * getTsallisEntropy_uint (
 
         float q
+);
+
+
+    DllExport int eqTsallisEntropy_f (void *__instance,
+
+        void * rhs
+);
+    DllExport int eqTsallisEntropy_uint (void *__instance,
+
+        void * rhs
 );
     DllExport void delete_TsallisEntropy_f(void *ptr);
     DllExport void delete_TsallisEntropy_uint(void *ptr);

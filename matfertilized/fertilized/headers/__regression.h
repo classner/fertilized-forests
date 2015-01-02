@@ -22,6 +22,16 @@ extern "C"
     DllExport void * getConstantRegressionCalculator_d (
 
 );
+
+
+    DllExport int eqConstantRegressionCalculator_f (void *__instance,
+
+        void * rhs
+);
+    DllExport int eqConstantRegressionCalculator_d (void *__instance,
+
+        void * rhs
+);
     DllExport void delete_ConstantRegressionCalculator_f(void *ptr);
     DllExport void delete_ConstantRegressionCalculator_d(void *ptr);
 
@@ -35,6 +45,16 @@ extern "C"
 
         int force_numerical_stability,
         void * numerical_zero_threshold
+);
+
+
+    DllExport int eqLinearRegressionCalculator_f (void *__instance,
+
+        void * rhs
+);
+    DllExport int eqLinearRegressionCalculator_d (void *__instance,
+
+        void * rhs
 );
     DllExport void delete_LinearRegressionCalculator_f(void *ptr);
     DllExport void delete_LinearRegressionCalculator_d(void *ptr);

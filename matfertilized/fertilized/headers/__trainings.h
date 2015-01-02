@@ -24,6 +24,10 @@ extern "C"
 
         void * bagging_strategy
 );
+    DllExport void * getClassicTraining_d_d_uint_fv_fv (
+
+        void * bagging_strategy
+);
     DllExport void * getClassicTraining_uint8_uint8_uint_fv_fv (
 
         void * bagging_strategy
@@ -58,6 +62,10 @@ extern "C"
 
         void * rhs
 );
+    DllExport int eqClassicTraining_d_d_uint_fv_fv (void *__instance,
+
+        void * rhs
+);
     DllExport int eqClassicTraining_uint8_uint8_uint_fv_fv (void *__instance,
 
         void * rhs
@@ -84,6 +92,7 @@ extern "C"
 );
     DllExport void delete_ClassicTraining_i_i_uint_fv_fv(void *ptr);
     DllExport void delete_ClassicTraining_f_f_uint_fv_fv(void *ptr);
+    DllExport void delete_ClassicTraining_d_d_uint_fv_fv(void *ptr);
     DllExport void delete_ClassicTraining_uint8_uint8_uint_fv_fv(void *ptr);
     DllExport void delete_ClassicTraining_uint8_int16_uint_fv_fv(void *ptr);
     DllExport void delete_ClassicTraining_uint8_int16_int16_fv_fv(void *ptr);
@@ -92,6 +101,7 @@ extern "C"
     DllExport void delete_ClassicTraining_d_d_d_rpd_vprpfd(void *ptr);
     DllExport void delete_ITraining_i_i_uint_fv_fv(void *ptr);
     DllExport void delete_ITraining_f_f_uint_fv_fv(void *ptr);
+    DllExport void delete_ITraining_d_d_uint_fv_fv(void *ptr);
     DllExport void delete_ITraining_uint8_uint8_uint_fv_fv(void *ptr);
     DllExport void delete_ITraining_uint8_int16_uint_fv_fv(void *ptr);
     DllExport void delete_ITraining_uint8_int16_int16_fv_fv(void *ptr);

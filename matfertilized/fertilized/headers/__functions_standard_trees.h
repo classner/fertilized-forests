@@ -49,6 +49,23 @@ extern "C"
         unsigned int threshold_optimization_threads
 );
 
+  DllExport void * StandardClassificationTree_d (
+
+        unsigned int n_classes,
+        size_t n_features,
+        unsigned int max_depth,
+        size_t test_n_features_per_node,
+        size_t n_thresholds_per_feature,
+        unsigned int min_samples_per_leaf,
+        unsigned int min_samples_per_split,
+        float min_gain_threshold,
+        int allow_redraw,
+        unsigned int random_seed,
+        char* entropy_name,
+        float entropy_p1,
+        unsigned int threshold_optimization_threads
+);
+
   DllExport void * StandardClassificationTree_uint8 (
 
         unsigned int n_classes,
@@ -81,7 +98,8 @@ extern "C"
         char* entropy_name,
         float entropy_p1,
         float numerical_zero_threshold,
-        int n_threads
+        unsigned int threshold_optimization_threads,
+        unsigned int summary_mode
 );
 
   DllExport void * StandardRegressionTree_d (
@@ -98,7 +116,8 @@ extern "C"
         char* entropy_name,
         float entropy_p1,
         float numerical_zero_threshold,
-        int n_threads
+        unsigned int threshold_optimization_threads,
+        unsigned int summary_mode
 );
 
 
@@ -116,7 +135,8 @@ extern "C"
         char* entropy_name,
         float entropy_p1,
         float numerical_zero_threshold,
-        int n_threads
+        unsigned int threshold_optimization_threads,
+        unsigned int summary_mode
 );
 
   DllExport void * FastRegressionTree_d (
@@ -133,7 +153,8 @@ extern "C"
         char* entropy_name,
         float entropy_p1,
         float numerical_zero_threshold,
-        int n_threads
+        unsigned int threshold_optimization_threads,
+        unsigned int summary_mode
 );
 
 

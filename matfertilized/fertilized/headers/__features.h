@@ -28,6 +28,9 @@ extern "C"
     DllExport void * getAlignedSurfaceCalculator_f_f (
 
 );
+    DllExport void * getAlignedSurfaceCalculator_d_uint (
+
+);
     DllExport void * getAlignedSurfaceCalculator_d_d (
 
 );
@@ -49,6 +52,10 @@ extern "C"
 
         void * rhs
 );
+    DllExport int eqAlignedSurfaceCalculator_d_uint (void *__instance,
+
+        void * rhs
+);
     DllExport int eqAlignedSurfaceCalculator_d_d (void *__instance,
 
         void * rhs
@@ -57,6 +64,7 @@ extern "C"
     DllExport void delete_AlignedSurfaceCalculator_uint8_uint(void *ptr);
     DllExport void delete_AlignedSurfaceCalculator_f_uint(void *ptr);
     DllExport void delete_AlignedSurfaceCalculator_f_f(void *ptr);
+    DllExport void delete_AlignedSurfaceCalculator_d_uint(void *ptr);
     DllExport void delete_AlignedSurfaceCalculator_d_d(void *ptr);
 
 
@@ -171,6 +179,12 @@ extern "C"
         size_t n_comb_dims,
         unsigned int random_seed
 );
+    DllExport void * getLinearSurfaceCalculator_d_uint (
+
+        size_t n_params_per_feat_sel,
+        size_t n_comb_dims,
+        unsigned int random_seed
+);
 
 
     DllExport int eqLinearSurfaceCalculator_i_uint (void *__instance,
@@ -193,11 +207,16 @@ extern "C"
 
         void * rhs
 );
+    DllExport int eqLinearSurfaceCalculator_d_uint (void *__instance,
+
+        void * rhs
+);
     DllExport void delete_LinearSurfaceCalculator_i_uint(void *ptr);
     DllExport void delete_LinearSurfaceCalculator_uint8_uint(void *ptr);
     DllExport void delete_LinearSurfaceCalculator_f_uint(void *ptr);
     DllExport void delete_LinearSurfaceCalculator_f_f(void *ptr);
     DllExport void delete_LinearSurfaceCalculator_d_d(void *ptr);
+    DllExport void delete_LinearSurfaceCalculator_d_uint(void *ptr);
 
 
     DllExport void * getQuadraticSurfaceCalculator_i_uint (
@@ -219,6 +238,12 @@ extern "C"
         unsigned int random_seed
 );
     DllExport void * getQuadraticSurfaceCalculator_f_f (
+
+        size_t n_params_per_feat_sel,
+        mxArray * min_max_vals,
+        unsigned int random_seed
+);
+    DllExport void * getQuadraticSurfaceCalculator_d_uint (
 
         size_t n_params_per_feat_sel,
         mxArray * min_max_vals,
@@ -248,6 +273,10 @@ extern "C"
 
         void * rhs
 );
+    DllExport int eqQuadraticSurfaceCalculator_d_uint (void *__instance,
+
+        void * rhs
+);
     DllExport int eqQuadraticSurfaceCalculator_d_d (void *__instance,
 
         void * rhs
@@ -256,6 +285,7 @@ extern "C"
     DllExport void delete_QuadraticSurfaceCalculator_uint8_uint(void *ptr);
     DllExport void delete_QuadraticSurfaceCalculator_f_uint(void *ptr);
     DllExport void delete_QuadraticSurfaceCalculator_f_f(void *ptr);
+    DllExport void delete_QuadraticSurfaceCalculator_d_uint(void *ptr);
     DllExport void delete_QuadraticSurfaceCalculator_d_d(void *ptr);
 
 

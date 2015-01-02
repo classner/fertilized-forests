@@ -24,6 +24,10 @@ extern "C"
 
         unsigned int n_classes
 );
+    DllExport void * getClassificationLeafManager_d_uint (
+
+        unsigned int n_classes
+);
     DllExport void * getClassificationLeafManager_uint8_uint (
 
         unsigned int n_classes
@@ -42,6 +46,10 @@ extern "C"
 
         void * rhs
 );
+    DllExport int eqClassificationLeafManager_d_uint (void *__instance,
+
+        void * rhs
+);
     DllExport int eqClassificationLeafManager_uint8_uint (void *__instance,
 
         void * rhs
@@ -52,6 +60,7 @@ extern "C"
 );
     DllExport void delete_ClassificationLeafManager_i_uint(void *ptr);
     DllExport void delete_ClassificationLeafManager_f_uint(void *ptr);
+    DllExport void delete_ClassificationLeafManager_d_uint(void *ptr);
     DllExport void delete_ClassificationLeafManager_uint8_uint(void *ptr);
     DllExport void delete_ClassificationLeafManager_uint8_int16(void *ptr);
 
@@ -77,7 +86,8 @@ extern "C"
         void * regression_calculator,
         void * entropy_function,
         int use_fallback_constant_regression,
-        int num_threads
+        int num_threads,
+        unsigned int summary_mode
 );
     DllExport void * getRegressionLeafManager_d (
 
@@ -86,7 +96,8 @@ extern "C"
         void * regression_calculator,
         void * entropy_function,
         int use_fallback_constant_regression,
-        int num_threads
+        int num_threads,
+        unsigned int summary_mode
 );
 
 

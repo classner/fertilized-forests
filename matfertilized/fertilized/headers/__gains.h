@@ -24,6 +24,16 @@ extern "C"
 
         void * entropy_function
 );
+
+
+    DllExport int eqEntropyGain_f (void *__instance,
+
+        void * rhs
+);
+    DllExport int eqEntropyGain_uint (void *__instance,
+
+        void * rhs
+);
     DllExport void delete_EntropyGain_f(void *ptr);
     DllExport void delete_EntropyGain_uint(void *ptr);
     DllExport void delete_IGainCalculator_f(void *ptr);
