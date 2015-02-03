@@ -307,8 +307,8 @@ namespace fertilized {
       // Check the shape of the incoming array.
       if (data.TPLMETH getSize<1>() != get_decider() -> get_required_num_data_dim()) {
          throw Fertilized_Exception("Wrong array shape! Expecting " +
-           std::to_string(decider -> get_required_num_data_dim()) + " columns, "
-           "got " + std::to_string(data.TPLMETH get_size<1>()) + "!");
+           std::to_string(get_decider() -> get_required_num_data_dim()) + " columns, "
+           "got " + std::to_string(data.TPLMETH getSize<1>()) + "!");
       }
       auto leaf_manager = get_leaf_manager();
       Array<double, 2, 2> result_array = allocate(data.TPLMETH getSize<0>(),
