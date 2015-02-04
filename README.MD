@@ -67,7 +67,7 @@ sudo scons --with-serialization install
 scons --with-serialization --with-matlab
 # Optional: Python interface:
 scons --with-serialization --with-python
-python pyfertilized/setup.py install
+cd pyfertilized && sudo python setup.py install && cd ..
 # Optional: generate the doxygen documentation
 scons --generate-documentation
 ~~~~~
