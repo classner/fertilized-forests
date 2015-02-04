@@ -123,6 +123,7 @@ namespace fertilized {
      */
     virtual bool supports_weights() const VIRTUAL(bool);
 
+    /** Gets the input dimension of the feature selection provider. */
     virtual size_t get_required_num_data_dim() const VIRTUAL(size_t);
 
     virtual bool operator==(const IDecider &rhs) const VIRTUAL(bool);

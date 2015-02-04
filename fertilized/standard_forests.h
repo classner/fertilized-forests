@@ -359,7 +359,7 @@ namespace fertilized {
    *   Case 2: Each row contains the prediction for each regressor and
    *           the variance estimate for each regressor for each tree, e.g.,
    *           (r11, r12, v11, v12, r21, r22, v21, v22, ...), with `r` and `v`
-   *           denoting regressor prediction and variacne, the first index
+   *           denoting regressor prediction and variance, the first index
    *           the tree and the second index the regressor index.
    *   Default: 0.
    */

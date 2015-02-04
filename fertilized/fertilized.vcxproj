@@ -451,7 +451,7 @@
     <IncludePath>$(SolutionDir);$(SolutionDir)external\ndarray\include;$(OPENCV_INCLUDE_DIR);$(BOOST_INCLUDE_DIR);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <NMakeBuildCommandLine>build --with-checks --disable-optimizations  --with-python-support</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build --with-checks --disable-optimizations --with-serialization --jobs 10</NMakeBuildCommandLine>
     <NMakeOutput>fertilized.exe</NMakeOutput>
     <NMakeCleanCommandLine>build -c</NMakeCleanCommandLine>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;__BUILD_FERTILIZED_LIBRARY;SERIALIZATION_ENABLED;RUNTIME_CHECKS;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>

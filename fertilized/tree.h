@@ -504,6 +504,12 @@ namespace fertilized {
      */
     Array<double, 2, 2> predict(const Array<const input_dtype, 2, 2> &data)
       const {
+      // Check the shape of the incoming array.
+      if (data.TPLMETH getSize<1>() != decider -> get_required_num_data_dim()){
+         throw Fertilized_Exception("Wrong array shape! Expecting " +
+           std::to_string(decider -> get_required_num_data_dim()) + " columns, "
+           "got " + std::to_string(data.TPLMETH getSize<1>()) + "!");
+      }
       Array<double, 2, 2> result_array = allocate(data.TPLMETH getSize<0>(),
                                                   leaf_manager ->
                                                     get_summary_dimensions(1));
