@@ -104,13 +104,13 @@ namespace fertilized {
      *   The number of threads used when evaluating different selections.
      *   Default: 1.
      * \param summary_mode uint<3
-     *   Determines the meaning of the values in the prediction 2D matrix of
+     *   Determines the meaning of the values in the 2D prediction matrix of
      *   a forest (the output of the convenience `predict` method of a forest).
      *   Case 0: Each row contains the prediction for each regressor (the first
      *           half of its entries) and the expected variances for each
      *           regressor (second half of its entries). To estimate the joint
-     *           variance, a gaussian is fitted over the multimodal distributions
-     *           defined by each tree.
+     *           variance, a gaussian is fitted over the multimodal distribution
+     *           defined by all trees.
      *   Case 1: Each row contains the prediction for each regressor (the first
      *           half of its entries) and the mean of the expected variances of
      *           each tree. This has no direct semantic meaning, but can give
@@ -118,8 +118,8 @@ namespace fertilized {
      *   Case 2: Each row contains the prediction for each regressor and
      *           the variance estimate for each regressor for each tree, e.g.,
      *           (r11, r12, v11, v12, r21, r22, v21, v22, ...), with `r` and `v`
-     *           denoting regressor prediction and variacne, the first index
-     *           the tree and the second index the regressor index.
+     *           denoting regressor prediction and variance respectively, the
+     *           first index the tree and the second index the regressor index.
      * \returns A new RegressionLeafManager.
      */
     explicit RegressionLeafManager(const std::shared_ptr<IFeatureSelectionProvider> &selection_provider,
