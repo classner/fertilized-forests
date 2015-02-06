@@ -547,7 +547,8 @@ namespace fertilized {
           break;
         }
       }
-      result_row /= weight_sum;
+      if (summary_mode != 2)
+        result_row /= weight_sum;
       if (summary_mode == 0) {
         // The first part of the vector now contains \mu, the second \mu^{(2)}
         // (the second moment). The variance (assuming a normal distribution)
