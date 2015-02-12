@@ -205,8 +205,8 @@ namespace fertilized {
    *   Case 0: Each row contains the prediction for each regressor (the first
    *           half of its entries) and the expected variances for each
    *           regressor (second half of its entries). To estimate the joint
-   *           variance, a gaussian is fitted over the multimodal distributions
-   *           defined by each tree.
+   *           variance, a gaussian is fitted over the multimodal distribution
+   *           defined by all trees.
    *   Case 1: Each row contains the prediction for each regressor (the first
    *           half of its entries) and the mean of the expected variances of
    *           each tree. This has no direct semantic meaning, but can give
@@ -214,8 +214,8 @@ namespace fertilized {
    *   Case 2: Each row contains the prediction for each regressor and
    *           the variance estimate for each regressor for each tree, e.g.,
    *           (r11, r12, v11, v12, r21, r22, v21, v22, ...), with `r` and `v`
-   *           denoting regressor prediction and variacne, the first index
-   *           the tree and the second index the regressor index.
+   *           denoting regressor prediction and variance respectively, the
+   *           first index the tree and the second index the regressor index.
    *   Default: 0.
    */
    template <typename input_dtype>
@@ -350,8 +350,8 @@ namespace fertilized {
    *   Case 0: Each row contains the prediction for each regressor (the first
    *           half of its entries) and the expected variances for each
    *           regressor (second half of its entries). To estimate the joint
-   *           variance, a gaussian is fitted over the multimodal distributions
-   *           defined by each tree.
+   *           variance, a gaussian is fitted over the multimodal distribution
+   *           defined by all trees.
    *   Case 1: Each row contains the prediction for each regressor (the first
    *           half of its entries) and the mean of the expected variances of
    *           each tree. This has no direct semantic meaning, but can give
@@ -359,8 +359,8 @@ namespace fertilized {
    *   Case 2: Each row contains the prediction for each regressor and
    *           the variance estimate for each regressor for each tree, e.g.,
    *           (r11, r12, v11, v12, r21, r22, v21, v22, ...), with `r` and `v`
-   *           denoting regressor prediction and variance, the first index
-   *           the tree and the second index the regressor index.
+   *           denoting regressor prediction and variance respectively, the
+   *           first index the tree and the second index the regressor index.
    *   Default: 0.
    */
    template <typename input_dtype>
