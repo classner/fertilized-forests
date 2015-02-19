@@ -16,6 +16,8 @@
 #include <fertilized/impurities/inducedentropy.h>
 #include <fertilized/ndarray.h>
 
+#include "timeit.h"
+
 using ndarray::Array;
 using ndarray::Vector;
 using ndarray::allocate;
@@ -367,6 +369,16 @@ struct ImageDataFixture {
   std::shared_ptr<a_dt> shapes;
   std::shared_ptr<a_dt> patch_descs;
   std::shared_ptr<std::vector<i_dt*>> patch_vec;
+};
+
+template <typename TT, typename IT>
+struct PredictTimer : public Utility::ITimefunc {
+  PredictTimer(const TT *t, const IT *d) : tree(t), data(d) {}
+
+  int operator()() { return static_cast<int>(tree -> predict(*data)[0][0]);};
+
+  const TT *tree;
+  const IT *data;
 };
 
 #ifdef SERIALIZATION_ENABLED

@@ -501,14 +501,23 @@ namespace fertilized {
      *
      * \param data Array<input_data>, 2D, row-major contiguous
      *   The data predict with one sample per row.
+     *
+     * \param num_threads int>0
+     *   The number of threads to use for prediction. The number of
+     *   samples should be at least three times larger than the number
+     *   of threads to observe very good parallelization behaviour.
      */
-    Array<double, 2, 2> predict(const Array<const input_dtype, 2, 2> &data)
+    Array<double, 2, 2> predict(const Array<const input_dtype, 2, 2> &data,
+                                const int &num_threads=1)
       const {
       // Check the shape of the incoming array.
       if (data.TPLMETH getSize<1>() != decider -> get_required_num_data_dim()){
          throw Fertilized_Exception("Wrong array shape! Expecting " +
            std::to_string(decider -> get_required_num_data_dim()) + " columns, "
            "got " + std::to_string(data.TPLMETH getSize<1>()) + "!");
+      }
+      if (num_threads == 0) {
+         throw Fertilized_Exception("The number of threads must be >0!");
       }
       Array<double, 2, 2> result_array = allocate(data.TPLMETH getSize<0>(),
                                                   leaf_manager ->
@@ -517,8 +526,14 @@ namespace fertilized {
 #ifdef PYTHON_ENABLED
         py::gil_guard_release guard;
 #endif
+	const input_dtype *base_ptr = &data[0][0];
+	const size_t line_length = data.TPLMETH getSize<1>();
+	#pragma omp parallel for num_threads(num_threads) if (num_threads != 1) \
+          default(none) /* Require explicit spec. */\
+          shared(data, result_array, base_ptr) \
+          schedule(static)
         for (int i = 0; i < data.TPLMETH getSize<0>(); ++i) {
-          leaf_manager -> summarize_tree_result(predict_leaf_result(&(data[i][0])),
+          leaf_manager -> summarize_tree_result(predict_leaf_result(base_ptr + i * line_length),
                                                 result_array[i]);
         }
       }

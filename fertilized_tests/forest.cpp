@@ -1,9 +1,13 @@
-///* Copyright 2013 Christoph Lassner */
-//#include "forest.h"
+// Author: Christoph Lassner.
+#include <fertilized/global.h>
+
+#include <random>
+#include "boost/test/unit_test.hpp"
+#include "timeit.h"
 //
-//#include "boost/test/unit_test.hpp"
-//#include "timeit.h"
-//
+#include <fertilized/fertilized.h>
+
+#include "setup.h"
 //#include "fertilized/threshold_optimizer.h"
 //#include "fertilized/serialization.h"
 //#include <boost/archive/text_oarchive.hpp>
@@ -22,7 +26,7 @@
 //#include "fertilized/splitting_strategy.h"
 //#include "fertilized/data_providers.h"
 //
-//using namespace fertilized;
+using namespace fertilized;
 //
 //
 //struct ForestDataFixture {
@@ -48,7 +52,37 @@
 //typedef EqualSplittingStrategy<int, int, unsigned int, std::vector<float>, std::vector<float>> esplit_str_t;
 //typedef LocalExecutionStrategy<int, int, unsigned int, std::vector<float>, std::vector<float>> lexec_strat_t;
 //
-//BOOST_AUTO_TEST_SUITE(Correctness_Forests);
+BOOST_AUTO_TEST_SUITE(Correctness_Forests);
+
+BOOST_AUTO_TEST_CASE(Correctness_Forests_threaded_prediction) {
+  std::mt19937 rng;
+  rng.seed(1);
+  auto dist_float = std::normal_distribution<float>(0., 1.);
+  auto dist_uint = std::uniform_int_distribution<uint>(0, 1);
+  auto s = Soil<>();
+  auto tf = s.StandardClassificationForest(2, 3);
+  Array<float, 2, 2> data = allocate(100, 3);
+  auto dptr = &data[0][0];
+  for (size_t i = 0; i < 300; ++i) {
+      *(dptr++) = dist_float(rng);
+  }
+  Array<uint, 2, 2> annotation = allocate(100, 1);
+  auto aptr = &annotation[0][0];
+  for (size_t i = 0; i < 100; ++i) {
+      *(aptr++) = dist_uint(rng);
+  }
+  tf -> fit(data, annotation);
+  // Get results serially.
+  auto res_serial = tf -> predict(data);
+  // Get results in parallel.
+  auto res_parallel = tf -> predict(data, 2);
+  BOOST_CHECK(all(equal(res_serial, res_parallel)));
+  //auto timestruct = PredictTimer<Forest<float, float, uint, std::vector<float>, std::vector<float>>, Array<float, 2, 2>>(tf.get(), &data);
+  //float time = Utility::timeit<std::chrono::nanoseconds>(&timestruct, false, 3, 2);
+  //std::cout << time;
+};
+
+
 //
 //BOOST_FIXTURE_TEST_CASE(Correctness_Forest_Constructor, ForestDataFixture) {
 //  auto classifier_managers = std::vector<class_man_ptr_t>(2);
@@ -110,4 +144,4 @@
 //
 //};
 //
-//BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END();
