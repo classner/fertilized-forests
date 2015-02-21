@@ -308,7 +308,7 @@ def setupTargets(env, root="."):
     if not generate_mode:
       # After configuring, OpenCV highgui ist included.
       # Remove OpenCV highgui lib, since it is not required.
-      if not GetOption("clean"):
+      if not GetOption("clean") and not GetOption("help"):
         tmp_libs = []
         for libitem in env['LIBS']:
           if isinstance(libitem, list):

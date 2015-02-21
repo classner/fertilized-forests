@@ -14,27 +14,27 @@ extern "C"
 {
 #endif
 @ for class in classes
-@ 	for m in class.Methods
-@		if 'Matlab' in m.AvailableIn
+@   for m in class.Methods
+@       if 'Matlab' in m.AvailableIn
             ## Create methods of form: __declspec(dllexport) ReturnType MethodName(Arguments);
-@ 			if class.ClassType.TemplateParams is none or class.ClassType.TemplateParams | length == 0
-        ## generate a no argument method!			
-    DllExport {{ m.ReturnType.getCType(is_return_type=True) }} {{m.prefixForMatlab(m.FunctionPrefix)}}{{ m.NameFormat|format(class.ClassName, "") }} ({%if not m.IsConstructor %}void *__instance{%if m.Arguments|length > 0%},{%endif%}{%endif%}{{ cpptools.render_arguments(m, render_defaults=False, as_c_types=True) }});
-@			else
+@           if class.ClassType.TemplateParams is none or class.ClassType.TemplateParams | length == 0
+        ## generate a no argument method!           
+    {{ export_macro }} {{ m.ReturnType.getCType(is_return_type=True) }} {{m.prefixForMatlab(m.FunctionPrefix)}}{{ m.NameFormat|format(class.ClassName, "") }} ({%if not m.IsConstructor %}void *__instance{%if m.Arguments|length > 0%},{%endif%}{%endif%}{{ cpptools.render_arguments(m, render_defaults=False, as_c_types=True) }});
+@           else
         ## generate a method with template arguments (for each of the supported types)
-@			for t in class.SupportedTypes	
-@				set suffix = "_" + t.TypesString		
+@           for t in class.SupportedTypes   
+@               set suffix = "_" + t.TypesString        
 
-    DllExport {{ m.ReturnType.getCType() }} {{m.prefixForMatlab(m.FunctionPrefix)}}{{ m.NameFormat|format(class.ClassName, suffix) }} ({%if not m.IsConstructor %}void *__instance{%if m.Arguments|length > 0%},{%endif%}{%endif%}{{ cpptools.render_arguments(m, render_defaults=False, as_c_types=True, vec_subst=True, template_params=class.ClassType.TemplateParams, instantiation_types=t) }});
-@			endfor		
-@			endif
-@		endif
-@	endfor
+    {{ export_macro }} {{ m.ReturnType.getCType() }} {{m.prefixForMatlab(m.FunctionPrefix)}}{{ m.NameFormat|format(class.ClassName, suffix) }} ({%if not m.IsConstructor %}void *__instance{%if m.Arguments|length > 0%},{%endif%}{%endif%}{{ cpptools.render_arguments(m, render_defaults=False, as_c_types=True, vec_subst=True, template_params=class.ClassType.TemplateParams, instantiation_types=t) }});
+@           endfor      
+@           endif
+@       endif
+@   endfor
 @   if class.ClassType.TemplateParams is none or class.ClassType.TemplateParams | length == 0
-    DllExport void delete_{{class.ClassName}}(void *ptr);
+    {{ export_macro }} void delete_{{class.ClassName}}(void *ptr);
 @   else
 @     for instantiation_types in class.SupportedTypes
-    DllExport void delete_{{class.ClassName}}_{{instantiation_types.TypesString}}(void *ptr);
+    {{ export_macro }} void delete_{{class.ClassName}}_{{instantiation_types.TypesString}}(void *ptr);
 @     endfor
 @   endif
 @ endfor

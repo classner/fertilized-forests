@@ -13,16 +13,16 @@ extern "C"
 {
 #endif
 @ for m in functions
-@	if 'Matlab' in m.AvailableIn
+@   if 'Matlab' in m.AvailableIn
     ## Create methods of form: DllExport ReturnType MethodName(Arguments);
 @     if m.SupportedTypes is none or m.SupportedTypes | length == 0
         ## generate a no argument method!
-  DllExport {{ m.ReturnType.getCType(is_return_type=True) }} {{ m.NameFormat|format(m.FunctionPrefix, "") }} ({{ cpptools.render_arguments(m, render_defaults=False, as_c_types=True) }});
+  {{ export_macro }} {{ m.ReturnType.getCType(is_return_type=True) }} {{ m.NameFormat|format(m.FunctionPrefix, "") }} ({{ cpptools.render_arguments(m, render_defaults=False, as_c_types=True) }});
 @     else
-@       for t in m.SupportedTypes	
+@       for t in m.SupportedTypes   
 @         set suffix = "_" + t.TypesString
           ## generate a no argument method!
-  DllExport {{ m.ReturnType.getCType(is_return_type=True) }} {{ m.NameFormat|format("", suffix) }} ({{ cpptools.render_arguments(m, render_defaults=False, as_c_types=True) }});
+  {{ export_macro }} {{ m.ReturnType.getCType(is_return_type=True) }} {{ m.NameFormat|format("", suffix) }} ({{ cpptools.render_arguments(m, render_defaults=False, as_c_types=True) }});
 @       endfor
 @     endif
 @   endif

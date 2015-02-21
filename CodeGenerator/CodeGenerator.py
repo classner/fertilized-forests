@@ -443,6 +443,10 @@ else:
     delfiles = glob.glob(os.path.join('..', 'matfertilized', 'fertilized', 'generated', '*'))
     for delfile in delfiles:
         os.remove(delfile)
+if os.name == 'nt':
+    export_macro = 'DllExport'
+else:
+    export_macro = ''
 matlab_exp_classes = [cls for cls in classes if 'Matlab' in cls.AvailableIn]
 matlab_exp_functions = [func for func in functions if 'Matlab' in func.AvailableIn]
 matlab_header_files = []
@@ -451,7 +455,8 @@ for key, group in itertools.groupby(classesGrouped, key=operator.attrgetter('Pac
     # Specify any input variables to the template as a dictionary.
     grouplist = list(group)
     templateVars = { "classes" : grouplist,
-                     "package" : key }
+                     "package" : key,
+                     "export_macro" : export_macro}
     try:
       # Finally, process the template to produce our final text.
       outputText = header_tmpl.render( templateVars )
@@ -500,7 +505,8 @@ for key, group in itertools.groupby(fcsGrouped, key=operator.attrgetter('Definin
     pkg = basename(os.path.splitext(key)[0])
     function_list = list(group)
     templateVars = { "functions" : function_list,
-                     "package" : pkg }   
+                     "package" : pkg,
+                     "export_macro" : export_macro }   
     try:
       # Finally, process the template to produce our final text.
       outputText = function_header_tmpl.render( templateVars )
@@ -542,6 +548,11 @@ templateVars = { "classes" : matlab_exp_classes,
                  "matlab_header_files" : matlab_header_files,
                  "tmpl_soil_transl" : tmpl_soil_transl } 
 
+if os.name != 'nt':
+    nonmsvc_suffix = '-nonmsvc'
+else:
+    nonmsvc_suffix = ''
+templateVars['nonmsvc_suffix'] = nonmsvc_suffix
 # Render overall matlab include file
 outputText = matlabh_tmpl.render( templateVars )
 with open(os.path.join('..', 'matfertilized', 'matlab_headers', 'matlab.h'), 'w') as f:
