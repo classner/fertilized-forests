@@ -199,10 +199,14 @@ def makeEnvironment(variables):
         if GetOption("with_openmp"):
           env.AppendUnique(CCFLAGS=['-fopenmp'])
           env.AppendUnique(LINKFLAGS=['-fopenmp'])
-    # RPATH.
-    custom_rpath = GetOption("custom_rpath")
-    if custom_rpath is not None:
-        env.AppendUnique(RPATH=custom_rpath)
+    if os.name != 'nt':
+        # Link statically against the C++ runtime to avoid problems with
+        # MATLAB.
+        matfertilized_lib_env.AppendUnique(LINKFLAGS=['-static-libstdc++'])
+        # RPATH.
+        custom_rpath = GetOption("custom_rpath")
+        if custom_rpath is not None:
+            env.AppendUnique(RPATH=custom_rpath)
     # Parse options.
     env['SERIALIZATION_ENABLED'] = GetOption('serialization_enabled')
     if GetOption('serialization_enabled'):

@@ -8,9 +8,6 @@ Import("env", "lib", "lib_lnk")
 matfertilized_lib_env = env.Clone()
 if matfertilized_lib_env['CC'] == 'cl':
   matfertilized_lib_env.AppendUnique(CPPFLAGS='/W3')
-# Link statically against the C++ runtime to avoid problems with
-# MATLAB.
-matfertilized_lib_env.AppendUnique(LINKFLAGS=['-static-libstdc++'])
 
 # Copy the library files to the matfertilized directory for linking.
 lib_rt = matfertilized_lib_env.Install(Dir('./fertilized').srcnode(), lib[0])
