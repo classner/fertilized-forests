@@ -58,6 +58,7 @@ matfertilized/fertilized/generated
 matfertilized/fertilized/Soil.m
 matfertilized/fertilized/headers
 matfertilized/matlab_headers/__*
+matfertilized/matlab_headers/matlab.h
 bin
 bindep
 include

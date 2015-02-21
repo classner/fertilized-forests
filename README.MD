@@ -58,12 +58,17 @@ export EIGEN_ROOT=/usr/include/eigen3
 
 * Compile and install
 
+You can add `--jobs=X` to any of the scons build calls to speedup
+the build process.
+
 ~~~~~
 scons --generate-interfaces
 scons --with-serialization --with-tests --with-examples
 # Optional: install to your library and include folders
 sudo scons --with-serialization install
 # Optional: Matlab interface:
+export MATLAB_ROOT=/usr/local/MATLAB/R20XXc
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/MATLAB/R20XXc/bin/glnxa64
 scons --with-serialization --with-matlab
 # Optional: Python interface:
 scons --with-serialization --with-python

@@ -31,9 +31,9 @@ classdef Soil
     properties (SetAccess = private)
         LibName = 'matfertilized';
         MainHeader = 'matlab.h';
-        AdditionalHeaders = { 'objectvector.h', 'stringvector.h', {% for header in matlab_header_files %}'{{ header }}'{% if not loop.last %}, {% endif %}{% endfor %} };
+        AdditionalHeaders = { 'objectvector{{nonmsvc_suffix}}.h', 'stringvector{{nonmsvc_suffix}}.h', {% for header in matlab_header_files %}'{{ header }}'{% if not loop.last %}, {% endif %}{% endfor %} };
         
-        % DataTypes order: input_dtype, feature_dtype, annotation_dtype, leaf_return_dtype, forest_return_dtype	
+        % DataTypes order: input_dtype, feature_dtype, annotation_dtype, leaf_return_dtype, forest_return_dtype 
         inp_str = 'f';
         feat_str = 'f';
         ann_str = 'uint';
@@ -78,11 +78,9 @@ classdef Soil
                 args = {};
                 for header = this.AdditionalHeaders
                     args = [args, 'addheader'];
-                    args = [args, strcat(fileparts(mfilename('fullpath')), ...
-                                                   filesep, ...
-                                                   'headers', ...
-                                                   filesep, ...
-                                                   header)];
+                    args = [args, strcat('headers', ...
+                                         filesep, ...
+                                         header)];
                 end
 
                 mainheader = strcat(fileparts(mfilename('fullpath')), ...

@@ -26,7 +26,13 @@ file_list = Glob('exporters/*.cpp') + Glob('ObjectVector.cpp') + Glob('StringVec
 matlib = matfertilized_lib_env.SharedLibrary('matfertilized', file_list)
 matheaders = Glob('matlab_headers/*.h')
 # Install.
-lib_file = matfertilized_lib_env.Install(Dir('./fertilized').srcnode(), matlib)
+lib_ext = os.path.splitext(str(matlib[0]))[1]
+
+lib_file = matfertilized_lib_env.Command(os.path.join(Dir('.').srcnode().abspath,
+                                                     'fertilized',
+                                                     'matfertilized') + lib_ext,
+                                        matlib[0],
+                                        Copy("$TARGET", "$SOURCE"))
 matfertilized_lib_env.Install(Dir('./fertilized/headers').srcnode(), matheaders)
 # Binary dependencies.
 if os.name == 'nt':
