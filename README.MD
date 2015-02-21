@@ -76,3 +76,8 @@ cd pyfertilized && sudo python setup.py install && cd ..
 # Optional: generate the doxygen documentation
 scons --generate-documentation
 ~~~~~
+
+_Hint_: On Linux, you might run into an issue about MATLAB not finding
+GLIBCXX_X.Y.ZZ. It's a known issue of MATLAB and easy to fix. You can
+find the solution [here](https://fantasticzr.wordpress.com/2013/05/29/matlab-error-libstdc-so-version-glibcxx_3-4-15-not-found/).
+

@@ -200,9 +200,6 @@ def makeEnvironment(variables):
           env.AppendUnique(CCFLAGS=['-fopenmp'])
           env.AppendUnique(LINKFLAGS=['-fopenmp'])
     if os.name != 'nt':
-        # Link statically against the C++ runtime to avoid problems with
-        # MATLAB.
-        #env.AppendUnique(LINKFLAGS=['-static-libstdc++'])
         # RPATH.
         custom_rpath = GetOption("custom_rpath")
         if custom_rpath is not None:
