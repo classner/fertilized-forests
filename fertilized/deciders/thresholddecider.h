@@ -561,6 +561,25 @@ namespace fertilized {
     std::shared_ptr<const IFeatureSelectionProvider> get_selection_provider() const {
       return selection_provider;
     }
+    
+    /**
+     * \brief Computes a feature importance vector.
+     * 
+     * The vector is normalized to sum to 1.0. It contains the relative
+     * frequencies of the feature occurences. Its length is the number
+     * of available features.
+     * 
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     * -----
+     */
+    Array<double, 1, 1> compute_feature_importances() const {
+        throw Fertilized_Exception("Not implemented!");
+    };
 
     /**
      * -----
