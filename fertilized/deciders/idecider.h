@@ -134,7 +134,7 @@ namespace fertilized {
      * of available features.
      */
     virtual Array<double, 1, 1> compute_feature_importances() const
-      VIRTUAL(Array<double, 1, 1>);
+      VIRTUAL((Array<double, 1, 1>));
 
     virtual bool operator==(const IDecider &rhs) const VIRTUAL(bool);
 
