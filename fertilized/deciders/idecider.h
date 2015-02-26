@@ -18,6 +18,7 @@
 #include "../global.h"
 #include "../types.h"
 #include "../data_providers/idataprovider.h"
+#include "../ndarray.h"
 
 namespace fertilized {
   /**

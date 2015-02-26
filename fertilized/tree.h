@@ -526,9 +526,9 @@ namespace fertilized {
 #ifdef PYTHON_ENABLED
         py::gil_guard_release guard;
 #endif
-	const input_dtype *base_ptr = &data[0][0];
-	const size_t line_length = data.TPLMETH getSize<1>();
-	#pragma omp parallel for num_threads(num_threads) if (num_threads != 1) \
+    const input_dtype *base_ptr = &data[0][0];
+    const size_t line_length = data.TPLMETH getSize<1>();
+    #pragma omp parallel for num_threads(num_threads) if (num_threads != 1) \
           default(none) /* Require explicit spec. */\
           shared(data, result_array, base_ptr) \
           schedule(static)
@@ -794,6 +794,8 @@ namespace fertilized {
      * -----
      * Available in:
      * - C++
+     * - Python
+     * - Matlab
      * .
      *
      * -----
@@ -801,6 +803,26 @@ namespace fertilized {
     std::shared_ptr<const dec_t> get_decider() const {
       return decider;
     };
+    
+    /**
+     * \brief Computes a feature importance vector.
+     * 
+     * The vector is normalized to sum to 1.0. It contains the relative
+     * frequencies of the feature occurences. Its length is the number
+     * of available features.
+     * 
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     * 
+     * -----
+     */
+    Array<double, 1, 1> compute_feature_importances() const {
+        return decider -> compute_feature_importances();
+    }
 
     /**
      * \brief The leaf manager used by this tree.
@@ -808,6 +830,8 @@ namespace fertilized {
      * -----
      * Available in:
      * - C++
+     * - Python
+     * - Matlab
      * .
      *
      * -----
