@@ -320,17 +320,22 @@ namespace fertilized {
 #ifdef PYTHON_ENABLED
         py::gil_guard_release guard;
 #endif
-    const input_dtype *base_ptr = &data[0][0];
-    const size_t line_length = data.TPLMETH getSize<1>();
-    #pragma omp parallel for num_threads(num_threads) if (num_threads != 1) \
-      default(none) /* Require explicit spec. */\
-      shared(data, leaf_manager, result_array, base_ptr) \
-      schedule(static)
+        const input_dtype *base_ptr = &data[0][0];
+        const size_t line_length = data.TPLMETH getSize<1>();
+        // Extract the lines serially, since the Array class is not thread-safe (yet)
+        std::vector<Array<double, 2, 2>::Reference> lines;
+        for (int i = 0; i < data.TPLMETH getSize<0>(); ++i) {
+          lines.push_back(result_array[i]);
+        }
+        #pragma omp parallel for num_threads(num_threads) if (num_threads != 1) \
+          default(none) /* Require explicit spec. */\
+          shared(data, leaf_manager, result_array, base_ptr, lines) \
+          schedule(static)
         for (int i = 0; i < data.TPLMETH getSize<0>(); ++i) {
           leaf_manager -> summarize_forest_result(predict_forest_result(
                                                     base_ptr + i * line_length,
                                                     1),
-                                                  result_array[i]);
+                                                  lines[i]);
         }
       }
       return result_array;

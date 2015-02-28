@@ -580,10 +580,13 @@ namespace fertilized {
      */
     Array<double, 1, 1> compute_feature_importances() const {
         if (decision_param_map.size() == 0) {
-            throw Fertilized_Exception("It is impossible to extract "
-              "the feature importances with no decision nodes! Run "
-              "the training first, to let the training algorithm "
-              "create some!");
+            throw Fertilized_Exception("This decider has no decision rules "
+              "stored! This can happen if the training was not run yet, or "
+              "if the decision tree only has one leaf (the root node). To "
+              "solve the problem, either run the training, or call "
+              "forest -> compute_feature_importances() to have it "
+              "handle this case automatically by using the importances "
+              "of other trees.");
         }
         // Get the total number of features.
         const size_t total = selection_provider -> get_n_available_features();

@@ -78,7 +78,6 @@ BOOST_AUTO_TEST_CASE(Correctness_Trees_threaded_prediction) {
   auto dist_float = std::normal_distribution<float>(0., 1.);
   auto dist_uint = std::uniform_int_distribution<uint>(0, 1);
   auto s = Soil<>();
-  auto tf = s.StandardClassificationTree(2, 3);
   Array<float, 2, 2> data = allocate(100, 3);
   auto dptr = &data[0][0];
   for (size_t i = 0; i < 300; ++i) {
@@ -89,12 +88,15 @@ BOOST_AUTO_TEST_CASE(Correctness_Trees_threaded_prediction) {
   for (size_t i = 0; i < 100; ++i) {
       *(aptr++) = dist_uint(rng);
   }
-  tf -> fit(data, annotation);
-  // Get results serially.
-  auto res_serial = tf -> predict(data);
-  // Get results in parallel.
-  auto res_parallel = tf -> predict(data, 2);
-  BOOST_CHECK(all(equal(res_serial, res_parallel)));
+  for (int rep = 0; rep < 100; ++rep) {
+      auto tf = s.StandardClassificationTree(2, 3);
+      tf -> fit(data, annotation);
+      // Get results serially.
+      auto res_serial = tf -> predict(data);
+      // Get results in parallel.
+      auto res_parallel = tf -> predict(data, 2);
+      BOOST_CHECK(all(equal(res_serial, res_parallel)));
+  }
   //auto timestruct = PredictTimer<Tree<float, float, uint, std::vector<float>, std::vector<float>>, Array<float, 2, 2>>(tf.get(), &data);
   //float time = Utility::timeit<std::chrono::nanoseconds>(&timestruct, false, 3, 2);
   //std::cout << time;
