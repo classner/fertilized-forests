@@ -115,6 +115,14 @@ namespace fertilized {
      * range.
      */
     bool IsCompatibleWith(const dprov_t &data_provider) const  {
+      auto sample_list_ptr = data_provider.get_samples();
+      for (const auto &sample_ptr : *sample_list_ptr) {
+        if (! (sample_ptr.annotation[0] >= 0 &&
+               sample_ptr.annotation[0] < this -> n_classes)) {
+            throw Fertilized_Exception("The annotations for classification "
+              "must be in [0; n_classes)!");
+        }
+      }
       return true;
     };
 

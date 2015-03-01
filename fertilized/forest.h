@@ -569,18 +569,33 @@ namespace fertilized {
      * -----
      */
     Array<double, 1, 1> compute_feature_importances() const {
-        Array<double, 1, 1> result = (*trees)[0] -> compute_feature_importances();
-        bool skip = true;
-        for (const auto &tree_ptr : *trees) {
-            if (!skip) {
-                result.deep() += tree_ptr -> compute_feature_importances();
-            } else {
-                skip = false;
-            }
+      Array<double, 1, 1> result;
+      unsigned int nvalid = 0;
+      bool initialized = false;
+      for (const auto &tree_ptr : *trees) {
+        if (tree_ptr -> get_n_nodes() <= 1) {
+          // The tree cannot be used for importance computation, since
+          // it has no decision nodes!
+          continue;
+        } else {
+          nvalid++;
+          if (initialized) {
+            result.deep() += tree_ptr -> compute_feature_importances();
+          } else {
+            result = tree_ptr -> compute_feature_importances();
+            initialized = true;
+          }
         }
-        // Normalize!
-        result.deep() /= static_cast<double>(trees -> size());
-        return result;
+      }
+      if (nvalid == 0) {
+        throw Fertilized_Exception("No trees with deciders found! Can not "
+                                   "compute feature importances. Have you run "
+                                   "the training? If so, the trees do not find "
+                                   "any meaningful splits.");
+      }
+      // Normalize!
+      result.deep() /= static_cast<double>(nvalid);
+      return result;
     }
 
     /**
