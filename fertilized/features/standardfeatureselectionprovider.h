@@ -242,6 +242,22 @@ namespace fertilized {
                eq_re;
       }
     };
+    
+    /**
+     * Get the total number of of available features.
+     * 
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     * 
+     * -----
+     */
+    size_t get_n_available_features() const {
+        return how_many_available;
+    };
 
 #ifdef SERIALIZATION_ENABLED
     friend class boost::serialization::access;

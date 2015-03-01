@@ -18,6 +18,7 @@
 #include "../global.h"
 #include "../types.h"
 #include "../data_providers/idataprovider.h"
+#include "../ndarray.h"
 
 namespace fertilized {
   /**
@@ -125,6 +126,16 @@ namespace fertilized {
 
     /** Gets the input dimension of the feature selection provider. */
     virtual size_t get_required_num_data_dim() const VIRTUAL(size_t);
+    
+    /**
+     * \brief Computes a feature importance vector.
+     * 
+     * The vector is normalized to sum to 1.0. It contains the relative
+     * frequencies of the feature occurences. Its length is the number
+     * of available features.
+     */
+    virtual Array<double, 1, 1> compute_feature_importances() const
+      VIRTUAL((Array<double, 1, 1>));
 
     virtual bool operator==(const IDecider &rhs) const VIRTUAL(bool);
 

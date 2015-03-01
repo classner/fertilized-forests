@@ -193,12 +193,64 @@ namespace fertilized {
     }
 #endif
 
-    /** Get the horizontal patch size. */
+    /**
+     * Get the horizontal patch size.
+     *
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     * 
+     * ----- 
+     */
     size_t get_size_x() const { return size_x; }
-    /** Get the vertical patch size. */
+    /**
+     *  Get the vertical patch size.
+     *
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     * 
+     * ----- 
+     */
     size_t get_size_y() const { return size_y; }
-    /** Get the patch depth. */
+    /**
+     * Get the patch depth.
+     *
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     * 
+     * ----- 
+     */
     size_t get_size_z() const { return size_z; }
+
+    /**
+     * Get the total number of of available features.
+     * 
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     * 
+     * -----
+     */
+    size_t get_n_available_features() const {
+        // No overflows.
+        FASSERT(std::numeric_limits<size_t>::max() / size_y <= size_x);
+        FASSERT(std::numeric_limits<size_t>::max() / (size_x*size_y) <= size_z);
+        return size_x * size_y * size_z;
+    };
 
    protected:
     VolumeFeatureSelectionProvider() {}

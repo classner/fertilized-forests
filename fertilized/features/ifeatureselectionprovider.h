@@ -64,6 +64,11 @@ namespace fertilized {
     /** Deep comparison. */
     virtual bool operator==(const IFeatureSelectionProvider &rhs)
       const VIRTUAL(bool);
+      
+    /**
+     * Get the total number of of available features.
+     */
+    virtual size_t get_n_available_features() const VIRTUAL(size_t);
 
 #ifdef SERIALIZATION_ENABLED
     friend class boost::serialization::access;

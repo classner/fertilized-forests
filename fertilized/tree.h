@@ -526,15 +526,20 @@ namespace fertilized {
 #ifdef PYTHON_ENABLED
         py::gil_guard_release guard;
 #endif
-	const input_dtype *base_ptr = &data[0][0];
-	const size_t line_length = data.TPLMETH getSize<1>();
-	#pragma omp parallel for num_threads(num_threads) if (num_threads != 1) \
+    const input_dtype *base_ptr = &data[0][0];
+    const size_t line_length = data.TPLMETH getSize<1>();
+        // Extract the lines serially, since the Array class is not thread-safe (yet)
+        std::vector<Array<double, 2, 2>::Reference> lines;
+        for (int i = 0; i < data.TPLMETH getSize<0>(); ++i) {
+          lines.push_back(result_array[i]);
+        }
+        #pragma omp parallel for num_threads(num_threads) if (num_threads != 1) \
           default(none) /* Require explicit spec. */\
-          shared(data, result_array, base_ptr) \
+          shared(data, result_array, base_ptr, lines) \
           schedule(static)
         for (int i = 0; i < data.TPLMETH getSize<0>(); ++i) {
           leaf_manager -> summarize_tree_result(predict_leaf_result(base_ptr + i * line_length),
-                                                result_array[i]);
+                                                lines[i]);
         }
       }
       return result_array;
@@ -794,6 +799,8 @@ namespace fertilized {
      * -----
      * Available in:
      * - C++
+     * - Python
+     * - Matlab
      * .
      *
      * -----
@@ -801,6 +808,26 @@ namespace fertilized {
     std::shared_ptr<const dec_t> get_decider() const {
       return decider;
     };
+    
+    /**
+     * \brief Computes a feature importance vector.
+     * 
+     * The vector is normalized to sum to 1.0. It contains the relative
+     * frequencies of the feature occurences. Its length is the number
+     * of available features.
+     * 
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     * 
+     * -----
+     */
+    Array<double, 1, 1> compute_feature_importances() const {
+        return decider -> compute_feature_importances();
+    }
 
     /**
      * \brief The leaf manager used by this tree.
@@ -808,6 +835,8 @@ namespace fertilized {
      * -----
      * Available in:
      * - C++
+     * - Python
+     * - Matlab
      * .
      *
      * -----

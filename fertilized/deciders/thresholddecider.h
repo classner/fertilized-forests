@@ -23,6 +23,7 @@
 #include "../threshold_optimizers/ithresholdoptimizer.h"
 #include "../threshold_optimizers/alternatingthresholdoptimizer.h"
 #include "./idecider.h"
+#include "../ndarray.h"
 
 namespace fertilized {
   /**
@@ -80,7 +81,7 @@ namespace fertilized {
      * \brief A tuple to store all parameters for one decision node.
      *
      * The parameters are stored as follows:
-     *  -# A vector with the data dimension used for feature calculation.
+     *  -# A vector with the data dimensions used for feature calculation.
      *  -# A pointer to a feature calculation parameter set.
      *  -# Which thresholds should be used.
      *  -# A pair of < and > threshold values.
@@ -561,6 +562,52 @@ namespace fertilized {
     std::shared_ptr<const IFeatureSelectionProvider> get_selection_provider() const {
       return selection_provider;
     }
+    
+    /**
+     * \brief Computes a feature importance vector.
+     * 
+     * The vector is normalized to sum to 1.0. It contains the relative
+     * frequencies of the feature occurences. Its length is the number
+     * of available features.
+     * 
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     * -----
+     */
+    Array<double, 1, 1> compute_feature_importances() const {
+        if (decision_param_map.size() == 0) {
+            throw Fertilized_Exception("This decider has no decision rules "
+              "stored! This can happen if the training was not run yet, or "
+              "if the decision tree only has one leaf (the root node). To "
+              "solve the problem, either run the training, or call "
+              "forest -> compute_feature_importances() to have it "
+              "handle this case automatically by using the importances "
+              "of other trees.");
+        }
+        // Get the total number of features.
+        const size_t total = selection_provider -> get_n_available_features();
+        // Allocate and initialize the array to return.
+        Array<double, 1, 1> result = allocate(total);
+        result.deep() = 0.;
+        // Calculate the total usage numbers of each feature.
+        for (const auto &id_param_pair : decision_param_map) {
+            // The node id is irrelevant, just get the parameter tuple.
+            const decision_tuple_t &param_tpl = id_param_pair.second;
+            // This is the vector of used feature dimensions.
+            const std::vector<size_t> dimvec = std::get<0>(param_tpl);
+            // Add up the counts.
+            for (const size_t &dimind : dimvec) {
+                result[ dimind ] += 1.;
+            }
+        }
+        // Normalize to get the relative frequencies.
+        result.deep() /= static_cast<double>(decision_param_map.size());
+        return result;
+    };
 
     /**
      * -----

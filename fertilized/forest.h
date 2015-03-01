@@ -28,13 +28,6 @@
 #include "./ndarray.h"
 
 namespace fertilized {
-  using ndarray::Array;
-  using ndarray::allocate;
-  using ndarray::Vector;
-  using ndarray::makeVector;
-#ifdef PYTHON_ENABLED
-  namespace py = boost::python;
-#endif
   /**
    * Standard forest class of the library.
    *
@@ -327,17 +320,22 @@ namespace fertilized {
 #ifdef PYTHON_ENABLED
         py::gil_guard_release guard;
 #endif
-	const input_dtype *base_ptr = &data[0][0];
-	const size_t line_length = data.TPLMETH getSize<1>();
-	#pragma omp parallel for num_threads(num_threads) if (num_threads != 1) \
-	  default(none) /* Require explicit spec. */\
-	  shared(data, leaf_manager, result_array, base_ptr) \
-	  schedule(static)
+        const input_dtype *base_ptr = &data[0][0];
+        const size_t line_length = data.TPLMETH getSize<1>();
+        // Extract the lines serially, since the Array class is not thread-safe (yet)
+        std::vector<Array<double, 2, 2>::Reference> lines;
+        for (int i = 0; i < data.TPLMETH getSize<0>(); ++i) {
+          lines.push_back(result_array[i]);
+        }
+        #pragma omp parallel for num_threads(num_threads) if (num_threads != 1) \
+          default(none) /* Require explicit spec. */\
+          shared(data, leaf_manager, result_array, base_ptr, lines) \
+          schedule(static)
         for (int i = 0; i < data.TPLMETH getSize<0>(); ++i) {
           leaf_manager -> summarize_forest_result(predict_forest_result(
                                                     base_ptr + i * line_length,
                                                     1),
-                                                  result_array[i]);
+                                                  lines[i]);
         }
       }
       return result_array;
@@ -545,12 +543,44 @@ namespace fertilized {
      * -----
      * Available in:
      * - C++
+     * - Python
      * .
      *
      * -----
      */ 
     std::shared_ptr<const tree_ptr_vec_t> get_trees() const {
       return trees;
+    }
+    
+    /**
+     * \brief Computes a feature importance vector.
+     * 
+     * The vector is normalized to sum to 1.0. It contains the relative
+     * frequencies of the feature occurences. Its length is the number
+     * of available features.
+     * 
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     * 
+     * -----
+     */
+    Array<double, 1, 1> compute_feature_importances() const {
+        Array<double, 1, 1> result = (*trees)[0] -> compute_feature_importances();
+        bool skip = true;
+        for (const auto &tree_ptr : *trees) {
+            if (!skip) {
+                result.deep() += tree_ptr -> compute_feature_importances();
+            } else {
+                skip = false;
+            }
+        }
+        // Normalize!
+        result.deep() /= static_cast<double>(trees -> size());
+        return result;
     }
 
     /**
