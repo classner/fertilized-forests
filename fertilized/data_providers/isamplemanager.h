@@ -92,7 +92,7 @@ namespace fertilized {
     void ensure_available(const elem_id_vec_t &element_ids) {
       // It is allowed to temporarily use more samples than max_elements
       // (when a leaf must be created). When calling this method, these
-      // additional elements are freed again.
+      // additional elements are deleted again.
       if (last_reserved_elem > max_elements) {
         // Free the space.
         if (reserve_space) {
@@ -119,8 +119,10 @@ namespace fertilized {
       if (samples_available.size() < last_reserved_elem + 1) {
         if (reserve_space) {
         // Load the element.
-        data_ptrs.emplace_back(new input_dtype[sample_size]);
-        annot_ptrs.emplace_back(new annotation_dtype[annot_size]);
+        data_ptrs.emplace_back(new input_dtype[sample_size],
+                               [](input_dtype *p){ delete[] p; });
+        annot_ptrs.emplace_back(new annotation_dtype[annot_size],
+                                [](annotation_dtype *p) { delete[] p; });
         load_sample(elem_id,
                     &((*samples)[elem_id]),
                     data_ptrs.back().get(),
@@ -201,10 +203,17 @@ namespace fertilized {
     const size_t annot_size;
 
   protected:
-    /** The data storage pointers. */
-    std::vector<std::unique_ptr<input_dtype>> data_ptrs;
+    /** The data storage pointers.
+     *
+     * This should be unique_ptrs. Unfortunately, C++ 11 did not specify
+     * a constructor accepting a custom deleter, making it impossible to
+     * use a plain memory range there (delete[] and free cannot be used, only
+     * delete). Until there is a better solution, use shared_ptrs here with
+     * unfortunately a little overhead. :(
+     */
+    std::vector<std::shared_ptr<input_dtype>> data_ptrs;
     /** The annotation storage pointers. */
-    std::vector<std::unique_ptr<annotation_dtype>> annot_ptrs;
+    std::vector<std::shared_ptr<annotation_dtype>> annot_ptrs;
     std::shared_ptr<sample_vec_t> samples;
     /** Stores which samples are currently loaded. */
     elem_id_vec_t samples_available;

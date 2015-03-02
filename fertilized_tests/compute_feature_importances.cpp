@@ -46,9 +46,9 @@ BOOST_AUTO_TEST_CASE(Correctness_Basic) {
     Y2[i][0] = static_cast<unsigned int>(i);
   }
   tf -> fit(X2, Y2);
-  //importances = tf -> compute_feature_importances();
-  //BOOST_CHECK(fabs(importances[0] - 0.5) < 0.01);
-  //BOOST_CHECK(fabs(importances[1] - 0.5) < 0.01);
+  importances = tf -> compute_feature_importances();
+  BOOST_CHECK(fabs(importances[0] - 0.5) < 0.01);
+  BOOST_CHECK(fabs(importances[1] - 0.5) < 0.01);
 };
 
 BOOST_AUTO_TEST_SUITE_END();
