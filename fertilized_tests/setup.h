@@ -147,7 +147,8 @@ struct ClassificationDataProviderFixture {
                                                 [](I *p){ delete[] p;});
     annot_data = std::shared_ptr<A>(new A[n_samples * annot_factor],
       [](A *p){delete[] p;});
-    weights = std::shared_ptr<float>(new float[n_samples]);
+    weights = std::shared_ptr<float>(new float[n_samples],
+                                     [](float *p) {delete[] p;});
     if (column_wise) {
       for (size_t i = 0; i < n_samples; ++i) {
         data_gen(input_data.get() + i, i);
@@ -179,10 +180,11 @@ struct ClassificationDataProviderFixture {
     const bool &column_wise = true,
     const size_t &annot_factor = 1) {
     input_data = std::shared_ptr<I>(new I[n_samples * sample_dim],
-                                                [](I *p){ delete[] p;});
+                                    [](I *p){ delete[] p;});
     annot_data = std::shared_ptr<A>(new A[n_samples * annot_factor],
-                                            [](A *p){delete[] p;});
-    weights = std::shared_ptr<float>(new float[n_samples]);
+                                    [](A *p){delete[] p;});
+    weights = std::shared_ptr<float>(new float[n_samples],
+                                     [](float *p) { delete[] p; });
     auto data_gen = [&](I *d, size_t ind){
       for (size_t i = 0; i < sample_dim; ++i) {
         *d = static_cast<I>(i);
@@ -308,12 +310,14 @@ struct ImageDataFixture {
     const_im_ptrs_vec -> push_back(im_2);
     images.push_back(im_arr_1);
     images.push_back(im_arr_2);
-    shapes = std::shared_ptr<a_dt>(static_cast<a_dt*>(malloc(4 * sizeof(a_dt))));
+    shapes = std::shared_ptr<a_dt>(new a_dt[4],
+                                   [](a_dt *p){ delete[] p; });
     shapes.get()[0] = 40;
     shapes.get()[1] = 40;
     shapes.get()[2] = 50;
     shapes.get()[3] = 50;
-    patch_descs = std::shared_ptr<a_dt>(static_cast<a_dt*>(malloc(4 * 5 * sizeof(a_dt))));
+    patch_descs = std::shared_ptr<a_dt>(new a_dt[4 * 5],
+                                        [](a_dt *p) { delete[] p;});
     patch_vec = std::make_shared<std::vector<i_dt*>>();
     i_dt *tmp;
     //

@@ -2,6 +2,7 @@
 #include <fertilized/fertilized.h>
 
 #include <random>
+#include <iostream>
 
 #include "boost/test/unit_test.hpp"
 
@@ -23,7 +24,7 @@ BOOST_AUTO_TEST_CASE(Correctness_Parallel_Tree_Training) {
       100, // n samples
       100, // sample dim
       2, // n classes
-      [&feat_dist, &eng](double *val, size_t ind) { *val = feat_dist(eng); }, // data generator
+      [&feat_dist, &eng](double *val, size_t ind) { for (int i = 0; i < 100; ++i) { val[i] = feat_dist(eng); } }, // data generator
       [&class_dist, &eng](uint *cls, size_t ind) { *cls = class_dist(eng); }, // annotation generator
       [](float *weight, size_t ind) {*weight = 1.f;}, // weight generator
       false,
@@ -68,7 +69,7 @@ BOOST_AUTO_TEST_CASE(Correctness_Deciders_threading) {
     ClassificationDataProviderFixture<double>(1000, // n samples
       100, // sample dim
       2, // n classes
-      [&feat_dist, &eng](double *val, size_t ind) { *val = feat_dist(eng); }, // data generator
+      [&feat_dist, &eng](double *val, size_t ind) { for (int i = 0; i < 100; ++i) { val[i] = feat_dist(eng); } }, // data generator
       [&class_dist, &eng](uint *cls, size_t ind) { *cls = class_dist(eng); }, // annotation generator
       [](float *weight, size_t ind) {*weight = 1.f;}, // weight generator
       false,
@@ -82,8 +83,16 @@ BOOST_AUTO_TEST_CASE(Correctness_Deciders_threading) {
     &make_to_leaf_threaded,
     &elem_list_left_threaded,
     &elem_list_right_threaded);
-
-  auto dprov_fixture_unthreaded = ClassificationDataProviderFixture<double>(1000, 100, 2, false, 1);
+  eng = std::mt19937_64();
+  auto dprov_fixture_unthreaded =
+    ClassificationDataProviderFixture<double>(1000, // n samples
+      100, // sample dim
+      2, // n classes
+      [&feat_dist, &eng](double *val, size_t ind) { for (int i = 0; i < 100; ++i) { val[i] = feat_dist(eng); } }, // data generator
+      [&class_dist, &eng](uint *cls, size_t ind) { *cls = class_dist(eng); }, // annotation generator
+      [](float *weight, size_t ind) {*weight = 1.f;}, // weight generator
+      false,
+      1);
   bool make_to_leaf_unthreaded;
   auto elem_list_left_unthreaded = std::make_shared<fertilized::elem_id_vec_t>();
   auto elem_list_right_unthreaded = std::make_shared<fertilized::elem_id_vec_t>();
@@ -117,7 +126,7 @@ BOOST_AUTO_TEST_CASE(Correctness_Deciders_early_stop) {
                                           true); // early stopping
   auto lm_early = s.ClassificationLeafManager(2);
   auto tree_early = s.Tree(10000, 1, 2, tdec_early, lm_early);
-  
+
   auto selprov_nonearly = s.StandardFeatureSelectionProvider(1, // selections per node
                                                     1, // selection dimension
                                                     1); // selections available

@@ -826,6 +826,14 @@ namespace fertilized {
      * -----
      */
     Array<double, 1, 1> compute_feature_importances() const {
+        if (this -> tree.size() == 1) {
+            throw Fertilized_Exception(
+              "It is impossible to compute feature importances from this "
+              "tree, since no decision nodes have been created. Either run "
+              "the tree training to create some, or use forest -> "
+              "compute_feature_importances() to have the importances computed "
+              "from other, more successful trees.");
+        }
         return decider -> compute_feature_importances();
     }
 
