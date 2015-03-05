@@ -14,7 +14,9 @@ namespace fertilized {
   // Forward declarations.
 @ for tplid in tplids
     template <typename T>
-    void __serialization_register_{{tplid}}(T &);
+    void __serialization_register_{{tplid}}(T &,
+      const bool &always_register,
+      const unsigned int &serialization_library_version);
 @ endfor
 
   /**
@@ -22,17 +24,25 @@ namespace fertilized {
    * derived classes with boost serialization.
    */
   template <class Archive>
-  void register_fertilized_objects_(Archive &ar) {
+  void register_fertilized_objects_(Archive &ar,
+                                    const bool &always_register,
+                                    const unsigned int &serialization_library_version) {
 @ for tplid in tplids
-    __serialization_register_{{tplid}}(ar);
+    __serialization_register_{{tplid}}(ar,
+        always_register,
+        serialization_library_version);
 @ endfor
   };
 
   TemplateFuncExport DllExport void register_fertilized_objects_(
-    boost::archive::text_iarchive &ar);
+    boost::archive::text_iarchive &ar, const
+    bool &always_register,
+    const unsigned int &serialization_library_version);
 
   TemplateFuncExport DllExport void register_fertilized_objects_(
-    boost::archive::text_oarchive &ar);
+    boost::archive::text_oarchive &ar,
+    const bool &always_register,
+    const unsigned int &serialization_library_version);
 
 }  // namespace fertilized
 #endif  // SERIALIZATION_ENABLED

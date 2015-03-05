@@ -15,7 +15,9 @@ namespace fertilized {
 #ifdef SERIALIZATION_ENABLED
 
   template <class Archive>
-  void register_fertilized_objects_(Archive &ar);
+  void register_fertilized_objects_(Archive &ar,
+                                    const bool &always_register=true,
+                                    const unsigned int &serialization_library_version=0U);
 
   /**
    * Serializes any library object into an std::string.

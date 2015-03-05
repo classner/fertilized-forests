@@ -31,6 +31,8 @@ namespace fertilized {
 template <typename T>
   DllExport std::string serialize(const T *obj, const bool &direct) {
     std::stringstream ss;
+    // Add the library version information to the stream.
+    ss << FERTILIZED_LIB_VERSION() << '\n';
     boost::archive::text_oarchive oa(ss);
     register_fertilized_objects_(oa);
     if (direct)
@@ -42,8 +44,10 @@ template <typename T>
 
   template <typename T>
   DllExport T * deserialize(std::stringstream &ser) {
+    unsigned int serialized_lib_version;
+    ser >> serialized_lib_version;
     boost::archive::text_iarchive ia(ser);
-    register_fertilized_objects_(ia);
+    register_fertilized_objects_(ia, false, serialized_lib_version);
     T *obj;
     ia >> obj;
     return obj;
@@ -51,8 +55,10 @@ template <typename T>
 
   template <typename T>
   DllExport void deserialize(std::stringstream &ser, T* obj) {
+    unsigned int serialized_lib_version;
+    ser >> serialized_lib_version;
     boost::archive::text_iarchive ia(ser);
-    register_fertilized_objects_(ia);
+    register_fertilized_objects_(ia, false, serialized_lib_version);
     ia >> *obj;
   };
 }
