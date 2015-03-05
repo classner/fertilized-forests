@@ -49,6 +49,14 @@ namespace fertilized {
    * have to specify this with a parser list "Soil type always:". You can find
    * an example for this in impurities/shannonentropy.h.
    *
+   * The specification of the "Serialization generation:" is important if you
+   * want to serialize your object and remain compatible to other versions
+   * of the library. Specify the number as the version number of the library
+   * in hundreds format (e.g., 1.00 requires 100) plus one
+   * (e.g., if the current library version is 1.01, use 102). Your self-
+   * compiled library version with the additional object will be backwards
+   * compatible with all lower library versions.
+   *
    * -----
    * Available in:
    * - C++
@@ -59,6 +67,7 @@ namespace fertilized {
    * - int; int; uint; std::vector<float>; std::vector<float>
    * - float; float; uint; std::vector<float>; std::vector<float>
    * .
+   * Serialization generation: 101
    *
    * -----
    */
