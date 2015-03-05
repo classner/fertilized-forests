@@ -2,6 +2,11 @@
 #ifndef FERTILIZED_OBJECT_TEMPLATE_H
 #define FERTILIZED_OBJECT_TEMPLATE_H
 
+// Concerning the filename:
+// the filename MUST be exactly the lower-case object name, e.g.,
+// for an object called ObjectTemplate, it must reside in objecttemplate.h,
+// it its an object called Object_Template, it must reside in object_template.h!
+
 // Include, to get all library dependent global definitions, etc.
 // Depending on where you put the object header file, you have to
 // adjust the relative path to 'global.h'.

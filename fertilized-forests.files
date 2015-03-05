@@ -527,4 +527,4 @@ version.py
 fertilized_tests/test_template.cpp
 fertilized_tests/compute_feature_importances.cpp
 config.log
-fertilized/object_template.h
+fertilized/objecttemplate.h
