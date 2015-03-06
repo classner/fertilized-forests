@@ -58,7 +58,12 @@ namespace fertilized {
    * in hundreds format (e.g., 1.00 as 100) plus one
    * (e.g., if the current library version is 1.01, use 102). Your self-
    * compiled library version with the additional object will be backwards
-   * compatible with all lower library versions.
+   * compatible with all lower library versions. Increase the library version in
+   * the file 'global.h' to the same value!
+   *
+   * IMPORTANT: you HAVE to adjust the `Serializaton generation:` version number
+   * and the library version in 'global.h' to serialize your object and
+   * maintain backwards compatibility!
    *
    * -----
    * Available in:
@@ -70,7 +75,7 @@ namespace fertilized {
    * - int; int; uint; std::vector<float>; std::vector<float>
    * - float; float; uint; std::vector<float>; std::vector<float>
    * .
-   * Serialization generation: 101
+   * Serialization generation: 100
    *
    * -----
    */
