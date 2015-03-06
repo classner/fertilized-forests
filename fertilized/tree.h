@@ -800,7 +800,6 @@ namespace fertilized {
      * Available in:
      * - C++
      * - Python
-     * - Matlab
      * .
      *
      * -----
@@ -844,7 +843,6 @@ namespace fertilized {
      * Available in:
      * - C++
      * - Python
-     * - Matlab
      * .
      *
      * -----

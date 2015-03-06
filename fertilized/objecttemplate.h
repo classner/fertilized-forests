@@ -99,7 +99,8 @@ namespace fertilized {
      * - all plain C++ types,
      * - vectors of these types,
      * - 'Array's,
-     * - library objects.
+     * - library objects (not available for Matlab!),
+     * - vectors of library objects (not available for Matlab!).
      *
      * Remember to run `scons --generate-interfaces` to update all language
      * interfaces after a change to your class specification. This also requires
