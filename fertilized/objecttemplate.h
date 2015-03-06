@@ -41,18 +41,21 @@ namespace fertilized {
    *
    * To start and end this section, use exactly -----. End the lists with a dot
    * and add an empty line after the last list. This is not due to our parser,
-   * but due to doxygen to get a meaningful rendering for the documentation.
+   * but due to doxygen. It is required to get a meaningful rendering for the
+   * documentation.
    *
-   * Use exactly the library templates (with exactly those names) for your
-   * objects. If your class is templated differently, only one possible
+   * Use exactly the library template names `input_dtype`, `feature_dtype`,
+   * `annotation_dtype`, `leaf_return_dtype`, `forest_dtype` for your
+   * objects as necessary (you may omit unnecessary ones). If your class is 
+   * templated differently, only one possible
    * template instantiation can be used for the interfaces. In that case, you
    * have to specify this with a parser list "Soil type always:". You can find
    * an example for this in impurities/shannonentropy.h.
    *
    * The specification of the "Serialization generation:" is important if you
-   * want to serialize your object and remain compatible to other versions
+   * want to serialize your object and remain compatible to older versions
    * of the library. Specify the number as the version number of the library
-   * in hundreds format (e.g., 1.00 requires 100) plus one
+   * in hundreds format (e.g., 1.00 as 100) plus one
    * (e.g., if the current library version is 1.01, use 102). Your self-
    * compiled library version with the additional object will be backwards
    * compatible with all lower library versions.
@@ -118,6 +121,8 @@ namespace fertilized {
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive & ar, const uint file_version) {
+      // If the object inherits from another object, add
+      // ar & boost::serialization::base_object<TheBaseClass>(*this);
       // Serialize all relevant properties.
       ar & example_property;
     }
@@ -136,4 +141,3 @@ namespace fertilized {
   };
 };  // namespace fertilized
 #endif // FERTILIZED_OBJECT_TEMPLATE_H
-
