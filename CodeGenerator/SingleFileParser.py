@@ -101,7 +101,8 @@ class SingleFileParser(object):
             inherits = inheritstr
         # extract types from doxygen comment
         dte = DoxygenTypeExtractor(cls.get("doxygen"))
-        availableIn, types, soilUsage = dte.Extract()
+        availableIn, types, soilUsage, serialization_generation = dte.Extract()
+        # print("serialization generation: %d" % (serialization_generation))
         if types == None:
             print("[WARNING]    no type comment for class " +  cls["name"])
         # get classes template params
@@ -170,7 +171,8 @@ class SingleFileParser(object):
                                                         'Matlab': RstDocProvider(cppdoc)},
                                         inherits = inherits,
                                         constructors = parsed_constructors,
-                                        defining_header=self.Filename)
+                                        defining_header=self.Filename,
+                                        serialization_generation=serialization_generation)
         for method in wrappedMethods:
           method.ParentClass = wrappedClass
         wrappedClass.AvailableIn = availableIn
@@ -183,7 +185,11 @@ class SingleFileParser(object):
         typenames, templateParamStr = tpp.RetrieveTemplateParameters()
         # extract types from doxygen comment
         dte = DoxygenTypeExtractor(func.get("doxygen"))
-        availableIn, types, soilUsage = dte.Extract()
+        try:
+          availableIn, types, soilUsage, _ = dte.Extract()
+        except:
+          availableIn, types, soilUsage, _ = dte.Extract()
+          pass
         methodAvailableIn, exportedName = dte.ExtractExportedName()
         if types == None and \
            not func['name'] == 'serialize' and \

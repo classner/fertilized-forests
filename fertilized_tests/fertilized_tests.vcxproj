@@ -19,6 +19,7 @@
     <ClCompile Include="impurities.cpp" />
     <ClCompile Include="regression_calculator.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="test_template.cpp" />
     <ClCompile Include="threshold_decider.cpp" />
     <ClCompile Include="threshold_optimizer.cpp" />
     <ClCompile Include="trees.cpp" />

@@ -3,6 +3,9 @@
 #ifndef FERTILIZED_GLOBAL_H_
 #define FERTILIZED_GLOBAL_H_
 
+// The library version information.
+static const unsigned int FERTILIZED_LIB_VERSION() { return 100U; }
+
 #ifdef PYTHON_ENABLED
 // This inclusion must be done before certain system header to avoid nasty
 // redefines. It must be the boost version, because otherwise under Windows

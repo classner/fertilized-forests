@@ -429,6 +429,7 @@
       <Filter>features</Filter>
     </ClInclude>
     <ClInclude Include="default_values.h" />
+    <ClInclude Include="objecttemplate.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="build.bat">

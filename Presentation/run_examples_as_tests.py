@@ -1,7 +1,9 @@
+from __future__ import print_function
 import subprocess
 import sys
 import os
 
+print("Running python examples...")
 os.chdir('Python')
 for tfilename in ['classification.py',
                   'effect_depth.py',
@@ -24,4 +26,10 @@ subprocess.check_call(['python',
                        'hough_detect.py',
                        sys.argv[1],
                        'quiet'])
+os.chdir('..')
+print("Running C++ examples...")
+os.chdir('C++')
+subprocess.check_call(['overview'])
+subprocess.check_call(['custom'])
+subprocess.check_call(['regression'])
 os.chdir('..')

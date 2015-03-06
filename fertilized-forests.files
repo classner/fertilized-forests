@@ -527,3 +527,6 @@ version.py
 fertilized_tests/test_template.cpp
 fertilized_tests/compute_feature_importances.cpp
 config.log
+fertilized/objecttemplate.h
+fertilized/serialization/__serialize_256.cpp
+fertilized/serialization/__serialize_257.cpp

@@ -529,6 +529,7 @@ namespace fertilized {
      * -----
      * Available in:
      * - C++
+     * - Python
      * .
      *
      * -----

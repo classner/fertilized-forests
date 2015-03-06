@@ -112,6 +112,7 @@
     <ClInclude Include="ndarray\vectorize.h" />
     <ClInclude Include="ndarray\views.h" />
     <ClInclude Include="ndarray_fwd.h" />
+    <ClInclude Include="objecttemplate.h" />
     <ClInclude Include="regression\constantregressioncalculator.h" />
     <ClInclude Include="regression\iregressioncalculator.h" />
     <ClInclude Include="regression\linearregressioncalculator.h" />

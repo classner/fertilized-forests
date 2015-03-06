@@ -18,17 +18,28 @@
 
 namespace fertilized {
   template <class Archive>
-  void __serialization_register_{{tplid}}(Archive &ar) {
+  void __serialization_register_{{tplid}}(Archive &ar,
+                                          const bool &always_register,
+                                          const unsigned int &serialization_library_version) {
+    if (always_register ||
+        serialization_library_version >= {{cls.SerializationGeneration}}) {
 @ if not cls.IsAbstract
 @ if not insttypes is none
-    ar.template register_type<{{cls.ClassName}}<{{cpptools.render_types(insttypes.Types)}}	  >>();
+      ar.template register_type<{{cls.ClassName}}<{{cpptools.render_types(insttypes.Types)}}	  >>();
 @ else
-    ar.template register_type<{{cls.ClassName}}>();
+      ar.template register_type<{{cls.ClassName}}>();
 @ endif
 @ endif
+    }
   };
-  TemplateFuncExport DllExport void __serialization_register_{{tplid}}(boost::archive::text_iarchive &ar);
-  TemplateFuncExport DllExport void __serialization_register_{{tplid}}(boost::archive::text_oarchive &ar);
+  TemplateFuncExport DllExport void __serialization_register_{{tplid}}(
+      boost::archive::text_iarchive &ar,
+      const bool &always_register,
+      const unsigned int &serialization_library_version);
+  TemplateFuncExport DllExport void __serialization_register_{{tplid}}(
+      boost::archive::text_oarchive &ar,
+      const bool &always_register,
+      const unsigned int &serialization_library_version);
 
 @ if not insttypes is none
     TemplateFuncExport DllExport std::string serialize(const {{cls.ClassName}}<{{cpptools.render_types(insttypes.Types)}}	  > *, const bool &);

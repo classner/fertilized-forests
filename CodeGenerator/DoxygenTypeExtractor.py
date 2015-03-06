@@ -41,7 +41,7 @@ class DoxygenTypeExtractor(object):
 
     def Extract(self):
         if self.DoxygenComment == None:
-            return [], None, None
+            return [], None, None, None
 
         lines = self.DoxygenComment.splitlines()
 
@@ -54,6 +54,7 @@ class DoxygenTypeExtractor(object):
         availableIn = []
         instantiations = []
         instantiationsTmp = []
+        serialization_generation = None
         soilUsage = None
 
         for line in lines:
@@ -66,10 +67,13 @@ class DoxygenTypeExtractor(object):
             
             if re.compile("^.*?Available in:$").match(line):
                 isExtractingAvailableIn = True
+                isExtractingInstantiations = False
+                isExtractingSoilUsage = False
                 
             if re.compile("^.*?Instantiations:$").match(line):
                 isExtractingAvailableIn = False
                 isExtractingInstantiations = True
+                isExtractingSoilUsage = False
 
             if re.compile("^.*?Soil type always:$").match(line):
                 isExtractingSoilUsage = True
@@ -83,6 +87,17 @@ class DoxygenTypeExtractor(object):
                 instantiationsTmp.append(lineMatch.group(1))
             elif lineMatch and isExtractingSoilUsage:
                 soilUsage = lineMatch.group(1)
+            # Look for the serialization generation.
+            sergen = re.search("\* ?Serialization generation: ?(\d+)\s*", line.strip())
+            if not sergen is None:
+              if not serialization_generation is None:
+                raise Exception("Found multiple specifications of the " +\
+                  "serialization generation!")
+              else:
+                serialization_generation = int(sergen.group(1))
+        if serialization_generation is None:
+          # default.
+          serialization_generation = 0
         
         # Split instantiation types
         for i in instantiationsTmp:
@@ -98,6 +113,6 @@ class DoxygenTypeExtractor(object):
           soilUsage = InstantiationTypes(result)
 
         if instantiations.count == 0:
-            return availableIn, None, soilUsage
+            return availableIn, None, soilUsage, serialization_generation
         else:
-            return availableIn, instantiations, soilUsage
+            return availableIn, instantiations, soilUsage, serialization_generation

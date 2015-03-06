@@ -47,7 +47,8 @@ class FertilizedClass(object):
                                  'Matlab':''},
                  inherits=None,
                  constructors=None,
-                 defining_header=None):
+                 defining_header=None,
+                 serialization_generation=None):
         self.ClassName = classType.TypeString
         self.ClassType = classType
         self.IsAbstract = isAbstract
@@ -58,6 +59,9 @@ class FertilizedClass(object):
         self.Inherits = inherits
         self.Constructors = constructors
         self.DefiningHeader = defining_header
+        if serialization_generation is None:
+          raise Exception("Serialization generation must be specified!")
+        self.SerializationGeneration = serialization_generation
          
         if supportedTypes == []:
             self.SupportedTypes = None
