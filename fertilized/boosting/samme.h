@@ -1,0 +1,143 @@
+/* Author: Christian Diller. */
+#pragma once
+#ifndef FERTILIZED_BOOSTING_SAMME_H_
+#define FERTILIZED_BOOSTING_SAMME_H_
+
+#ifdef SERIALIZATION_ENABLED
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/base_object.hpp>
+#endif
+
+#include <vector>
+#include <algorithm>
+
+#include "../global.h"
+#include "../types.h"
+#include "./iboostingstrategy.h"
+
+namespace fertilized {
+   /**
+    * \brief SAMME boosting algorithm implementation
+    *
+    * Implements the SAMME boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
+    * See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
+    * One can set the learning rate which specifies the contribution of each classifier
+    *
+    * \ingroup fertilizedboostingGroup
+    *
+    * -----
+    * Available in:
+    * - C++
+    * - Python
+    * - Matlab
+    * .
+    * Instantiations:
+    * - int; int; uint; std::vector<float>; std::vector<float>
+    * - float; float; uint; std::vector<float>; std::vector<float>
+    * - double; double; uint; std::vector<float>; std::vector<float>
+    * - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
+    * - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
+    * - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
+    * .
+    *
+    * -----
+    */
+    template <typename input_dtype, typename feature_dtype,typename annotation_dtype, typename leaf_return_dtype,typename forest_return_dtype>
+    class Samme : public IBoostingStrategy<input_dtype, feature_dtype, annotation_dtype, leaf_return_dtype, forest_return_dtype> {
+    public:
+        typedef IBoostingStrategy<input_dtype, feature_dtype, annotation_dtype, leaf_return_dtype, forest_return_dtype> boost_strat_t;
+        typedef TrainingAction<input_dtype, annotation_dtype> train_act_t;
+        using typename boost_strat_t::fdprov_t;
+        using typename boost_strat_t::tree_ptr_vec_t;
+        using typename boost_strat_t::exec_strat_t;
+        typedef Sample<input_dtype, annotation_dtype> sample_t;
+        typedef std::vector<sample_t> sample_list_t;
+
+        /**
+        * -----
+        * Available in:
+        * - C++
+        * - Python
+        * - Matlab
+        * .
+        *
+        * -----
+        */
+        Samme(float learning_rate=1.f) : learning_rate(learning_rate) {}
+
+        /**
+        * \brief Performs the SAMME training
+        */
+        void perform(const tree_ptr_vec_t& trees, fdprov_t* fdata_provider, exec_strat_t* exec_strategy, uint n_classes) {
+            auto samples = std::const_pointer_cast<sample_list_t>(fdata_provider->get_samples());
+            //Initialize sample weights
+            float inital_weight = 1.f / static_cast<float>(samples->size());
+            for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
+                samples->at(sampleIndex).weight = inital_weight;
+
+            for(size_t treeIndex = 0; treeIndex < trees.size(); ++treeIndex) {
+                //Train the current tree
+                train_act_t current_train_act(treeIndex, CompletionLevel::Complete, action_type::DFS, fdata_provider->dproviders[treeIndex]);
+                exec_strategy->execute_step(current_train_act);
+
+                //Check for misclassified samples
+                std::vector<bool> misclassified(samples->size());
+                for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex) {
+                    std::vector<float> result = trees[treeIndex]->predict_leaf_result(samples->at(sampleIndex).data);
+                    misclassified[sampleIndex] = ((std::max_element(result.begin(), result.end()) - result.begin()) != *samples->at(sampleIndex).annotation);
+                }
+
+                //Calculate estimator error
+                float estimator_error = 0.f;
+                for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
+                    estimator_error += (samples->at(sampleIndex).weight * misclassified[sampleIndex]);
+
+                if(estimator_error > 0) {
+                    //Calculate estimator weight
+                    float estimator_weight = std::log((1.f - estimator_error) / estimator_error) + std::log(n_classes - 1);
+
+                    //Set new sample weights
+                    for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
+                        samples->at(sampleIndex).weight *= std::exp(estimator_weight * misclassified[sampleIndex]);
+
+                    float normalize_base = 0.f;
+                    for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
+                        normalize_base += samples->at(sampleIndex).weight;
+                    for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
+                        samples->at(sampleIndex).weight /= normalize_base;
+
+                    //Set tree weight
+                    trees[treeIndex]->set_weight(estimator_weight);
+                }
+            }
+        }
+
+        /**
+        * -----
+        * Available in:
+        * - C++
+        * - Python
+        * - Matlab
+        * .
+        *
+        * -----
+        */
+        bool operator==(const IBoostingStrategy<input_dtype, feature_dtype, annotation_dtype, leaf_return_dtype, forest_return_dtype> &rhs) const {
+            const auto *rhs_c = dynamic_cast<Samme<input_dtype, feature_dtype, annotation_dtype, leaf_return_dtype, forest_return_dtype> const *>(&rhs);
+            return rhs_c != nullptr;
+        }
+
+    #ifdef SERIALIZATION_ENABLED
+        friend class boost::serialization::access;
+        template<class Archive>
+        void serialize(Archive & ar, const uint file_version) {
+            ar & boost::serialization::base_object<boost_strat_t>(*this);
+            ar & learning_rate;
+        }
+    #endif
+    private:
+        float learning_rate;
+    };
+};  // namespace fertilized
+
+#endif  // FERTILIZED_BOOSTING_SAMME_H_

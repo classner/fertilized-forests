@@ -530,3 +530,8 @@ config.log
 fertilized/objecttemplate.h
 fertilized/serialization/__serialize_256.cpp
 fertilized/serialization/__serialize_257.cpp
+fertilized/trainings/boostedtraining.h
+fertilized/boosting/iboostingstrategy.h
+fertilized/boosting/adaboost.h
+fertilized/boosting/samme.h
+fertilized/boosting/samme_r.h
