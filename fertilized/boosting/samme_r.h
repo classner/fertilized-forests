@@ -69,7 +69,44 @@ namespace fertilized {
         * \brief Performs the SAMME.R training
         */
         void perform(const tree_ptr_vec_t& trees, fdprov_t* fdata_provider, exec_strat_t* exec_strategy, uint n_classes) {
+            //Get the samples
+            auto samples = std::const_pointer_cast<sample_list_t>(fdata_provider->get_samples());
 
+            //Initialize sample weights
+            float inital_weight = 1.f / static_cast<float>(samples->size());
+            for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
+                samples->at(sampleIndex).weight = inital_weight;
+
+            for(size_t treeIndex = 0; treeIndex < trees.size(); ++treeIndex) {
+                //Train the current tree
+                train_act_t current_train_act(treeIndex, CompletionLevel::Complete, action_type::DFS, fdata_provider->dproviders[treeIndex]);
+                exec_strategy->execute_step(current_train_act);
+
+                float estimator_weight = 0.f;
+                for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex) {
+                    std::vector<float> result = trees[treeIndex]->predict_leaf_result(samples->at(sampleIndex).data);
+                    float weight = 0.f;
+                    annotation_dtype y = *samples->at(sampleIndex).annotation;
+                    //Calculate the weight for the current sample
+                    for(uint classIndex = 0; classIndex < result.size(); ++classIndex) {
+                        weight += -1.f*((static_cast<float>(n_classes)-1.f)/static_cast<float>(n_classes)) *
+                                (classIndex == y ? 1.f : -1.f/(static_cast<float>(n_classes)-1.f)) *
+                                (result[classIndex] == 0 ? std::log(1e-5) : std::log(result[classIndex]));
+                    }
+                    samples->at(sampleIndex).weight = std::exp(learning_rate * weight);
+                    estimator_weight += weight;
+                }
+
+                //Normalize sample weights
+                float normalize_base = 0.f;
+                for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
+                    normalize_base += samples->at(sampleIndex).weight;
+                for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
+                    samples->at(sampleIndex).weight /= normalize_base;
+
+                //Set tree weight
+                trees[treeIndex]->set_weight(estimator_weight);
+            }
         }
 
         /**
