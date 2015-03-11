@@ -430,6 +430,9 @@
     </ClInclude>
     <ClInclude Include="default_values.h" />
     <ClInclude Include="objecttemplate.h" />
+    <ClInclude Include="feature_extraction\dnnfeatureextractor.h">
+      <Filter>feature_extraction</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="build.bat">
@@ -1177,6 +1180,9 @@
     </ClCompile>
     <ClCompile Include="serialization\__serialize_232.cpp">
       <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="feature_extraction\dnnfeatureextractor.cpp">
+      <Filter>feature_extraction</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

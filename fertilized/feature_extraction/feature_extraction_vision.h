@@ -1,4 +1,8 @@
 /* Author: Christoph Lassner. */
+
+#ifndef FERTILIZED_FEATURE_EXTRACTION_VISION_H_
+#define FERTILIZED_FEATURE_EXTRACTION_VISION_H_
+
 #include <vector>
 
 #include <opencv2/opencv.hpp>
@@ -22,3 +26,5 @@ namespace fertilized {
                                                   const cv::Mat &image,
                                                   const bool &full=false);
 }  // namespace fertilized
+
+#endif // FERTILIZED_FEATURE_EXTRACTION_VISION_H_

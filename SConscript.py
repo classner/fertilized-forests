@@ -6,20 +6,35 @@ import sys
 import platform
 import sysconfig
 import subprocess
+import urllib
+import time
 from SConsChecks import AddLibOptions, GetLibChecks
 from version import VERSION as VERSION_STRING
 
-_libs = ['boost.numpy',
+_caffeSetupOptions, _caffeMakeEnvironment, _caffeSetupTargets, \
+_caffeChecks, _caffeGetRequiredLibs = SConscript(
+  os.path.join("external", "caffe-brewer", "SConscript.py"),
+               variant_dir='build/caffe')
+
+_libs = ['boost.datetime',
+         'boost.filesystem',
+         'boost.interprocess',
+         'boost.numpy',
          'boost.preprocessor',
          'boost.python',
          'boost.serialization',
+         'boost.system',
          'boost.test',
          'boost.thread',
-         'python',
-         'numpy',
-         'opencv',
+         'cuda',
          'eigen',
-         'matlab']
+         'hdf5',
+         'numpy',
+         'matlab',
+         'openblas',
+         'opencv',
+         'protobuf',
+         'python']
 
 _checks = GetLibChecks(_libs)
 
@@ -39,6 +54,16 @@ def getRequiredLibs():
       req_libs.append('boost.test')
     if GetOption('with_matlab'):
       req_libs.append('matlab')
+    if GetOption('with_caffe'):
+      req_libs.extend(['boost.datetime',
+                       'boost.system',
+                       'boost.filesystem',
+                       'boost.thread',
+                       'hdf5',
+                       'openblas',
+                       'protobuf'])
+      if not GetOption('cpu_only'):
+        req_libs.append('cuda')
   else:
     req_libs = []
   return req_libs
@@ -96,36 +121,42 @@ def setupOptions():
               metavar="DIR", help="location to install libraries (overrides --prefix for libraries)")
     AddOption("--with-serialization", dest="serialization_enabled",
               action="store_true", help="enable serialization (requires boost serialization)",
-              default=False),
+              default=False)
     AddOption("--with-checks", dest="debug_checks", action="store_true",
-              default=False, help="enable debug assertions and checks"),
+              default=False, help="enable debug assertions and checks")
     AddOption("--disable-optimizations", dest="debug_build", action="store_true",
-              default=False, help="disable optimizations"),
+              default=False, help="disable optimizations")
     AddOption("--generate-ndarray", dest="generate_ndarray", action="store_true",
-              default=False, help="generate the ndarray code. Requires m4!"),
+              default=False, help="generate the ndarray code. Requires m4!")
     AddOption("--generate-interfaces", dest="generate_interfaces", action="store_true",
-              default=False, help="generate the Python and Matlab interface code."),
+              default=False, help="generate the Python and Matlab interface code.")
     AddOption("--generate-documentation", dest="generate_documentation", action="store_true",
-              default=False, help="generate the doxygen documentation."),
+              default=False, help="generate the doxygen documentation.")
     AddOption("--with-python", dest="with_python",
               action="store_true", help="enables building the python library",
-              default=False),
+              default=False)
     AddOption("--with-python-support", dest="python_support",
               action="store_true", help="enables building python supporting "
               "elements in the core library. Is auto-enabled if option "
               "--with-python is set.", default=False),
     AddOption("--with-tests", dest="with_tests",
               action="store_true", help="enables building the test suite",
-              default=False),
+              default=False)
     AddOption("--with-matlab", dest="with_matlab",
               action="store_true", help="enables building the matlab interface",
-              default=False),
+              default=False)
     AddOption("--with-examples", dest="with_examples",
               action="store_true", help="enables building the examples (you can find them in the Presentation folder)",
-              default=False),
+              default=False)
+    AddOption("--with-caffe", dest="with_caffe",
+              action="store_true", help="enables caffe feature extraction. Adds additional dependencies and restricts the license to non-commercial use!",
+              default=False)
+    AddOption("--caffe-model-dir", dest="caffe_model_dir",
+              action="store", help="the directory in which caffe models for the caffe feature extraction are stored",
+              default="")
     AddOption("--disable-openmp", dest="with_openmp",
               action="store_false", help="disables OpenMP. Disables parallel execution.",
-              default=True),
+              default=True)
     AddOption("--toolchain", dest="toolchain",
               action="store", metavar="NAME", help="toolchain to use for the build. Supported: msvc (Microsoft compiler), icl (Intel compiler), g++ (GNU compiler)",
               default=default_toolchain)
@@ -154,6 +185,8 @@ def makeEnvironment(variables):
     # Create build enviromnent.
     env = Environment(tools=['default', GetOption("toolchain"), 'm4'], variables=variables, ENV=shellEnv)
     #SetupSpawn(env)
+    if GetOption("with_caffe") and not GetOption("cpu_only"):
+        env.Tool('nvcc')
     # Append environment compiler flags.
     if env.Dictionary().has_key("CCFLAGS"):
         if isinstance(env['CCFLAGS'], basestring):
@@ -208,6 +241,8 @@ def makeEnvironment(variables):
     env['SERIALIZATION_ENABLED'] = GetOption('serialization_enabled')
     if GetOption('serialization_enabled'):
         env.AppendUnique(CPPDEFINES=['SERIALIZATION_ENABLED'])
+    if GetOption('with_caffe'):
+        env.AppendUnique(CPPDEFINES=['CAFFE_FEATURE_EXTRACTION_ENABLED'])
     env['DEBUG_CHECKS'] = GetOption('debug_checks')
     env['VARIANT_DIR_PREF'] = 'debug' if GetOption('debug_build') else 'release'
     if GetOption('debug_build'):
@@ -246,7 +281,25 @@ def makeEnvironment(variables):
     env['VERSION_STRING'] = VERSION_STRING
     return env
 
-def setupTargets(env, root="."):
+def download_reporthook(count, block_size, total_size):
+    """
+    From http://blog.moleculea.com/2012/10/04/urlretrieve-progres-indicator/
+    """
+    global start_time
+    if count == 0:
+        start_time = time.time()
+        return
+    duration = time.time() - start_time
+    progress_size = int(count * block_size)
+    speed = int(progress_size / (1024 * max(duration, 1)))
+    percent = int(count * block_size * 100 / total_size)
+    sys.stdout.write("\r...%d%%, %d MB, %d KB/s, %d seconds passed" %
+                    (percent, progress_size / (1024 * 1024), speed, duration))
+    sys.stdout.flush()
+
+    
+def setupTargets(env, root=".",
+                 caffe_headers=[], caffe_core_objects=[], caffe_link_libs=[]):
     # It should be possible to build without ndarray installed. Similarly,
     # it should be an extra step to build documentation and generate the
     # interface code. This is, why I introduce three extra command line
@@ -316,15 +369,45 @@ def setupTargets(env, root="."):
             tmp_libs.extend(libitem)
           else:
             tmp_libs.append(libitem)
+        if not GetOption("with_caffe"):
           env.Replace(LIBS=[lib for lib in tmp_libs \
-                              if not lib.startswith("opencv_highgui")])
+                            if not lib.startswith("opencv_highgui")])
       lib, headers = SConscript(os.path.join(root, "fertilized", "SConscript.py"),
-                                exports=['env'],
+                                exports=['env', 'caffe_headers', 'caffe_core_objects', 'caffe_link_libs'],
                                 variant_dir='build/'+env['VARIANT_DIR_PREF']+'/fertilized')
       # A copy in the project root for UNIX-sytems to get the linking paths
       # right.
       lib_lnk = lib[1] if os.name=='nt' else lib[0]
       lib_lnk = env.Install('#', lib_lnk)[0]
+    if GetOption('with_caffe'):
+      # Prepare the AlexNet as standard feature extractor.
+      if GetOption('caffe_model_dir') == "":
+        print "Please specify a directory to store the caffe models in with the parameter '--caffe-model-dir=/dir'!"
+        sys.exit(1)
+      else:
+        print "Setting up caffe model directory..."
+        if not os.path.exists(GetOption('caffe_model_dir')):
+          os.mkdir(GetOption('caffe_model_dir'))
+        print "Setting up AlexNet as default DNN feature extractor..."
+        alex_dir = os.path.abspath(os.path.join(GetOption('caffe_model_dir'), 'bvlc_alexnet'))
+        if not os.path.exists(alex_dir):
+          os.mkdir(alex_dir)
+        layer_filename = os.path.join(alex_dir, 'bvlc_alexnet.caffemodel')
+        if not os.path.exists(layer_filename):
+            print "Downloading AlexNet..."
+            urllib.urlretrieve('http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel',
+                               layer_filename, download_reporthook)
+        model_filename = os.path.join(alex_dir, 'alexnet_extraction.prototxt')
+        env.InstallAs(model_filename,
+                      Glob('fertilized/feature_extraction/alexnet_extraction.prototxt'))
+        mean_filename = os.path.join(alex_dir, 'alexnet_mean.txt')
+        env.InstallAs(mean_filename,
+                      Glob('fertilized/feature_extraction/alexnet_mean.txt'))
+        with open('fertilized/feature_extraction/__alexnet.h', 'w') as alexf:
+          alexf.write('/* This is an automatically generated file! */\n')
+          alexf.write('const std::string __ALEXNET_MODELFILE = "%s";\n' % model_filename.replace('\\', '\\\\'))
+          alexf.write('const std::string __ALEXNET_MEANFILE = "%s";\n' % mean_filename.replace('\\', '\\\\'))
+          alexf.write('const std::string __ALEXNET_LAYERFILE = "%s";\n' % layer_filename.replace('\\', '\\\\'))
     if GetOption('with_python') and not generate_mode:
       # Build boost numpy
       VERSION = sys.version_info.major
@@ -373,8 +456,8 @@ def setupTargets(env, root="."):
                  variant_dir='build/'+env['VARIANT_DIR_PREF']+'/Presentation')
     if not generate_mode:
       if GetOption("with_python"):
-        print 'Warning: the project is built with python. It is not '+\
-              'automatically installed at the moment. Please install it '+\
+        print 'The project is built with python support. If you want you can install it ' +\
+              'into the python library by ' +\
               'using setuptools from the pyfertilized directory.'
       # Install in project folders.
       project_includes = []

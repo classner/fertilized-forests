@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="checks.cpp" />
     <ClCompile Include="data_providers.cpp" />
+    <ClCompile Include="DNNFeatureExtractor.cpp" />
     <ClCompile Include="features.cpp" />
     <ClCompile Include="forest.cpp" />
     <ClCompile Include="gain.cpp" />
