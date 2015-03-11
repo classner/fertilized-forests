@@ -66,9 +66,10 @@ namespace fertilized {
         Samme(float learning_rate=1.f) : learning_rate(learning_rate) {}
 
         /**
-        * \brief Performs the SAMME training
+        * \brief Performs the discrete SAMME training
         */
         void perform(const tree_ptr_vec_t& trees, fdprov_t* fdata_provider, exec_strat_t* exec_strategy, uint n_classes) {
+            //Get the samples
             auto samples = std::const_pointer_cast<sample_list_t>(fdata_provider->get_samples());
             //Initialize sample weights
             float inital_weight = 1.f / static_cast<float>(samples->size());
@@ -89,17 +90,26 @@ namespace fertilized {
 
                 //Calculate estimator error
                 float estimator_error = 0.f;
-                for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
-                    estimator_error += (samples->at(sampleIndex).weight * misclassified[sampleIndex]);
+                float weight_sum = 0.f;
+                for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex) {
+                    estimator_error += (samples->at(sampleIndex).weight * (misclassified[sampleIndex] ? 1.f : 0.f));
+                    weight_sum += samples->at(sampleIndex).weight;
+                }
+                estimator_error /= weight_sum;
 
-                if(estimator_error > 0) {
+                if(estimator_error <= 0) { //Best result
+                    trees[treeIndex]->set_weight(1.f);
+                } else if(estimator_error >= 1.f - 1.f / n_classes) { //Worst result
+                    trees[treeIndex]->set_weight(0.f);
+                } else {
                     //Calculate estimator weight
-                    float estimator_weight = std::log((1.f - estimator_error) / estimator_error) + std::log(n_classes - 1);
+                    float estimator_weight = learning_rate * std::log((1.f - estimator_error) / estimator_error) + std::log(static_cast<float>(n_classes) - 1.f);
 
                     //Set new sample weights
                     for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
                         samples->at(sampleIndex).weight *= std::exp(estimator_weight * misclassified[sampleIndex]);
 
+                    //Normalize sample weights
                     float normalize_base = 0.f;
                     for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
                         normalize_base += samples->at(sampleIndex).weight;
