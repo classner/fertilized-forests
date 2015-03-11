@@ -6,6 +6,7 @@ import sys
 import platform
 import sysconfig
 import subprocess
+import shutil
 import urllib
 import time
 from SConsChecks import AddLibOptions, GetLibChecks
@@ -243,6 +244,8 @@ def makeEnvironment(variables):
         env.AppendUnique(CPPDEFINES=['SERIALIZATION_ENABLED'])
     if GetOption('with_caffe'):
         env.AppendUnique(CPPDEFINES=['CAFFE_FEATURE_EXTRACTION_ENABLED'])
+        if GetOption('cpu_only'):
+            env.AppendUnique(CPPDEFINES=['CAFFE_CPU_ONLY'])
     env['DEBUG_CHECKS'] = GetOption('debug_checks')
     env['VARIANT_DIR_PREF'] = 'debug' if GetOption('debug_build') else 'release'
     if GetOption('debug_build'):
@@ -398,11 +401,15 @@ def setupTargets(env, root=".",
             urllib.urlretrieve('http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel',
                                layer_filename, download_reporthook)
         model_filename = os.path.join(alex_dir, 'alexnet_extraction.prototxt')
-        env.InstallAs(model_filename,
-                      Glob('fertilized/feature_extraction/alexnet_extraction.prototxt'))
+        orig_model_file = Glob('./fertilized/feature_extraction/alexnet_extraction.prototxt')
+        if not os.path.exists(model_filename):
+            shutil.copyfile(os.path.abspath(str(orig_model_file[0])),
+                            model_filename)
         mean_filename = os.path.join(alex_dir, 'alexnet_mean.txt')
-        env.InstallAs(mean_filename,
-                      Glob('fertilized/feature_extraction/alexnet_mean.txt'))
+        orig_mean_file = Glob('fertilized/feature_extraction/alexnet_mean.txt')
+        if not os.path.exists(mean_filename):
+            shutil.copyfile(os.path.abspath(str(orig_mean_file[0])),
+                            mean_filename)
         with open('fertilized/feature_extraction/__alexnet.h', 'w') as alexf:
           alexf.write('/* This is an automatically generated file! */\n')
           alexf.write('const std::string __ALEXNET_MODELFILE = "%s";\n' % model_filename.replace('\\', '\\\\'))

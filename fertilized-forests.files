@@ -530,3 +530,9 @@ config.log
 fertilized/objecttemplate.h
 fertilized/serialization/__serialize_256.cpp
 fertilized/serialization/__serialize_257.cpp
+fertilized_tests/DNNFeatureExtractor.cpp
+fertilized/feature_extraction/alexnet_extraction.prototxt
+fertilized/feature_extraction/dnnfeatureextractor.h
+fertilized/feature_extraction/alexnet_mean.txt
+fertilized/feature_extraction/dnnfeatureextractor.cpp
+fertilized/feature_extraction/__alexnet.h

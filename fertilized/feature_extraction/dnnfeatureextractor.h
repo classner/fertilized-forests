@@ -43,13 +43,13 @@ namespace fertilized {
      * -----
      *
      */
-    DllExport DNNFeatureExtractor(std::string net_layout_file="",
+    DllExport DNNFeatureExtractor(const bool &use_cpu=false,
+                                  const int &device_id=0,
+                                  std::string net_layout_file="",
                                   std::string net_weights_file="",
                                   std::string net_outlayer="",
                                   const bool &load_mean=true,
-                                  std::string mean_file="",
-                                  const bool &use_cpu=false,
-                                  const int &device_id=0);
+                                  std::string mean_file="");
     DllExport ~DNNFeatureExtractor();
 
     /**

@@ -22,6 +22,7 @@ if GetOption('with_caffe'):
     fertilized_lib_env.PrependUnique(CPPPATH=[Dir('#external/caffe-brewer/dependencies/mdb/libraries/liblmdb').abspath])
     if GetOption('cpu_only'):
       fertilized_lib_env.AppendUnique(CPPDEFINES=['CPU_ONLY'])
+    fertilized_lib_env['STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME']=1
 if fertilized_lib_env['CC'] == 'cl':
   # Set warning level to 3 (highest, before all warnings).
   fertilized_lib_env.AppendUnique(CPPFLAGS='/W3')

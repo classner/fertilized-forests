@@ -13,10 +13,10 @@
 #include <boost/algorithm/string.hpp>
 #include <opencv2/opencv.hpp>
 // TODO: remove
-#define GLOG_NO_ABBREVIATED_SEVERITIES
+//#define GLOG_NO_ABBREVIATED_SEVERITIES
 #include <caffe/caffe.hpp>
-#define NOMINMAX
-#include <Windows.h>
+//#define NOMINMAX
+//#include <Windows.h>
 //#include <caffe/proto/caffe.pb.h>
 
 #include "./dnnfeatureextractor.h"
@@ -36,23 +36,53 @@ namespace fertilized {
                            blob -> channels() *
                            blob -> width() *
                            blob -> height(),
-      &target[start_image, 0, 0, 0]);
+      &target[start_image][0][0][0]);
   };
 
-  inline cv::Mat deserializeMean(std::string const& meanfilename,                          int *dimx,                          int *dimy,                          int *channels) {    std::ifstream meanstream(meanfilename);    if (!meanstream.is_open()) {      throw Fertilized_Exception("Can not open mean file: " + meanfilename);    }    std::string line;    // read num rows    std::getline(meanstream, line);    boost::trim(line);    *dimy = std::stoi(line);    // read num cols    std::getline(meanstream, line);    boost::trim(line);    *dimx = std::stoi(line);    // read num channels    std::getline(meanstream, line);    boost::trim(line);    *channels = std::stoi( line );    // read data    std::getline(meanstream, line);    boost::trim(line);    meanstream.close();
+  inline cv::Mat deserializeMean(std::string const& meanfilename,
+                                 int *dimx,
+                                 int *dimy,
+                                 int *channels) {
+    std::ifstream meanstream(meanfilename);
+    if (!meanstream.is_open()) {
+        throw Fertilized_Exception("Can not open mean file: " + meanfilename);
+    }
+    std::string line;
+    // read num rows
+    std::getline(meanstream, line);
+    boost::trim(line);
+    *dimy = std::stoi(line);
+    // read num cols
+    std::getline(meanstream, line);
+    boost::trim(line);
+    *dimx = std::stoi(line);
+    // read num channels
+    std::getline(meanstream, line);
+    boost::trim(line);
+    *channels = std::stoi( line );
+    // read data
+    std::getline(meanstream, line);
+    boost::trim(line);
+    meanstream.close();
     std::vector<std::string> fdata;
-    boost::split(fdata, line, boost::is_any_of(" "));    cv::Mat result(*dimy, *dimx, CV_32FC3);    float *data_ptr = result.ptr<float>();    for ( size_t fitem = 0; fitem < fdata.size(); ++fitem ) {      boost::trim(fdata[fitem]);      data_ptr[fitem] = std::stof(fdata[fitem]);    }
+    boost::split(fdata, line, boost::is_any_of(" "));
+    cv::Mat result(*dimy, *dimx, CV_32FC3);
+    float *data_ptr = result.ptr<float>();
+    for ( size_t fitem = 0; fitem < fdata.size(); ++fitem ) {
+        boost::trim(fdata[fitem]);
+        data_ptr[fitem] = std::stof(fdata[fitem]);
+    }
     return result;
   };
 
   DllExport DNNFeatureExtractor::DNNFeatureExtractor(
-                                           std::string net_layout_file,
-                                           std::string net_weights_file,
-                                           std::string net_outlayer,
-                                           const bool &load_mean,
-                                           std::string mean_file,
-                                           const bool &use_cpu,
-                                           const int &device_id)
+                                        const bool &use_cpu,
+                                        const int &device_id,
+                                        std::string net_layout_file,
+                                        std::string net_weights_file,
+                                        std::string net_outlayer,
+                                        const bool &load_mean,
+                                        std::string mean_file)
     : mean_available(false) {
     // Replace defaults.
     if (net_layout_file == "")
@@ -67,9 +97,14 @@ namespace fertilized {
     if (use_cpu) {
       caffe::Caffe::set_mode(caffe::Caffe::CPU);
     } else {
+#ifdef CAFFE_CPU_ONLY
+      throw Fertilized_Exception("This binary has been built without "
+                                 "GPU support!");
+#else
       caffe::Caffe::set_mode(caffe::Caffe::GPU);
       // Set device.
       caffe::Caffe::SetDevice(device_id);
+#endif
     }
     // Load network layout.
     caffe::Net<float> *net = new caffe::Net<float>(net_layout_file,
@@ -89,19 +124,53 @@ namespace fertilized {
     // Load the mean image if necessary.
     if (load_mean) {
       int mean_x = 0;
-      int mean_y = 0;      int mean_channels = 0;      if (!fs::exists(mean_file)) {        throw Fertilized_Exception("Mean file for the DNNFeatureExtractor does "
-          "not exist: " + mean_file);
-      }      cv::Mat meanMat = deserializeMean(mean_file,                                        &mean_x,                                        &mean_y,                                        &mean_channels);      if (mean_channels != 3) {        throw Fertilized_Exception("Only 3 channel images are supported! "          "The mean image must also have 3 channels!");      }      cv::resize(meanMat, mean_data, input_size, 0.0, 0.0, CV_INTER_CUBIC);      if (mean_channels != net -> input_blobs()[0] -> channels()) {        throw Fertilized_Exception("Mean image for the DNNFeatureExtractor "          "must have the same amount of channels as the input of the "          "network!");      }      mean_available = true;    }    // Determine the read layer index.    read_layer_idx = -1;    int blobindex = 0;    for (const auto &blobname : net -> blob_names()) {      std::cout << blobname << std::endl;      if (blobname == net_outlayer) {        read_layer_idx = blobindex;        break;      }      blobindex++;    }    if (read_layer_idx == -1) {      throw Fertilized_Exception("Could not find a layer with the specified "        "name!");    }
+      int mean_y = 0;
+      int mean_channels = 0;
+      if (!fs::exists(mean_file)) {
+        throw Fertilized_Exception("Mean file for the DNNFeatureExtractor does "
+                                   "not exist: " + mean_file);
+      }
+      cv::Mat meanMat = deserializeMean(mean_file,
+                                        &mean_x,
+                                        &mean_y,
+                                        &mean_channels);
+      if (mean_channels != 3) {
+          throw Fertilized_Exception("Only 3 channel images are supported! "
+            "The mean image must also have 3 channels!");
+      }
+      cv::resize(meanMat, mean_data, input_size, 0.0, 0.0, CV_INTER_CUBIC);
+      if (mean_channels != net -> input_blobs()[0] -> channels()) {
+          throw Fertilized_Exception("Mean image for the DNNFeatureExtractor "
+            "must have the same amount of channels as the input of the "
+            "network!");
+      }
+      mean_available = true;
+    }
+    // Determine the read layer index.
+    read_layer_idx = -1;
+    int blobindex = 0;
+    for (const auto &blobname : net -> blob_names()) {
+        std::cout << blobname << std::endl;
+        if (blobname == net_outlayer) {
+            read_layer_idx = blobindex;
+            break;
+        }
+        blobindex++;
+    }
+    if (read_layer_idx == -1) {
+        throw Fertilized_Exception("Could not find a layer with the specified "
+                                   "name!");
+    }
   };
 
   DllExport DNNFeatureExtractor::~DNNFeatureExtractor() {
-    delete net_ptr;
+    caffe::Net<float> *net = reinterpret_cast<caffe::Net<float>*>(net_ptr);
+    delete net;
   };
 
   DllExport Array<float, 4, 4> DNNFeatureExtractor::extract(
         const std::vector<Array<const float, 3, 3>> &images,
         const bool &subtract_mean) {
-    DebugBreak();
     Array<float, 4, 4> result;
     cv::Mat mat_view;
     cv::Mat image_mean_prepared;
@@ -129,8 +198,15 @@ namespace fertilized {
       float *input_ptr = net -> input_blobs()[0] -> mutable_cpu_data();
       int rows = input_size.height;
       int cols = input_size.width;
-      for (int row = 0; row < rows; ++row) {        float * src_ptr = image_mean_prepared.ptr<float>(row);
-        for (int col = 0; col < cols; ++col) {          for (int chan = 0; chan < 3; ++chan) {            input_ptr[batch_id*3*rows*cols + chan*rows*cols + row*cols + col] =              src_ptr[col*3+chan];          }        }      }
+      for (int row = 0; row < rows; ++row) {
+        float * src_ptr = image_mean_prepared.ptr<float>(row);
+        for (int col = 0; col < cols; ++col) {
+          for (int chan = 0; chan < 3; ++chan) {
+            input_ptr[batch_id*3*rows*cols + chan*rows*cols + row*cols + col] =
+                src_ptr[col*3+chan];
+          }
+        }
+      }
       std::cout << "Checkpoint!";
       batch_id++;
       // Extract if necessary.

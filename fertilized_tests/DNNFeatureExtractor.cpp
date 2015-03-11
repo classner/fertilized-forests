@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_SUITE(Correctness_DNNFeatureExtractor);
 
 BOOST_AUTO_TEST_CASE(Correctness_Constructor) {
   auto soil = Soil<>();
-  auto feat_extractor = soil.DNNFeatureExtractor();
+  auto feat_extractor = soil.DNNFeatureExtractor(true); // Use CPU!
 };
 
 BOOST_AUTO_TEST_SUITE_END();
