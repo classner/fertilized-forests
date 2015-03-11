@@ -14,6 +14,7 @@
 #include "../global.h"
 #include "../types.h"
 #include "./iboostingstrategy.h"
+#include "../ndarray/Vector.h"
 
 namespace fertilized {
    /**
@@ -69,49 +70,62 @@ namespace fertilized {
         * \brief Performs the AdaBoost.M2 training
         */
         void perform(const tree_ptr_vec_t& trees, fdprov_t* fdata_provider, exec_strat_t* exec_strategy, uint n_classes) {
-            if(n_classes != 2) throw Fertilized_Exception("The AdaBoost boosting algorithm does not work with more than two classes");
             //Get samples
             auto samples = std::const_pointer_cast<sample_list_t>(fdata_provider->get_samples());
+            size_t n_samples = samples->size();
 
-            std::vector<float> initial_weights(n_classes); //Initial weights for the different classes
-            float normalizeBase = 1.f; //The base value for weight normalization
-
-            for(int i = 0; i < samples->size(); ++i)
-                initial_weights[*samples->at(i).annotation]++; //Count sample amount for each class
-            for(int i = 0; i < n_classes; ++i)
-                initial_weights[i] = 1.0/(n_classes*initial_weights[i]); //Calculate inital weights
-            for(int i = 0; i < samples->size(); ++i)
-                samples->at(i).weight = initial_weights[*samples->at(i).annotation]; //Initialize sample weights
+            Array<float,2,2> weightVector = allocate(makeVector(n_samples, static_cast<size_t>(n_classes)));
+            weightVector.deep() = 1.f/static_cast<float>((n_samples)*(n_classes-1));
 
             for (size_t treeIndex = 0; treeIndex < trees.size(); ++treeIndex) {
-                //1. Normalize the weights
-                for(int i = 0; i < samples->size(); ++i) samples->at(i).weight /= normalizeBase;
-                normalizeBase = 0.f;
+                //Calculate sample weight
+                float W_sum = 0.f;
+                for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex) {
+                    annotation_dtype y = *samples->at(sampleIndex).annotation;
+                    float W = 0.f;
+                    for(uint classIndex = 0; classIndex < n_classes; ++classIndex) {
+                        if(classIndex == y) continue;
+                        W += weightVector[sampleIndex][classIndex];
+                    }
+                    samples->at(sampleIndex).weight = W;
+                    W_sum += W;
+                }
+                for(int sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
+                    samples->at(sampleIndex).weight /= W_sum;
 
-                //2. Train the current tree
+                //Train the current tree
                 train_act_t current_train_act(treeIndex, CompletionLevel::Complete, action_type::DFS, fdata_provider->dproviders[treeIndex]);
                 exec_strategy->execute_step(current_train_act);
 
-                //3. Update sample weights
-                float weightAccu = 0.f;
-                float errorAccu = 0.f;
-                float singleError = 0.f;
+                //Calculate epsilon
+                float epsilon = 0.f;
+                Array<float,2,2> hypothesis = allocate(makeVector(n_samples, static_cast<size_t>(n_classes)));
                 for(int sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex) {
-                    std::vector<float> result = trees[treeIndex]->predict_leaf_result(samples->at(sampleIndex).data);
-                    singleError = *std::max_element(result.begin(), result.end()) == *samples->at(sampleIndex).annotation ? 0.f : 1.f;
-                    errorAccu += samples->at(sampleIndex).weight*singleError;
-                    weightAccu += samples->at(sampleIndex).weight;
+                    annotation_dtype y = *samples->at(sampleIndex).annotation;
+                    std::vector<float> output = trees[treeIndex]->predict_leaf_result(samples->at(sampleIndex).data);
+                    for(uint classIndex = 0; classIndex < n_classes; ++classIndex) {
+                        hypothesis[sampleIndex][classIndex] = output[classIndex] * (classIndex == y ? 0.5 : weightVector[sampleIndex][classIndex]);
+                    }
+                    float questionSum = 0.f;
+                    for(uint classIndex = 0; classIndex < n_classes; ++classIndex) {
+                        if(classIndex == y) continue;
+                        questionSum += (weightVector[sampleIndex][classIndex]/W_sum)*hypothesis[sampleIndex][classIndex];
+                    }
+                    epsilon += samples->at(sampleIndex).weight * (1-hypothesis[sampleIndex][y]+questionSum);
                 }
-                float error = errorAccu / weightAccu;
-                std::cout << "errorAccu is " << errorAccu << std::endl;
+                epsilon /= 2.f;
+
+                //Calculate beta and update the weightVector
+                float beta = epsilon/(1.f-epsilon);
                 for(int sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex) {
-                    float alpha = std::log((1.f-error)/(error));
-                    samples->at(sampleIndex).weight *= std::exp(alpha*singleError);
-                    normalizeBase += samples->at(sampleIndex).weight;
+                    annotation_dtype y = *samples->at(sampleIndex).annotation;
+                    for(uint classIndex = 0; classIndex < n_classes; ++classIndex) {
+                        weightVector[classIndex][sampleIndex] *=std::pow(beta, 0.5*(1+hypothesis[sampleIndex][y]-hypothesis[sampleIndex][classIndex]));
+                    }
                 }
 
-                //4. Update tree weight
-                trees[treeIndex]->set_weight(std::log(1.0f/error));
+                //Set tree weight
+                trees[treeIndex]->set_weight(beta == 0 ? 0.f : std::log(1.f/beta));
             }
         }
 
