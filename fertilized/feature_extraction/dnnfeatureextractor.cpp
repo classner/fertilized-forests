@@ -27,7 +27,7 @@ namespace fs = boost::filesystem;
 namespace fertilized {
 
   inline void extract_from_layer(
-                          const boost::shared_ptr<caffe::Blob<float>> &blob,
+                          caffe::Blob<float> const * const blob,
                           Array<float, 4, 4> target,
                           const unsigned int &start_image,
                           const unsigned int &n_images) {
@@ -171,12 +171,19 @@ namespace fertilized {
   DllExport Array<float, 4, 4> DNNFeatureExtractor::extract(
         const std::vector<Array<const float, 3, 3>> &images,
         const bool &subtract_mean) {
-    Array<float, 4, 4> result;
+    // Create the result array in the appropriate size.
+    caffe::Net<float> *net = reinterpret_cast<caffe::Net<float>*>(net_ptr);
+    caffe::Blob<float> *output_blob = (net -> blobs()[read_layer_idx]).get();
+    Vector<size_t, 4> shape;
+    shape[0] = images.size();
+    shape[1] = output_blob -> channels();
+    shape[2] = output_blob -> width();
+    shape[3] = output_blob -> height();
+    Array<float, 4, 4> result = allocate(shape);
     cv::Mat mat_view;
     cv::Mat image_mean_prepared;
     unsigned int batch_id = 0;
     unsigned int image_id = 0;
-    caffe::Net<float> *net = reinterpret_cast<caffe::Net<float>*>(net_ptr);
     for (const auto &image : images) {
       mat_view = cv::Mat(image.TPLMETH getSize<0>(),
                          image.TPLMETH getSize<1>(),
@@ -212,7 +219,7 @@ namespace fertilized {
       // Extract if necessary.
       if (batch_id == net -> input_blobs()[0] -> num()) {
         net -> ForwardTo(read_layer_idx);
-        extract_from_layer(net -> blobs()[read_layer_idx],
+        extract_from_layer(output_blob,
                            result,
                            image_id,
                            batch_id);
@@ -223,7 +230,7 @@ namespace fertilized {
     // Extract if necessary.
     if (batch_id != 0) {
       net -> ForwardTo(read_layer_idx);
-      extract_from_layer(net -> blobs()[read_layer_idx],
+      extract_from_layer(output_blob,
                          result,
                          image_id,
                          batch_id);
