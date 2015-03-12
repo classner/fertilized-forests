@@ -12,12 +12,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <opencv2/opencv.hpp>
-// TODO: remove
-//#define GLOG_NO_ABBREVIATED_SEVERITIES
 #include <caffe/caffe.hpp>
-//#define NOMINMAX
-//#include <Windows.h>
-//#include <caffe/proto/caffe.pb.h>
 
 #include "./dnnfeatureextractor.h"
 #include "./__alexnet.h"
@@ -33,7 +28,10 @@ namespace fertilized {
                           const unsigned int &n_images) {
     std::copy(
       blob -> cpu_data(),
-      blob -> cpu_data() + blob -> offset(n_images+1),
+      blob -> cpu_data() + n_images *
+                           blob -> channels() *
+                           blob -> width() *
+                           blob -> height(),
       &target[start_image][0][0][0]);
   };
 
@@ -137,20 +135,28 @@ namespace fertilized {
       }
       mean_available = true;
     }
-    // Determine the read layer index.
-    read_layer_idx = -1;
+    // Determine the read layer and blob index.
+    read_blob_idx = -1;
     int blobindex = 0;
     for (const auto &blobname : net -> blob_names()) {
-        std::cout << blobname << std::endl;
         if (blobname == net_outlayer) {
-            read_layer_idx = blobindex;
+            read_blob_idx = blobindex;
             break;
         }
         blobindex++;
     }
-    if (read_layer_idx == -1) {
-        throw Fertilized_Exception("Could not find a layer with the specified "
-                                   "name!");
+    read_layer_idx = -1;
+    int layerindex = 0;
+    for (const auto &layername : net -> layer_names()) {
+        if (layername == net_outlayer) {
+            read_layer_idx = layerindex;
+            break;
+        }
+        layerindex++;
+    }
+    if (read_layer_idx == -1 || read_blob_idx == -1) {
+        throw Fertilized_Exception("Could not find a layer and blob with the "
+                                   "specified name!");
     }
   };
 
@@ -164,7 +170,7 @@ namespace fertilized {
         const bool &subtract_mean) {
     // Create the result array in the appropriate size.
     caffe::Net<float> *net = reinterpret_cast<caffe::Net<float>*>(net_ptr);
-    caffe::Blob<float> *output_blob = (net -> blobs()[read_layer_idx]).get();
+    caffe::Blob<float> *output_blob = (net -> blobs()[read_blob_idx]).get();
     Vector<size_t, 4> shape;
     shape[0] = images.size();
     shape[1] = output_blob -> channels();
@@ -175,17 +181,7 @@ namespace fertilized {
     cv::Mat image_mean_prepared;
     unsigned int batch_id = 0;
     unsigned int image_id = 0;
-    // Create the input.
-    // TODO: remove if unnecessary.
-    caffe::Blob<float> *caffe_input = new caffe::Blob<float>(net -> input_blobs()[0] -> num(),
-                                              net -> input_blobs()[0] -> channels(),
-                                              net -> input_blobs()[0] -> height(),
-                                              net -> input_blobs()[0] -> width());
-    std::vector<caffe::Blob<float>*> caffe_in = std::vector<caffe::Blob<float>*>();
-    caffe_in.push_back(caffe_input);
-    float loss;
-    boost::shared_ptr<caffe::Blob<float>> caffe_out = net -> blob_by_name("pool5");
-    // endtodo
+    float *input_ptr = net -> input_blobs()[0] -> mutable_cpu_data();
     for (const auto &image : images) {
       mat_view = cv::Mat(image.TPLMETH getSize<0>(),
                          image.TPLMETH getSize<1>(),
@@ -204,9 +200,6 @@ namespace fertilized {
         image_mean_prepared -= mean_data;
       }
       // reorder channels.
-      // TODO rechange
-      //float *input_ptr = net -> input_blobs()[0] -> mutable_cpu_data();
-      float *input_ptr = caffe_input -> mutable_cpu_data();
       int rows = input_size.height;
       int cols = input_size.width;
       for (int row = 0; row < rows; ++row) {
@@ -221,10 +214,8 @@ namespace fertilized {
       batch_id++;
       // Extract if necessary.
       if (batch_id == net -> input_blobs()[0] -> num()) {
-        // TODO reactivate
-        //net -> ForwardTo(read_layer_idx + 1);
-        net -> Forward(caffe_in, &loss);
-        extract_from_layer(caffe_out.get(),
+        net -> ForwardTo(read_layer_idx);
+        extract_from_layer(output_blob,
                            result,
                            image_id,
                            batch_id);
@@ -234,19 +225,14 @@ namespace fertilized {
     }
     // Extract if necessary.
     if (batch_id != 0) {
-      // TODO reactivate
-      //net -> ForwardTo(read_layer_idx + 1);
-      net -> Forward(caffe_in, &loss);
-      extract_from_layer(caffe_out.get(),
+      net -> ForwardTo(read_layer_idx);
+      extract_from_layer(output_blob,
                          result,
                          image_id,
                          batch_id);
       image_id += batch_id;
       batch_id = 0;
     }
-    // TODO: remove
-    delete caffe_in[0];
-    // endtodo
     return result;
   };
 

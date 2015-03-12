@@ -1,4 +1,5 @@
 // Author: Christoph Lassner.
+#define CAFFE_FEATURE_EXTRACTION_ENABLED
 #ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
 #include <fertilized/fertilized.h>
 
@@ -19,10 +20,11 @@ BOOST_AUTO_TEST_CASE(Correctness_Constructor) {
   auto feature_extractor = soil.DNNFeatureExtractor(true); // Use CPU!
   // Create a dummy 'image'.
   Array<float, 3, 3> testimage = allocate(300, 300, 3);
+  testimage.deep() = 0.f;
   std::vector<Array<float, 3, 3>> images;
   images.push_back(testimage);
-  auto extraction_result = feature_extractor -> extract(images);
-  std::cout << extraction_result[0][100][3][3] << std::endl;
+  auto extraction_result = feature_extractor -> extract(images, false);
+  CHECK_CLOSE_(extraction_result[0][0][0][0], 0.0434589386f);
 };
 
 #ifndef CAFFE_CPU_ONLY
