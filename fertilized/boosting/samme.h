@@ -63,7 +63,10 @@ namespace fertilized {
         *
         * -----
         */
-        Samme(float learning_rate=1.f) : learning_rate(learning_rate) {}
+        Samme(float learning_rate=1.f) : learning_rate(learning_rate) {
+            if(learning_rate <= 0 || learning_rate > 1.f)
+                throw Fertilized_Exception("The learning rate has to be in (0, 1]");
+        }
 
         /**
         * \brief Performs the discrete SAMME training
@@ -107,7 +110,8 @@ namespace fertilized {
 
                     //Set new sample weights
                     for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
-                        samples->at(sampleIndex).weight *= std::exp(estimator_weight * misclassified[sampleIndex]);
+                        samples->at(sampleIndex).weight *= (samples->at(sampleIndex).weight > 0 || estimator_weight < 0) ?
+                                    std::exp(estimator_weight * misclassified[sampleIndex]) : 1.f;
 
                     //Normalize sample weights
                     float normalize_base = 0.f;
@@ -134,7 +138,7 @@ namespace fertilized {
         */
         bool operator==(const IBoostingStrategy<input_dtype, feature_dtype, annotation_dtype, leaf_return_dtype, forest_return_dtype> &rhs) const {
             const auto *rhs_c = dynamic_cast<Samme<input_dtype, feature_dtype, annotation_dtype, leaf_return_dtype, forest_return_dtype> const *>(&rhs);
-            return rhs_c != nullptr;
+            return rhs_c != nullptr && learning_rate == rhs_c->learning_rate;
         }
 
     #ifdef SERIALIZATION_ENABLED
