@@ -31,11 +31,9 @@ namespace fertilized {
                           Array<float, 4, 4> target,
                           const unsigned int &start_image,
                           const unsigned int &n_images) {
-    std::copy(blob -> cpu_data(),
-      blob -> cpu_data() + n_images *
-                           blob -> channels() *
-                           blob -> width() *
-                           blob -> height(),
+    std::copy(
+      blob -> cpu_data(),
+      blob -> cpu_data() + blob -> offset(n_images+1),
       &target[start_image][0][0][0]);
   };
 
@@ -112,13 +110,6 @@ namespace fertilized {
     net_ptr = reinterpret_cast<void*>(net);
     // Load network weights.
     net -> CopyTrainedLayersFrom(net_weights_file);
-    // Create the input.
-    //caffe_input = new caffe::Blob<float>(net -> input_blobs()[0] -> num(),
-    //                                     net -> input_blobs()[0] -> channels(),
-    //                                     net -> input_blobs()[0] -> height(),
-    //                                     net -> input_blobs()[0] -> width());
-    //caffe_in = std::vector<caffe::Blob<float>*>();
-    //caffe_in.push_back(caffe_input);
     input_size = cv::Size(net -> input_blobs()[0] -> width(),
                           net -> input_blobs()[0] -> height());
     // Load the mean image if necessary.
@@ -169,7 +160,7 @@ namespace fertilized {
   };
 
   DllExport Array<float, 4, 4> DNNFeatureExtractor::extract(
-        const std::vector<Array<const float, 3, 3>> &images,
+        const std::vector<Array<float, 3, 3>> &images,
         const bool &subtract_mean) {
     // Create the result array in the appropriate size.
     caffe::Net<float> *net = reinterpret_cast<caffe::Net<float>*>(net_ptr);
@@ -184,11 +175,22 @@ namespace fertilized {
     cv::Mat image_mean_prepared;
     unsigned int batch_id = 0;
     unsigned int image_id = 0;
+    // Create the input.
+    // TODO: remove if unnecessary.
+    caffe::Blob<float> *caffe_input = new caffe::Blob<float>(net -> input_blobs()[0] -> num(),
+                                              net -> input_blobs()[0] -> channels(),
+                                              net -> input_blobs()[0] -> height(),
+                                              net -> input_blobs()[0] -> width());
+    std::vector<caffe::Blob<float>*> caffe_in = std::vector<caffe::Blob<float>*>();
+    caffe_in.push_back(caffe_input);
+    float loss;
+    boost::shared_ptr<caffe::Blob<float>> caffe_out = net -> blob_by_name("pool5");
+    // endtodo
     for (const auto &image : images) {
       mat_view = cv::Mat(image.TPLMETH getSize<0>(),
                          image.TPLMETH getSize<1>(),
                          CV_32FC3,
-                         const_cast<float*>(image.getData()));
+                         image.getData());
       cv::resize(mat_view,
                  image_mean_prepared,
                  input_size,
@@ -202,7 +204,9 @@ namespace fertilized {
         image_mean_prepared -= mean_data;
       }
       // reorder channels.
-      float *input_ptr = net -> input_blobs()[0] -> mutable_cpu_data();
+      // TODO rechange
+      //float *input_ptr = net -> input_blobs()[0] -> mutable_cpu_data();
+      float *input_ptr = caffe_input -> mutable_cpu_data();
       int rows = input_size.height;
       int cols = input_size.width;
       for (int row = 0; row < rows; ++row) {
@@ -214,12 +218,13 @@ namespace fertilized {
           }
         }
       }
-      std::cout << "Checkpoint!";
       batch_id++;
       // Extract if necessary.
       if (batch_id == net -> input_blobs()[0] -> num()) {
-        net -> ForwardTo(read_layer_idx);
-        extract_from_layer(output_blob,
+        // TODO reactivate
+        //net -> ForwardTo(read_layer_idx + 1);
+        net -> Forward(caffe_in, &loss);
+        extract_from_layer(caffe_out.get(),
                            result,
                            image_id,
                            batch_id);
@@ -229,14 +234,19 @@ namespace fertilized {
     }
     // Extract if necessary.
     if (batch_id != 0) {
-      net -> ForwardTo(read_layer_idx);
-      extract_from_layer(output_blob,
+      // TODO reactivate
+      //net -> ForwardTo(read_layer_idx + 1);
+      net -> Forward(caffe_in, &loss);
+      extract_from_layer(caffe_out.get(),
                          result,
                          image_id,
                          batch_id);
       image_id += batch_id;
       batch_id = 0;
     }
+    // TODO: remove
+    delete caffe_in[0];
+    // endtodo
     return result;
   };
 

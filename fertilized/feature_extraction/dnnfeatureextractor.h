@@ -66,7 +66,7 @@ namespace fertilized {
      *
      */
     DllExport Array<float, 4, 4> extract(
-      const std::vector<Array<const float, 3, 3>> &images,
+      const std::vector<Array<float, 3, 3>> &images,
       const bool &subtract_mean=true);
 
    private:
