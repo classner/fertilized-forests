@@ -14,10 +14,10 @@
 
 #ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
 #include <caffe/caffe.hpp>
+#include "./__alexnet.h"
 #endif
 
 #include "./dnnfeatureextractor.h"
-#include "./__alexnet.h"
 
 namespace fs = boost::filesystem;
 
