@@ -2,7 +2,6 @@
 #ifndef FERTILIZED_FEATURE_EXTRACTION_DNNFEATURE_EXTRACTOR_H_
 #define FERTILIZED_FEATURE_EXTRACTION_DNNFEATURE_EXTRACTOR_H_
 
-#ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
 #include "../global.h"
 #include "../ndarray.h"
 
@@ -114,7 +113,7 @@ namespace fertilized {
      *
      * \param images vector(Array<float, 3, 3>)
      *    This vector of C contiguous float arrays contains the images to
-     *    extract the features from in OpenCV format.
+     *    extract the features from in OpenCV (BGR) format.
      *
      * \param subtract_mean bool
      *    Whether to subtract the mean before extracting the features. Can
@@ -136,5 +135,4 @@ namespace fertilized {
   };
 
 };  // namespace fertilized
-#endif // CAFFE_FEATURE_EXTRACTION_ENABLED
 #endif // FERTILIZED_FEATURE_EXTRACTION_DNNFEATURE_EXTRACTOR_H_

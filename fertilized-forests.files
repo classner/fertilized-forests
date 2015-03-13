@@ -536,3 +536,4 @@ fertilized/feature_extraction/dnnfeatureextractor.h
 fertilized/feature_extraction/alexnet_mean.txt
 fertilized/feature_extraction/dnnfeatureextractor.cpp
 fertilized/feature_extraction/__alexnet.h
+README.MD

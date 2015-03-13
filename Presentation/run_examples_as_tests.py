@@ -6,6 +6,7 @@ import os
 print("Running python examples...")
 os.chdir('Python')
 for tfilename in ['classification.py',
+                  'dnn_feature_extraction.py',
                   'effect_depth.py',
                   'effect_weak_learner_rand.py',
                   'overview.py',

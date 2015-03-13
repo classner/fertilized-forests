@@ -1,5 +1,4 @@
 /* Author: Christoph Lassner. */
-#ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
 #include "../global.h"
 #include "../ndarray.h"
 
@@ -12,7 +11,10 @@
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <opencv2/opencv.hpp>
+
+#ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
 #include <caffe/caffe.hpp>
+#endif
 
 #include "./dnnfeatureextractor.h"
 #include "./__alexnet.h"
@@ -20,7 +22,7 @@
 namespace fs = boost::filesystem;
 
 namespace fertilized {
-
+#ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
   inline void extract_from_layer(
                           caffe::Blob<float> const * const blob,
                           Array<float, 4, 4> target,
@@ -70,6 +72,7 @@ namespace fertilized {
     }
     return result;
   };
+#endif
 
   DllExport DNNFeatureExtractor::DNNFeatureExtractor(
                                         const bool &use_cpu,
@@ -80,6 +83,7 @@ namespace fertilized {
                                         const bool &load_mean,
                                         std::string mean_file)
     : mean_available(false) {
+#ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
     // Replace defaults.
     if (net_layout_file == "")
       net_layout_file = __ALEXNET_MODELFILE;
@@ -89,6 +93,8 @@ namespace fertilized {
       net_outlayer = "pool5";
     if (mean_file == "")
       mean_file = __ALEXNET_MEANFILE;
+    if (device_id < 0)
+      throw Fertilized_Exception("Device id >= 0 required!");
     // Set mode.
     if (use_cpu) {
       caffe::Caffe::set_mode(caffe::Caffe::CPU);
@@ -103,10 +109,14 @@ namespace fertilized {
 #endif
     }
     // Load network layout.
+    if (! fs::exists(net_layout_file))
+      throw Fertilized_Exception("Net layout file not found: " + net_layout_file);
     caffe::Net<float> *net = new caffe::Net<float>(net_layout_file,
                                                    caffe::Phase::TEST);
     net_ptr = reinterpret_cast<void*>(net);
     // Load network weights.
+    if (! fs::exists(net_weights_file))
+      throw Fertilized_Exception("Net weights file not found: " + net_weights_file);
     net -> CopyTrainedLayersFrom(net_weights_file);
     input_size = cv::Size(net -> input_blobs()[0] -> width(),
                           net -> input_blobs()[0] -> height());
@@ -158,16 +168,24 @@ namespace fertilized {
         throw Fertilized_Exception("Could not find a layer and blob with the "
                                    "specified name!");
     }
+#else
+    throw Fertilized_Exception("This binary has been built without caffe "
+      "feature extraction support. Rebuild with the option `--with-caffe` "
+      "to use this object.");
+#endif
   };
 
   DllExport DNNFeatureExtractor::~DNNFeatureExtractor() {
+#ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
     caffe::Net<float> *net = reinterpret_cast<caffe::Net<float>*>(net_ptr);
     delete net;
+#endif
   };
 
   DllExport Array<float, 4, 4> DNNFeatureExtractor::extract(
         const std::vector<Array<float, 3, 3>> &images,
         const bool &subtract_mean) {
+#ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
     // Create the result array in the appropriate size.
     caffe::Net<float> *net = reinterpret_cast<caffe::Net<float>*>(net_ptr);
     caffe::Blob<float> *output_blob = (net -> blobs()[read_blob_idx]).get();
@@ -187,11 +205,16 @@ namespace fertilized {
                          image.TPLMETH getSize<1>(),
                          CV_32FC3,
                          image.getData());
-      cv::resize(mat_view,
-                 image_mean_prepared,
-                 input_size,
-                 0.0, 0.0,
-                 CV_INTER_CUBIC);
+      if (image.TPLMETH getSize<0>() != output_blob -> height() ||
+          image.TPLMETH getSize<1>() != output_blob -> width()) {
+        cv::resize(mat_view,
+                   image_mean_prepared,
+                   input_size,
+                   0.0, 0.0,
+                   CV_INTER_CUBIC);
+      } else {
+        image_mean_prepared = mat_view.clone();
+      }
       if (subtract_mean) {
         if (! mean_available) {
           throw Fertilized_Exception("No mean data has been loaded! Can not "
@@ -199,7 +222,7 @@ namespace fertilized {
         }
         image_mean_prepared -= mean_data;
       }
-      // reorder channels.
+      // transpose.
       int rows = input_size.height;
       int cols = input_size.width;
       for (int row = 0; row < rows; ++row) {
@@ -234,7 +257,11 @@ namespace fertilized {
       batch_id = 0;
     }
     return result;
+#else
+    throw Fertilized_Exception("This library has been built without caffe "
+      "feature extraction support. Rebuild it with `--with-caffe` to use "
+      "this object and method.");
+#endif
   };
 
 };  // namespace fertilized
-#endif // CAFFE_FEATURE_EXTRACTION_ENABLED

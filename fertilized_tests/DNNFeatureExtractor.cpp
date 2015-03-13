@@ -1,14 +1,11 @@
 // Author: Christoph Lassner.
-#define CAFFE_FEATURE_EXTRACTION_ENABLED
 #ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
 #include <fertilized/fertilized.h>
 
 #include <vector>
 
 #include "boost/test/unit_test.hpp"
-// If you need the `timeit` function to do time measurements.
-#include "timeit.h"
-// Provides convenience data-creators for tests.
+
 #include "setup.h"
 
 using namespace fertilized;
@@ -25,6 +22,24 @@ BOOST_AUTO_TEST_CASE(Correctness_Constructor) {
   images.push_back(testimage);
   auto extraction_result = feature_extractor -> extract(images, false);
   CHECK_CLOSE_(extraction_result[0][0][0][0], 0.0434589386f);
+  // Failure checks.
+  // Negative device id.
+  BOOST_CHECK_THROW(soil.DNNFeatureExtractor(true, -1),
+                    Fertilized_Exception);
+  // Wrong model file.
+  BOOST_CHECK_THROW(soil.DNNFeatureExtractor(true, 0, "a"),
+                    Fertilized_Exception);
+  // Wrong weights file.
+  BOOST_CHECK_THROW(soil.DNNFeatureExtractor(true, 0, "", "b"),
+                    Fertilized_Exception);
+  // Wrong layer name.
+  BOOST_CHECK_THROW(soil.DNNFeatureExtractor(true, 0, "", "", "c"),
+                    Fertilized_Exception);
+  // Wrong mean file.
+  BOOST_CHECK_THROW(soil.DNNFeatureExtractor(true, 0, "", "", "", true, "d"),
+                    Fertilized_Exception);
+  // Irrelevant if no mean is required.
+  auto extract_wo_mean = soil.DNNFeatureExtractor(true, 0, "", "", "", false, "d");
 };
 
 #ifndef CAFFE_CPU_ONLY
@@ -41,6 +56,8 @@ BOOST_AUTO_TEST_CASE(Correctness_CPU_eq_GPU) {
   BOOST_CHECK(all(equal(extraction_result_cpu, extraction_result_gpu)));
 };
 #endif
+
+// Extraction correctness is checked in the Python examples.
 
 BOOST_AUTO_TEST_SUITE_END();
 #endif // CAFFE_FEATURE_EXTRACTION_ENABLED
