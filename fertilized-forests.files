@@ -537,3 +537,5 @@ fertilized/feature_extraction/alexnet_mean.txt
 fertilized/feature_extraction/dnnfeatureextractor.cpp
 fertilized/feature_extraction/__alexnet.h
 README.MD
+Presentation/Python/create_caffe_samples.py
+Presentation/Python/dnn_feature_extraction.py
