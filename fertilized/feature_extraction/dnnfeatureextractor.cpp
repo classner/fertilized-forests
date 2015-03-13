@@ -82,7 +82,8 @@ namespace fertilized {
                                         std::string net_outlayer,
                                         const bool &load_mean,
                                         std::string mean_file)
-    : mean_available(false) {
+    : mean_available(false),
+      net_ptr(nullptr) {
 #ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
     // Replace defaults.
     if (net_layout_file == "")
@@ -115,8 +116,11 @@ namespace fertilized {
                                                    caffe::Phase::TEST);
     net_ptr = reinterpret_cast<void*>(net);
     // Load network weights.
-    if (! fs::exists(net_weights_file))
+    if (! fs::exists(net_weights_file)) {
+      // Destructor will not be called! Clean up...
+      delete net;
       throw Fertilized_Exception("Net weights file not found: " + net_weights_file);
+    }
     net -> CopyTrainedLayersFrom(net_weights_file);
     input_size = cv::Size(net -> input_blobs()[0] -> width(),
                           net -> input_blobs()[0] -> height());
@@ -126,6 +130,8 @@ namespace fertilized {
       int mean_y = 0;
       int mean_channels = 0;
       if (!fs::exists(mean_file)) {
+        // Destructor will not be called! Clean up...
+        delete net;
         throw Fertilized_Exception("Mean file for the DNNFeatureExtractor does "
                                    "not exist: " + mean_file);
       }
@@ -134,11 +140,15 @@ namespace fertilized {
                                         &mean_y,
                                         &mean_channels);
       if (mean_channels != 3) {
+          // Destructor will not be called! Clean up...
+          delete net;
           throw Fertilized_Exception("Only 3 channel images are supported! "
             "The mean image must also have 3 channels!");
       }
       cv::resize(meanMat, mean_data, input_size, 0.0, 0.0, CV_INTER_CUBIC);
       if (mean_channels != net -> input_blobs()[0] -> channels()) {
+          // Destructor will not be called! Clean up...
+          delete net;
           throw Fertilized_Exception("Mean image for the DNNFeatureExtractor "
             "must have the same amount of channels as the input of the "
             "network!");
@@ -165,6 +175,8 @@ namespace fertilized {
         layerindex++;
     }
     if (read_layer_idx == -1 || read_blob_idx == -1) {
+        // Destructor will not be called! Clean up...
+        delete net;
         throw Fertilized_Exception("Could not find a layer and blob with the "
                                    "specified name!");
     }
@@ -177,8 +189,10 @@ namespace fertilized {
 
   DllExport DNNFeatureExtractor::~DNNFeatureExtractor() {
 #ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
-    caffe::Net<float> *net = reinterpret_cast<caffe::Net<float>*>(net_ptr);
-    delete net;
+    if (net_ptr != nullptr) {
+      caffe::Net<float> *net = reinterpret_cast<caffe::Net<float>*>(net_ptr);
+      delete net;
+    }
 #endif
   };
 
