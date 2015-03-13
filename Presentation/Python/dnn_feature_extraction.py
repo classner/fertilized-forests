@@ -20,7 +20,11 @@ timage_ones = np.ones((227, 227, 3), dtype='float32')
 timage_opencv = cv2.imread(os.path.join(os.path.dirname(__file__), 'sample-resized.png')).astype('float32')
 # Extract.
 soil = fertilized.Soil()
-extractor = soil.DNNFeatureExtractor(True) # CPU only.
+try:
+    extractor = soil.DNNFeatureExtractor(True) # CPU only.
+except:
+    # The library has been built without caffe. That's fine.
+    sys.exit(0)
 # Assume the image has had its means subtracted already.
 zero_res = extractor.extract([timage_zeros], False)
 one_res = extractor.extract([timage_ones], False)
