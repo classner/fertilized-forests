@@ -104,6 +104,7 @@
 {
    <insert_a_suppression_name_here>
    Memcheck:Leak
+   ...
    fun:_ZN2cv6resizeERKNS_11_InputArrayERKNS_12_OutputArrayENS_5Size_IiEEddi
    ...
 }
@@ -119,5 +120,16 @@
    fun:_ZN5caffe3NetIfEC1ERKSsNS_5PhaseE
    ...
 }
-
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_Znam
+   ...
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+}
 
