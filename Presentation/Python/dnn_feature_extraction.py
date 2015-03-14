@@ -9,6 +9,7 @@ import sys
 sys.path.insert(0, os.path.join('..', '..', 'pyfertilized'))
 
 import numpy as np
+import numpy.testing as npt
 from PIL import Image
 import fertilized
 
@@ -35,6 +36,7 @@ zero_res_caffe = np.load(os.path.join(os.path.dirname(__file__), 'zero_res.npy')
 one_res_caffe = np.load(os.path.join(os.path.dirname(__file__), 'one_res.npy'))
 opencv_res_caffe = np.load(os.path.join(os.path.dirname(__file__), 'opencv_res.npy'))
 # Comparisons.
-assert np.all(zero_res_caffe == zero_res)
-assert np.all(one_res_caffe == one_res)
-assert np.all(opencv_res_caffe == opencv_res)
+npt.assert_allclose(zero_res_caffe, zero_res, atol=1e-6)
+npt.assert_allclose(one_res_caffe, one_res, atol=1e-6)
+npt.assert_allclose(opencv_res_caffe, opencv_res, atol=5e-5)
+

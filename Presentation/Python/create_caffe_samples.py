@@ -7,9 +7,9 @@ Created on Fri Mar 13 11:39:48 2015
 
 import os
 import numpy as np
-import caffe
 import cv2
 os.chdir('/home/christoph/git/caffe-brewer/python')
+import caffe
 TARGET_FOLDER = '/home/christoph/git/fertilized-forests/Presentation/Python'
 net = caffe.Net(r'/home/christoph/caffe-models/bvlc_alexnet/alexnet_extraction.prototxt',
                 r'/home/christoph/caffe-models/bvlc_alexnet/bvlc_alexnet.caffemodel', caffe.TEST)
