@@ -88,4 +88,36 @@
    obj:/usr/lib/*/libgomp.so*
    ...
 }
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_ZN5caffe3NetIfE13ForwardFromToEii
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   fun:_ZN5caffe4BlobIfE16mutable_cpu_dataEv
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_ZN2cv6resizeERKNS_11_InputArrayERKNS_12_OutputArrayENS_5Size_IiEEddi
+   ...
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_ZN5caffe12SyncedMemory16mutable_cpu_dataEv
+   ...
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_ZN5caffe3NetIfEC1ERKSsNS_5PhaseE
+   ...
+}
+
 
