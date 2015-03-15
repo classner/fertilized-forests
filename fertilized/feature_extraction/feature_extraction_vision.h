@@ -1,4 +1,8 @@
 /* Author: Christoph Lassner. */
+
+#ifndef FERTILIZED_FEATURE_EXTRACTION_VISION_H_
+#define FERTILIZED_FEATURE_EXTRACTION_VISION_H_
+
 #include <vector>
 
 #include <opencv2/opencv.hpp>
@@ -12,6 +16,8 @@ namespace fertilized {
      * 32 feature channels used by Juergen Gall in his original publications,
      * else use 15 feature channels as used by Matthias Dantone.
      *
+     * The image must be in OpenCV (BGR) channel format!
+     *
      * \param image Array<uint8_t>, row-major contiguous
      *   The source image.
      * \param full bool
@@ -22,3 +28,5 @@ namespace fertilized {
                                                   const cv::Mat &image,
                                                   const bool &full=false);
 }  // namespace fertilized
+
+#endif // FERTILIZED_FEATURE_EXTRACTION_VISION_H_

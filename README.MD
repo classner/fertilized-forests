@@ -32,6 +32,7 @@ sudo apt-get install m4 doxygen libboost-all-dev libeigen3-dev \
   python-numpy build-essential libopencv-dev scons
 
 # Install Python dependencies.
+sudo pip install networkx
 sudo pip install jinja2 cppheaderparser pillow \
   scikit-image matplotlib scikit-learn
 ~~~~~

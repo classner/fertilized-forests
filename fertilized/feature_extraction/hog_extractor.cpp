@@ -32,14 +32,8 @@ inline float copysign(float x, float origin) {
 #endif
 #endif
 
-#if defined(_MSC_VER)
 #define COLOR2LAB CV_BGR2Lab
 #define COLOR2GRAY CV_BGR2GRAY
-#else
-#define COLOR2LAB CV_RGB2Lab
-#define COLOR2GRAY CV_RGB2GRAY
-#endif
-
 
 using namespace std;
 using namespace cv;

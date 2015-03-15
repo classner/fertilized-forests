@@ -56,6 +56,7 @@ class SingleFileParser(object):
              include_stmt.endswith('exponentials.h"') or \
              include_stmt.endswith('argsort.h"') or \
              include_stmt.endswith('feature_value_selection.h"') or \
+             include_stmt.endswith('caffe.hpp"') or \
              include_stmt.endswith('default_values.h"'):
             continue
           included_obj_strings.append(include_stmt[include_stmt.rindex("/")+1:-3])

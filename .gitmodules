@@ -6,3 +6,7 @@
 	path = external/ndarray
 	url = https://github.com/ChrislS/ndarray.git
 	branch = master
+[submodule "external/caffe-brewer"]
+	path = external/caffe-brewer
+	url = https://github.com/ChrislS/caffe-brewer
+	branch = master

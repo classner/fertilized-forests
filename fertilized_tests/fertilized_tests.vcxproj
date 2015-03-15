@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="checks.cpp" />
     <ClCompile Include="data_providers.cpp" />
+    <ClCompile Include="DNNFeatureExtractor.cpp" />
     <ClCompile Include="features.cpp" />
     <ClCompile Include="forest.cpp" />
     <ClCompile Include="gain.cpp" />
@@ -61,17 +62,17 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <NMakeBuildCommandLine>build --with-tests  --with-python-support --with-checks --disable-optimizations --jobs=10</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build --with-tests --with-caffe --cpu-only --caffe-model-dir=P:\caffemodels  --with-python-support --with-checks --disable-optimizations --jobs=10</NMakeBuildCommandLine>
     <NMakeOutput>fertilized_tests.exe</NMakeOutput>
-    <NMakeCleanCommandLine>build -c</NMakeCleanCommandLine>
-    <NMakePreprocessorDefinitions>SERIALIZATION_ENABLED;WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeCleanCommandLine>build -c --with-tests --with-caffe --cpu_only</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>SERIALIZATION_ENABLED;CAFFE_FEATURE_EXTRACTION_ENABLED;WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>../;$(BOOST_ROOT);$(EIGEN_ROOT)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <NMakeBuildCommandLine>build --with-tests --with-serialization --with-python-support --jobs=10</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build --with-tests --with-caffe --caffe-model-dir=P:\caffemodels --with-serialization --with-python-support --jobs=10</NMakeBuildCommandLine>
     <NMakeOutput>fertilized_tests.exe</NMakeOutput>
-    <NMakeCleanCommandLine>build -c</NMakeCleanCommandLine>
-    <NMakePreprocessorDefinitions>SERIALIZATION_ENABLED;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeCleanCommandLine>build -c --with-tests --with-caffe --with-serialization</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>SERIALIZATION_ENABLED;CAFFE_FEATURE_EXTRACTION_ENABLED;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>../;$(BOOST_ROOT);$(EIGEN_ROOT)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <ItemDefinitionGroup>

@@ -51,10 +51,12 @@
     <ClInclude Include="features\standardfeatureselectionprovider.h" />
     <ClInclude Include="features\volumefeatureselectiongenerator.h" />
     <ClInclude Include="features\volumefeatureselectionprovider.h" />
+    <ClInclude Include="feature_extraction\dnnfeatureextractor.h" />
     <ClInclude Include="feature_extraction\feature_extraction.h" />
     <ClInclude Include="feature_extraction\feature_extraction_vision.h" />
     <ClInclude Include="feature_extraction\hog\hog.h" />
     <ClInclude Include="feature_extraction\hog_extractor.h" />
+    <ClInclude Include="feature_extraction\__alexnet.h" />
     <ClInclude Include="fertilized.h" />
     <ClInclude Include="fertilized_fwd.h" />
     <ClInclude Include="forest.h" />
@@ -163,6 +165,7 @@
     <None Include="SConscript.py" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="feature_extraction\dnnfeatureextractor.cpp" />
     <ClCompile Include="feature_extraction\feature_extraction.cpp" />
     <ClCompile Include="feature_extraction\hog\hog.cpp" />
     <ClCompile Include="feature_extraction\hog_extractor.cpp" />
@@ -447,31 +450,31 @@
     <NMakeBuildCommandLine>build --with-serialization --jobs 8</NMakeBuildCommandLine>
     <NMakeOutput>fertilized.exe</NMakeOutput>
     <NMakeCleanCommandLine>build --clean</NMakeCleanCommandLine>
-    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>CAFFE_FEATURE_EXTRACTION_ENABLED;WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>$(BOOST_ROOT);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <IncludePath>$(SolutionDir);$(SolutionDir)external\ndarray\include;$(OPENCV_INCLUDE_DIR);$(BOOST_INCLUDE_DIR);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)external\ndarray\include;$(OPENCV_INCLUDE_DIR);$(BOOST_INCLUDE_DIR);$(SolutionDir)external\caffe-brewer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakeBuildCommandLine>build --with-checks --disable-optimizations --with-serialization --jobs 10</NMakeBuildCommandLine>
     <NMakeOutput>fertilized.exe</NMakeOutput>
     <NMakeCleanCommandLine>build -c</NMakeCleanCommandLine>
-    <NMakePreprocessorDefinitions>WIN32;_DEBUG;__BUILD_FERTILIZED_LIBRARY;SERIALIZATION_ENABLED;RUNTIME_CHECKS;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>CAFFE_FEATURE_EXTRACTION_ENABLED;WIN32;_DEBUG;__BUILD_FERTILIZED_LIBRARY;SERIALIZATION_ENABLED;RUNTIME_CHECKS;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>$(BOOST_ROOT);$(EIGEN_ROOT);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <IncludePath>$(SolutionDir);$(SolutionDir)external\ndarray\include;$(OPENCV_INCLUDE_DIR);$(BOOST_INCLUDE_DIR);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)external\ndarray\include;$(OPENCV_INCLUDE_DIR);$(BOOST_INCLUDE_DIR);$(SolutionDir)external\caffe-brewer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>build --with-serialization --with-checks --disable-optimizations</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>build --c</NMakeCleanCommandLine>
-    <NMakePreprocessorDefinitions>WIN32;NDEBUG;SERIALIZATION_ENABLED;__BUILD_FERTILIZED_LIBRARY;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>CAFFE_FEATURE_EXTRACTION_ENABLED;WIN32;NDEBUG;SERIALIZATION_ENABLED;__BUILD_FERTILIZED_LIBRARY;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>$(BOOST_ROOT);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <IncludePath>$(SolutionDir);$(SolutionDir)external\ndarray\include;$(OPENCV_INCLUDE_DIR);$(BOOST_INCLUDE_DIR);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)external\ndarray\include;$(OPENCV_INCLUDE_DIR);$(BOOST_INCLUDE_DIR);$(SolutionDir)external\caffe-brewer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <NMakeBuildCommandLine>build --with-serialization  --with-python-support --jobs=10</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>build -c</NMakeCleanCommandLine>
-    <NMakePreprocessorDefinitions>WIN32;NDEBUG;SERIALIZATION_ENABLED;__BUILD_FERTILIZED_LIBRARY;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>CAFFE_FEATURE_EXTRACTION_ENABLED;WIN32;NDEBUG;SERIALIZATION_ENABLED;__BUILD_FERTILIZED_LIBRARY;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>$(BOOST_ROOT);$(EIGEN_ROOT);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <IncludePath>$(SolutionDir);$(SolutionDir)external\ndarray\include;$(OPENCV_INCLUDE_DIR);$(BOOST_INCLUDE_DIR);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)external\ndarray\include;$(OPENCV_INCLUDE_DIR);$(BOOST_INCLUDE_DIR);$(SolutionDir)external\caffe-brewer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
