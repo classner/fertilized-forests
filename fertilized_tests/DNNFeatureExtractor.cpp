@@ -53,6 +53,7 @@ BOOST_AUTO_TEST_CASE(Correctness_CPU_eq_GPU) {
   images.push_back(testimage);
   auto extraction_result_cpu = feature_extractor_cpu -> extract(images);
   auto extraction_result_gpu = feature_extractor_gpu -> extract(images);
+  auto diff = extraction_result_cpu - extraction_result_gpu;
   BOOST_CHECK(all(equal(extraction_result_cpu, extraction_result_gpu)));
 };
 #endif

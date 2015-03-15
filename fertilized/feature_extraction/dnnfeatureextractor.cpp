@@ -1,5 +1,7 @@
 /* Author: Christoph Lassner. */
+#ifndef _MSC_VER
 #include "../global.h"
+#endif
 #include "../ndarray.h"
 
 #include <cstdint>
@@ -13,8 +15,16 @@
 #include <opencv2/opencv.hpp>
 
 #ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
+#ifdef _MSC_VER
+#define GLOG_NO_ABBREVIATED_SEVERITIES
+#endif
 #include <caffe/caffe.hpp>
+#include <glog/logging.h>
 #include "./__alexnet.h"
+#endif
+
+#ifdef _MSC_VER
+#include "../global.h"
 #endif
 
 #include "./dnnfeatureextractor.h"
@@ -85,6 +95,8 @@ namespace fertilized {
     : mean_available(false),
       net_ptr(nullptr) {
 #ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
+    // Set google log level to error to avoid cluttering the shell.
+    FLAGS_minloglevel = 2;
     // Replace defaults.
     if (net_layout_file == "")
       net_layout_file = __ALEXNET_MODELFILE;

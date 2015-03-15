@@ -444,10 +444,10 @@
     <IncludePath>..\fertilized;$(BOOST_INCLUDE_DIR);$(SolutionDir)external\ndarray\Boost.NumPy;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <NMakeBuildCommandLine>build --jobs 10 --with-python --with-serialization</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build --jobs 10 --with-python --with-serialization --with-caffe  --caffe-model-dir=P:\caffemodels</NMakeBuildCommandLine>
     <NMakeOutput>
     </NMakeOutput>
-    <NMakeCleanCommandLine>build -c --with-python</NMakeCleanCommandLine>
+    <NMakeCleanCommandLine>build -c --with-python --with-serialization --with-caffe</NMakeCleanCommandLine>
     <NMakePreprocessorDefinitions>SERIALIZATION_ENABLED;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>..;$(OPENCV_INC_DIR);$(BOOST_ROOT);$(PYTHON_INCLUDE);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <IncludePath>..\fertilized;$(BOOST_INCLUDE_DIR);$(SolutionDir)external\ndarray\Boost.NumPy;$(IncludePath)</IncludePath>

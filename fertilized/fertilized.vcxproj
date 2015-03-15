@@ -56,6 +56,7 @@
     <ClInclude Include="feature_extraction\feature_extraction_vision.h" />
     <ClInclude Include="feature_extraction\hog\hog.h" />
     <ClInclude Include="feature_extraction\hog_extractor.h" />
+    <ClInclude Include="feature_extraction\__alexnet.h" />
     <ClInclude Include="fertilized.h" />
     <ClInclude Include="fertilized_fwd.h" />
     <ClInclude Include="forest.h" />

@@ -257,18 +257,19 @@ def makeEnvironment(variables):
         if env['CC'] != 'cl' or env['CC'] == 'icl' and os.name == 'nt':
             # Generate position-independent code to ease template debugging.
             env.AppendUnique(CPPFLAGS=['-fPIC'])
-    if not env['DEBUG_CHECKS']:
-        # Set the 'no debug' symbol.
-        env.AppendUnique(CPPDEFINES='NDEBUG')
+        else:
+            # Link against debug system libraries.
+            env.AppendUnique(CPPDEFINES=['_DEBUG', '_SCL_SECURE_NO_WARNINGS'])
+            env.Append(CCFLAGS = ["/MDd"])
+    else:
         if env['CC'] == 'cl' or env['CC'] == 'icl' and os.name == 'nt':
           # Link against non-debug system libraries.
           env.AppendUnique(CPPFLAGS=['/MD'])
+    if not env['DEBUG_CHECKS']:
+        # Set the 'no debug' symbol.
+        env.AppendUnique(CPPDEFINES='NDEBUG')
     else:
         env.AppendUnique(CPPDEFINES='RUNTIME_CHECKS')
-        env.AppendUnique(CPPDEFINES=['_DEBUG', '_SCL_SECURE_NO_WARNINGS'])
-        if env['CC'] == 'cl' or env['CC'] == 'icl' and os.name == 'nt':
-          # Link against debug system libraries.
-          env.Append(CCFLAGS = ["/MDd"])
     if GetOption('with_python') or GetOption('python_support'):
         env.AppendUnique(CPPDEFINES=['PYTHON_ENABLED'])
     if GetOption('with_python'):

@@ -16,6 +16,8 @@ namespace fertilized {
      * 32 feature channels used by Juergen Gall in his original publications,
      * else use 15 feature channels as used by Matthias Dantone.
      *
+     * The image must be in OpenCV (BGR) channel format!
+     *
      * \param image Array<uint8_t>, row-major contiguous
      *   The source image.
      * \param full bool

@@ -13,7 +13,7 @@ caffeChecks, caffeGetRequiredLibs = SConscript(
 
 # Prepare the command line options.
 variables = setupOptions()
-caffeVariables = caffeSetupOptions(rpath=False, python=False, tools=True, libs=False)
+caffeVariables = caffeSetupOptions(rpath=False, python=False, tools=True, libs=False, debug=False, tests=False)
 
 # Create the build environment.
 env = makeEnvironment(variables)
