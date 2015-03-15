@@ -1,5 +1,7 @@
 # Fertilized Forests Decision Forest library
 
+https://img.shields.io/jenkins/s/http/www.christophlassner.de/jenkins/fertilized-continuous-debug.svg
+
 This project is currently being developed at the [Multimedia Computing
 and Computer Vision Lab](http://www.multimedia-computing.de) at the
 [University of Augsburg](http://www.uni-augsburg.de).
@@ -7,6 +9,14 @@ and Computer Vision Lab](http://www.multimedia-computing.de) at the
 You can find detailed information including API documentation on
 [http://www.fertilized-forests.org](http://www.fertilized-forests.org).
 
+## Build status
+
+The 'working' branch is `unstable`. Only versions that are completely tested
+get merged to `master`, so for `master` always all builds are stable and all
+tests are passing. The status of `unstable` is as follows:
+
+* [![Jenkins](https://img.shields.io/jenkins/s/http/www.christophlassner.de/jenkins/fertilized-continuous-release.svg)]() Build and tests, core library
+* [![Jenkins](https://img.shields.io/jenkins/s/http/www.christophlassner.de/jenkins/fertilized-continuous-release-caffe.svg)]() Build and tests, core library and caffe feature extraction
 
 ## Installation
 
