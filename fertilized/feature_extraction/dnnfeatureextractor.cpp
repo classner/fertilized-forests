@@ -225,7 +225,6 @@ namespace fertilized {
     cv::Mat image_mean_prepared;
     unsigned int batch_id = 0;
     unsigned int image_id = 0;
-    float *input_ptr = net -> input_blobs()[0] -> mutable_cpu_data();
     for (const auto &image : images) {
       mat_view = cv::Mat(image.TPLMETH getSize<0>(),
                          image.TPLMETH getSize<1>(),
@@ -249,6 +248,7 @@ namespace fertilized {
         image_mean_prepared -= mean_data;
       }
       // transpose.
+      float *input_ptr = net -> input_blobs()[0] -> mutable_cpu_data();
       int rows = input_size.height;
       int cols = input_size.width;
       for (int row = 0; row < rows; ++row) {

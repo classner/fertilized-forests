@@ -36,7 +36,7 @@ zero_res_caffe = np.load(os.path.join(os.path.dirname(__file__), 'zero_res.npy')
 one_res_caffe = np.load(os.path.join(os.path.dirname(__file__), 'one_res.npy'))
 opencv_res_caffe = np.load(os.path.join(os.path.dirname(__file__), 'opencv_res.npy'))
 # Comparisons.
-npt.assert_allclose(zero_res_caffe, zero_res, atol=1e-6)
-npt.assert_allclose(one_res_caffe, one_res, atol=1e-6)
+npt.assert_allclose(zero_res_caffe, zero_res, atol=1e-5)
+npt.assert_allclose(one_res_caffe, one_res, atol=1e-5)
 npt.assert_allclose(opencv_res_caffe, opencv_res, atol=1e-4)
 
