@@ -102,8 +102,8 @@ namespace fertilized {
         min_samples_at_leaf(min_samples_at_leaf),
         min_samples_at_node(min_samples_at_node),
         weight(1.0f),
-        tree(),
-        marks(),
+        tree(0),
+        marks(0),
         decider(decider),
         is_initialized_for_training(false),
         stored_in_leafs(0),
@@ -361,6 +361,56 @@ namespace fertilized {
       }
       return marks.size();
     };
+
+    /**
+     * Get the tree depth.
+     *
+     * The depth is defined to be 0 for an "empty" tree (only a leaf/root node)
+     * and as the amount of edges on the longest path in the tree otherwise.
+     *
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     *
+     * -----
+     */
+    size_t depth() const {
+      size_t depth = 0;
+      if (! tree.empty()) {
+        std::vector<std::pair<size_t, size_t>> to_check;
+        to_check.push_back(std::make_pair(0, 0));
+        while(! to_check.empty()) {
+          const std::pair<size_t, size_t> to_process = to_check.back();
+          to_check.pop_back();
+          const size_t &node_id = to_process.first;
+          const size_t &current_depth = to_process.second;
+          if (current_depth > depth)
+            depth = current_depth;
+          FASSERT (node_id < tree.size());
+          const auto &child_nodes = tree[node_id];
+          if (child_nodes.first == 0) {
+            if (child_nodes.second == 0) {
+              // Leaf.
+              continue;
+            } else {
+              to_check.push_back(std::make_pair(child_nodes.second,
+                                                current_depth+1));
+            }
+          } else {
+            to_check.push_back(std::make_pair(child_nodes.first,
+                                              current_depth+1));
+            if (child_nodes.second != 0) {
+              to_check.push_back(std::make_pair(child_nodes.second,
+                                                current_depth+1));
+            }
+          }
+        }
+      }
+      return depth;
+    }
 
     /**
      * \brief Standard fitting function.

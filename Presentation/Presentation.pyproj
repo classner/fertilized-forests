@@ -40,6 +40,7 @@
     <Compile Include="Python\custom.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Python\dnn_feature_extraction.py" />
     <Compile Include="Python\effect_depth.py" />
     <Compile Include="Python\effect_weak_learner_rand.py" />
     <Compile Include="Python\hough_detect.py" />

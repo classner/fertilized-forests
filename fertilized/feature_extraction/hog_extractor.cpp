@@ -318,7 +318,7 @@ void HOGExtractor::maxfilt(uchar* data, uchar* maxvalues, unsigned int step,
   deque<int> maxfifo;
   for(unsigned int i = step; i < size; i+=step) {
     if(i >= width) {
-      maxvalues[i-d] = data[maxfifo.size()>0 ? maxfifo.front(): i-step];
+      maxvalues[i-d] = data[!maxfifo.empty() ? maxfifo.front(): i-step];
     }
 
     if(data[i] < data[i-step]) {
@@ -326,7 +326,7 @@ void HOGExtractor::maxfilt(uchar* data, uchar* maxvalues, unsigned int step,
       if(i==  width+maxfifo.front())
         maxfifo.pop_front();
     } else {
-      while(maxfifo.size() > 0) {
+      while(!maxfifo.empty()) {
         if(data[i] <= data[maxfifo.back()]) {
           if(i==  width+maxfifo.front())
             maxfifo.pop_front();
@@ -337,7 +337,7 @@ void HOGExtractor::maxfilt(uchar* data, uchar* maxvalues, unsigned int step,
     }
   }
 
-  maxvalues[size-d] = data[maxfifo.size()>0 ? maxfifo.front():size-step];
+  maxvalues[size-d] = data[!maxfifo.empty() ? maxfifo.front():size-step];
 }
 
 void HOGExtractor::maxfilt(uchar* data, unsigned int step, unsigned int size,
@@ -363,7 +363,7 @@ void HOGExtractor::maxfilt(uchar* data, unsigned int step, unsigned int size,
   deque<int> minfifo;
   for(unsigned int i = step; i < size; i+=step) {
     if(i >= width) {
-      tmp.push_back(data[minfifo.size()>0 ? minfifo.front(): i-step]);
+      tmp.push_back(data[!minfifo.empty() ? minfifo.front(): i-step]);
       data[i-width] = tmp.front();
       tmp.pop_front();
     }
@@ -376,7 +376,7 @@ void HOGExtractor::maxfilt(uchar* data, unsigned int step, unsigned int size,
 
     } else {
 
-      while(minfifo.size() > 0) {
+      while(!minfifo.empty()) {
         if(data[i] <= data[minfifo.back()]) {
           if(i==  width+minfifo.front())
             minfifo.pop_front();
@@ -389,7 +389,7 @@ void HOGExtractor::maxfilt(uchar* data, unsigned int step, unsigned int size,
 
   }
 
-  tmp.push_back(data[minfifo.size()>0 ? minfifo.front():size-step]);
+  tmp.push_back(data[!minfifo.empty() ? minfifo.front():size-step]);
 
   for(unsigned int k=size-step-step; k>=size-d; k-=step) {
     if(data[k]>data[size-step]) data[size-step] = data[k];
@@ -433,7 +433,7 @@ void HOGExtractor::minfilt(uchar* data, uchar* minvalues, unsigned int step,
   deque<int> minfifo;
   for(unsigned int i = step; i < size; i+=step) {
     if(i >= width) {
-      minvalues[i-d] = data[minfifo.size()>0 ? minfifo.front(): i-step];
+      minvalues[i-d] = data[!minfifo.empty() ? minfifo.front(): i-step];
     }
 
     if(data[i] > data[i-step]) {
@@ -444,7 +444,7 @@ void HOGExtractor::minfilt(uchar* data, uchar* minvalues, unsigned int step,
 
     } else {
 
-      while(minfifo.size() > 0) {
+      while(!minfifo.empty()) {
         if(data[i] >= data[minfifo.back()]) {
           if(i==  width+minfifo.front())
             minfifo.pop_front();
@@ -457,7 +457,7 @@ void HOGExtractor::minfilt(uchar* data, uchar* minvalues, unsigned int step,
 
   }
 
-  minvalues[size-d] = data[minfifo.size()>0 ? minfifo.front():size-step];
+  minvalues[size-d] = data[!minfifo.empty() ? minfifo.front():size-step];
 
 }
 
@@ -482,7 +482,7 @@ void HOGExtractor::minfilt(uchar* data, unsigned int step, unsigned int size,
   deque<int> minfifo;
   for(unsigned int i = step; i < size; i+=step) {
     if(i >= width) {
-      tmp.push_back(data[minfifo.size()>0 ? minfifo.front(): i-step]);
+      tmp.push_back(data[!minfifo.empty() ? minfifo.front(): i-step]);
       data[i-width] = tmp.front();
       tmp.pop_front();
     }
@@ -493,7 +493,7 @@ void HOGExtractor::minfilt(uchar* data, unsigned int step, unsigned int size,
       if(i==  width+minfifo.front())
         minfifo.pop_front();
     } else {
-      while(minfifo.size() > 0) {
+      while(!minfifo.empty()) {
         if(data[i] >= data[minfifo.back()]) {
           if(i==  width+minfifo.front())
             minfifo.pop_front();
@@ -504,7 +504,7 @@ void HOGExtractor::minfilt(uchar* data, unsigned int step, unsigned int size,
     }
   }
 
-  tmp.push_back(data[minfifo.size()>0 ? minfifo.front():size-step]);
+  tmp.push_back(data[!minfifo.empty() ? minfifo.front():size-step]);
 
   for(unsigned int k=size-step-step; k>=size-d; k-=step) {
     if(data[k]<data[size-step]) data[size-step] = data[k];
