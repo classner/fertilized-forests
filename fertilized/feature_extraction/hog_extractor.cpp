@@ -16,17 +16,48 @@
 #if _MSC_VER < 1800
 #pragma warning (push)
 #pragma warning ( disable : 4715)
-inline float copysign(float x, float origin) {
-  if (origin < 0.f && x > 0.f)
-    return -x;
-  if (origin < 0.f && x <= 0.f)
-    return x;
-  if (origin >= 0.f && x > 0.f)
-    return x;
-  if (origin >= 0.f && x <= 0.f)
-    return -x;
-  // This line is unreachable, but prevents compiler warnings.
-  return 0.f;
+namespace std {
+  // Manually implement a signbit function as defined in the standard.
+  // It is non-trivial, since it must return valid values for +/-0, +/-inf
+  // as well, so the best thing really is to use the bit representation of the
+  // floating point numbers. Hence, works only for IEEE floats!
+  template <typename T>
+  inline static bool signbit(const T &x);
+  template <>
+  inline static bool signbit<float>(const float &x) {
+    return (*reinterpret_cast<const long*>(&x) & (1L << 31)) != 0;
+  }
+  template <>
+  inline static bool signbit<double>(const double &x) {
+    return (*reinterpret_cast<const long long*>(&x) & (1LL << 63)) != 0;
+  }
+}
+
+template <typename T>
+inline static T copysign(const T &x, const T &origin);
+template <>
+inline static float copysign<float>(const float &x, const float &origin) {
+  long tmp;
+  if (std::signbit(origin)) {
+    tmp = *reinterpret_cast<const long*>(&x) | (1L << 31);
+    return *reinterpret_cast<float*>(&tmp);
+  } else {
+    tmp = *reinterpret_cast<const long*>(&x) &
+          (std::numeric_limits<unsigned long>::max() >> 1);
+    return *reinterpret_cast<float*>(&tmp);
+  }
+}
+template <>
+inline static double copysign<double>(const double &x, const double &origin) {
+  long long tmp;
+  if (std::signbit(origin)) {
+    tmp = *reinterpret_cast<const long long*>(&x) | (1LL << 63);
+    return *reinterpret_cast<double*>(&tmp);
+  } else {
+    tmp = *reinterpret_cast<const long long*>(&x) &
+          (std::numeric_limits<unsigned long long>::max() >> 1);
+    return *reinterpret_cast<double*>(&tmp);
+  }
 }
 #pragma warning (pop)
 #endif
