@@ -1,7 +1,5 @@
 # Fertilized Forests Decision Forest library
 
-https://img.shields.io/jenkins/s/http/www.christophlassner.de/jenkins/fertilized-continuous-debug.svg
-
 This project is currently being developed at the [Multimedia Computing
 and Computer Vision Lab](http://www.multimedia-computing.de) at the
 [University of Augsburg](http://www.uni-augsburg.de).
