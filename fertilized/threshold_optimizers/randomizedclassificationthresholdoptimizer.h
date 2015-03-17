@@ -111,11 +111,11 @@ namespace fertilized {
       const size_t &annotation_step=1,
       const unsigned int &random_seed = 1)
       : n_thresholds(n_thresholds),
-        gain_calculator(gain_calculator),
         n_classes(n_classes),
-        random_engine(std::make_shared<std::mt19937>(random_seed)),
-        gain_threshold(gain_threshold),
         annotation_step(annotation_step),
+        gain_threshold(gain_threshold),
+        gain_calculator(gain_calculator),
+        random_engine(std::make_shared<std::mt19937>(random_seed)),
         main_seed(0),
         seed_dist(0U, std::numeric_limits<unsigned int>::max()) {
       if (n_thresholds == 0) {
@@ -385,8 +385,9 @@ namespace fertilized {
     }
 #endif
    protected:
+     // cppcheck-suppress uninitVar
      RandomizedClassificationThresholdOptimizer() :
-        seed_dist(0U, std::numeric_limits<unsigned int>::max()) {}  // cppcheck-suppress uninitVar
+        seed_dist(0U, std::numeric_limits<unsigned int>::max()) {}
 
    private:
     size_t n_thresholds;

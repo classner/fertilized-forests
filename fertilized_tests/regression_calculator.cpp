@@ -196,14 +196,16 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_1d_linear_regression) {
   Vector_t pred_1 (1);
   Matrix_t covar_1 (1,1);
   restored_ptr->predict(test_vec_1, pred_1, covar_1);
-  CHECK_CLOSE(pred_1(0), 5.f, 0.05f, 0.0001f);  // cppcheck-suppress variableScope
+  // cppcheck-suppress variableScope
+  CHECK_CLOSE(pred_1(0), 5.f, 0.05f, 0.0001f);
   BOOST_CHECK(covar_1(0,0) < 1e-7);
   Vector_t test_vec_2 (2);
   test_vec_2 << 10,1;
   Vector_t pred_2 (1);
   Matrix_t covar_2 (1,1);
   restored_ptr->predict(test_vec_2, pred_2, covar_2);
-  CHECK_CLOSE(pred_2(0), 11.f, 0.05f, 0.0001f);  // cppcheck-suppress variableScope
+  // cppcheck-suppress variableScope
+  CHECK_CLOSE(pred_2(0), 11.f, 0.05f, 0.0001f);
   BOOST_CHECK(covar_2(0,0) < 1e-7);
   // Check, that samples further away from the training samples produce a higher variance (lower confidence).
   BOOST_CHECK(covar_1(0,0) < covar_2(0,0));
@@ -240,14 +242,16 @@ BOOST_AUTO_TEST_CASE(Correctness_QR_1d_1d_linear_regression) {
   Vector_t pred_1 (1);
   Matrix_t covar_1 (1,1);
   restored_ptr->predict(test_vec_1, pred_1, covar_1);
-  CHECK_CLOSE(pred_1(0), 5.f, 0.05f, 0.0001f);  // cppcheck-suppress variableScope
+  // cppcheck-suppress variableScope
+  CHECK_CLOSE(pred_1(0), 5.f, 0.05f, 0.0001f);
   BOOST_CHECK(covar_1(0,0) < 1e-7);
   Vector_t test_vec_2 (2);
   test_vec_2 << 10,1;
   Vector_t pred_2 (1);
   Matrix_t covar_2 (1,1);
   restored_ptr->predict(test_vec_2, pred_2, covar_2);
-  CHECK_CLOSE(pred_2(0), 11.f, 0.05f, 0.0001f);  // cppcheck-suppress variableScope
+  // cppcheck-suppress variableScope
+  CHECK_CLOSE(pred_2(0), 11.f, 0.05f, 0.0001f);
   BOOST_CHECK(covar_2(0,0) < 1e-7);
   // Check, that samples further away from the training samples produce a higher variance (lower confidence).
   BOOST_CHECK(covar_1(0,0) < covar_2(0,0));
@@ -277,15 +281,19 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_2d_linear_regression) {
   Vector_t pred_1 (2);
   Matrix_t covar_1 (2,2);
   calculator_ptr->predict(test_vec_1, pred_1, covar_1);
-  CHECK_CLOSE(pred_1(0), 5.f, 0.05f, 0.0001f);  // cppcheck-suppress variableScope
-  CHECK_CLOSE(pred_1(1), 4.f, 0.05f, 0.0001f);  // cppcheck-suppress variableScope
+  // cppcheck-suppress variableScope
+  CHECK_CLOSE(pred_1(0), 5.f, 0.05f, 0.0001f);
+  // cppcheck-suppress variableScope
+  CHECK_CLOSE(pred_1(1), 4.f, 0.05f, 0.0001f);
   Vector_t test_vec_2 (2);
   test_vec_2 << 10,1;
   Vector_t pred_2 (2);
   Matrix_t covar_2 (2,2);
   calculator_ptr->predict(test_vec_2, pred_2, covar_2);
-  CHECK_CLOSE(pred_2(0), 11.f, 0.05f, 0.0001f);  // cppcheck-suppress variableScope
-  CHECK_CLOSE(pred_2(1), 10.f, 0.05f, 0.0001f);  // cppcheck-suppress variableScope
+  // cppcheck-suppress variableScope
+  CHECK_CLOSE(pred_2(0), 11.f, 0.05f, 0.0001f);
+  // cppcheck-suppress variableScope
+  CHECK_CLOSE(pred_2(1), 10.f, 0.05f, 0.0001f);
   BOOST_CHECK(covar_1(0,0) < 1e-7);
   BOOST_CHECK(covar_2(0,0) < 1e-7);
   // Check, that samples further away from the training samples produce a higher variance (lower confidence).

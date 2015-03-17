@@ -173,7 +173,8 @@ namespace fertilized {
      * \brief Do not use this constructor! Required only for persistence
      * compatibility reasons.
      */
-    inline PatchToImageCoordinateTransformer() {}  // cppcheck-suppress uninitVar
+    // cppcheck-suppress uninitVar
+    inline PatchToImageCoordinateTransformer() {}
   };
 }  // namespace fertilized
 #endif  // FERTILIZED_DATA_PROVIDERS_PATCHTOIMAGECOORDINATETRANSFORMER_H_

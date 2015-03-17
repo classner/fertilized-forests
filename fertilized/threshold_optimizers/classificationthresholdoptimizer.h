@@ -346,7 +346,8 @@ namespace fertilized {
     }
 #endif
    protected:
-     ClassificationThresholdOptimizer() {}  // cppcheck-suppress uninitVar
+     // cppcheck-suppress uninitVar
+     ClassificationThresholdOptimizer() {}
 
    private:
     bool use_fast_search_approximation;

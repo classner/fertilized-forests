@@ -1007,7 +1007,8 @@ namespace fertilized {
 #endif
 
    protected:
-    Tree() {}  // cppcheck-suppress uninitVar
+    // cppcheck-suppress uninitVar
+    Tree() {}
 
    private:
     /**

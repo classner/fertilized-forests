@@ -253,7 +253,8 @@ namespace fertilized {
     };
 
    protected:
-    VolumeFeatureSelectionProvider() {}  // cppcheck-suppress uninitVar
+    // cppcheck-suppress uninitVar
+    VolumeFeatureSelectionProvider() {}
 
    private:
     size_t dimension;

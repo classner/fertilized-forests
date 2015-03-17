@@ -111,12 +111,11 @@ namespace fertilized {
       const unsigned int &random_seed=1)
       : n_thresholds(n_thresholds),
         n_classes(n_classes),
+        gain_threshold(gain_threshold),
         offset_dim(offset_dim),
         random_engine(std::make_shared<std::mt19937>(random_seed)),
-        gain_threshold(gain_threshold),
-        seed_dist(0U, std::numeric_limits<unsigned int>::max()),
-        entropy_calculator(_NULL_ENTROPY_PTR)
-    {
+        entropy_calculator(_NULL_ENTROPY_PTR),
+        seed_dist(0U, std::numeric_limits<unsigned int>::max()) {
       if (n_thresholds == 0) {
         throw Fertilized_Exception("The number of thresholds must be >0!");
       }
@@ -171,12 +170,11 @@ namespace fertilized {
       const unsigned int &random_seed=1)
       : n_thresholds(n_thresholds),
         n_classes(n_classes),
+        gain_threshold(gain_threshold),
         offset_dim(offset_dim),
         random_engine(std::make_shared<std::mt19937>(random_seed)),
-        gain_threshold(gain_threshold),
-        seed_dist(0U, std::numeric_limits<unsigned int>::max()),
-        entropy_calculator(ent_calc)
-    {
+        entropy_calculator(ent_calc),
+        seed_dist(0U, std::numeric_limits<unsigned int>::max()) {
       if (random_seed == 0) {
         throw Fertilized_Exception("Need a random seed >= 1!");
       }
@@ -498,8 +496,9 @@ namespace fertilized {
     }
 #endif
    protected:
+     // cppcheck-suppress uninitVar
      VarianceClassificationThresholdOptimizer() :
-        seed_dist(0U, std::numeric_limits<unsigned int>::max()) {}  // cppcheck-suppress uninitVar
+        seed_dist(0U, std::numeric_limits<unsigned int>::max()) {}
 
    private:
     size_t n_thresholds;

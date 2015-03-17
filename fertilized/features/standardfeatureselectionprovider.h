@@ -276,7 +276,8 @@ namespace fertilized {
 #endif
 
    protected:
-    StandardFeatureSelectionProvider() {}  // cppcheck-suppress uninitVar
+    // cppcheck-suppress uninitVar
+    StandardFeatureSelectionProvider() {}
 
    private:
     size_t dimension;

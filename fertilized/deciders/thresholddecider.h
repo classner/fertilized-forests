@@ -158,12 +158,12 @@ namespace fertilized {
       feature_calculator(feature_calculator),
       threshold_optimizer(threshold_optimizer),
       n_valids_to_use(n_valid_features_to_use),
+      decision_param_map(std::unordered_map<node_id_t, decision_tuple_t>()),
       num_threads(num_threads),
       use_heuristic(use_hough_heuristic),
       heuristic_ratio(hough_heuristic_ratio),
       heuristic_maxd(hough_heuristic_maxd),
       compat_SurfCalc_DProv_checked(false),
-      decision_param_map(std::unordered_map<node_id_t, decision_tuple_t>()),
       allow_early_stopping(allow_early_stopping) {
       // Compatibility check of seleciton provider and feature calculator
       // dimensions.
@@ -251,7 +251,8 @@ namespace fertilized {
       // Assure that resources are available for all threads, etc.
       threshold_optimizer -> prepare_for_optimizing(node_id, num_threads);
 
-      size_t processed_val_count = 0;  // cppcheck-suppress variableScope
+      // cppcheck-suppress variableScope
+      size_t processed_val_count = 0;
       size_t processed_val_max = (n_valids_to_use > 0 ? n_valids_to_use :
                                     suggested_feature_sets -> max_count());
       bool search_valid;
@@ -264,7 +265,8 @@ namespace fertilized {
        */
       int best_config_index =
         static_cast<int>(suggested_feature_sets -> max_count() + 1);
-      int suggestion_index = 0;  // cppcheck-suppress variableScope
+      // cppcheck-suppress variableScope
+      int suggestion_index = 0;
       const elem_id_vec_t *used_elems = &element_id_list;
       auto sample_list = data_provider.get_samples();
       std::vector<annotation_dtype> prepared_annots(
@@ -686,7 +688,8 @@ namespace fertilized {
     }
 #endif
 
-    ThresholdDecider() {}  // cppcheck-suppress uninitVar
+    // cppcheck-suppress uninitVar
+    ThresholdDecider() {}
 
    private:
     std::shared_ptr<IFeatureSelectionProvider> selection_provider;

@@ -90,13 +90,14 @@ namespace fertilized {
               const size_t &patch_size_y,
               const size_t &patch_size_x,
               const bool &patches_luc = false)
-    : images(images),
+    : patches_luc(patches_luc),
+      images(images),
       patch_descs(patch_descs),
-      n_positives(n_positives),
-      patches_luc(patches_luc),
+      trans_funcs(),
       patch_size_x(patch_size_x),
       patch_size_y(patch_size_y),
       patch_size_z(patch_size_z),
+      n_positives(n_positives),
       ISampleManager<input_dtype, annotation_dtype>(
                      patch_descs.TPLMETH getSize<0>(),
                      patch_size_z * patch_size_y * patch_size_x,
