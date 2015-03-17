@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="checks.cpp" />
+    <ClCompile Include="compute_feature_importances.cpp" />
     <ClCompile Include="data_providers.cpp" />
     <ClCompile Include="DNNFeatureExtractor.cpp" />
     <ClCompile Include="features.cpp" />

@@ -521,7 +521,7 @@ namespace fertilized {
     }
 #endif
    protected:
-    TwoSideClassificationThresholdOptimizer() {}
+    TwoSideClassificationThresholdOptimizer() {}  // cppcheck-suppress uninitVar
 
    private:
     float gain_threshold;

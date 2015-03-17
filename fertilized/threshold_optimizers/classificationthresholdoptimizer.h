@@ -128,10 +128,10 @@ namespace fertilized {
       const float &gain_threshold=1E-7f,
       const size_t &annotation_step=1)
       : use_fast_search_approximation(use_fast_search_approximation),
-        gain_calculator(gain_calculator),
         n_classes(n_classes),
+        annotation_step(annotation_step),
         gain_threshold(gain_threshold),
-        annotation_step(annotation_step) {
+        gain_calculator(gain_calculator) {
       if (n_classes < 2) {
         throw Fertilized_Exception("Need at least 2 classes!");
       }
@@ -346,7 +346,7 @@ namespace fertilized {
     }
 #endif
    protected:
-     ClassificationThresholdOptimizer() {}
+     ClassificationThresholdOptimizer() {}  // cppcheck-suppress uninitVar
 
    private:
     bool use_fast_search_approximation;

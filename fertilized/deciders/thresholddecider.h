@@ -251,7 +251,7 @@ namespace fertilized {
       // Assure that resources are available for all threads, etc.
       threshold_optimizer -> prepare_for_optimizing(node_id, num_threads);
 
-      size_t processed_val_count = 0;
+      size_t processed_val_count = 0;  // cppcheck-suppress variableScope
       size_t processed_val_max = (n_valids_to_use > 0 ? n_valids_to_use :
                                     suggested_feature_sets -> max_count());
       bool search_valid;
@@ -264,7 +264,7 @@ namespace fertilized {
        */
       int best_config_index =
         static_cast<int>(suggested_feature_sets -> max_count() + 1);
-      int suggestion_index = 0;
+      int suggestion_index = 0;  // cppcheck-suppress variableScope
       const elem_id_vec_t *used_elems = &element_id_list;
       auto sample_list = data_provider.get_samples();
       std::vector<annotation_dtype> prepared_annots(
@@ -373,11 +373,11 @@ namespace fertilized {
             throw Fertilized_Exception("The standard classifier currently "
               "does not support the 'needs_negatives' option!");
             // Only prepare the positives and save some time.
-            for (const auto &element_id : element_id_list) {
-              if (*((*sample_list)[ element_id ].annotation) != 0)
-                pos_elems.push_back(element_id);
-            }
-            used_elems = &pos_elems;
+            //for (const auto &element_id : element_id_list) {
+            //  if (*((*sample_list)[ element_id ].annotation) != 0)
+            //    pos_elems.push_back(element_id);
+            //}
+            //used_elems = &pos_elems;
           }
           std::vector<input_dtype> prepared_inputs(0);
           if (feature_calculator -> needs_elements_prepared()) {
@@ -686,7 +686,7 @@ namespace fertilized {
     }
 #endif
 
-    ThresholdDecider() {}
+    ThresholdDecider() {}  // cppcheck-suppress uninitVar
 
    private:
     std::shared_ptr<IFeatureSelectionProvider> selection_provider;

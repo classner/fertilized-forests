@@ -499,7 +499,7 @@ namespace fertilized {
 #endif
    protected:
      VarianceClassificationThresholdOptimizer() :
-        seed_dist(0U, std::numeric_limits<unsigned int>::max()) {}
+        seed_dist(0U, std::numeric_limits<unsigned int>::max()) {}  // cppcheck-suppress uninitVar
 
    private:
     size_t n_thresholds;

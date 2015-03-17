@@ -207,7 +207,7 @@ namespace fertilized {
                            const size_t &annotation_dimension)
       : feat_vec_dim(feature_dimension), annot_vec_dim(annotation_dimension) {}
 
-    IDataProvider() {}
+    IDataProvider() {}  // cppcheck-suppress uninitVar
 
     /** \brief The dimension of one sample vector. */
     size_t feat_vec_dim;

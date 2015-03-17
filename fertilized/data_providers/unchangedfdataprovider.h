@@ -71,16 +71,16 @@ namespace fertilized {
     UnchangedFDataProvider(
                   const Array<const input_dtype, 2, 2> &data_array,
                   const Array<const annotation_dtype, 2, 2> &annotation_array)
-      : data_array(data_array),
-        data(data_array.getData()),
-        annotation_array(annotation_array),
+      : data(data_array.getData()),
         annotations(annotation_array.getData()),
-        n_samples(data_array.TPLMETH getSize<0>()),
+        data_array(data_array),
+        annotation_array(annotation_array),
+        samples(std::make_shared<sample_list_t>()),
         dimension(data_array.TPLMETH getSize<1>()),
         annot_dimension(annotation_array.TPLMETH getSize<1>()),
+        n_samples(data_array.TPLMETH getSize<0>()),
         column_wise(false),
-        step(1),
-        samples(std::make_shared<sample_list_t>()) {
+        step(1) {
       // Checks.
       if (data_array.TPLMETH getSize<1>() == 0)
         throw Fertilized_Exception("Tried to create a data provider for "

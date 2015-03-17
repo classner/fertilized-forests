@@ -82,10 +82,10 @@ namespace fertilized {
       const std::shared_ptr<IThresholdOptimizer_t> &opt1,
       const std::shared_ptr<IThresholdOptimizer_t> &opt2,
       const unsigned int &random_seed=1)
-      : opt1(opt1),
-        opt2(opt2),
-        random_engine(std::make_shared<std::mt19937>(random_seed)),
+      : random_engine(std::make_shared<std::mt19937>(random_seed)),
         dist(std::uniform_int_distribution<uint>(0, 1)),
+        opt1(opt1),
+        opt2(opt2),
         opt_sel_map(std::unordered_map<node_id_t, bool>()) {
      if (random_seed == 0) {
         throw Fertilized_Exception("Need a random seed >= 1!");

@@ -249,7 +249,6 @@ namespace fertilized {
       FASSERT(check_sample_classes_ok(annotations, n_samples, n_classes, annotation_step));
 
       // Initialize.
-      annotation_dtype last_element_type;
       annotation_dtype current_element_type;
       float current_weight;
       // Histograms.
@@ -333,7 +332,6 @@ namespace fertilized {
         // Update the trackers.
         if (last_val != current_val)
           last_val = current_val;
-        last_element_type = current_element_type;
       }
       if (std::get<2>(best_result) >= min_samples_at_leaf &&
           std::get<3>(best_result) >= min_samples_at_leaf)
@@ -388,7 +386,7 @@ namespace fertilized {
 #endif
    protected:
      RandomizedClassificationThresholdOptimizer() :
-        seed_dist(0U, std::numeric_limits<unsigned int>::max()){}
+        seed_dist(0U, std::numeric_limits<unsigned int>::max()) {}  // cppcheck-suppress uninitVar
 
    private:
     size_t n_thresholds;
