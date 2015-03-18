@@ -111,11 +111,11 @@ namespace fertilized {
       const size_t &annotation_step=1,
       const unsigned int &random_seed = 1)
       : n_thresholds(n_thresholds),
-        gain_calculator(gain_calculator),
         n_classes(n_classes),
-        random_engine(std::make_shared<std::mt19937>(random_seed)),
-        gain_threshold(gain_threshold),
         annotation_step(annotation_step),
+        gain_threshold(gain_threshold),
+        gain_calculator(gain_calculator),
+        random_engine(std::make_shared<std::mt19937>(random_seed)),
         main_seed(0),
         seed_dist(0U, std::numeric_limits<unsigned int>::max()) {
       if (n_thresholds == 0) {
@@ -249,7 +249,6 @@ namespace fertilized {
       FASSERT(check_sample_classes_ok(annotations, n_samples, n_classes, annotation_step));
 
       // Initialize.
-      annotation_dtype last_element_type;
       annotation_dtype current_element_type;
       float current_weight;
       // Histograms.
@@ -333,7 +332,6 @@ namespace fertilized {
         // Update the trackers.
         if (last_val != current_val)
           last_val = current_val;
-        last_element_type = current_element_type;
       }
       if (std::get<2>(best_result) >= min_samples_at_leaf &&
           std::get<3>(best_result) >= min_samples_at_leaf)
@@ -387,8 +385,9 @@ namespace fertilized {
     }
 #endif
    protected:
+     // cppcheck-suppress uninitVar
      RandomizedClassificationThresholdOptimizer() :
-        seed_dist(0U, std::numeric_limits<unsigned int>::max()){}
+        seed_dist(0U, std::numeric_limits<unsigned int>::max()) {}
 
    private:
     size_t n_thresholds;

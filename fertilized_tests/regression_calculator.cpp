@@ -163,6 +163,7 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_constant_regression) {
       // check for equal results
       calculator_ptr->predict(input,pred_mean,pred_var);
       CHECK_CLOSE_(mean(0), pred_mean(0));
+      // cppcheck-suppress variableScope
       CHECK_CLOSE(error_var(0), pred_var(0,0), 0.001f, 0.0001f);
     }
 
@@ -196,6 +197,7 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_1d_linear_regression) {
   Vector_t pred_1 (1);
   Matrix_t covar_1 (1,1);
   restored_ptr->predict(test_vec_1, pred_1, covar_1);
+  // cppcheck-suppress variableScope
   CHECK_CLOSE(pred_1(0), 5.f, 0.05f, 0.0001f);
   BOOST_CHECK(covar_1(0,0) < 1e-7);
   Vector_t test_vec_2 (2);
@@ -203,6 +205,7 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_1d_linear_regression) {
   Vector_t pred_2 (1);
   Matrix_t covar_2 (1,1);
   restored_ptr->predict(test_vec_2, pred_2, covar_2);
+  // cppcheck-suppress variableScope
   CHECK_CLOSE(pred_2(0), 11.f, 0.05f, 0.0001f);
   BOOST_CHECK(covar_2(0,0) < 1e-7);
   // Check, that samples further away from the training samples produce a higher variance (lower confidence).
@@ -240,6 +243,7 @@ BOOST_AUTO_TEST_CASE(Correctness_QR_1d_1d_linear_regression) {
   Vector_t pred_1 (1);
   Matrix_t covar_1 (1,1);
   restored_ptr->predict(test_vec_1, pred_1, covar_1);
+  // cppcheck-suppress variableScope
   CHECK_CLOSE(pred_1(0), 5.f, 0.05f, 0.0001f);
   BOOST_CHECK(covar_1(0,0) < 1e-7);
   Vector_t test_vec_2 (2);
@@ -247,6 +251,7 @@ BOOST_AUTO_TEST_CASE(Correctness_QR_1d_1d_linear_regression) {
   Vector_t pred_2 (1);
   Matrix_t covar_2 (1,1);
   restored_ptr->predict(test_vec_2, pred_2, covar_2);
+  // cppcheck-suppress variableScope
   CHECK_CLOSE(pred_2(0), 11.f, 0.05f, 0.0001f);
   BOOST_CHECK(covar_2(0,0) < 1e-7);
   // Check, that samples further away from the training samples produce a higher variance (lower confidence).
@@ -277,14 +282,18 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_2d_linear_regression) {
   Vector_t pred_1 (2);
   Matrix_t covar_1 (2,2);
   calculator_ptr->predict(test_vec_1, pred_1, covar_1);
+  // cppcheck-suppress variableScope
   CHECK_CLOSE(pred_1(0), 5.f, 0.05f, 0.0001f);
+  // cppcheck-suppress variableScope
   CHECK_CLOSE(pred_1(1), 4.f, 0.05f, 0.0001f);
   Vector_t test_vec_2 (2);
   test_vec_2 << 10,1;
   Vector_t pred_2 (2);
   Matrix_t covar_2 (2,2);
   calculator_ptr->predict(test_vec_2, pred_2, covar_2);
+  // cppcheck-suppress variableScope
   CHECK_CLOSE(pred_2(0), 11.f, 0.05f, 0.0001f);
+  // cppcheck-suppress variableScope
   CHECK_CLOSE(pred_2(1), 10.f, 0.05f, 0.0001f);
   BOOST_CHECK(covar_1(0,0) < 1e-7);
   BOOST_CHECK(covar_2(0,0) < 1e-7);
@@ -397,8 +406,6 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_1d_linear_regression_threshold_optimizer) {
   float weights [] = {1,1,1,1,1,1,1};
   bool valid = true;
 
-  size_t annotation_step = 1;
-
   auto entropy = std::make_shared<ShannonEntropy<float>>();
   auto linear_reg_calc = std::make_shared<LinearRegressionCalculator<float>>(true, 1E-5f);
   auto optimizer = new RegressionThresholdOptimizer<float, float>(n_thresholds,
@@ -440,8 +447,6 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_1d_constant_regression_threshold_optimizer) 
   size_t annotation_dimension = 1;
   float weights [] = {1,1,1,1,1,1,1};
   bool valid = true;
-
-  size_t annotation_step = 1;
 
   auto entropy = std::make_shared<ShannonEntropy<float>>();
   auto linear_reg_calc = std::make_shared<ConstantRegressionCalculator<float>>();

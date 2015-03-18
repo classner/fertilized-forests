@@ -40,7 +40,12 @@ namespace fertilized {
     ISampleManager(const size_t &n_samples,
                    const size_t &sample_size,
                    const size_t &annot_size)
-      : n_samples(n_samples), sample_size(sample_size), annot_size(annot_size){
+      : n_samples(n_samples),
+        sample_size(sample_size),
+        annot_size(annot_size),
+        last_reserved_elem(0),
+        max_elements(0),
+        reserve_space(true) {
       if (sample_size == 0)
         throw Fertilized_Exception("Tried to create a sample manager for "
                                     "0 samples.");

@@ -129,11 +129,11 @@ namespace fertilized {
       const std::shared_ptr<IGainCalculator<float>> &gain_calculator,
       const float &gain_threshold=1E-7f,
       const size_t annotation_step=1)
-      : use_fast_search_approximation(use_fast_search_approximation),
-        gain_calculator(gain_calculator),
+      : gain_threshold(gain_threshold),
+        use_fast_search_approximation(use_fast_search_approximation),
         n_classes(n_classes),
-        gain_threshold(gain_threshold),
-        annotation_step(annotation_step)  {
+        annotation_step(annotation_step),
+        gain_calculator(gain_calculator) {
       if (n_classes <= 1) {
         throw Fertilized_Exception("The number of classes must be > 1!");
       }
@@ -521,6 +521,7 @@ namespace fertilized {
     }
 #endif
    protected:
+    // cppcheck-suppress uninitVar
     TwoSideClassificationThresholdOptimizer() {}
 
    private:

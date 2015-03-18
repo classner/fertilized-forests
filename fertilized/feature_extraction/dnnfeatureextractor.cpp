@@ -92,8 +92,10 @@ namespace fertilized {
                                         std::string net_outlayer,
                                         const bool &load_mean,
                                         std::string mean_file)
-    : mean_available(false),
-      net_ptr(nullptr) {
+    : net_ptr(nullptr),
+      mean_available(false),
+      read_layer_idx(-1),
+      read_blob_idx(-1) {
 #ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
     // Set google log level to error to avoid cluttering the shell.
     FLAGS_minloglevel = 2;
@@ -177,7 +179,6 @@ namespace fertilized {
         }
         blobindex++;
     }
-    read_layer_idx = -1;
     int layerindex = 0;
     for (const auto &layername : net -> layer_names()) {
         if (layername == net_outlayer) {
@@ -192,6 +193,8 @@ namespace fertilized {
         throw Fertilized_Exception("Could not find a layer and blob with the "
                                    "specified name!");
     }
+    FASSERT (read_layer_idx >= 0);
+    FASSERT (read_blob_idx >= 0);
 #else
     throw Fertilized_Exception("This binary has been built without caffe "
       "feature extraction support. Rebuild with the option `--with-caffe` "
@@ -225,7 +228,6 @@ namespace fertilized {
     cv::Mat image_mean_prepared;
     unsigned int batch_id = 0;
     unsigned int image_id = 0;
-    float *input_ptr = net -> input_blobs()[0] -> mutable_cpu_data();
     for (const auto &image : images) {
       mat_view = cv::Mat(image.TPLMETH getSize<0>(),
                          image.TPLMETH getSize<1>(),
@@ -249,6 +251,7 @@ namespace fertilized {
         image_mean_prepared -= mean_data;
       }
       // transpose.
+      float *input_ptr = net -> input_blobs()[0] -> mutable_cpu_data();
       int rows = input_size.height;
       int cols = input_size.width;
       for (int row = 0; row < rows; ++row) {

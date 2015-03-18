@@ -79,9 +79,10 @@ for rs in xrange(1, 201):
                     ),
                     soil.ClassificationLeafManager(2)
                    )
-
+  
   stump.fit(X, Y)
   stumps.append(stump)
+  print "Stump depth: ", stump.depth()
 
   #%% Plot.
   if rs in [1, 2]:

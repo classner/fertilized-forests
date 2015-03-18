@@ -36,7 +36,30 @@ zero_res_caffe = np.load(os.path.join(os.path.dirname(__file__), 'zero_res.npy')
 one_res_caffe = np.load(os.path.join(os.path.dirname(__file__), 'one_res.npy'))
 opencv_res_caffe = np.load(os.path.join(os.path.dirname(__file__), 'opencv_res.npy'))
 # Comparisons.
-npt.assert_allclose(zero_res_caffe, zero_res, atol=1e-6)
-npt.assert_allclose(one_res_caffe, one_res, atol=1e-6)
-npt.assert_allclose(opencv_res_caffe, opencv_res, atol=5e-5)
+npt.assert_allclose(zero_res_caffe, zero_res, atol=1e-5)
+npt.assert_allclose(one_res_caffe, one_res, atol=1e-5)
+npt.assert_allclose(opencv_res_caffe, opencv_res, atol=1e-4)
 
+# Test the order of results.
+zero_one_res = extractor.extract([timage_zeros, timage_ones], False)
+assert np.all(zero_one_res[0] == zero_res)
+assert np.all(zero_one_res[1] == one_res)
+
+# GPU
+try:
+    extractor = soil.DNNFeatureExtractor(False) # GPU
+except:
+    print "The library has been built without caffe GPU. Skipping."
+    sys.exit(0)
+# Assume the image has had its means subtracted already.
+zero_res = extractor.extract([timage_zeros], False)
+one_res = extractor.extract([timage_ones], False)
+opencv_res = extractor.extract([timage_opencv], False)
+# Comparisons.
+npt.assert_allclose(zero_res_caffe, zero_res, atol=1e-5)
+npt.assert_allclose(one_res_caffe, one_res, atol=1e-5)
+npt.assert_allclose(opencv_res_caffe, opencv_res, atol=1e-4)
+# Order of results.
+zero_one_res = extractor.extract([timage_zeros, timage_ones], False)
+assert np.all(zero_one_res[0] == zero_res)
+assert np.all(zero_one_res[1] == one_res)

@@ -539,3 +539,4 @@ fertilized/feature_extraction/__alexnet.h
 README.MD
 Presentation/Python/create_caffe_samples.py
 Presentation/Python/dnn_feature_extraction.py
+SConstruct

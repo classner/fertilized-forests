@@ -99,15 +99,15 @@ namespace fertilized {
          const std::shared_ptr<dec_t> &decider,
          const std::shared_ptr<leaf_man_t> &leaf_manager)
       : max_depth(max_depth),
-        min_samples_at_leaf(min_samples_at_leaf),
-        min_samples_at_node(min_samples_at_node),
-        weight(1.0f),
-        tree(),
-        marks(),
-        decider(decider),
         is_initialized_for_training(false),
+        min_samples_at_node(min_samples_at_node),
+        min_samples_at_leaf(min_samples_at_leaf),
+        weight(1.0f),
         stored_in_leafs(0),
-        leaf_manager(leaf_manager) {
+        decider(decider),
+        leaf_manager(leaf_manager),
+        tree(0),
+        marks(0) {
       if (max_depth == 0) {
         throw Fertilized_Exception("The max depth must be >0!");
       }
@@ -190,7 +190,7 @@ namespace fertilized {
     void make_node(dprov_t *data_provider,
                    const bool &append_on_different) {
       // Assert that there is a node left to process.
-      if (marks.size() == 0) {
+      if (marks.empty()) {
         throw Fertilized_Exception("Tried to process a node where none was "
           "left.");
       }
@@ -295,7 +295,7 @@ namespace fertilized {
       }
       switch (completion) {
       case CompletionLevel::Complete:
-        while (marks.size() > 0)
+        while (!marks.empty())
           make_node(data_provider, false);
         break;
       case CompletionLevel::Level:
@@ -342,13 +342,13 @@ namespace fertilized {
       }
       switch (completion) {
       case CompletionLevel::Complete:
-        while (marks.size() > 0)
+        while (!marks.empty())
           make_node(data_provider, true);
         break;
       case CompletionLevel::Level:
         {
         unsigned int depth = std::get<2>(marks.front());
-        while (marks.size() > 0 &&
+        while (!marks.empty() &&
                std::get<2>(marks.front()) == depth)
           make_node(data_provider, true);
         }
@@ -361,6 +361,56 @@ namespace fertilized {
       }
       return marks.size();
     };
+
+    /**
+     * Get the tree depth.
+     *
+     * The depth is defined to be 0 for an "empty" tree (only a leaf/root node)
+     * and as the amount of edges on the longest path in the tree otherwise.
+     *
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     *
+     * -----
+     */
+    size_t depth() const {
+      size_t depth = 0;
+      if (! tree.empty()) {
+        std::vector<std::pair<size_t, size_t>> to_check;
+        to_check.push_back(std::make_pair(0, 0));
+        while(! to_check.empty()) {
+          const std::pair<size_t, size_t> to_process = to_check.back();
+          to_check.pop_back();
+          const size_t &node_id = to_process.first;
+          const size_t &current_depth = to_process.second;
+          if (current_depth > depth)
+            depth = current_depth;
+          FASSERT (node_id < tree.size());
+          const auto &child_nodes = tree[node_id];
+          if (child_nodes.first == 0) {
+            if (child_nodes.second == 0) {
+              // Leaf.
+              continue;
+            } else {
+              to_check.push_back(std::make_pair(child_nodes.second,
+                                                current_depth+1));
+            }
+          } else {
+            to_check.push_back(std::make_pair(child_nodes.first,
+                                              current_depth+1));
+            if (child_nodes.second != 0) {
+              to_check.push_back(std::make_pair(child_nodes.second,
+                                                current_depth+1));
+            }
+          }
+        }
+      }
+      return depth;
+    }
 
     /**
      * \brief Standard fitting function.
@@ -641,11 +691,11 @@ namespace fertilized {
                                   1.f / static_cast<float>(step_size) :
                                   1.f);
       float ratio_parameters[] = {p1, p2, correction_ratio, correction_ratio};
-      size_t write_x, write_y;
       {
 #ifdef PYTHON_ENABLED
         py::gil_guard_release guard;
 #endif
+        size_t write_x, write_y;
         const input_dtype *data_ptr = image.getData();
         auto transformer = PatchToImageCoordinateTransformer(patch_x,
                                                              patch_y,
@@ -957,6 +1007,7 @@ namespace fertilized {
 #endif
 
    protected:
+    // cppcheck-suppress uninitVar
     Tree() {}
 
    private:

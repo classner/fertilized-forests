@@ -21,7 +21,7 @@ caffe_env = caffeMakeEnvironment(caffeVariables, root='external/caffe-brewer')
 
 # The root path must be added, since the fertilized headers are
 # referenced.
-env.AppendUnique(CPPPATH="#.")
+env.AppendUnique(CPPPATH=[Dir("#").abspath])
 
 # Only take actions if neither help nor clean is specified.
 if not GetOption("help") and not GetOption("clean"):
