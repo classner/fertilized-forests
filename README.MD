@@ -10,7 +10,7 @@ You can find detailed information including API documentation on
 ## Build status
 
 The 'working' branch is `unstable`. Only versions that are completely tested
-get merged to `master`, so `master` is always always stable, with all tests passing builds running. The current status of `unstable` is as follows:
+get merged to `master`, so `master` is always always stable, with all tests passing and all builds running. The current status of `unstable` is as follows:
 
 * [![Jenkins](https://img.shields.io/jenkins/s/http/www.christophlassner.de/jenkins/fertilized-continuous-release.svg)]() Build and tests, core library
 * [![Jenkins](https://img.shields.io/jenkins/s/http/www.christophlassner.de/jenkins/fertilized-continuous-release-caffe.svg)]() Build and tests, core library and caffe feature extraction
