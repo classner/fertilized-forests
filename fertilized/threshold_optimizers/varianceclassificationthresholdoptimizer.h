@@ -114,6 +114,8 @@ namespace fertilized {
         gain_threshold(gain_threshold),
         offset_dim(offset_dim),
         random_engine(std::make_shared<std::mt19937>(random_seed)),
+        thread_engines(),
+        main_seed(0),
         entropy_calculator(_NULL_ENTROPY_PTR),
         seed_dist(0U, std::numeric_limits<unsigned int>::max()) {
       if (n_thresholds == 0) {
@@ -174,6 +176,8 @@ namespace fertilized {
         offset_dim(offset_dim),
         random_engine(std::make_shared<std::mt19937>(random_seed)),
         entropy_calculator(ent_calc),
+        thread_engines(),
+        main_seed(0),
         seed_dist(0U, std::numeric_limits<unsigned int>::max()) {
       if (random_seed == 0) {
         throw Fertilized_Exception("Need a random seed >= 1!");

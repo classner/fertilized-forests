@@ -163,6 +163,7 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_constant_regression) {
       // check for equal results
       calculator_ptr->predict(input,pred_mean,pred_var);
       CHECK_CLOSE_(mean(0), pred_mean(0));
+      // cppcheck-suppress variableScope
       CHECK_CLOSE(error_var(0), pred_var(0,0), 0.001f, 0.0001f);
     }
 
