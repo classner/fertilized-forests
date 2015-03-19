@@ -126,7 +126,7 @@ namespace fertilized {
   struct vector_hasher {
     /** Hash function. */
     size_t operator()(const std::vector<size_t> &t) const {
-      if (t.size() == 0) return 0;
+      if (t.empty()) return 0;
       return hash_fnv_1a(reinterpret_cast<const unsigned char *>(&t[0]),
                          t.size() * sizeof(size_t) / sizeof(unsigned char));
     };

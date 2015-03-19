@@ -53,6 +53,12 @@
     <ClCompile Include="test_template.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="DNNFeatureExtractor.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="compute_feature_importances.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="forest.h">

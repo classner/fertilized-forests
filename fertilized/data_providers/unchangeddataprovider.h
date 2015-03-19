@@ -130,17 +130,18 @@ namespace fertilized {
       const std::shared_ptr<sample_list_t> &loaded_samples,
       const std::shared_ptr<std::vector<element_id_t>> &training_ids,
       const std::shared_ptr<std::vector<element_id_t>> &validation_ids)
-      : data_array(data_array),
-        data(data_array.getData()),
+      : data(data_array.getData()),
+        annotations(annotation_array.getData()),  
+        data_array(data_array),
         annotation_array(annotation_array),
-        annotations(annotation_array.getData()),
-        n_samples(data_array.TPLMETH getSize<0>()),
-        column_wise(false),
-        step(1),
         samples(loaded_samples),
         training_ids(training_ids),
         validation_ids(validation_ids),
-        data_prov_t(data_array.TPLMETH getSize<1>(), annotation_array.TPLMETH getSize<1>()) {
+        n_samples(data_array.TPLMETH getSize<0>()),
+        column_wise(false),
+        step(1),
+        data_prov_t(data_array.TPLMETH getSize<1>(),
+                    annotation_array.TPLMETH getSize<1>()) {
       // Checks.
       if (data_array.TPLMETH getSize<1>() == 0)
         throw Fertilized_Exception("Tried to create a data provider for "

@@ -134,8 +134,7 @@ namespace fertilized {
      * frequencies of the feature occurences. Its length is the number
      * of available features.
      */
-    virtual Array<double, 1, 1> compute_feature_importances() const
-      VIRTUAL((Array<double, 1, 1>));
+    virtual Array<double, 1, 1> compute_feature_importances() const = 0;
 
     virtual bool operator==(const IDecider &rhs) const VIRTUAL(bool);
 

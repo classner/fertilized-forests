@@ -76,14 +76,15 @@ namespace fertilized {
       const size_t &max_samples_per_node,
       std::shared_ptr<ISampleManager<input_dtype, annotation_dtype>> sample_manager,
       const unsigned int &random_seed = 1)
-      : n_samples(sample_manager -> n_samples),
-        max_samples_per_node(max_samples_per_node),
-        samples(std::make_shared<sample_list_t>()),
-        sample_manager(sample_manager),
+      : samples(std::make_shared<sample_list_t>()),
         training_ids(std::make_shared<elem_id_vec_t>()),
-        validation_ids(std::make_shared<elem_id_vec_t>()),
-        node_flag(std::unordered_map<node_id_t, bool>()),
+        validation_ids(std::make_shared<elem_id_vec_t>()),  
         random_engine(std::make_shared<std::mt19937>(random_seed)),
+        sample_manager(sample_manager),
+        n_samples(sample_manager -> n_samples),
+        max_samples_per_node(max_samples_per_node),
+        node_flag(std::unordered_map<node_id_t, bool>()),
+        unused_sample_pool(std::unordered_map<node_id_t, std::pair<node_id_t, std::list<node_id_t>>>()),
         data_prov_t(sample_manager -> sample_size,
                     sample_manager -> annot_size) {
       // Checks.

@@ -32,9 +32,13 @@ namespace fertilized {
       std::shared_ptr<std::vector<size_t>> used_indices,
       std::shared_ptr<std::vector<size_t>> available_indices,
       std::shared_ptr<std::mt19937> random_engine)
-    : dimension(dimension), how_many_per_node(how_many_per_node),
-      used_indices(used_indices), available_indices(available_indices),
-      index_max(index_max), random_engine(random_engine), generated(0) {
+    : dimension(dimension),
+      index_max(index_max),
+      how_many_per_node(how_many_per_node),
+      used_indices(used_indices),
+      available_indices(available_indices),
+      random_engine(random_engine),
+      generated(0) {
       if (dimension == 1) {
         sampler = std::unique_ptr<SamplingWithoutReplacement<size_t>>(
           new SamplingWithoutReplacement<size_t>(0, index_max, random_engine));

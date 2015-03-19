@@ -16,30 +16,55 @@
 #if _MSC_VER < 1800
 #pragma warning (push)
 #pragma warning ( disable : 4715)
-inline float copysign(float x, float origin) {
-  if (origin < 0.f && x > 0.f)
-    return -x;
-  if (origin < 0.f && x <= 0.f)
-    return x;
-  if (origin >= 0.f && x > 0.f)
-    return x;
-  if (origin >= 0.f && x <= 0.f)
-    return -x;
-  // This line is unreachable, but prevents compiler warnings.
-  return 0.f;
+namespace std {
+  // Manually implement a signbit function as defined in the standard.
+  // It is non-trivial, since it must return valid values for +/-0, +/-inf
+  // as well, so the best thing really is to use the bit representation of the
+  // floating point numbers. Hence, works only for IEEE floats!
+  template <typename T>
+  inline static bool signbit(const T &x);
+  template <>
+  inline static bool signbit<float>(const float &x) {
+    return (*reinterpret_cast<const long*>(&x) & (1L << 31)) != 0;
+  }
+  template <>
+  inline static bool signbit<double>(const double &x) {
+    return (*reinterpret_cast<const long long*>(&x) & (1LL << 63)) != 0;
+  }
+}
+
+template <typename T>
+inline static T copysign(const T &x, const T &origin);
+template <>
+inline static float copysign<float>(const float &x, const float &origin) {
+  long tmp;
+  if (std::signbit(origin)) {
+    tmp = *reinterpret_cast<const long*>(&x) | (1L << 31);
+    return *reinterpret_cast<float*>(&tmp);
+  } else {
+    tmp = *reinterpret_cast<const long*>(&x) &
+          (std::numeric_limits<unsigned long>::max() >> 1);
+    return *reinterpret_cast<float*>(&tmp);
+  }
+}
+template <>
+inline static double copysign<double>(const double &x, const double &origin) {
+  long long tmp;
+  if (std::signbit(origin)) {
+    tmp = *reinterpret_cast<const long long*>(&x) | (1LL << 63);
+    return *reinterpret_cast<double*>(&tmp);
+  } else {
+    tmp = *reinterpret_cast<const long long*>(&x) &
+          (std::numeric_limits<unsigned long long>::max() >> 1);
+    return *reinterpret_cast<double*>(&tmp);
+  }
 }
 #pragma warning (pop)
 #endif
 #endif
 
-#if defined(_MSC_VER)
 #define COLOR2LAB CV_BGR2Lab
 #define COLOR2GRAY CV_BGR2GRAY
-#else
-#define COLOR2LAB CV_RGB2Lab
-#define COLOR2GRAY CV_RGB2GRAY
-#endif
-
 
 using namespace std;
 using namespace cv;
@@ -324,7 +349,7 @@ void HOGExtractor::maxfilt(uchar* data, uchar* maxvalues, unsigned int step,
   deque<int> maxfifo;
   for(unsigned int i = step; i < size; i+=step) {
     if(i >= width) {
-      maxvalues[i-d] = data[maxfifo.size()>0 ? maxfifo.front(): i-step];
+      maxvalues[i-d] = data[!maxfifo.empty() ? maxfifo.front(): i-step];
     }
 
     if(data[i] < data[i-step]) {
@@ -332,7 +357,7 @@ void HOGExtractor::maxfilt(uchar* data, uchar* maxvalues, unsigned int step,
       if(i==  width+maxfifo.front())
         maxfifo.pop_front();
     } else {
-      while(maxfifo.size() > 0) {
+      while(!maxfifo.empty()) {
         if(data[i] <= data[maxfifo.back()]) {
           if(i==  width+maxfifo.front())
             maxfifo.pop_front();
@@ -343,7 +368,7 @@ void HOGExtractor::maxfilt(uchar* data, uchar* maxvalues, unsigned int step,
     }
   }
 
-  maxvalues[size-d] = data[maxfifo.size()>0 ? maxfifo.front():size-step];
+  maxvalues[size-d] = data[!maxfifo.empty() ? maxfifo.front():size-step];
 }
 
 void HOGExtractor::maxfilt(uchar* data, unsigned int step, unsigned int size,
@@ -369,7 +394,7 @@ void HOGExtractor::maxfilt(uchar* data, unsigned int step, unsigned int size,
   deque<int> minfifo;
   for(unsigned int i = step; i < size; i+=step) {
     if(i >= width) {
-      tmp.push_back(data[minfifo.size()>0 ? minfifo.front(): i-step]);
+      tmp.push_back(data[!minfifo.empty() ? minfifo.front(): i-step]);
       data[i-width] = tmp.front();
       tmp.pop_front();
     }
@@ -382,7 +407,7 @@ void HOGExtractor::maxfilt(uchar* data, unsigned int step, unsigned int size,
 
     } else {
 
-      while(minfifo.size() > 0) {
+      while(!minfifo.empty()) {
         if(data[i] <= data[minfifo.back()]) {
           if(i==  width+minfifo.front())
             minfifo.pop_front();
@@ -395,7 +420,7 @@ void HOGExtractor::maxfilt(uchar* data, unsigned int step, unsigned int size,
 
   }
 
-  tmp.push_back(data[minfifo.size()>0 ? minfifo.front():size-step]);
+  tmp.push_back(data[!minfifo.empty() ? minfifo.front():size-step]);
 
   for(unsigned int k=size-step-step; k>=size-d; k-=step) {
     if(data[k]>data[size-step]) data[size-step] = data[k];
@@ -439,7 +464,7 @@ void HOGExtractor::minfilt(uchar* data, uchar* minvalues, unsigned int step,
   deque<int> minfifo;
   for(unsigned int i = step; i < size; i+=step) {
     if(i >= width) {
-      minvalues[i-d] = data[minfifo.size()>0 ? minfifo.front(): i-step];
+      minvalues[i-d] = data[!minfifo.empty() ? minfifo.front(): i-step];
     }
 
     if(data[i] > data[i-step]) {
@@ -450,7 +475,7 @@ void HOGExtractor::minfilt(uchar* data, uchar* minvalues, unsigned int step,
 
     } else {
 
-      while(minfifo.size() > 0) {
+      while(!minfifo.empty()) {
         if(data[i] >= data[minfifo.back()]) {
           if(i==  width+minfifo.front())
             minfifo.pop_front();
@@ -463,7 +488,7 @@ void HOGExtractor::minfilt(uchar* data, uchar* minvalues, unsigned int step,
 
   }
 
-  minvalues[size-d] = data[minfifo.size()>0 ? minfifo.front():size-step];
+  minvalues[size-d] = data[!minfifo.empty() ? minfifo.front():size-step];
 
 }
 
@@ -488,7 +513,7 @@ void HOGExtractor::minfilt(uchar* data, unsigned int step, unsigned int size,
   deque<int> minfifo;
   for(unsigned int i = step; i < size; i+=step) {
     if(i >= width) {
-      tmp.push_back(data[minfifo.size()>0 ? minfifo.front(): i-step]);
+      tmp.push_back(data[!minfifo.empty() ? minfifo.front(): i-step]);
       data[i-width] = tmp.front();
       tmp.pop_front();
     }
@@ -499,7 +524,7 @@ void HOGExtractor::minfilt(uchar* data, unsigned int step, unsigned int size,
       if(i==  width+minfifo.front())
         minfifo.pop_front();
     } else {
-      while(minfifo.size() > 0) {
+      while(!minfifo.empty()) {
         if(data[i] >= data[minfifo.back()]) {
           if(i==  width+minfifo.front())
             minfifo.pop_front();
@@ -510,7 +535,7 @@ void HOGExtractor::minfilt(uchar* data, unsigned int step, unsigned int size,
     }
   }
 
-  tmp.push_back(data[minfifo.size()>0 ? minfifo.front():size-step]);
+  tmp.push_back(data[!minfifo.empty() ? minfifo.front():size-step]);
 
   for(unsigned int k=size-step-step; k>=size-d; k-=step) {
     if(data[k]<data[size-step]) data[size-step] = data[k];

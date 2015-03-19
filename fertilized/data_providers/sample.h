@@ -47,9 +47,15 @@ namespace fertilized {
            const size_t &data_step,
            const annotation_dtype *annotation,  // const size_t &annotation_step,
            const float &weight)
-      : data(data), data_step(data_step),
-        annotation(annotation),  // annotation_step(annotation_step),
-        weight(weight) {}
+      : weight(weight),
+        data(data),
+        data_step(data_step),
+        annotation(annotation) {
+      im_size[0] = 0;
+      im_size[1] = 0;
+      coords[0] = 0;
+      coords[1] = 0;
+    }
   };
 }  // namespace fertilized
 #endif  // FERTILIZED_DATA_PROVIDERS_SAMPLE_H_

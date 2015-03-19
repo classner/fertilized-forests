@@ -144,6 +144,13 @@ namespace fertilized {
         throw Fertilized_Exception("The number of trees to form a forest must "
           "be greater 1!");
       }
+      for (const auto &tree_ptr : trees) {
+        if (tree_ptr -> is_initialized() || tree_ptr -> depth() > 0) {
+          throw Fertilized_Exception("The method forest.ForestFromTrees "
+            "is only meant to combine UNTRAINED trees! Otherwise, use "
+            "'CombineTrees'!");
+        }
+      }
       this -> trees = std::make_shared<tree_ptr_vec_t>(trees);
       this -> training = training;
     };
@@ -168,6 +175,16 @@ namespace fertilized {
       if (trees.size() < 2) {
         throw Fertilized_Exception("The number of trees to form a forest must "
           "be greater 1!");
+      }
+      size_t tree_counter = 0;
+      for (const auto &tree_ptr : trees) {
+        if (! tree_ptr -> is_initialized()) {
+          throw Fertilized_Exception("The method forest.CombineTrees "
+            "is only meant to combine TRAINED trees! Otherwise, use "
+            "'ForestFromTrees'! Tree " + std::to_string(tree_counter) +
+            " is not initialized!");
+          tree_counter++;
+        }
       }
       this -> trees = std::make_shared<tree_ptr_vec_t>(trees);
       this -> training = std::shared_ptr<training_t>(nullptr);
@@ -237,6 +254,30 @@ namespace fertilized {
       fit_dprov(data_provider, &execstrat);
     };
 
+    /**
+     * Gets the depths of all trees.
+     *
+     * The depth is defined to be 0 for an "empty" tree (only a leaf/root node)
+     * and as the amount of edges on the longest path in the tree otherwise.
+     *
+     * -----
+     * Available in:
+     * - C++
+     * - Python
+     * - Matlab
+     * .
+     *
+     * -----
+     */
+    Array<size_t, 1, 1> depths() const {
+      Array<size_t, 1, 1> result = allocate(trees -> size());
+      size_t tree_id = 0;
+      for (const auto &tree_ptr : *trees) {
+        result[tree_id] = tree_ptr -> depth();
+        tree_id++;
+      }
+      return result;
+    }
 
     /**
      * \brief The fitting function for a forest.
@@ -544,12 +585,11 @@ namespace fertilized {
      * -----
      * Available in:
      * - C++
-     * - Python
      * .
      *
      * -----
      */ 
-    std::shared_ptr<const tree_ptr_vec_t> get_trees() const {
+    tree_ptr_vec_t get_trees() const {
       return trees;
     }
     
@@ -615,6 +655,9 @@ namespace fertilized {
 
     /**
      * Gets all tree weights.
+     *
+     * The returned list is a copy of the actual weights! Changes to it are not
+     * affecting the forest object!
      *
      * -----
      * Available in:

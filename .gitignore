@@ -27,6 +27,7 @@ config.log
 documentation/Release
 fertilized/fertilized.h
 fertilized/fertilized_fwd.h
+fertilized/feature_extraction/__alexnet.h
 fertilized/soil.h
 fertilized/serialization/__*
 fertilized/serialization/serialization.cpp

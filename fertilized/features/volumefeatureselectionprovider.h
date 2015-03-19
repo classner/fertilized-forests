@@ -83,8 +83,8 @@ namespace fertilized {
           const size_t &size_z,
           const size_t &how_many_per_node,
           const uint &random_seed = 1)
-      : how_many_per_node(how_many_per_node),
-        dimension(selection_dimension),
+      : dimension(selection_dimension),
+        how_many_per_node(how_many_per_node),
         size_x(size_x), size_y(size_y), size_z(size_z),
         random_engine(std::make_shared<std::mt19937>(random_seed)) {
       // TODO(Christoph): Remove max_to_use option for large speed gain.
@@ -253,6 +253,7 @@ namespace fertilized {
     };
 
    protected:
+    // cppcheck-suppress uninitVar
     VolumeFeatureSelectionProvider() {}
 
    private:

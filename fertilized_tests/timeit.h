@@ -70,6 +70,7 @@ namespace Utility {
     namespace cr = std::chrono;
     // Get now.
     auto measure_start = cr::high_resolution_clock::now();
+    // cppcheck-suppress unreadVariable
     int dummy_count = (*function)();
     // Get the elapsed time for one function call, just to get an impression
     // of the function's complexity.

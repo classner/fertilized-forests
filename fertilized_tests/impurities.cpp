@@ -377,6 +377,7 @@ BOOST_AUTO_TEST_CASE(Correctness_ClassErrRandomPoint) {
 BOOST_AUTO_TEST_CASE(Correctness_DiffClassErrRandomPoint) {
   auto classification_error = std::make_shared<ClassificationError<float>>();
   // Verified by numpy
+  // cppcheck-suppress variableScope
   float result = 0.94373023024018088f;
   auto mat = Eigen::Matrix<float, 2, 2, Eigen::RowMajor>();
   mat << 2.f, 0.f, 0.f, 4.f;
@@ -397,6 +398,7 @@ BOOST_AUTO_TEST_CASE(Correctness_ShannonDiffNormEntropyRandomPoint) {
   auto mat = Eigen::Matrix<float, 2, 2, Eigen::RowMajor>();
   mat << 2.f, 0.f, 0.f, 4.f;
   // Verified by numpy
+  // cppcheck-suppress variableScope
   float result = 3.8775978372492634f;
   CHECK_CLOSE_(shannon_entropy_f.differential_normal(mat), result);
 };

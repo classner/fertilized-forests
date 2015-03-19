@@ -7,6 +7,14 @@ and Computer Vision Lab](http://www.multimedia-computing.de) at the
 You can find detailed information including API documentation on
 [http://www.fertilized-forests.org](http://www.fertilized-forests.org).
 
+## Build status
+
+The 'working' branch is `unstable`. Only versions that are completely tested
+get merged to `master`, so for `master` always all builds are stable and all
+tests are passing. The status of `unstable` is as follows:
+
+* [![Jenkins](https://img.shields.io/jenkins/s/http/www.christophlassner.de/jenkins/fertilized-continuous-release.svg)]() Build and tests, core library
+* [![Jenkins](https://img.shields.io/jenkins/s/http/www.christophlassner.de/jenkins/fertilized-continuous-release-caffe.svg)]() Build and tests, core library and caffe feature extraction
 
 ## Installation
 
@@ -32,6 +40,7 @@ sudo apt-get install m4 doxygen libboost-all-dev libeigen3-dev \
   python-numpy build-essential libopencv-dev scons
 
 # Install Python dependencies.
+sudo pip install networkx
 sudo pip install jinja2 cppheaderparser pillow \
   scikit-image matplotlib scikit-learn
 ~~~~~

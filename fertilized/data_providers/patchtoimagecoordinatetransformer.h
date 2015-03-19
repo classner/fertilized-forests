@@ -37,8 +37,8 @@ namespace fertilized {
                                              const bool &luc,
                                              const size_t &posx = 0,
                                              const size_t &posy = 0)
-    : psx(psx), psy(psy), psz(psz), imw(imw), imh(imh), luc(luc),
-      psxh(psx/2), psyh(psy/2), posx(posx), posy(posy) {
+    : psx(psx), psy(psy), psz(psz), psxh(psx/2), psyh(psy/2),
+      imw(imw), imh(imh), posx(posx), posy(posy), luc(luc) {
       FASSERT(psx % 2 == 0);
       FASSERT(psy % 2 == 0);
     }
@@ -173,6 +173,7 @@ namespace fertilized {
      * \brief Do not use this constructor! Required only for persistence
      * compatibility reasons.
      */
+    // cppcheck-suppress uninitVar
     inline PatchToImageCoordinateTransformer() {}
   };
 }  // namespace fertilized

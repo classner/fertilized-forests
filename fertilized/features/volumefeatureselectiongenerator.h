@@ -35,11 +35,16 @@ namespace fertilized {
       const size_t &size_z,
       const size_t &how_many_per_node,
       std::shared_ptr<std::mt19937> random_engine)
-    : dimension(dimension), size_x(size_x), max_layer_index(size_x*size_y-1),
+    : size_x(size_x),
+      size_y(size_y),
+      size_z(size_z),
+      dimension(dimension),
+      max_layer_index(size_x*size_y-1),
       layer_size(size_x * size_y),
-      size_y(size_y), size_z(size_z), how_many_per_node(how_many_per_node),
-      random_engine(random_engine), generated(0),
-      dist_z(std::uniform_int_distribution<size_t>(0, size_z-1)) { }
+      dist_z(std::uniform_int_distribution<size_t>(0, size_z-1)),
+      how_many_per_node(how_many_per_node),
+      random_engine(random_engine),
+      generated(0) { }
 
     /** Whether there is another value available. */
     bool available() const {
@@ -87,8 +92,8 @@ namespace fertilized {
     std::uniform_int_distribution<size_t> dist_z;
     const size_t how_many_per_node;
     std::shared_ptr<std::mt19937> random_engine;
-    proposal_set_t already_used;
     size_t generated;
+    proposal_set_t already_used;
   };
 }  // namespace fertilized
 #endif  // FERTILIZED_FEATURES_VOLUMEFEATURESELECTIONGENERATOR_H_
