@@ -39,6 +39,7 @@ namespace fertilized {
     * - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
     * - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
     * .
+    * Serialization generation: 101
     *
     * -----
     */

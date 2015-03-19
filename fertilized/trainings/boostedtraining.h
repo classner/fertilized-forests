@@ -141,8 +141,7 @@ namespace fertilized {
         template<class Archive>
         void serialize(Archive & ar, const uint file_version) {
             ar & boost::serialization::base_object<training_t>(*this);
-            ar & bagging_strategy;
-            ar & balgorithm;
+            ar & boosting_strategy;
         }
     #endif
 

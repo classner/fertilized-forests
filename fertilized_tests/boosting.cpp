@@ -9,6 +9,45 @@ using namespace fertilized;
 
 BOOST_AUTO_TEST_SUITE(Correctness_Boosting);
 
+#ifdef SERIALIZATION_ENABLED
+BOOST_AUTO_TEST_CASE(Correctness_Boosting_Serialization) {
+    auto soil = Soil<float, float, uint, Result_Types::probabilities>();
+    uint n_trees = 200;
+    std::vector<std::shared_ptr<fertilized::Tree<float, float, uint, std::vector<float>, std::vector<float>>>> adaBoostTrees;
+    for (uint i = 0; i < n_trees; ++i)
+        adaBoostTrees.push_back(soil.StandardClassificationTree(
+                    2, // number of classes
+                    2, // number of features
+                    1)); //Max depth
+
+    auto adaBoostForest = soil.ForestFromTrees(adaBoostTrees, soil.BoostedTraining(soil.AdaBoost()));
+    auto adaBoostDeserialized = serialize_deserialize(adaBoostForest);
+    BOOST_REQUIRE(*adaBoostForest == *adaBoostDeserialized);
+
+    std::vector<std::shared_ptr<fertilized::Tree<float, float, uint, std::vector<float>, std::vector<float>>>> sammeTrees;
+    for (uint i = 0; i < n_trees; ++i)
+        sammeTrees.push_back(soil.StandardClassificationTree(
+                    2, // number of classes
+                    2, // number of features
+                    1)); //Max depth
+
+    auto sammeForest = soil.ForestFromTrees(sammeTrees, soil.BoostedTraining(soil.Samme()));
+    auto sammeDeserialized = serialize_deserialize(sammeForest);
+    BOOST_REQUIRE(*sammeForest == *sammeDeserialized);
+
+    std::vector<std::shared_ptr<fertilized::Tree<float, float, uint, std::vector<float>, std::vector<float>>>> sammeRTrees;
+    for (uint i = 0; i < n_trees; ++i)
+        sammeRTrees.push_back(soil.StandardClassificationTree(
+                    2, // number of classes
+                    2, // number of features
+                    1)); //Max depth
+
+    auto sammeRForest = soil.ForestFromTrees(sammeRTrees, soil.BoostedTraining(soil.Samme_R()));
+    auto sammeRDeserialized = serialize_deserialize(sammeRForest);
+    BOOST_REQUIRE(*sammeRForest == *sammeRDeserialized);
+}
+#endif
+
 //---------------------------------------------------------------------------//
 // AdaBoost.M2 boosting implementation
 BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_AdaBoost) {
@@ -21,10 +60,7 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_AdaBoost) {
     Y.deep() = 1;
     Y[view(0, 5)] = 0;
 
-    auto soil = Soil<float,
-                     float,
-                     uint,
-                     Result_Types::probabilities>();
+    auto soil = Soil<float, float, uint, Result_Types::probabilities>();
 
     uint depth = 1;
     uint n_trees = 200;
@@ -94,10 +130,7 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme) {
     Y.deep() = 1;
     Y[view(0, 5)] = 0;
 
-    auto soil = Soil<float,
-                     float,
-                     uint,
-                     Result_Types::probabilities>();
+    auto soil = Soil<float, float, uint, Result_Types::probabilities>();
 
     uint depth = 1;
     uint n_trees = 200;
@@ -167,10 +200,7 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme_R) {
     Y.deep() = 1;
     Y[view(0, 5)] = 0;
 
-    auto soil = Soil<float,
-                     float,
-                     uint,
-                     Result_Types::probabilities>();
+    auto soil = Soil<float, float, uint, Result_Types::probabilities>();
 
     uint depth = 1;
     uint n_trees = 200;
