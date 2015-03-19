@@ -7,9 +7,9 @@
 #include <vector>
 #include <limits>
 #include <functional>
-#ifndef __MIC__
+//#ifndef __MIC__
 #include <algorithm>
-#endif
+//#endif
 
 #include "../global.h"
 
@@ -76,12 +76,12 @@ namespace fertilized {
    */
   static bool check_elem_ids_ok(const size_t &n_samples,
                                 const std::vector<size_t> &elem_ids) {
-#ifndef __MIC__
+//#ifndef __MIC__
     return elem_ids.end() == std::find_if(elem_ids.begin(), elem_ids.end(),
       std::bind2nd(std::greater_equal<size_t>(), n_samples));
-#else
-    return true;
-#endif
+//#else
+//    return true;
+//#endif
   }
 
   /**
