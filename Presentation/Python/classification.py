@@ -82,7 +82,6 @@ for rs in xrange(1, 201):
   
   stump.fit(X, Y)
   stumps.append(stump)
-  print "Stump depth: ", stump.depth()
 
   #%% Plot.
   if rs in [1, 2]:
@@ -99,6 +98,7 @@ for rs in xrange(1, 201):
     if INTERACTIVE:
         plt.show()
 
+print "Stump 0 depth: ", stumps[0].depth()
 forest8 = soil.CombineTrees(stumps[:8])
 forest = soil.CombineTrees(stumps)
 
