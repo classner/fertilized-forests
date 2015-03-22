@@ -39,7 +39,6 @@ using fertilized::VarianceClassificationThresholdOptimizer;
 using fertilized::AlternatingThresholdOptimizer;
 using fertilized::unique_indices;
 
-#ifndef DISABLE_THRESHOLD_OPTIMIZERS
 BOOST_AUTO_TEST_SUITE(Correctness_ThresholdOptimizers);
 //---------------------------------------------------------------------------//
 // Best threshold found and threshold optimization results correct.
@@ -354,4 +353,3 @@ BOOST_AUTO_TEST_CASE(Speeds_RandomizedThreshOptSpeedIsNormal) {
   "RandomizedClassificationThresholdOptimizer<uint,uint>(EntropyGain(IPE(2)))");
 };
 BOOST_AUTO_TEST_SUITE_END();
-#endif

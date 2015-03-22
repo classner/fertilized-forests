@@ -22,10 +22,6 @@ static const unsigned int FERTILIZED_LIB_VERSION() { return 100U; }
 #include <Windows.h>
 #endif
 
-#ifdef MIC_COMPILATION_ENABLED
-#pragma offload_attribute(push, target(mic))
-#endif
-
 #include <string>
 
 // If wanted, you can enable serialization by setting the compiler define
@@ -108,7 +104,7 @@ namespace fertilized {
 #endif
 
 // Library exports.
-#if defined(__MIC__) || !defined(_MSC_VER)
+#if !defined(_MSC_VER)
 #define DllExport
 #elif __BUILD_FERTILIZED_LIBRARY
 #define DllExport __declspec( dllexport )
@@ -124,11 +120,6 @@ namespace fertilized {
 #define TemplateExport extern template class
 #define TemplateFuncExport extern template
 #define ExportVar extern
-#endif
-
-
-#ifdef MIC_COMPILATION_ENABLED
-#pragma offload_attribute(pop)
 #endif
 
 #endif  // FERTILIZED_GLOBAL_H_
