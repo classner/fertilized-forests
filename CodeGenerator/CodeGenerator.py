@@ -10,7 +10,7 @@ import glob
 import sys
 import traceback
 from os.path import basename
-from helper_classes import InstantiationTypes
+from helper_classes import InstantiationTypes, Node
 from TypeTranslations import _dtype_str_translation
 
 print("Parsing source code...")
@@ -18,7 +18,7 @@ import ParseHeader
 from helper_classes import FertilizedClass
 using_rel_strs = ParseHeader.using_relations_str
 classes = ParseHeader.parsed_classes
-functions = ParseHeader.parsed_functions
+functions =  sorted(ParseHeader.parsed_functions, key=lambda x: x.FunctionPrefix)
 lib_headers = ParseHeader.lib_headers
 
 # Do some consistency checks.
@@ -30,9 +30,19 @@ for cls in classes:
 using_relations = []
 for child_str, parent_str in using_rel_strs:
   if not defined_class_assocs.has_key(child_str):
-    raise Exception("Class %s not found!" % child_str)
+    raise Exception("During parsing, I determined that class %s is using " +\
+     "class %s. However, class %s does not seem to be a library defined " +\
+     "class. These using relations are determined just by the #include " +\
+     "header names. If you are using an external header, simply blacklist " +\
+     "it in the file CodeGenerator/SingleFileParser.py (list starting on " +\
+     "line 46)." % (parent_str, child_str, child_str))
   if not defined_class_assocs.has_key(parent_str):
-    raise Exception("Class %s not found!" % parent_str)
+    raise Exception("During parsing, I determined that class %s is using " +\
+     "class %s. However, class %s does not seem to be a library defined " +\
+     "class. These using relations are determined just by the #include " +\
+     "header names. If you are using an external header, simply blacklist " +\
+     "it in the file CodeGenerator/SingleFileParser.py (list starting on " +\
+     "line 46)." % (parent_str, child_str, parent_str))
   using_relations.append((defined_class_assocs[child_str],
                           defined_class_assocs[parent_str]))
 # Parse inheritance.
@@ -50,8 +60,36 @@ for cls in classes:
     else:
       raise Exception("No class names %s found, but required for inheritance!"\
         % (cls.Inherits))
-print ("Created inheritance relations. Checking type availability...")
-
+print ("Created inheritance relations. Building inheritance graph...")
+# Create a node for each class.
+cls_nodes = dict()
+for cls in classes:
+  cls_nodes[cls] = Node(cls)
+# Add the connections.
+for rel in inheritance_relations:
+  cls_nodes[rel[1]].add_incoming_from(cls_nodes[rel[0]])
+# Assume correctness and do not search for loops!
+# Order the nodes by depth.
+depth_search_cls = classes[:]
+depth_ordered_cls = []
+depth = 0
+while True:
+  depth_ordered_cls.append([])
+  for cls in depth_search_cls:
+    if cls_nodes[cls].out_degree() == 0:
+      depth_ordered_cls[depth].append(cls)
+  assert len(depth_ordered_cls[-1]) != 0
+  # Remove the classes from the 'todo list'.
+  for cls in depth_ordered_cls[-1]:
+    cls_nodes[cls].__del__()
+    del cls_nodes[cls]
+    depth_search_cls.remove(cls)
+  if len(depth_search_cls) == 0:
+    break
+  depth += 1
+for clslist in depth_ordered_cls:
+  clslist.sort()
+print ("Inheritance graph complete. Checking type availability...")
 def parse_instantiations(relations):
   child_instantiation_sets = {}
   for (child, parent) in relations:
@@ -310,7 +348,7 @@ else:
     delfiles = glob.glob(os.path.join('..', 'pyfertilized', 'exporters', '__*'))
     for delfile in delfiles:
         os.remove(delfile)
-python_exp_classes = [cls for cls in classes if 'Python' in cls.AvailableIn]
+python_exp_classes = [cls for cls in itertools.chain(*depth_ordered_cls) if 'Python' in cls.AvailableIn]
 python_exp_functions = [func for func in functions if 'Python' in func.AvailableIn]
 vec_types = set()
 vec_headers = dict()
@@ -337,9 +375,7 @@ for func in python_exp_functions:
     else:
         func_inst_tpls.append((func, None))
 cls_inst_tpls = []
-for cls in [cls for cls in python_exp_classes if cls.IsAbstract and not cls.ClassName == 'PatchSampleManager'] +\
-            [cls for cls in python_exp_classes if cls.ClassName == 'PatchSampleManager'] + \
-            [cls for cls in python_exp_classes if not cls.IsAbstract and not cls.ClassName == 'PatchSampleManager']:
+for cls in python_exp_classes:
     if not cls.SupportedTypes is None and not cls.TemplatingString is None and cls.TemplatingString != '':
         for insttypes in cls.SupportedTypes:
             cls_inst_tpls.append((cls, insttypes))
