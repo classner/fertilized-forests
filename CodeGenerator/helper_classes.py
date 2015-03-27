@@ -4,6 +4,39 @@ from TypeTranslations import _dtype_c_translation, _dtype_str_translation,\
 from collections import namedtuple
 import re
 
+class Node(object):
+  r"""
+  A very simple node object for the graph based dependency analysis.
+  """
+  def __init__(self,
+               content):
+    self.Content = content
+    self._in = set()
+    self._out = set()
+
+  def __del__(self):
+    for node in self._in:
+      node._out.remove(self)
+    self._in.clear()
+    for node in self._out:
+      node._in.remove(self)
+    self._out.clear()
+
+  def add_incoming_from(self, other):
+    self._in.add(other)
+    other._out.add(self)
+
+  def remove_incoming_from(self, other):
+    self._in.remove(other)
+    other._out.remove(self)
+
+  def remove_outgoing_to(self, other):
+    self._out.remove(other)
+    other._in.remove(self)
+
+  def out_degree(self):
+    return len(self._out)
+
 class FertilizedClass(object):
     r"""Describes a class in the fertilized library with its possible templated
     values.
