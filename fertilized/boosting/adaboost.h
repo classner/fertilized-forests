@@ -14,7 +14,8 @@
 #include "../global.h"
 #include "../types.h"
 #include "./iboostingstrategy.h"
-#include "../ndarray/Vector.h"
+#include "../ndarray.h"
+#include "../leafs/boostingleafmanager.h"
 
 namespace fertilized {
    /**
@@ -77,7 +78,8 @@ namespace fertilized {
 
             Array<float,2,2> weightVector = allocate(makeVector(n_samples, static_cast<size_t>(n_classes)));
             weightVector.deep() = 1.f/static_cast<float>((n_samples)*(n_classes-1));
-
+            auto boostingleafmanager = std::const_pointer_cast<BoostingLeafManager<input_dtype,annotation_dtype>>(
+                std::dynamic_pointer_cast<const BoostingLeafManager<input_dtype,annotation_dtype>>(trees[0]->get_leaf_manager()));
             for (size_t treeIndex = 0; treeIndex < trees.size(); ++treeIndex) {
                 //Calculate sample weight
                 float W_sum = 0.f;
@@ -126,6 +128,13 @@ namespace fertilized {
                 }
 
                 //Set tree weight
+                if(boostingleafmanager.get() != nullptr) {
+                    boostingleafmanager->set_weight_function(treeIndex, [n_classes,beta](std::vector<float> input)->std::vector<float>{
+                        std::vector<float> output(n_classes);
+                        for(uint k; k < n_classes; ++k) output[k] = input[k]*std::log(1.f/beta);
+                        return output;
+                    });
+                }
                 trees[treeIndex]->set_weight(beta == 0 ? 0.f : std::log(1.f/beta));
             }
         }

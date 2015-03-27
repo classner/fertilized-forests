@@ -14,6 +14,7 @@
 #include "../global.h"
 #include "../types.h"
 #include "./iboostingstrategy.h"
+#include "../leafs/boostingleafmanager.h"
 
 namespace fertilized {
    /**
@@ -81,6 +82,8 @@ namespace fertilized {
             for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
                 samples->at(sampleIndex).weight = inital_weight;
 
+            auto boostingleafmanager = std::const_pointer_cast<BoostingLeafManager<input_dtype,annotation_dtype>>(
+                std::dynamic_pointer_cast<const BoostingLeafManager<input_dtype,annotation_dtype>>(trees[0]->get_leaf_manager()));
             for(size_t treeIndex = 0; treeIndex < trees.size(); ++treeIndex) {
                 //Train the current tree
                 train_act_t current_train_act(treeIndex, CompletionLevel::Complete, action_type::DFS, fdata_provider->dproviders[treeIndex]);
@@ -110,6 +113,15 @@ namespace fertilized {
                     samples->at(sampleIndex).weight /= normalize_base;
 
                 //Set tree weight
+                if(boostingleafmanager.get() != nullptr) {
+                    boostingleafmanager->set_weight_function(treeIndex, [n_classes](std::vector<float> input)->std::vector<float>{
+                        std::vector<float> output(n_classes);
+                        float mean = 0.f;
+                        for(uint k; k < n_classes; ++k) mean+=(input[k] == 0 ? std::log(1e-5) : std::log(input[k])/static_cast<float>(n_classes));
+                        for(uint k; k < n_classes; ++k) output[k] = (input[k] == 0 ? std::log(1e-5) : std::log(input[k]))-mean;
+                        return output;
+                    });
+                }
                 trees[treeIndex]->set_weight(estimator_weight);
             }
         }

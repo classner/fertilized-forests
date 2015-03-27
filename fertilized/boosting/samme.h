@@ -14,6 +14,7 @@
 #include "../global.h"
 #include "../types.h"
 #include "./iboostingstrategy.h"
+#include "../leafs/boostingleafmanager.h"
 
 namespace fertilized {
    /**
@@ -80,6 +81,8 @@ namespace fertilized {
             for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
                 samples->at(sampleIndex).weight = inital_weight;
 
+            auto boostingleafmanager = std::const_pointer_cast<BoostingLeafManager<input_dtype,annotation_dtype>>(
+                std::dynamic_pointer_cast<const BoostingLeafManager<input_dtype,annotation_dtype>>(trees[0]->get_leaf_manager()));
             for(size_t treeIndex = 0; treeIndex < trees.size(); ++treeIndex) {
                 //Train the current tree
                 train_act_t current_train_act(treeIndex, CompletionLevel::Complete, action_type::DFS, fdata_provider->dproviders[treeIndex]);
@@ -100,30 +103,38 @@ namespace fertilized {
                     weight_sum += samples->at(sampleIndex).weight;
                 }
                 estimator_error /= weight_sum;
+                float estimator_weight = 0.f;
 
                 if(estimator_error <= 0) { //Best result
-                    trees[treeIndex]->set_weight(1.f);
+                    estimator_weight = 1.f;
                 } else if(estimator_error >= 1.f - 1.f / n_classes) { //Worst result
-                    trees[treeIndex]->set_weight(0.f);
+                    estimator_weight = 0.f;
                 } else {
                     //Calculate estimator weight
-                    float estimator_weight = learning_rate * std::log((1.f - estimator_error) / estimator_error) + std::log(static_cast<float>(n_classes) - 1.f);
-
-                    //Set new sample weights
-                    for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
-                        samples->at(sampleIndex).weight *= (samples->at(sampleIndex).weight > 0 || estimator_weight < 0) ?
-                                    std::exp(estimator_weight * misclassified[sampleIndex]) : 1.f;
-
-                    //Normalize sample weights
-                    float normalize_base = 0.f;
-                    for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
-                        normalize_base += samples->at(sampleIndex).weight;
-                    for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
-                        samples->at(sampleIndex).weight /= normalize_base;
-
-                    //Set tree weight
-                    trees[treeIndex]->set_weight(estimator_weight);
+                     estimator_weight = learning_rate * std::log((1.f - estimator_error) / estimator_error) + std::log(static_cast<float>(n_classes) - 1.f);
                 }
+
+                //Set new sample weights
+                for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
+                    samples->at(sampleIndex).weight *= (samples->at(sampleIndex).weight > 0 || estimator_weight < 0) ?
+                                std::exp(estimator_weight * misclassified[sampleIndex]) : 1.f;
+
+                //Normalize sample weights
+                float normalize_base = 0.f;
+                for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
+                    normalize_base += samples->at(sampleIndex).weight;
+                for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
+                    samples->at(sampleIndex).weight /= normalize_base;
+
+                //Set tree weight
+                if(boostingleafmanager.get() != nullptr) {
+                    boostingleafmanager->set_weight_function(treeIndex, [n_classes,estimator_weight](std::vector<float> input)->std::vector<float>{
+                        std::vector<float> output(n_classes);
+                        for(uint k; k < n_classes; ++k) output[k] = input[k]*estimator_weight;
+                        return output;
+                    });
+                }
+                trees[treeIndex]->set_weight(estimator_weight);
             }
         }
 

@@ -23,9 +23,10 @@
 
 namespace fertilized {
     /**
-    * \brief TODO Implements the vanilla decision forest training.
+    * \brief Implements a boosted training that uses a boosting implementation defined by an \ref IBoostingStrategy
     *
-    * TODO Trains all trees independent of each other as allowed by the
+    * Trains all trees using a given boosting algorithm implementation
+    * Use a \ref BoostingLeafManager to let the boosting strategies decide their combination functions
     * \ref IExecutionStrategy, possibly exploiting parallelism, etc.
     *
     * \ingroup fertilizedtrainingsGroup
@@ -84,11 +85,9 @@ namespace fertilized {
         }
 
         /**
-        * \brief TODO Performs the classical decision tree training.
+        * \brief Performs the boosted training by calling the given \ref IBoostingStrategy
         *
-        * Each tree is trained independent from each other. You can customize
-        * the splitting of training data by setting an \ref ISplittingStrategy
-        * at construction time.
+        * For a detailed description of the used algorithm, see the implementations of IBoostingStrategy
         */
         void perform(const tree_ptr_vec_t& trees, fdprov_t* fdata_provider, exec_strat_t* exec_strategy) {
             //Get samples with NoBagging strategy
@@ -100,7 +99,7 @@ namespace fertilized {
         }
 
         /**
-        * \brief Include additional samples according to the selected \ref IBaggingStrategy.
+        * \brief Include additional samples; Boosted training does not support this.
         *
         * \param originating_tree_id size_t
         *    The tree id of the tree that has the data provider with the added
