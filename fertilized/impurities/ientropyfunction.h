@@ -107,11 +107,9 @@ namespace fertilized {
       const VIRTUAL(bool);
 
 #ifdef SERIALIZATION_ENABLED
-#ifndef __MIC__
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive & ar, const uint &file_version) {}
-#endif
 #endif
 
    protected:

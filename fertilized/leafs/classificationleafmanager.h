@@ -8,9 +8,6 @@
 #include <boost/serialization/base_object.hpp>
 #endif
 
-#ifdef DEBUG_MESSAGES
-#include <iostream>
-#endif
 #include <numeric>
 #include <unordered_map>
 #include <vector>
@@ -97,10 +94,6 @@ namespace fertilized {
       for (auto &count : distribution) {
         count /= total;
       }
-
-#ifdef DEBUG_MESSAGES
-      std::cout << "Stored " << std::to_string(element_list.size()) << " elements.";
-#endif
 
       auto ret_val = distribution_map.emplace(node_id, std::move(distribution));
       if (!ret_val.second) {

@@ -219,12 +219,10 @@ namespace fertilized {
     BOOST_SERIALIZATION_SPLIT_MEMBER()
     template<class Archive>
     void load(Archive & ar, const unsigned int version) {
-      #ifndef __MIC__
       ar.template register_type< InducedEntropy<input_dtype> >();
       ar >> boost::serialization::base_object<IEntropyFunction<input_dtype>>(*this);
       ar >> p;
       ar >> tsallis_entropy;
-      #endif
     }
 #endif
 
