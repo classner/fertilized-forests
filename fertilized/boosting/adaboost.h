@@ -24,6 +24,7 @@ namespace fertilized {
     * Implements the original AdaBoost algorithm proposed by Freund and Schapire
     * See "A decision-theoretic generalization of on-line learning and an application to boosting". Journal of Computer and System Sciences 55. 1997
     * To support multi-class classification, the AdaBoost.M2 algorithm is used
+    * Output when using BoostingLeafManager is estimator_probability*std::log(1.f/beta)
     *
     * \ingroup fertilizedboostingGroup
     *
@@ -76,8 +77,10 @@ namespace fertilized {
             auto samples = std::const_pointer_cast<sample_list_t>(fdata_provider->get_samples());
             size_t n_samples = samples->size();
 
+            //Initialize weight vector
             Array<float,2,2> weightVector = allocate(makeVector(n_samples, static_cast<size_t>(n_classes)));
             weightVector.deep() = 1.f/static_cast<float>((n_samples)*(n_classes-1));
+            //Cast boostingleafmanager, will be nullptr if no BoostingLeafManager is used
             auto boostingleafmanager = std::const_pointer_cast<BoostingLeafManager<input_dtype,annotation_dtype>>(
                 std::dynamic_pointer_cast<const BoostingLeafManager<input_dtype,annotation_dtype>>(trees[0]->get_leaf_manager()));
             for (size_t treeIndex = 0; treeIndex < trees.size(); ++treeIndex) {
@@ -128,7 +131,7 @@ namespace fertilized {
                 }
 
                 //Set tree weight
-                if(boostingleafmanager.get() != nullptr) {
+                if(boostingleafmanager != nullptr) {
                     boostingleafmanager->set_weight_function(treeIndex, [n_classes,beta](std::vector<float> input)->std::vector<float>{
                         std::vector<float> output(n_classes);
                         for(uint k; k < n_classes; ++k) output[k] = input[k]*std::log(1.f/beta);

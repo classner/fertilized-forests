@@ -26,8 +26,7 @@ namespace fertilized {
     * \brief Implements a boosted training that uses a boosting implementation defined by an \ref IBoostingStrategy
     *
     * Trains all trees using a given boosting algorithm implementation
-    * Use a \ref BoostingLeafManager to let the boosting strategies decide their combination functions
-    * \ref IExecutionStrategy, possibly exploiting parallelism, etc.
+    * Use a \ref BoostingLeafManager to let the boosting strategies decide their weight functions
     *
     * \ingroup fertilizedtrainingsGroup
     *
@@ -95,6 +94,7 @@ namespace fertilized {
             auto usage_map = bagging_strategy.get_initial_split(trees.size(), fdata_provider);
             fdata_provider->create_tree_providers(trees.size(), usage_map);
 
+            //Let the chosen boosting strategy perform the training
             boosting_strategy->perform(trees, fdata_provider, exec_strategy, trees[0]->get_leaf_manager()->get_summary_dimensions(0));
         }
 

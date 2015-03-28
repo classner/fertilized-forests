@@ -1,4 +1,4 @@
-// Author: Christian Diller
+/* Author: Christian Diller. */
 #include <fertilized/fertilized.h>
 
 #include "boost/test/unit_test.hpp"

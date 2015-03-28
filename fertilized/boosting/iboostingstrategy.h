@@ -1,4 +1,4 @@
-/* Author: Christian Diller */
+/* Author: Christian Diller. */
 #pragma once
 #ifndef FERTILIZED_BOOSTING_IBOOSTINGSTRATEGY_H_
 #define FERTILIZED_BOOSTING_IBOOSTINGSTRATEGY_H_
@@ -19,7 +19,10 @@
 
 namespace fertilized {
    /**
-    * Specifies the boosting algorithm that will be used for training
+    * \brief Specifies the boosting algorithm that will be used for training
+    *
+    * Use the IBoostingStrategy in combination with a \ref BoostingLeafManager to allow it to set a custom
+    * weight function per tree which may lead to better classification results.
     *
     * \ingroup fertilizedboostingGroup
     *

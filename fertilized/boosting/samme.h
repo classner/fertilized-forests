@@ -23,6 +23,7 @@ namespace fertilized {
     * Implements the SAMME boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
     * See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
     * One can set the learning rate which specifies the contribution of each classifier
+    * Output when using BoostingLeafManager is estimator_probability*estimator_weight
     *
     * \ingroup fertilizedboostingGroup
     *
@@ -81,6 +82,7 @@ namespace fertilized {
             for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
                 samples->at(sampleIndex).weight = inital_weight;
 
+            //Cast boostingleafmanager, will be nullptr if no BoostingLeafManager is used
             auto boostingleafmanager = std::const_pointer_cast<BoostingLeafManager<input_dtype,annotation_dtype>>(
                 std::dynamic_pointer_cast<const BoostingLeafManager<input_dtype,annotation_dtype>>(trees[0]->get_leaf_manager()));
             for(size_t treeIndex = 0; treeIndex < trees.size(); ++treeIndex) {
@@ -109,8 +111,7 @@ namespace fertilized {
                     estimator_weight = 1.f;
                 } else if(estimator_error >= 1.f - 1.f / n_classes) { //Worst result
                     estimator_weight = 0.f;
-                } else {
-                    //Calculate estimator weight
+                } else { //Calculate estimator weight
                      estimator_weight = learning_rate * std::log((1.f - estimator_error) / estimator_error) + std::log(static_cast<float>(n_classes) - 1.f);
                 }
 
@@ -127,7 +128,7 @@ namespace fertilized {
                     samples->at(sampleIndex).weight /= normalize_base;
 
                 //Set tree weight
-                if(boostingleafmanager.get() != nullptr) {
+                if(boostingleafmanager != nullptr) {
                     boostingleafmanager->set_weight_function(treeIndex, [n_classes,estimator_weight](std::vector<float> input)->std::vector<float>{
                         std::vector<float> output(n_classes);
                         for(uint k; k < n_classes; ++k) output[k] = input[k]*estimator_weight;

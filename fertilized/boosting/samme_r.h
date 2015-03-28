@@ -23,6 +23,8 @@ namespace fertilized {
     * Implements the SAMME.R real boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
     * See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
     * One can set the learning rate which specifies the contribution of each classifier
+    * Output when using BoostingLeafManager is log(p_k^m(x))-1/K*sum_k(log(p_k^m(x)))
+    *  with x the sample to classify, K the number of classes, k the classIndex, m the estimatorIndex and p the estimator probability
     *
     * \ingroup fertilizedboostingGroup
     *
@@ -82,6 +84,7 @@ namespace fertilized {
             for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex)
                 samples->at(sampleIndex).weight = inital_weight;
 
+            //Cast boostingleafmanager, will be nullptr if no BoostingLeafManager is used
             auto boostingleafmanager = std::const_pointer_cast<BoostingLeafManager<input_dtype,annotation_dtype>>(
                 std::dynamic_pointer_cast<const BoostingLeafManager<input_dtype,annotation_dtype>>(trees[0]->get_leaf_manager()));
             for(size_t treeIndex = 0; treeIndex < trees.size(); ++treeIndex) {
@@ -113,7 +116,7 @@ namespace fertilized {
                     samples->at(sampleIndex).weight /= normalize_base;
 
                 //Set tree weight
-                if(boostingleafmanager.get() != nullptr) {
+                if(boostingleafmanager != nullptr) {
                     boostingleafmanager->set_weight_function(treeIndex, [n_classes](std::vector<float> input)->std::vector<float>{
                         std::vector<float> output(n_classes);
                         float mean = 0.f;

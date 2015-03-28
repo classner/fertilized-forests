@@ -26,8 +26,8 @@
 
 namespace fertilized {
   /**
-   * \brief Allows the boosting strategies to set their own three functions to influence the combined result.
-   * Using thes LeafManager may lead to better classifcation results
+   * \brief Allows the boosting strategies to set their own tree functions to influence the combined result.
+   * Using thes LeafManager may lead to better classifcation results.
    * Note that the output does not represent probabilites and may vary when using different \ref IBoostingStrategies
    *
    * \ingroup fertilizedleafsGroup
@@ -45,6 +45,7 @@ namespace fertilized {
    * - uint8_t; uint
    * - uint8_t; int16_t
    * .
+   * Serialization generation: 101
    *
    * -----
    */
@@ -76,11 +77,10 @@ namespace fertilized {
         for (size_t resultindex = 0; resultindex < leaf_results.size(); ++resultindex) {
             if(weight_functions.find(resultindex) == weight_functions.end())
                 throw Fertilized_Exception("Boosting leaf manager needs one weight function per tree");
-            else {
+            else { //Let the weight function calculate the result vector and add the elements to combined_results
                 std::vector<float> results = weight_functions[resultindex](leaf_results[resultindex].first);
-                for (size_t binindex = 0; binindex < static_cast<size_t>(n_classes); ++binindex) {
+                for (size_t binindex = 0; binindex < static_cast<size_t>(n_classes); ++binindex)
                     combined_result[binindex] += results[binindex];
-                }
             }
         }
         return combined_result;
@@ -119,7 +119,6 @@ namespace fertilized {
     void serialize(Archive & ar, const uint file_version) {
       ar & boost::serialization::base_object<leaf_man_t>(*this);
       ar & n_classes;
-      ar & weight_functions;
     }
 #endif
 
