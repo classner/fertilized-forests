@@ -21,9 +21,13 @@ namespace fertilized {
     * \brief SAMME.R real boosting algorithm implementation
     *
     * Implements the SAMME.R real boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
+    *
     * See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
+    *
     * One can set the learning rate which specifies the contribution of each classifier
+    *
     * Output when using BoostingLeafManager is log(p_k^m(x))-1/K*sum_k(log(p_k^m(x)))
+    *
     *  with x the sample to classify, K the number of classes, k the classIndex, m the estimatorIndex and p the estimator probability
     *
     * \ingroup fertilizedboostingGroup

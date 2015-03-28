@@ -22,8 +22,11 @@ namespace fertilized {
     * \brief AdaBoost.M2 boosting algorithm implementation
     *
     * Implements the original AdaBoost algorithm proposed by Freund and Schapire
+    *
     * See "A decision-theoretic generalization of on-line learning and an application to boosting". Journal of Computer and System Sciences 55. 1997
+    *
     * To support multi-class classification, the AdaBoost.M2 algorithm is used
+    *
     * Output when using BoostingLeafManager is estimator_probability*std::log(1.f/beta)
     *
     * \ingroup fertilizedboostingGroup

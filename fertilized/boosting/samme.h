@@ -21,8 +21,11 @@ namespace fertilized {
     * \brief SAMME boosting algorithm implementation
     *
     * Implements the SAMME boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
+    *
     * See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
+    *
     * One can set the learning rate which specifies the contribution of each classifier
+    *
     * Output when using BoostingLeafManager is estimator_probability*estimator_weight
     *
     * \ingroup fertilizedboostingGroup
