@@ -299,6 +299,8 @@ for delfile in delfiles:
 serialization_classes = [cls for cls in classes if cls.isSerializable()]
 serialization_classes.sort(key=lambda x: (x.SerializationGeneration, \
                                           x.ClassName))
+serialization_max_generation = serialization_classes[-1].SerializationGeneration
+print ('Latest serialization object generation: %d.' % (serialization_max_generation))
 ser_insttypes_tpls = []
 for cls in serialization_classes:
   if not cls.SupportedTypes is None:
