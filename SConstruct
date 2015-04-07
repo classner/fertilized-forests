@@ -17,7 +17,8 @@ caffeVariables = caffeSetupOptions(rpath=False, python=False, tools=True, libs=F
 
 # Create the build environment.
 env = makeEnvironment(variables)
-caffe_env = caffeMakeEnvironment(caffeVariables, root='external/caffe-brewer')
+if GetOption("with_caffe"):
+    caffe_env = caffeMakeEnvironment(caffeVariables, root='external/caffe-brewer')
 
 # The root path must be added, since the fertilized headers are
 # referenced.
