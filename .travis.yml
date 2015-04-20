@@ -45,6 +45,9 @@ after_success: true
 
 after_failure:
   - cat config.log
+  - which python
+  - python -c "import numpy"
+  - python -c "import numpy.linalg"
   - cat .sconf_temp/conftest_10.out
   - cat .sconf_temp/conftest_11.out
   - ./.sconf_temp/conftest_11
