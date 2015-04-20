@@ -44,7 +44,7 @@ install:
   - cd OpenBLAS-0.2.14/
   - make > allout.txt 2>&1
   - sudo make install PREFIX=/usr/local/OpenBLAS
-  - sudo ln -s /usr/local/lib/libopenblas.so.0 /usr/local/OpenBLAS/lib/libopenblas.so
+  - sudo ln -s /usr/local/OpenBLAS/lib/libopenblas.so /usr/local/lib/libopenblas.so.0
   - cd ..
   ## GLOG
   - wget https://github.com/google/glog/archive/v0.3.4.zip
