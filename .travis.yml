@@ -49,6 +49,7 @@ after_failure:
   - python -c "import numpy"
   - python -c "import numpy.linalg"
   - cat .sconf_temp/conftest_10.out
+  - ldd .sconf_temp/conftest_11
   - cat .sconf_temp/conftest_11.out
   - ./.sconf_temp/conftest_11
 
