@@ -14,8 +14,6 @@ before_install:
   - sudo add-apt-repository ppa:yjwong/opencv2 -y
   ## For latest Boost
   - sudo add-apt-repository ppa:boost-latest/ppa -y
-  ## For HDF5
-  - sudo add-apt-repository ppa:ppa-o/hdf5 -y
   - sudo apt-get update -qq
   - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
@@ -32,13 +30,18 @@ before_install:
   - export PATH=$MINICONDA_BIN:$PATH
 
 install:
-  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev libhdf5-dev libopenblas-dev valgrind
+  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev libopenblas-dev valgrind
   - wget http://launchpadlibrarian.net/80433361/libgoogle-glog-dev_0.3.1-1ubuntu1_amd64.deb
   - sudo dpkg -i libgoogle-glog-dev_0.3.1-ubuntu1_amd64.deb
   - wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.zip
   - unzip protobuf-2.6.1.zip  
   - cd protobuf-2.6.1
   - sudo ./configure && sudo make && sudo make install
+  - wget http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.14.tar.gz
+  - gunzip < hdf5-1.8.14.tar.gz | tar xf -
+  - cd hdf5-1.8.14
+  - ./configure --prefix=/usr/local/hdf5 && make && sudo make install
+  - export HDF5_ROOT=/usr/local/hdf5
   - protoc --version
   - valgrind --version
   - conda update --yes conda
