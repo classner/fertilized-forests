@@ -43,13 +43,14 @@ install:
   - unzip v0.2.14.zip > allout.txt 2>&1
   - cd OpenBLAS-0.2.14/
   - make > allout.txt 2>&1
-  - sudo make install PREFIX=/usr/local/OpenBLAS > allout.txt 2>&1
+  - sudo make install PREFIX=/usr/local/OpenBLAS
+  - sudo ln -s /usr/local/lib/libopenblas.so.0 /usr/local/OpenBLAS/lib/libopenblas.so
   - cd ..
   ## GLOG
   - wget https://github.com/google/glog/archive/v0.3.4.zip
   - unzip v0.3.4.zip > allout.txt 2>&1
   - cd glog-0.3.4
-  - ./configure && sudo make && sudo make install > allout.txt 2>&1
+  - ./configure > allout.txt 2>&1 && sudo make > allout.txt 2>&1 && sudo make install > allout.txt 2>&1
   - cd ..
   ## PROTOBUF
   - sudo apt-get install protobuf-compiler
@@ -73,11 +74,11 @@ install:
   - wget http://valgrind.org/downloads/valgrind-3.10.1.tar.bz2
   - tar -xvf valgrind-3.10.1.tar.bz2 > allout.txt 2>&1
   - cd valgrind-3.10.1
-  - ./configure && make && sudo make install > allout.txt 2>&1
+  - ./configure > allout.txt 2>&1 && make > allout.txt 2>&1 && sudo make install > allout.txt 2>&1
   - cd ..
   - valgrind --version
   ## apt-get dependencies
-  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev libopenblas-dev liblapack-dev
+  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev
   ##- ls -la /usr/local/openblas
   ## conda dependencies
   - conda update --yes conda > allout.txt 2>&1
@@ -109,6 +110,7 @@ after_success: true
 
 after_failure:
   - cat config.log
+  - cat allout.txt
 
 after_script: true
 
