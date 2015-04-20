@@ -3,7 +3,7 @@ branches:
     - unstable
 
 environment:
-  - EIGEN_ROOT: C:\test
+  EIGEN_ROOT: C:\test
 
 install:
   - dir
