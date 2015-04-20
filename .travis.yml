@@ -30,6 +30,12 @@ before_install:
   - export PATH=$MINICONDA_BIN:$PATH
 
 install:
+  - wget http://github.com/xianyi/OpenBLAS/archive/v0.2.14.zip
+  - unzip v0.2.14.zip
+  - cd OpenBLAS-0.2.14/
+  - make
+  - sudo make install PREFIX=/usr/local/OpenBLAS
+  - cd ..
   ## GLOG
   - wget https://github.com/google/glog/archive/v0.3.4.zip
   - unzip v0.3.4.zip
@@ -78,7 +84,8 @@ install:
 before_script:
   - git submodule update --init --recursive
   - export EIGEN_ROOT=/usr/include/eigen3
-  - export OPENBLAS_ROOT=/usr/local/openblas
+  - export OPENBLAS_ROOT=/usr/local/OpenBLAS
+  - export OMP_NUM_THREADS=4
 
 script:
   - $MINICONDA_BIN/scons --generate-interfaces
