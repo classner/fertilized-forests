@@ -1,20 +1,21 @@
+## Need sudo to add ppas
 sudo: required
 
 language: cpp
 compiler: gcc
-python: 2.7
 branches:
   only:
     - unstable
-virtualenv:
-  system_site_packages: true
 
 before_install:
+  ## For gcc 4.8
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  ## For OpenCV
   - sudo add-apt-repository ppa:yjwong/opencv2 -y
   - sudo apt-get update -qq
   - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+  ## Use Miniconda for Python.
   - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
   - chmod +x miniconda.sh
   - ./miniconda.sh -b
@@ -37,7 +38,8 @@ script:
 
 after_success: true
 
-after_failure: true
+after_failure:
+  - cat config.log
 
 after_script: true
 
