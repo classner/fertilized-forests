@@ -37,6 +37,7 @@ install:
   - ./configure && sudo make && sudo make install
   - cd ..
   ## PROTOBUF
+  - sudo apt-get install protobuf-compiler
   - sudo apt-get install libprotobuf-dev
   - protoc --version
   ##- wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.zip
