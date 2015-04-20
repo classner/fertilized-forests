@@ -23,9 +23,9 @@ before_install:
 install:
   - sudo apt-get install -qq m4 doxygen libboost-all-dev libeigen3-dev libopencv-dev
   - conda update --yes conda
-  - travis_retry conda install --yes pip numpy scipy
+  - travis_retry conda install --yes pip numpy scipy scikit-image scikit-learn jinja2 matplotlib pillow
   - sudo pip install networkx
-  - sudo pip install jinja2 cppheaderparser pillow matplotlib scikit-learn
+  - sudo pip install cppheaderparser
 
 before_script:
   - git submodule update --init --recursive
