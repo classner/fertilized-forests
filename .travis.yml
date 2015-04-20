@@ -30,6 +30,7 @@ before_install:
   - export PATH=$MINICONDA_BIN:$PATH
 
 install:
+  - sudo apt-get install gfortran
   - wget http://github.com/xianyi/OpenBLAS/archive/v0.2.14.zip
   - unzip v0.2.14.zip
   - cd OpenBLAS-0.2.14/
