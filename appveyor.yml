@@ -12,13 +12,17 @@ install:
   - Miniconda-latest-Windows-x86_64.exe /S /D=C:\Anaconda
   - cd C:\Anaconda
   - dir
+  - cd Tools
+  - dir
+  - cd ..\Scripts
+  - dir
   - cd C:\projects\fertilized-forests
-  - C:\Anaconda\bin\conda update --yes conda
-  - C:\Anaconda\bin\conda install --yes pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
+  - C:\Anaconda\Tools\conda update --yes conda
+  - C:\Anaconda\Tools\conda install --yes pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
   ## Python
-  - C:\Anaconda\bin\pip install networkx
-  - C:\Anaconda\bin\pip install cppheaderparser
-  - C:\Anaconda\bin\pip install ply
+  - C:\Anaconda\Scripts\pip install networkx
+  - C:\Anaconda\Scripts\pip install cppheaderparser
+  - C:\Anaconda\Scripts\pip install ply
   - mkdir deps
   - mkdir deps\include
   - mkdir deps\lib
@@ -40,13 +44,13 @@ before_build:
   - git submodule update --init --recursive
 
 build_script:
-  - C:\Anaconda\bin\scons --generate-interfaces
-  - C:\Anaconda\bin\scons --with-serialization --with-tests --with-examples --with-python --with-caffe --cpu-only --caffe-model-dir=/home/travis/caffe-models
+  - C:\Anaconda\Scripts\scons --generate-interfaces
+  - C:\Anaconda\Scripts\scons --with-serialization --with-tests --with-examples --with-python --with-caffe --cpu-only --caffe-model-dir=/home/travis/caffe-models
   - cd fertilized_tests
   - fertilized_tests --run_test=Correctness*/*
   - cd ..
   - cd Presentation
-  - C:\Anaconda\bin\python run_examples_as_tests.py /home/travis/WeizmannHorseDataset
+  - C:\Anaconda\python run_examples_as_tests.py /home/travis/WeizmannHorseDataset
 
 on_failure:
   - type config.log
