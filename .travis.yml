@@ -36,7 +36,6 @@ install:
   - cd glog-0.3.4
   - ./configure && make && sudo make install
   - cd ..
-  - sudo dpkg -i libgoogle-glog-dev_0.3.1-1ubuntu1_amd64.deb
   ## PROTOBUF
   - wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.zip
   - unzip protobuf-2.6.1.zip  
