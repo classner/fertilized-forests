@@ -37,11 +37,15 @@ install:
   - ./configure && sudo make && sudo make install
   - cd ..
   ## PROTOBUF
-  - wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.zip
-  - unzip protobuf-2.6.1.zip  
-  - cd protobuf-2.6.1
-  - sudo ./configure && sudo make && sudo make install
-  - cd ..
+  - sudo apt-get install libprotobuf-dev
+  - protoc --version
+  ##- wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.zip
+  ##- unzip protobuf-2.6.1.zip
+  ##- cd protobuf-2.6.1
+  ##- sudo ./configure && sudo make && sudo make install
+  ##- sudo ln -s 
+  ##- protoc --version
+  ##- cd ..
   ## HDF5
   - wget http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.14.tar.gz
   - gunzip < hdf5-1.8.14.tar.gz | tar xf -
@@ -49,10 +53,9 @@ install:
   - ./configure --prefix=/usr/local/hdf5 && make && sudo make install
   - export HDF5_ROOT=/usr/local/hdf5
   - cd ..
-  - protoc --version
-  - valgrind --version
   ## apt-get dependencies
   - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev libopenblas-dev valgrind
+  - valgrind --version
   ## conda dependencies
   - conda update --yes conda
   - travis_retry conda install --yes pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
