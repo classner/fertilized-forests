@@ -9,7 +9,10 @@ install:
   - dir
   ## miniconda
   - appveyor DownloadFile http://repo.continuum.io/miniconda/Miniconda-latest-Windows-x86_64.exe
-  - Miniconda-latest-Windows-x86_64.exe /S /D=%ANACONDA_ROOT%
+  - Miniconda-latest-Windows-x86_64.exe /S /D=C:\Anaconda
+  - cd C:\Anaconda
+  - dir
+  - cd C:\projects\fertilized-forests
   - C:\Anaconda\bin\conda update --yes conda
   - C:\Anaconda\bin\conda install --yes pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
   ## Python
