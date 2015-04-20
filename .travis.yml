@@ -26,13 +26,12 @@ before_install:
   - export PATH=$MINICONDA_BIN:$PATH
 
 install:
-  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev
+  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev python-numpy
   - conda update --yes conda
-  - travis_retry conda install --yes pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons
+  - travis_retry conda install --yes pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
   - sudo $MINICONDA_BIN/pip install networkx
   - sudo $MINICONDA_BIN/pip install cppheaderparser
   - sudo $MINICONDA_BIN/pip install ply
-  - sudo $MINICONDA_BIN/pip install numpy
 
 before_script:
   - git submodule update --init --recursive
