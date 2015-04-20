@@ -17,7 +17,6 @@ before_install:
   - sudo apt-get update -qq
   - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
-  - ls -la /usr/local/openblas
   ## Use Miniconda for Python.
   - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
   - chmod +x miniconda.sh
@@ -63,7 +62,8 @@ install:
   - cd ..
   - valgrind --version
   ## apt-get dependencies
-  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev libopenblas-dev
+  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev libopenblas-dev liblapack-dev
+  ##- ls -la /usr/local/openblas
   ## conda dependencies
   - conda update --yes conda
   - travis_retry conda install --yes pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
