@@ -32,7 +32,9 @@ before_install:
   - export PATH=$MINICONDA_BIN:$PATH
 
 install:
-  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev libprotobuf-dev libgoogle-glog-dev libhdf5-dev libopenblas-dev valgrind
+  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev libprotobuf-dev libhdf5-dev libopenblas-dev valgrind
+  - wget http://launchpadlibrarian.net/80433361/libgoogle-glog-dev_0.3.1-1ubuntu1_amd64.deb
+  - dpkg -i libgoogle-glog-dev_0.3.1-ubuntu1_amd64.deb
   - valgrind --version
   - conda update --yes conda
   - travis_retry conda install --yes pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
