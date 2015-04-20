@@ -185,6 +185,10 @@ def makeEnvironment(variables):
             shellEnv[key] = os.environ[key]
     # Create build enviromnent.
     env = Environment(tools=['default', GetOption("toolchain"), 'm4'], variables=variables, ENV=shellEnv)
+    if "CXX" in os.environ:
+	env["CXX"] = os.environ["CXX"]
+    if "CC" in os.environ:
+        env["CC"] = os.environ["CC"]
     print "Using CXX: %s, CC: %s" % (env["CXX"], env["CC"]) 
     #SetupSpawn(env)
     if GetOption("with_caffe") and not GetOption("cpu_only"):

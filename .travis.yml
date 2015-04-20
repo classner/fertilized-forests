@@ -29,6 +29,7 @@ install:
   - travis_retry conda install --yes pip numpy scipy scikit-image scikit-learn jinja2 matplotlib pillow scons
   - sudo $MINICONDA_BIN/pip install networkx
   - sudo $MINICONDA_BIN/pip install cppheaderparser
+  - sudo $MINICONDA_BIN/pip install ply
 
 before_script:
   - git submodule update --init --recursive
