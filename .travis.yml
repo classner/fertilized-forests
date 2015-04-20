@@ -40,7 +40,7 @@ install:
   - wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.zip
   - unzip protobuf-2.6.1.zip  
   - cd protobuf-2.6.1
-  - sudo ./configure && make && sudo make install
+  - sudo ./configure && sudo make && sudo make install
   - cd ..
   ## HDF5
   - wget http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.14.tar.gz
