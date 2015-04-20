@@ -34,14 +34,14 @@ install:
   - wget https://github.com/google/glog/archive/v0.3.4.zip
   - unzip v0.3.4.zip
   - cd glog-0.3.4
-  - ./configure && make && make install
+  - ./configure && make && sudo make install
   - cd ..
   - sudo dpkg -i libgoogle-glog-dev_0.3.1-1ubuntu1_amd64.deb
   ## PROTOBUF
   - wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.zip
   - unzip protobuf-2.6.1.zip  
   - cd protobuf-2.6.1
-  - sudo ./configure && sudo make && sudo make install
+  - sudo ./configure && make && sudo make install
   - cd ..
   ## HDF5
   - wget http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.14.tar.gz
