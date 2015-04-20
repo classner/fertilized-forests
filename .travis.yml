@@ -23,7 +23,7 @@ before_install:
 install:
   - sudo apt-get install -qq m4 doxygen libboost-all-dev libeigen3-dev libopencv-dev
   - conda update --yes conda
-  - travis_retry conda install --yes python=$TRAVIS_PYTHON_VERSION pip numpy scipy
+  - travis_retry conda install --yes pip numpy scipy
   - sudo pip install networkx
   - sudo pip install jinja2 cppheaderparser pillow scikit-image matplotlib scikit-learn
 
