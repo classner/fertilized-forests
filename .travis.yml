@@ -6,6 +6,8 @@ python: 2.7
 branches:
   only:
     - unstable
+virtualenv:
+  system_site_packages: true
 
 before_install:
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
@@ -15,7 +17,7 @@ before_install:
 
 install:
   - sudo apt-get install -qq m4 doxygen libboost-all-dev libeigen3-dev \
-      python-scipy libopencv-dev
+      python-numpy python-scipy libopencv-dev
   - sudo pip install networkx
   - sudo pip install jinja2 cppheaderparser pillow \
       scikit-image matplotlib scikit-learn numpy
