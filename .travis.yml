@@ -14,6 +14,8 @@ before_install:
   - sudo add-apt-repository ppa:yjwong/opencv2 -y
   ## For latest Boost
   - sudo add-apt-repository ppa:boost-latest/ppa -y
+  ## For HDF5
+  - sudo add-apt-repository ppa:ppa-o/hdf5 -y
   - sudo apt-get update -qq
   - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
