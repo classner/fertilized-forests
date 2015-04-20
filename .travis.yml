@@ -42,6 +42,8 @@ after_success: true
 
 after_failure:
   - cat config.log
+  - cat .sconf_temp/conftest_10.out
+  - cat .sconf_temp/conftest_11.out
 
 after_script: true
 
