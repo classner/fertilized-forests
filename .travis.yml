@@ -22,6 +22,7 @@ before_install:
   - chmod +x miniconda.sh
   - ./miniconda.sh -b
   - export MINICONDA_BIN=/home/travis/miniconda/bin
+  - export PYTHONPATH=/home/travis/miniconda/lib/python2.7/site-packages
   - export PATH=$MINICONDA_BIN:$PATH
 
 install:
