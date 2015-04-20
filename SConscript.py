@@ -99,7 +99,7 @@ if os.name == 'nt':
         return exit_code
 
 def SetupSpawn( env ):
-    if env['CC'] == 'g++' and sys.platform == 'win32':
+    if env['CXX'].startswith('g++') and sys.platform == 'win32':
         # Enable workaround for handling of extralong
         # command lines. This is not handled by the
         # default toolchain spawner of SCons in this
@@ -180,7 +180,7 @@ def setupOptions():
 def makeEnvironment(variables):
     shellEnv = {}
     # Some of these don't make sense on Windows, but don't hurt.
-    for key in ("PATH", "LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH", "PYTHONPATH"):
+    for key in ("CXX", "CC", "PATH", "LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH", "PYTHONPATH"):
         if key in os.environ:
             shellEnv[key] = os.environ[key]
     # Create build enviromnent.
@@ -222,7 +222,7 @@ def makeEnvironment(variables):
         #env.Replace(CCFLAGS=[flag for flag in env['CCFLAGS'] if flag not in ['/GL']])
         #env.AppendUnique(CCFLAGS=['/Qipo-jobs4'])
     # Specifics for gcc.
-    if env['CC'] == 'g++' or env['CC'] == 'gcc':
+    if env['CXX'].startswith('g++') or env['CC'] == 'gcc':
         # Replace default /O2 on Windows if MinGW is used.
         if '/O2' in env['CCFLAGS']:
           env.Replace(CCFLAGS=[flag for flag in env['CCFLAGS'] \
