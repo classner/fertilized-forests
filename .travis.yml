@@ -21,13 +21,11 @@ before_install:
   - export PATH=/home/travis/miniconda/bin:$PATH
 
 install:
-  - sudo apt-get install -qq m4 doxygen libboost-all-dev libeigen3-dev \
-      opencv
+  - sudo apt-get install -qq m4 doxygen libboost-all-dev libeigen3-dev opencv
   - conda update --yes conda
   - travis_retry conda install --yes python=$TRAVIS_PYTHON_VERSION pip numpy scipy
   - sudo pip install networkx
-  - sudo pip install jinja2 cppheaderparser pillow \
-      scikit-image matplotlib scikit-learn
+  - sudo pip install jinja2 cppheaderparser pillow scikit-image matplotlib scikit-learn
 
 before_script:
   - git submodule update --init --recursive
