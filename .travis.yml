@@ -17,6 +17,7 @@ before_install:
   - sudo apt-get update -qq
   - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+  - ls -la /usr/local/openblas
   ## Use Miniconda for Python.
   - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
   - chmod +x miniconda.sh
@@ -77,6 +78,7 @@ install:
 before_script:
   - git submodule update --init --recursive
   - export EIGEN_ROOT=/usr/include/eigen3
+  - export OPENBLAS_ROOT=/usr/local/openblas
 
 script:
   - $MINICONDA_BIN/scons --generate-interfaces
