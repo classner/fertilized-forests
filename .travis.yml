@@ -1,0 +1,33 @@
+sudo: required
+
+language: cpp
+compiler: gcc
+branches:
+  only:
+    - unstable
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  - sudo apt-get install -qq m4 doxygen libboost-all-dev libeigen3-dev \
+      python python-dev python-pip python-ply python-scipy \
+      python-numpy libopencv-dev
+  - sudo pip install networkx
+  - sudo pip install jinja2 cppheaderparser pillow \
+      scikit-image matplotlib scikit-learn
+
+before_script:
+  - git submodule update --init --recursive
+  - export EIGEN_ROOT=/usr/local/include/eigen3
+
+script:
+  - scons --generate-interfaces
+  - scons --with-serialization --with-tests --with-examples --with-python
+
+after_success: true
+
+after_failure: true
+
+after_script: true
+
