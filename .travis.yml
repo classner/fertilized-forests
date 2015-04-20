@@ -47,15 +47,21 @@ install:
   ##- protoc --version
   ##- cd ..
   ## HDF5
-  - wget http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.14.tar.gz
-  - gunzip < hdf5-1.8.14.tar.gz | tar xf -
-  - cd hdf5-1.8.14
-  - ./configure --prefix=/usr/local/hdf5 && make && sudo make install
-  - export HDF5_ROOT=/usr/local/hdf5
+  ##- wget http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.14.tar.gz
+  ##- gunzip < hdf5-1.8.14.tar.gz | tar xf -
+  ##- cd hdf5-1.8.14
+  ##- ./configure --prefix=/usr/local/hdf5 && make && sudo make install
+  ##- export HDF5_ROOT=/usr/local/hdf5
+  ##- cd ..
+  - sudo apt-get install libhdf5-serial-dev
+  ## valgrind
+  - wget http://valgrind.org/downloads/valgrind-3.10.1.tar.bz2
+  - cd valgrind-3.10.1
+  - ./configure && make && sudo make install
   - cd ..
-  ## apt-get dependencies
-  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev libopenblas-dev valgrind
   - valgrind --version
+  ## apt-get dependencies
+  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev libopenblas-dev
   ## conda dependencies
   - conda update --yes conda
   - travis_retry conda install --yes pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
@@ -78,6 +84,7 @@ script:
   - valgrind --leak-check=full --show-reachable=yes --suppressions=./fertilized_tests.supp ./fertilized_tests --run_test=Correctness*/*
   - cd ../Presentation
   - $MINICONDA_BIN/python run_examples_as_tests.py /home/travis/WeizmannHorseDataset
+  - cd ..
 
 after_success: true
 
