@@ -31,6 +31,8 @@ before_install:
 
 install:
   - sudo apt-get install gfortran
+  - locate libgfortran
+  - sudo ln -s /usr/lib/x86_64-linux-gnu/libgfortran.so.3 /usr/lib/x86_64-linux-gnu/libgfortran.so
   - wget http://github.com/xianyi/OpenBLAS/archive/v0.2.14.zip
   - unzip v0.2.14.zip
   - cd OpenBLAS-0.2.14/
