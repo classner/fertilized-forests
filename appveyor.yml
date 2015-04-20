@@ -30,10 +30,10 @@ install:
   - dir
   - cd ..
 
-before_script:
+before_build:
   - git submodule update --init --recursive
 
-script:
+build_script:
   - scons --generate-interfaces
   - scons --with-serialization --with-tests --with-examples --with-python --with-caffe --cpu-only --caffe-model-dir=/home/travis/caffe-models
   - cd fertilized_tests
@@ -42,10 +42,8 @@ script:
   - cd Presentation
   - $MINICONDA_BIN/python run_examples_as_tests.py /home/travis/WeizmannHorseDataset
 
-after_success: true
-
-after_failure:
+on_failure:
   - type config.log
 
-after_script: true
+test_script: echo Tests
 
