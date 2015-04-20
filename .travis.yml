@@ -19,22 +19,24 @@ before_install:
   - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
   - chmod +x miniconda.sh
   - ./miniconda.sh -b
-  - export PATH=/home/travis/miniconda/bin:$PATH
+  - export MINICONDA_BIN=/home/travis/miniconda/bin
+  - export PATH=$MINICONDA_BIN:$PATH
+
 
 install:
-  - sudo apt-get install -qq m4 doxygen libboost-all-dev libeigen3-dev libopencv-dev
+  - sudo apt-get install -qq m4 libboost-all-dev libeigen3-dev libopencv-dev
   - conda update --yes conda
   - travis_retry conda install --yes pip numpy scipy scikit-image scikit-learn jinja2 matplotlib pillow scons
-  - sudo pip install networkx
-  - sudo pip install cppheaderparser
+  - sudo $MINICONDA_BIN/pip install networkx
+  - sudo $MINICONDA_BIN/pip install cppheaderparser
 
 before_script:
   - git submodule update --init --recursive
   - export EIGEN_ROOT=/usr/local/include/eigen3
 
 script:
-  - scons --generate-interfaces
-  - scons --with-serialization --with-tests --with-examples --with-python
+  - $MINICONDA_BIN/scons --generate-interfaces
+  - $MINICONDA_BIN/scons --with-serialization --with-tests --with-examples --with-python
 
 after_success: true
 
