@@ -8,16 +8,17 @@ environment:
   ANACONDA_BIN: C:\Anaconda\bin
 
 install:
+  - echo $ANACONDA_BIN
   - dir
   ## miniconda
   - appveyor DownloadFile http://repo.continuum.io/miniconda/Miniconda-latest-Windows-x86_64.exe
   - Miniconda-latest-Windows-x86_64.exe /S /D=%ANACONDA_ROOT%
-  - %ANACONDA_BIN%\conda update --yes conda
-  - %ANACONDA_BIN%\conda install --yes pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
+  - $ANACONDA_BIN\conda update --yes conda
+  - $ANACONDA_BIN\conda install --yes pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
   ## Python
-  - %ANACONDA_BIN%\pip install networkx
-  - %ANACONDA_BIN%\pip install cppheaderparser
-  - %ANACONDA_BIN%\pip install ply
+  - $ANACONDA_BIN\pip install networkx
+  - $ANACONDA_BIN\pip install cppheaderparser
+  - $ANACONDA_BIN\pip install ply
   - nuget install protobuf -OutputDirectory deps -ExcludeVersion
   - nuget install boost -OutputDirectory deps -ExcludeVersion
   - nuget install OpenCV -OutputDirectory deps -ExcludeVersion
@@ -36,13 +37,13 @@ before_build:
   - git submodule update --init --recursive
 
 build_script:
-  - %ANACONDA_BIN%\scons --generate-interfaces
-  - %ANACONDA_BIN%\scons --with-serialization --with-tests --with-examples --with-python --with-caffe --cpu-only --caffe-model-dir=/home/travis/caffe-models
+  - $ANACONDA_BIN\scons --generate-interfaces
+  - $ANACONDA_BIN\scons --with-serialization --with-tests --with-examples --with-python --with-caffe --cpu-only --caffe-model-dir=/home/travis/caffe-models
   - cd fertilized_tests
   - fertilized_tests --run_test=Correctness*/*
   - cd ..
   - cd Presentation
-  - %ANACONDA_BIN%\python run_examples_as_tests.py /home/travis/WeizmannHorseDataset
+  - $ANACONDA_BIN\python run_examples_as_tests.py /home/travis/WeizmannHorseDataset
 
 on_failure:
   - type config.log
