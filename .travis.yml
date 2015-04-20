@@ -25,7 +25,7 @@ install:
   - conda update --yes conda
   - travis_retry conda install --yes pip numpy scipy
   - sudo pip install networkx
-  - sudo pip install jinja2 cppheaderparser pillow scikit-image matplotlib scikit-learn
+  - sudo pip install jinja2 cppheaderparser pillow matplotlib scikit-learn
 
 before_script:
   - git submodule update --init --recursive
