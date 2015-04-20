@@ -3,15 +3,15 @@ branches:
     - unstable
 
 install:
-  - set EIGEN_ROOT=C:\projects\fertilized-forests\deps\Eigen
-  - set BOOST_ROOT=C:\projects\fertilized-forests\deps\boost
-  - set HDF5_ROOT=C:\projects\fertilized-forests\deps\hdf5-v120
-  - set OPENBLAS_ROOT=C:\projects\fertilized-forests\deps\OpenBLAS
-  - set OPENCV_ROOT=C:\projects\fertilized-forests\deps\OpenCV
+  - set EIGEN_ROOT=C:\projects\fertilized-forests\deps\Eigen\build
+  - set BOOST_ROOT=C:\projects\fertilized-forests\deps\boost\build
+  - set HDF5_ROOT=C:\projects\fertilized-forests\deps\hdf5-v120\build
+  - set OPENBLAS_ROOT=C:\projects\fertilized-forests\deps\OpenBLAS\build
+  - set OPENCV_ROOT=C:\projects\fertilized-forests\deps\OpenCV\build
   - set OPENCV_VERSION=2410
-  - set OPENCV_LIB_DIR=C:\projects\fertilized-forests\deps\OpenCV\x64\vc12\lib
-  - set PROTOBUF_ROOT=C:\projects\fertilized-forests\deps\protobuf
-  - set PROTOC=C:\projects\fertilized-forests\deps\protobuf\vsprojects\x64\Release\protoc.exe
+  - set OPENCV_LIB_DIR=C:\projects\fertilized-forests\deps\OpenCV\lib\x64\vc12\lib
+  - set PROTOBUF_ROOT=C:\projects\fertilized-forests\deps\protobuf\build
+  - set PROTOC=C:\projects\fertilized-forests\deps\protobuf\build\vsprojects\x64\Release\protoc.exe
   - set ANACONDA_ROOT=C:\Anaconda
   - set ANACONDA_BIN=%ANACONDA_ROOT%\bin
   - set 
@@ -20,8 +20,8 @@ install:
   - appveyor DownloadFile http://repo.continuum.io/miniconda/Miniconda-latest-Windows-x86_64.exe
   - Miniconda-latest-Windows-x86_64.exe /S /D=C:\Anaconda
   - cd C:\projects\fertilized-forests
-  - C:\Anaconda\Scripts\conda update --yes conda
-  - C:\Anaconda\Scripts\conda install --yes pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
+  - C:\Anaconda\Scripts\conda update --yes --quiet conda
+  - C:\Anaconda\Scripts\conda install --yes --quiet pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
   ## Python
   - C:\Anaconda\Scripts\pip install networkx
   - C:\Anaconda\Scripts\pip install cppheaderparser
@@ -29,29 +29,37 @@ install:
   - C:\Anaconda\Scripts\pip install pypiwin32 --allow-external pywin32 --allow-unverified pywin32
   - mkdir deps
   - nuget install protobuf -OutputDirectory deps -ExcludeVersion
-  - cd deps\protobuf
+  - cd deps\protobuf\build
   - dir
-  - cd ..\..
+  - cd ..\..\..
   - nuget install boost -OutputDirectory deps -ExcludeVersion
-  - cd deps\boost
+  - cd deps\boost\build
   - dir
-  - cd ..\..
+  - cd ..\lib
+  - dir
+  - cd ..\..\..
   - nuget install OpenCV -OutputDirectory deps -ExcludeVersion
-  - cd deps\OpenCV
+  - cd deps\OpenCV\build
   - dir
-  - cd ..\..
+  - cd ..\..\..
   - nuget install Eigen -OutputDirectory deps -ExcludeVersion
-  - cd deps\Eigen
+  - cd deps\Eigen\build
   - dir
-  - cd ..\..
+  - cd ..\..\..
   - nuget install hdf5-v120 -OutputDirectory deps -ExcludeVersion
-  - cd deps\hdf5-v120
+  - cd deps\hdf5-v120\bin
   - dir
-  - cd ..\..
+  - cd ..\build
+  - dir
+  - cd ..\lib
+  - dir
+  - cd ..\..\..
   - nuget install OpenBLAS -OutputDirectory deps -ExcludeVersion
-  - cd deps\OpenBLAS
+  - cd deps\OpenBLAS\build
   - dir
-  - cd ..\..
+  - cd ..\lib
+  - dir
+  - cd ..\..\..
   ## Dataset
   ## - wget jamie.shotton.org/work/data/WeizmannMultiScale.zip
   ## - unzip WeizmannMultiScale.zip -d WeizmannHorseDataset
