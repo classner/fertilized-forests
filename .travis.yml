@@ -14,13 +14,19 @@ before_install:
   - sudo apt-get update -qq
   - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+  - chmod +x miniconda.sh
+  - ./miniconda.sh -b
+  - export PATH=/home/travis/miniconda/bin:$PATH
 
 install:
   - sudo apt-get install -qq m4 doxygen libboost-all-dev libeigen3-dev \
-      python-numpy python-scipy libopencv-dev
+      libopencv-dev
+  - conda update --yes conda
+  - travis_retry conda install --yes python=$TRAVIS_PYTHON_VERSION pip numpy scipy
   - sudo pip install networkx
   - sudo pip install jinja2 cppheaderparser pillow \
-      scikit-image matplotlib scikit-learn numpy
+      scikit-image matplotlib scikit-learn
 
 before_script:
   - git submodule update --init --recursive
