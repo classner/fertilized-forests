@@ -7,15 +7,18 @@ branches:
     - unstable
 
 before_install:
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -qq
+  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
 
 install:
   - sudo apt-get install -qq m4 doxygen libboost-all-dev libeigen3-dev \
-      python python-dev python-pip python-ply python-scipy \
-      python-numpy libopencv-dev
+      python-2.7 python-dev python-pip python-ply python-scipy \
+      libopencv-dev
   - sudo pip install networkx
   - sudo pip install jinja2 cppheaderparser pillow \
-      scikit-image matplotlib scikit-learn
+      scikit-image matplotlib scikit-learn numpy
 
 before_script:
   - git submodule update --init --recursive
