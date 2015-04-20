@@ -12,6 +12,8 @@ before_install:
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   ## For OpenCV
   - sudo add-apt-repository ppa:yjwong/opencv2 -y
+  ## For latest Boost
+  - sudo add-apt-repository ppa:boost-latest/ppa
   - sudo apt-get update -qq
   - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
@@ -23,7 +25,7 @@ before_install:
   - export PATH=$MINICONDA_BIN:$PATH
 
 install:
-  - sudo apt-get install -qq m4 libboost-all-dev libeigen3-dev libopencv-dev
+  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev
   - conda update --yes conda
   - travis_retry conda install --yes pip numpy scipy scikit-image scikit-learn jinja2 matplotlib pillow scons
   - sudo $MINICONDA_BIN/pip install networkx
@@ -44,6 +46,7 @@ after_failure:
   - cat config.log
   - cat .sconf_temp/conftest_10.out
   - cat .sconf_temp/conftest_11.out
+  - ./.sconf_temp/contest_11
 
 after_script: true
 
