@@ -32,9 +32,14 @@ before_install:
   - export PATH=$MINICONDA_BIN:$PATH
 
 install:
-  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev libprotobuf-dev libhdf5-dev libopenblas-dev valgrind
+  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev libhdf5-dev libopenblas-dev valgrind
   - wget http://launchpadlibrarian.net/80433361/libgoogle-glog-dev_0.3.1-1ubuntu1_amd64.deb
   - sudo dpkg -i libgoogle-glog-dev_0.3.1-ubuntu1_amd64.deb
+  - wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.zip
+  - unzip protobuf-2.6.1.zip  
+  - cd protobuf-2.6.1
+  - sudo ./configure && sudo make && sudo make install
+  - protoc --version
   - valgrind --version
   - conda update --yes conda
   - travis_retry conda install --yes pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
