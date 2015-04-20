@@ -22,7 +22,6 @@ before_install:
   - export MINICONDA_BIN=/home/travis/miniconda/bin
   - export PATH=$MINICONDA_BIN:$PATH
 
-
 install:
   - sudo apt-get install -qq m4 libboost-all-dev libeigen3-dev libopencv-dev
   - conda update --yes conda
@@ -33,7 +32,7 @@ install:
 
 before_script:
   - git submodule update --init --recursive
-  - export EIGEN_ROOT=/usr/local/include/eigen3
+  - export EIGEN_ROOT=/usr/include/eigen3
 
 script:
   - $MINICONDA_BIN/scons --generate-interfaces
