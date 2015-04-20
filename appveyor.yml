@@ -5,7 +5,7 @@ branches:
 environment:
   EIGEN_ROOT: C:\test
   ANACONDA_ROOT: C:\Anaconda
-  ANACONDA_BIN: %ANACONDA_ROOT%\bin
+  ANACONDA_BIN: C:\Anaconda\bin
 
 install:
   - dir
