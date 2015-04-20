@@ -23,7 +23,7 @@ install:
   - C:\Anaconda\Scripts\pip install networkx
   - C:\Anaconda\Scripts\pip install cppheaderparser
   - C:\Anaconda\Scripts\pip install ply
-  - C:\Anaconda\Scripts\pip install pywin32 --allow-external pywin32 --allow-unverified pywin32
+  - C:\Anaconda\Scripts\pip install pypiwin32 --allow-external pywin32 --allow-unverified pywin32
   - mkdir deps
   - mkdir deps\include
   - mkdir deps\lib
