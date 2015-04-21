@@ -3,9 +3,10 @@ branches:
     - unstable
 
 install:
-  - set EIGEN_ROOT=C:\projects\fertilized-forests\deps\Eigen\build
+  - set EIGEN_ROOT=C:\projects\fertilized-forests\deps\Eigen\build\native\include
   - set BOOST_ROOT=C:\projects\fertilized-forests\deps\boost\build
-  - set HDF5_ROOT=C:\projects\fertilized-forests\deps\hdf5-v120\build
+  - set HDF5_ROOT=C:\projects\fertilized-forests\deps\hdf5-v120\build\native
+  - set HDF5_LIB_DIR=C:\projects\fertilized-forests\deps\hdf5-v120\build\native\lib\x64
   - set OPENBLAS_ROOT=C:\projects\fertilized-forests\deps\OpenBLAS\build
   - set OPENCV_ROOT=C:\projects\fertilized-forests\deps\OpenCV\build
   - set OPENCV_VERSION=2410
@@ -29,43 +30,15 @@ install:
   - C:\Anaconda\Scripts\pip install pypiwin32 --allow-external pywin32 --allow-unverified pywin32
   - mkdir deps
   - nuget install protobuf -OutputDirectory deps -ExcludeVersion
-  - cd deps\protobuf\build\native
-  - dir
-  - cd ..\..\..\..
   - nuget install boost -OutputDirectory deps -ExcludeVersion
-  - cd deps\boost\build\native
-  - dir
-  - cd ..\..\lib\native
-  - dir
-  - cd ..\..\..\..
   - nuget install OpenCV -OutputDirectory deps -ExcludeVersion
-  - cd deps\OpenCV\build\native
-  - dir
-  - cd ..\..\..\..
   - nuget install Eigen -OutputDirectory deps -ExcludeVersion
-  - cd deps\Eigen\build\native
-  - dir
-  - cd ..\..\..\..
   - nuget install hdf5-v120 -OutputDirectory deps -ExcludeVersion
-  - cd deps\hdf5-v120\bin\native
-  - dir
-  - cd ..\..\build\native
-  - dir
-  - cd ..\lib\native
-  - dir
-  - cd ..\..\..\..
   - nuget install OpenBLAS -OutputDirectory deps -ExcludeVersion
-  - cd deps\OpenBLAS\build\native
-  - dir
-  - cd ..\lib\native
-  - dir
-  - cd ..\..\..\..
   ## Dataset
   ## - wget jamie.shotton.org/work/data/WeizmannMultiScale.zip
   ## - unzip WeizmannMultiScale.zip -d WeizmannHorseDataset
   - cd "C:\Program Files (x86)"
-  - dir
-  - cd Microsoft
   - dir
   - cd C:\projects\fertilized-forests
 
