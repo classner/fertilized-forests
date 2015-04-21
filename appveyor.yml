@@ -4,19 +4,25 @@ branches:
 
 install:
   - set EIGEN_ROOT=C:\projects\fertilized-forests\deps\Eigen\build\native\include
-  - set BOOST_ROOT=C:\projects\fertilized-forests\deps\boost\build
-  - set HDF5_ROOT=C:\projects\fertilized-forests\deps\hdf5-v120\build\native
-  - set HDF5_LIB_DIR=C:\projects\fertilized-forests\deps\hdf5-v120\build\native\lib\x64
-  - set OPENBLAS_ROOT=C:\projects\fertilized-forests\deps\OpenBLAS\build
-  - set OPENCV_ROOT=C:\projects\fertilized-forests\deps\OpenCV\build
-  - set OPENCV_VERSION=2410
-  - set OPENCV_LIB_DIR=C:\projects\fertilized-forests\deps\OpenCV\lib\x64\vc12\lib
-  - set PROTOBUF_ROOT=C:\projects\fertilized-forests\deps\protobuf\build
-  - set PROTOC=C:\projects\fertilized-forests\deps\protobuf\build\vsprojects\x64\Release\protoc.exe
+  - set BOOST_ROOT=C:\projects\fertilized-forests\deps\boost-compiled
+  - set HDF5_ROOT=C:\projects\fertilized-forests\deps\hdf5-v120\lib\native
+  - set HDF5_LIB_DIR=C:\projects\fertilized-forests\deps\hdf5-v120\lib\native\lib\x64
+  - set HDF5_INCLUDE_DIR=C:\projects\fertilized-forests\deps\hdf5-v120\lib\native\include
+  - set PATH=%PATH%;C:\projects\fertilized-forests\deps\hdf5-v120\lib\native\bin\x64
+  - set OPENBLAS_ROOT=C:\projects\fertilized-forests\deps\OpenBLAS\lib\native
+  - set OPENBLAS_INCLUDE_DIR=C:\projects\fertilized-forests\deps\OpenBLAS\lib\native\include
+  - set OPENBLAS_LIB_DIR=C:\projects\fertilized-forests\deps\OpenBLAS\lib\native\lib\x64
+  - set PATH=%PATH%;C:\projects\fertilized-forests\deps\OpenBLAS\lib\native\bin\x64
+  - set OPENCV_ROOT=C:\projects\fertilized-forests\deps\opencv\build
+  - set OPENCV_VERSION=2411
+  - set OPENCV_LIB_DIR=C:\projects\fertilized-forests\deps\opencv\build\x64\vc12\lib
+  - set PATH=%PATH%;C:\projects\fertilized-forests\deps\opencv\build\x64\vc12\bin
+  - set PROTOBUF_ROOT=C:\projects\fertilized-forests\deps\protobuf-v120\build\native
+  - set PROTOBUF_LIB_DIR=C:\projects\fertilized-forests\deps\protobuf-v120\build\native\lib\x64\v120\Release
+  - set PROTOBUF_INCLUDE_DIR=C:\projects\fertilized-forests\deps\protobuf-v120\build\native\include
+  - set PROTOC=C:\projects\fertilized-forests\deps\protoc\protoc.exe
   - set ANACONDA_ROOT=C:\Anaconda
   - set ANACONDA_BIN=%ANACONDA_ROOT%\bin
-  - set 
-  - dir
   ## miniconda
   - appveyor DownloadFile http://repo.continuum.io/miniconda/Miniconda-latest-Windows-x86_64.exe
   - Miniconda-latest-Windows-x86_64.exe /S /D=C:\Anaconda
@@ -29,17 +35,47 @@ install:
   - C:\Anaconda\Scripts\pip install ply
   - C:\Anaconda\Scripts\pip install pypiwin32 --allow-external pywin32 --allow-unverified pywin32
   - mkdir deps
-  - nuget install protobuf -OutputDirectory deps -ExcludeVersion
-  - nuget install boost -OutputDirectory deps -ExcludeVersion
-  - nuget install OpenCV -OutputDirectory deps -ExcludeVersion
+  ## Eigen
   - nuget install Eigen -OutputDirectory deps -ExcludeVersion
+  ## Boost
+  - mkdir deps\boost-compiled
+  - nuget install boost -OutputDirectory deps -ExcludeVersion
+  - move deps\boost\lib\native\include\* deps\boost-compiled
+  - mkdir deps\boost-compiled\stage
+  - mkdir deps\boost-compiled\stage\lib
+  - nuget install boost_chrono-vc120 -OutputDirectory deps -ExcludeVersion
+  - move deps\boost_chrono-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
+  - nuget install boost_date_time-vc120 -OutputDirectory deps -ExcludeVersion
+  - move deps\boost_date_time-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
+  - nuget install boost_serialization-vc120 -OutputDirectory deps -ExcludeVersion
+  - move deps\boost_serialization-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
+  - nuget install boost_system-vc120 -OutputDirectory deps -ExcludeVersion
+  - move deps\boost_system-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
+  - nuget install boost_thread-vc120 -OutputDirectory deps -ExcludeVersion
+  - move deps\boost_thread-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
+  - nuget install boost_unit_test_framework-vc120 -OutputDirectory deps -ExcludeVersion
+  - move deps\boost_unit_test_framework-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
+  - nuget install boost_wserialization-vc120 -OutputDirectory deps -ExcludeVersion
+  - move deps\boost_wserialization-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
+  - nuget install boost_test_exec_monitor-vc120 -OutputDirectory deps -ExcludeVersion
+  - move deps\boost_test_exec_monitor-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
+  ## HDF5
   - nuget install hdf5-v120 -OutputDirectory deps -ExcludeVersion
+  ## OpenBLAS
   - nuget install OpenBLAS -OutputDirectory deps -ExcludeVersion
+  - move deps\OpenBLAS\lib\native\lib\x64\libopenblas.dll.a deps\OpenBLAS\lib\native\lib\x64\libopenblas.dll.a.lib
+  ## OpenCV
+  - appveyor DownloadFile http://downloads.sourceforge.net/project/opencvlibrary/opencv-win/2.4.11/opencv-2.4.11.exe
+  - opencv-2.4.11.exe -o".\deps" -y
+  ## Protobuf
+  - nuget install protobuf-v120 -Version 2.6.1 -OutputDirectory deps -ExcludeVersion
+  - appveyor DownloadFile https://github.com/google/protobuf/releases/download/v2.6.1/protoc-2.6.1-win32.zip
+  - ps: foreach($item in $shell.NameSpace(“protoc-2.6.1-win32.zip”).items()){ $shell.Namespace(“deps\protoc”).copyhere($item) }
   ## Dataset
   ## - wget jamie.shotton.org/work/data/WeizmannMultiScale.zip
   ## - unzip WeizmannMultiScale.zip -d WeizmannHorseDataset
-  - cd "C:\Program Files (x86)"
-  - dir
+  - cd "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC"
+  - vcvarsall.bat amd64
   - cd C:\projects\fertilized-forests
 
 before_build:
