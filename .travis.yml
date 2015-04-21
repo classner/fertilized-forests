@@ -78,7 +78,7 @@ install:
   - cd ..
   - valgrind --version
   ## apt-get dependencies
-  - sudo apt-get install -qq m4 libboost1.55-all-dev libeigen3-dev libopencv-dev
+  - sudo apt-get install -qq m4 libboost1.55-all-dev libopencv-dev
   ##- ls -la /usr/local/openblas
   ## conda dependencies
   - conda update --yes conda > allout.txt 2>&1
@@ -87,19 +87,23 @@ install:
   - sudo $MINICONDA_BIN/pip install networkx
   - sudo $MINICONDA_BIN/pip install cppheaderparser
   - sudo $MINICONDA_BIN/pip install ply
+  ## Eigen
+  - wget http://bitbucket.org/eigen/eigen/get/3.2.4.zip
+  - unzip 3.2.4.zip -d /home/travis/eigen3
   ## Dataset
   - wget jamie.shotton.org/work/data/WeizmannMultiScale.zip
   - unzip WeizmannMultiScale.zip -d WeizmannHorseDataset > allout.txt 2>&1
 
 before_script:
   - git submodule update --init --recursive
-  - export EIGEN_ROOT=/usr/include/eigen3
+  - export EIGEN_ROOT=/home/travis/eigen3/eigen-eigen-10219c95fe65
   - export OPENBLAS_ROOT=/usr/local/OpenBLAS
   - export OMP_NUM_THREADS=4
 
 script:
   - $MINICONDA_BIN/scons --generate-interfaces
-  - $MINICONDA_BIN/scons --with-serialization --with-tests --with-examples --with-python --with-caffe --cpu-only --caffe-model-dir=/home/travis/caffe-models
+  - $MINICONDA_BIN/scons --with-tests --with-examples --with-python --jobs=2
+  ## --with-caffe --cpu-only --caffe-model-dir=/home/travis/caffe-models --with-serialization 
   - cd fertilized_tests
   - valgrind --leak-check=full --show-reachable=yes --suppressions=./fertilized_tests.supp ./fertilized_tests --run_test=Correctness*/*
   - cd ../Presentation

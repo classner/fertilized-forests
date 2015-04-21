@@ -40,11 +40,11 @@ install:
   ## Boost
   - mkdir deps\boost-compiled
   - nuget install boost -OutputDirectory deps -ExcludeVersion
-  - move deps\boost\lib\native\include\* deps\boost-compiled
+  - move deps\boost\lib\native\include\* deps\boost-compiled\
   - mkdir deps\boost-compiled\stage
   - mkdir deps\boost-compiled\stage\lib
   - nuget install boost_chrono-vc120 -OutputDirectory deps -ExcludeVersion
-  - move deps\boost_chrono-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
+  - move deps\boost_chrono-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib\
   - nuget install boost_date_time-vc120 -OutputDirectory deps -ExcludeVersion
   - move deps\boost_date_time-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
   - nuget install boost_serialization-vc120 -OutputDirectory deps -ExcludeVersion
