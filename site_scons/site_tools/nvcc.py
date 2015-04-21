@@ -24,7 +24,8 @@ def get_cuda_paths():
 
   # determine defaults
   is_64bits = sys.maxsize > 2**32
-  if os.name == 'nt':
+  if os.name == 'nt' and \
+     os.path.exists(r'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5'):
     if is_64bits:
         lib_add_dir = 'x64'
     else:
@@ -32,6 +33,15 @@ def get_cuda_paths():
     bin_path = r'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin'
     lib_path = r'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\lib\%s' % (lib_add_dir)
     inc_path = r'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include'
+  elif os.name == 'nt' and \
+       os.path.exists(r'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0'):
+    if is_64bits:
+        lib_add_dir = 'x64'
+    else:
+        lib_add_dir = 'Win32'
+    bin_path = r'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin'
+    lib_path = r'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\lib\%s' % (lib_add_dir)
+    inc_path = r'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include'
   elif os.name == 'posix':
     if is_64bits:
         lib_add_dir = 'lib64'
@@ -43,7 +53,7 @@ def get_cuda_paths():
   elif not 'CUDA_ROOT' in os.environ or \
        not 'CUDA_LIB_DIR' in os.environ or \
        not 'CUDA_INCLUDE_DIR' in os.environ:
-    raise ValueError, 'Error: unknown OS.  Where is nvcc installed? ' +\
+    raise ValueError, 'Error: unknown CUDA location.  Where is nvcc installed? ' +\
       'Edit me, or set CUDA_ROOT, CUDA_LIB_DIR and CUDA_INCLUDE_DIR as'+\
       'environment variables.'
 
@@ -125,7 +135,11 @@ def generate(env):
   
   # 'NVCC Command'
   env['NVCCCOM']   = '$NVCC -o $TARGET -c $NVCCFLAGS $_NVCCWRAPCFLAGS $NVCCWRAPCCFLAGS $_NVCCCOMCOM $SOURCES'
-  env['SHNVCCCOM'] = '$SHNVCC -o $TARGET -c $SHNVCCFLAGS $_NVCCWRAPSHCFLAGS $_NVCCWRAPSHCCFLAGS $_NVCCCOMCOM $SOURCES'
+  # quick fix for debug build...
+  env['NVCCDEBUGFIX'] = ''
+  if env.GetOption('debug_build') and env['CC'] == 'cl':
+    env['NVCCDEBUGFIX'] = '-Xcompiler "/MDd /O2 /Fd${TARGET}.pdb"'
+  env['SHNVCCCOM'] = '$SHNVCC -o $TARGET -c $SHNVCCFLAGS $NVCCDEBUGFIX $_NVCCWRAPSHCFLAGS $_NVCCWRAPSHCCFLAGS $_NVCCCOMCOM $SOURCES'
   
   # the suffix of CUDA source files is '.cu'
   env['CUDAFILESUFFIX'] = '.cu'
