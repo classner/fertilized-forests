@@ -102,7 +102,7 @@ before_script:
 
 script:
   - $MINICONDA_BIN/scons --generate-interfaces
-  - $MINICONDA_BIN/scons --with-tests --with-examples --with-python --jobs=2
+  - $MINICONDA_BIN/scons --with-tests --with-examples --with-python --jobs=1
   ## --with-caffe --cpu-only --caffe-model-dir=/home/travis/caffe-models --with-serialization 
   - cd fertilized_tests
   - valgrind --leak-check=full --show-reachable=yes --suppressions=./fertilized_tests.supp ./fertilized_tests --run_test=Correctness*/*
