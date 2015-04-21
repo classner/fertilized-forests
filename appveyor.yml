@@ -40,10 +40,10 @@ install:
   ## Boost
   - mkdir deps\boost-compiled
   - nuget install boost -OutputDirectory deps -ExcludeVersion
-  - cd deps
+  - cd deps\boost
   - dir
-  - cd ..
-  - move deps\boost\lib\native\include\* deps\boost-compiled\
+  - cd ..\..
+  - copy deps\boost\lib\native\include\* deps\boost-compiled\
   - mkdir deps\boost-compiled\stage
   - mkdir deps\boost-compiled\stage\lib
   - nuget install boost_chrono-vc120 -OutputDirectory deps -ExcludeVersion
