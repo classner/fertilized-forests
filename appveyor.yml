@@ -29,40 +29,45 @@ install:
   - C:\Anaconda\Scripts\pip install pypiwin32 --allow-external pywin32 --allow-unverified pywin32
   - mkdir deps
   - nuget install protobuf -OutputDirectory deps -ExcludeVersion
-  - cd deps\protobuf\build
+  - cd deps\protobuf\build\native
   - dir
-  - cd ..\..\..
+  - cd ..\..\..\..
   - nuget install boost -OutputDirectory deps -ExcludeVersion
-  - cd deps\boost\build
+  - cd deps\boost\build\native
   - dir
-  - cd ..\lib
+  - cd ..\..\lib\native
   - dir
-  - cd ..\..\..
+  - cd ..\..\..\..
   - nuget install OpenCV -OutputDirectory deps -ExcludeVersion
-  - cd deps\OpenCV\build
+  - cd deps\OpenCV\build\native
   - dir
-  - cd ..\..\..
+  - cd ..\..\..\..
   - nuget install Eigen -OutputDirectory deps -ExcludeVersion
-  - cd deps\Eigen\build
+  - cd deps\Eigen\build\native
   - dir
-  - cd ..\..\..
+  - cd ..\..\..\..
   - nuget install hdf5-v120 -OutputDirectory deps -ExcludeVersion
-  - cd deps\hdf5-v120\bin
+  - cd deps\hdf5-v120\bin\native
   - dir
-  - cd ..\build
+  - cd ..\..\build\native
   - dir
-  - cd ..\lib
+  - cd ..\lib\native
   - dir
-  - cd ..\..\..
+  - cd ..\..\..\..
   - nuget install OpenBLAS -OutputDirectory deps -ExcludeVersion
-  - cd deps\OpenBLAS\build
+  - cd deps\OpenBLAS\build\native
   - dir
-  - cd ..\lib
+  - cd ..\lib\native
   - dir
-  - cd ..\..\..
+  - cd ..\..\..\..
   ## Dataset
   ## - wget jamie.shotton.org/work/data/WeizmannMultiScale.zip
   ## - unzip WeizmannMultiScale.zip -d WeizmannHorseDataset
+  - cd "C:\Program Files (x86)"
+  - dir
+  - cd Microsoft
+  - dir
+  - cd C:\projects\fertilized-forests
 
 before_build:
   - git submodule update --init --recursive
