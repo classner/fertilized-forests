@@ -106,9 +106,8 @@ if APPLY_UBUNTU_12_PATCHES:
     if SET_CXX_CC:
       # Set environment variable.
       # c.t. http://stackoverflow.com/questions/1506010/how-to-use-export-with-python-on-linux
-      os.putenv('CXX', 'g++-4.8')
-      os.putenv('CC', 'gcc-4.8')
-      os.system('bash')
+      os.environ['CXX'] = 'g++-4.8'
+      os.environ['CC'] = 'gcc-4.8'
     if WITH_CAFFE:
       if QUIET_MODE or prompt.yn('Should I install a current version of OpenBLAS?'):
         with indent(2):
