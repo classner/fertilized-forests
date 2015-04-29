@@ -394,28 +394,6 @@ def setupTargets(env, root=".",
         print "Please specify a directory to store the caffe models in with the parameter '--caffe-model-dir=/dir'!"
         sys.exit(1)
       else:
-        print "Setting up caffe model directory..."
-        if not os.path.exists(GetOption('caffe_model_dir')):
-          os.mkdir(GetOption('caffe_model_dir'))
-        print "Setting up AlexNet as default DNN feature extractor..."
-        alex_dir = os.path.abspath(os.path.join(GetOption('caffe_model_dir'), 'bvlc_alexnet'))
-        if not os.path.exists(alex_dir):
-          os.mkdir(alex_dir)
-        layer_filename = os.path.join(alex_dir, 'bvlc_alexnet.caffemodel')
-        if not os.path.exists(layer_filename):
-            print "Downloading AlexNet..."
-            urllib.urlretrieve('http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel',
-                               layer_filename, download_reporthook)
-        model_filename = os.path.join(alex_dir, 'alexnet_extraction.prototxt')
-        orig_model_file = Glob('./fertilized/feature_extraction/alexnet_extraction.prototxt')
-        if not os.path.exists(model_filename):
-            shutil.copyfile(os.path.abspath(str(orig_model_file[0])),
-                            model_filename)
-        mean_filename = os.path.join(alex_dir, 'alexnet_mean.txt')
-        orig_mean_file = Glob('fertilized/feature_extraction/alexnet_mean.txt')
-        if not os.path.exists(mean_filename):
-            shutil.copyfile(os.path.abspath(str(orig_mean_file[0])),
-                            mean_filename)
         with open('fertilized/feature_extraction/__alexnet.h', 'w') as alexf:
           alexf.write('/* This is an automatically generated file! */\n')
           alexf.write('const std::string __ALEXNET_MODELFILE = "%s";\n' % model_filename.replace('\\', '\\\\'))

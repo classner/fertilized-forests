@@ -201,8 +201,11 @@ with indent(4):
         os.mkdir(alex_dir)
       layer_filename = os.path.join(alex_dir, 'bvlc_alexnet.caffemodel')
       if not os.path.exists(layer_filename):
-        urllib.urlretrieve('http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel',
-                           layer_filename, download_reporthook)
+        if not SUPPRESS_CAFFE_MODEL_DOWNLOAD:
+          urllib.urlretrieve('http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel',
+                             layer_filename, download_reporthook)
+        else:
+          puts(colored.red('Caffe model download suppressed. You will have to manually install the "bvlc_alexnet.caffemodel" to %s.' % (layer_filename)))
       model_filename = os.path.join(alex_dir, 'alexnet_extraction.prototxt')
       orig_model_file = glob('./fertilized/feature_extraction/alexnet_extraction.prototxt')
       if not os.path.exists(model_filename):
