@@ -94,23 +94,23 @@ if APPLY_UBUNTU_12_PATCHES:
     puts('Adding current boost repository...')
     check_call(['add-apt-repository', 'ppa:boost-latest/ppa', ADD_REPO_SUFF])
     puts('Updating package cache...')
-    check_call(['apt-get', 'update'])
+    check_call(['apt-get', 'update', '>', 'allout.txt', '2>&1'])
     puts('Installing gcc 4.8...')
-    check_call(['apt-get', 'install', 'g++-4.8'])
+    check_call(['apt-get', 'install', 'g++-4.8', '>', 'allout.txt', '2>&1'])
     if not QUIET_MODE:
       SET_CXX_CC = prompt.yn('Should gcc-4.8 be registered as system compiler (CXX and CC environment variables will be set)?')
     if SET_CXX_CC:
       # Set environment variable.
       # c.t. http://stackoverflow.com/questions/1506010/how-to-use-export-with-python-on-linux
       os.putenv('CXX', 'g++-4.8')
-      os.putenv('CC', 'gcc-4.8'])
+      os.putenv('CC', 'gcc-4.8')
       os.system('bash')
     if WITH_CAFFE:
       if QUIET_MODE or prompt.yn('Should I install a current version of OpenBLAS?'):
         with indent(2):
-          check_call(['apt-get', 'install', 'gfortran'])
+          check_call(['apt-get', 'install', 'gfortran', '>', 'allout.txt', '2>&1'])
           check_call(['ln', '-s', '/usr/lib/x86_64-linux-gnu/libgfortran.so.3', '/usr/lib/x86_64-linux-gnu/libgfortran.so'])
-          check_call(['wget', 'http://github.com/xianyi/OpenBLAS/archive/v0.2.14.zip'])
+          check_call(['wget', 'http://github.com/xianyi/OpenBLAS/archive/v0.2.14.zip', '>', 'allout.txt', '2>&1'])
           check_call(['unzip', 'v0.2.14.zip', '>', 'allout.txt', '2>&1'])
           os.chdir('OpenBLAS-0.2.14')
           check_call(['make', '>', 'allout.txt', '2>&1'])
