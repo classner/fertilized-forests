@@ -26,6 +26,10 @@ except:
 from clint.textui import prompt, validators, colored, puts, indent
 
 QUIET_MODE = (sys.argv[1] == '--quiet')
+if QUIET_MODE:
+  ADD_REPO_SUFF = '-y'
+else:
+  ADD_REPO_SUFF = ''
 
 if QUIET_MODE:
   puts(colored.red("Using quiet mode!"))
@@ -84,11 +88,11 @@ if APPLY_UBUNTU_12_PATCHES:
     puts(colored.red('If you answer any of the following questions with "n", you will HAVE to care for installing a current version of the respective library and adjusting "setup_paths.sh" yourself. Otherwise, the build WILL fail!'))
   with indent(4):
     puts('Adding current gcc repository...')
-    check_call(['add-apt-repository','ppa:ubuntu-toolchain-r/test'])
+    check_call(['add-apt-repository','ppa:ubuntu-toolchain-r/test', ADD_REPO_SUFF])
     puts('Adding current OpenCV repository...')
-    check_call(['add-apt-repository', 'ppa:yjwong/opencv2'])
+    check_call(['add-apt-repository', 'ppa:yjwong/opencv2', ADD_REPO_SUFF])
     puts('Adding current boost repository...')
-    check_call(['add-apt-repository', 'ppa:boost-latest/ppa'])
+    check_call(['add-apt-repository', 'ppa:boost-latest/ppa', ADD_REPO_SUFF])
     puts('Updating package cache...')
     check_call(['apt-get', 'update'])
     puts('Installing gcc 4.8...')
@@ -220,7 +224,9 @@ try:
   CONDA_AVAILABLE = (check_call(['which', 'conda']) != '')
 except:
   CONDA_AVAILABLE = False
-if not CONDA_AVAILABLE:
+if CONDA_AVAILABLE:
+  check_call(['conda', 'update', '--yes', 'conda', '>', 'allout.txt', '2>&1'])
+else:
   PIPLIST.extend(CONDALIST)
   CONDALIST = []
 with indent(4):
