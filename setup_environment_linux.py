@@ -100,7 +100,11 @@ if APPLY_UBUNTU_12_PATCHES:
     if not QUIET_MODE:
       SET_CXX_CC = prompt.yn('Should gcc-4.8 be registered as system compiler (CXX and CC environment variables will be set)?')
     if SET_CXX_CC:
-      check_call(['export', 'CXX="g++-4.8"', 'CC="gcc-4.8"'])
+      # Set environment variable.
+      # c.t. http://stackoverflow.com/questions/1506010/how-to-use-export-with-python-on-linux
+      os.putenv('CXX', 'g++-4.8')
+      os.putenv('CC', 'gcc-4.8'])
+      os.system('bash')
     if WITH_CAFFE:
       if QUIET_MODE or prompt.yn('Should I install a current version of OpenBLAS?'):
         with indent(2):
