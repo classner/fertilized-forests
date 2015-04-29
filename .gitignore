@@ -5,6 +5,8 @@ x64/
 _CL_*
 *.suo
 *.sdf
+compile.sh
+setup_paths.sh
 Debug/
 *.opensdf
 documentation/html/
