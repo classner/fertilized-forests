@@ -25,11 +25,15 @@ except:
 
 from clint.textui import prompt, validators, colored, puts, indent
 
+#######################################
+# Setup
 QUIET_MODE = (sys.argv[1] == '--quiet')
 if QUIET_MODE:
   ADD_REPO_SUFF = '-y'
 else:
   ADD_REPO_SUFF = ''
+STDOUT = open("setup-stdout.txt","wb")
+STDERR = open("setup-stderr.txt","wb")
 
 if QUIET_MODE:
   puts(colored.red("Using quiet mode!"))
@@ -78,7 +82,7 @@ else:
 #######################################
 # Build tools
 puts('Installing build tools...')
-check_call(['apt-get', 'install', 'build-essential'])
+check_call(['apt-get', 'install', 'build-essential'], stdout=STDOUT, stderr=STDERR)
 
 #######################################
 # Ubuntu 12
@@ -88,15 +92,15 @@ if APPLY_UBUNTU_12_PATCHES:
     puts(colored.red('If you answer any of the following questions with "n", you will HAVE to care for installing a current version of the respective library and adjusting "setup_paths.sh" yourself. Otherwise, the build WILL fail!'))
   with indent(4):
     puts('Adding current gcc repository...')
-    check_call(['add-apt-repository','ppa:ubuntu-toolchain-r/test', ADD_REPO_SUFF])
+    check_call(['add-apt-repository','ppa:ubuntu-toolchain-r/test', ADD_REPO_SUFF], stdout=STDOUT, stderr=STDERR)
     puts('Adding current OpenCV repository...')
-    check_call(['add-apt-repository', 'ppa:yjwong/opencv2', ADD_REPO_SUFF])
+    check_call(['add-apt-repository', 'ppa:yjwong/opencv2', ADD_REPO_SUFF], stdout=STDOUT, stderr=STDERR)
     puts('Adding current boost repository...')
-    check_call(['add-apt-repository', 'ppa:boost-latest/ppa', ADD_REPO_SUFF])
+    check_call(['add-apt-repository', 'ppa:boost-latest/ppa', ADD_REPO_SUFF], stdout=STDOUT, stderr=STDERR)
     puts('Updating package cache...')
-    check_call(['apt-get', 'update'])
+    check_call(['apt-get', 'update'], stdout=STDOUT, stderr=STDERR)
     puts('Installing gcc 4.8...')
-    check_call(['apt-get', 'install', 'g++-4.8', '>', 'allout.txt', '2>&1'])
+    check_call(['apt-get', 'install', 'g++-4.8'], stdout=STDOUT, stderr=STDERR)
     if not QUIET_MODE:
       SET_CXX_CC = prompt.yn('Should gcc-4.8 be registered as system compiler (CXX and CC environment variables will be set)?')
     if SET_CXX_CC:
@@ -108,35 +112,35 @@ if APPLY_UBUNTU_12_PATCHES:
     if WITH_CAFFE:
       if QUIET_MODE or prompt.yn('Should I install a current version of OpenBLAS?'):
         with indent(2):
-          check_call(['apt-get', 'install', 'gfortran', '>', 'allout.txt', '2>&1'])
-          check_call(['ln', '-s', '/usr/lib/x86_64-linux-gnu/libgfortran.so.3', '/usr/lib/x86_64-linux-gnu/libgfortran.so'])
-          check_call(['wget', 'http://github.com/xianyi/OpenBLAS/archive/v0.2.14.zip', '>', 'allout.txt', '2>&1'])
-          check_call(['unzip', 'v0.2.14.zip', '>', 'allout.txt', '2>&1'])
+          check_call(['apt-get', 'install', 'gfortran'], stdout=STDOUT, stderr=STDERR)
+          check_call(['ln', '-s', '/usr/lib/x86_64-linux-gnu/libgfortran.so.3', '/usr/lib/x86_64-linux-gnu/libgfortran.so'], stdout=STDOUT, stderr=STDERR)
+          check_call(['wget', 'http://github.com/xianyi/OpenBLAS/archive/v0.2.14.zip'], stdout=STDOUT, stderr=STDERR)
+          check_call(['unzip', 'v0.2.14.zip'], stdout=STDOUT, stderr=STDERR)
           os.chdir('OpenBLAS-0.2.14')
-          check_call(['make', '>', 'allout.txt', '2>&1'])
-          check_call(['make', 'install', 'PREFIX=/usr/local/OpenBLAS', '>', 'allout.txt', '2>&1'])
-          check_call(['ln', '-s', '/usr/local/OpenBLAS/lib/libopenblas.so', '/usr/local/lib/libopenblas.so.0'])
+          check_call(['make'], stdout=STDOUT, stderr=STDERR)
+          check_call(['make', 'install', 'PREFIX=/usr/local/OpenBLAS'], stdout=STDOUT, stderr=STDERR)
+          check_call(['ln', '-s', '/usr/local/OpenBLAS/lib/libopenblas.so', '/usr/local/lib/libopenblas.so.0'], stdout=STDOUT, stderr=STDERR)
           os.chdir('..')
           os.remove('v0.2.14.zip')
           os.rmdir('OpenBLAS-0.2.14')
       if QUIET_MODE or prompt.yn('Should I install a current version of GLOG?'):
         with indent(2):
-          check_call(['wget', 'https://github.com/google/glog/archive/v0.3.4.zip'])
-          check_call(['unzip', 'v0.3.4.zip', '>', 'allout.txt', '2>&1'])
+          check_call(['wget', 'https://github.com/google/glog/archive/v0.3.4.zip'], stdout=STDOUT, stderr=STDERR)
+          check_call(['unzip', 'v0.3.4.zip'], stdout=STDOUT, stderr=STDERR)
           os.chdir('glog-0.3.4')
-          check_call(['./configure', '>', 'allout.txt', '2>&1'])
-          check_call(['make', '>', 'allout.txt', '2>&1'])
-          check_call(['make', 'install', '>', 'allout.txt', '2>&1'])
+          check_call(['./configure'], stdout=STDOUT, stderr=STDERR)
+          check_call(['make'], stdout=STDOUT, stderr=STDERR)
+          check_call(['make', 'install'], stdout=STDOUT, stderr=STDERR)
           os.chdir('..')
           os.remove('v0.3.4.zip')
           os.rmdir('glog-0.3.4')
       if QUIET_MODE or prompt.yn('Should I install a current version of boost?'):
         with indent(2):
-          check_call(['apt-get', 'install', 'libboost1.55-all-dev'])
+          check_call(['apt-get', 'install', 'libboost1.55-all-dev'], stdout=STDOUT, stderr=STDERR)
       if QUIET_MODE or prompt.yn('Should I install a current version of EIGEN?'):
         with indent(2):
-          check_call(['wget', 'http://bitbucket.org/eigen/eigen/get/3.2.4.zip'])
-          check_call(['unzip', '3.2.4.zip', '-d', '/usr/include/eigen3', '>', 'allout.txt', '2>&1'])
+          check_call(['wget', 'http://bitbucket.org/eigen/eigen/get/3.2.4.zip'], stdout=STDOUT, stderr=STDERR)
+          check_call(['unzip', '3.2.4.zip', '-d', '/usr/include/eigen3'], stdout=STDOUT, stderr=STDERR)
           EIGEN_INSTALL_DIR = '/usr/include/eigen3/eigen-eigen-10219c95fe65'
 
 #######################################
@@ -145,7 +149,7 @@ if APPLY_UBUNTU_13_PATCHES:
   puts(colored.green('Applying Ubuntu 13 patches.'))
   with indent(4):
     puts('OpenCL:')
-    check_call(['apt-get', 'install', 'ocl-icd-libopencl1'])
+    check_call(['apt-get', 'install', 'ocl-icd-libopencl1'], stdout=STDOUT, stderr=STDERR)
 
 #######################################
 # General installation
@@ -167,27 +171,29 @@ def download_reporthook(count, block_size, total_size):
 
 puts('Installing system packages...')
 puts('OpenCV:')
-check_call(['apt-get', 'install', 'libopencv-dev'])
+check_call(['apt-get', 'install', 'libopencv-dev'], stdout=STDOUT, stderr=STDERR)
 if not APPLY_UBUNTU_12_PATCHES:
   puts('boost:')
-  check_call(['apt-get', 'install', 'libboost-all-dev'])
+  check_call(['apt-get', 'install', 'libboost-all-dev'], stdout=STDOUT, stderr=STDERR)
 puts('eigen:')
-check_call(['apt-get', 'install', 'libeigen3-dev'])
-if not check_call(['which', 'git']):
+check_call(['apt-get', 'install', 'libeigen3-dev'], stdout=STDOUT, stderr=STDERR)
+try:
+  check_call(['which', 'git'])
+except:
   puts('git:')
-  check_call(['apt-get', 'install', 'git-core'])
+  check_call(['apt-get', 'install', 'git-core'], stdout=STDOUT, stderr=STDERR)
 if WITH_CAFFE:
   puts('Installing additional CAFFE dependencies...')
   with indent(4):
     if not APPLY_UBUNTU_12_PATCHES:
       puts('OpenBLAS:')
-      check_call(['apt-get', 'install', 'libopenblas-dev'])
+      check_call(['apt-get', 'install', 'libopenblas-dev'], stdout=STDOUT, stderr=STDERR)
       puts('glog:')
-      check_call(['apt-get', 'install', 'libgoogle-glog-dev'])
+      check_call(['apt-get', 'install', 'libgoogle-glog-dev'], stdout=STDOUT, stderr=STDERR)
     puts('protobuf:')
-    check_call(['apt-get', 'install', 'libprotobuf-dev', 'protobuf-compiler'])
+    check_call(['apt-get', 'install', 'libprotobuf-dev', 'protobuf-compiler'], stdout=STDOUT, stderr=STDERR)
     puts('hdf5:')
-    check_call(['apt-get', 'install', 'libhdf5-serial-dev'])
+    check_call(['apt-get', 'install', 'libhdf5-serial-dev'], stdout=STDOUT, stderr=STDERR)
     puts('AlexNet as default feature extractor...')
     alex_dir = os.path.abspath(os.path.join(CAFFE_MODEL_DIR, 'bvlc_alexnet'))
     if not os.path.exists(alex_dir):
@@ -229,17 +235,17 @@ try:
 except:
   CONDA_AVAILABLE = False
 if CONDA_AVAILABLE:
-  check_call(['conda', 'update', '--yes', 'conda', '>', 'allout.txt', '2>&1'])
+  check_call(['conda', 'update', '--yes', 'conda'], stdout=STDOUT, stderr=STDERR)
 else:
   PIPLIST.extend(CONDALIST)
   CONDALIST = []
 with indent(4):
   for mname in CONDALIST:
     puts("%s:" % (mname))
-    check_call(['conda', 'install', '--yes', mname, '>', 'allout.txt', '2>&1'])
+    check_call(['conda', 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
   for mname in MLIST:
     puts("%s:" % (mname))
-    check_call(['pip', 'install', mname, '>', 'allout.txt', '2>&1'])
+    check_call(['pip', 'install', mname], stdout=STDOUT, stderr=STDERR)
 
 #######################################
 # MATLAB
