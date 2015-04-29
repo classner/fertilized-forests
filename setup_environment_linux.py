@@ -94,7 +94,7 @@ if APPLY_UBUNTU_12_PATCHES:
     puts('Adding current boost repository...')
     check_call(['add-apt-repository', 'ppa:boost-latest/ppa', ADD_REPO_SUFF])
     puts('Updating package cache...')
-    check_call(['apt-get', 'update', '>', 'allout.txt', '2>&1'])
+    check_call(['apt-get', 'update'])
     puts('Installing gcc 4.8...')
     check_call(['apt-get', 'install', 'g++-4.8', '>', 'allout.txt', '2>&1'])
     if not QUIET_MODE:
