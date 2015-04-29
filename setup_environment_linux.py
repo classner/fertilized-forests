@@ -27,7 +27,7 @@ from clint.textui import prompt, validators, colored, puts, indent
 
 #######################################
 # Setup
-QUIET_MODE = (sys.argv[1] == '--quiet')
+QUIET_MODE = len(sys.argv) > 1 and (sys.argv[1] == '--quiet')
 if QUIET_MODE:
   ADD_REPO_SUFF = '-y'
 else:
@@ -81,7 +81,7 @@ else:
 
 #######################################
 # Build tools
-puts('Installing build tools...')
+puts(colored.green('Installing build tools...'))
 check_call(['apt-get', 'install', 'build-essential'], stdout=STDOUT, stderr=STDERR)
 
 #######################################
@@ -169,49 +169,50 @@ def download_reporthook(count, block_size, total_size):
                     (percent, progress_size / (1024 * 1024), speed, duration))
     sys.stdout.flush()
 
-puts('Installing system packages...')
-puts('OpenCV:')
-check_call(['apt-get', 'install', 'libopencv-dev'], stdout=STDOUT, stderr=STDERR)
-if not APPLY_UBUNTU_12_PATCHES:
-  puts('boost:')
-  check_call(['apt-get', 'install', 'libboost-all-dev'], stdout=STDOUT, stderr=STDERR)
-puts('eigen:')
-check_call(['apt-get', 'install', 'libeigen3-dev'], stdout=STDOUT, stderr=STDERR)
-try:
-  check_call(['which', 'git'])
-except:
-  puts('git:')
-  check_call(['apt-get', 'install', 'git-core'], stdout=STDOUT, stderr=STDERR)
-if WITH_CAFFE:
-  puts('Installing additional CAFFE dependencies...')
-  with indent(4):
-    if not APPLY_UBUNTU_12_PATCHES:
-      puts('OpenBLAS:')
-      check_call(['apt-get', 'install', 'libopenblas-dev'], stdout=STDOUT, stderr=STDERR)
-      puts('glog:')
-      check_call(['apt-get', 'install', 'libgoogle-glog-dev'], stdout=STDOUT, stderr=STDERR)
-    puts('protobuf:')
-    check_call(['apt-get', 'install', 'libprotobuf-dev', 'protobuf-compiler'], stdout=STDOUT, stderr=STDERR)
-    puts('hdf5:')
-    check_call(['apt-get', 'install', 'libhdf5-serial-dev'], stdout=STDOUT, stderr=STDERR)
-    puts('AlexNet as default feature extractor...')
-    alex_dir = os.path.abspath(os.path.join(CAFFE_MODEL_DIR, 'bvlc_alexnet'))
-    if not os.path.exists(alex_dir):
-      os.mkdir(alex_dir)
-    layer_filename = os.path.join(alex_dir, 'bvlc_alexnet.caffemodel')
-    if not os.path.exists(layer_filename):
-      urllib.urlretrieve('http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel',
-                         layer_filename, download_reporthook)
-    model_filename = os.path.join(alex_dir, 'alexnet_extraction.prototxt')
-    orig_model_file = glob('./fertilized/feature_extraction/alexnet_extraction.prototxt')
-    if not os.path.exists(model_filename):
-      shutil.copyfile(os.path.abspath(str(orig_model_file[0])),
-                      model_filename)
-    mean_filename = os.path.join(alex_dir, 'alexnet_mean.txt')
-    orig_mean_file = Glob('./fertilized/feature_extraction/alexnet_mean.txt')
-    if not os.path.exists(mean_filename):
-      shutil.copyfile(os.path.abspath(str(orig_mean_file[0])),
-                      mean_filename)
+puts(colored.green('Installing system packages...'))
+with indent(4):
+  puts('OpenCV.')
+  check_call(['apt-get', 'install', 'libopencv-dev'], stdout=STDOUT, stderr=STDERR)
+  if not APPLY_UBUNTU_12_PATCHES:
+    puts('BOOST.')
+    check_call(['apt-get', 'install', 'libboost-all-dev'], stdout=STDOUT, stderr=STDERR)
+  puts('Eigen.')
+  check_call(['apt-get', 'install', 'libeigen3-dev'], stdout=STDOUT, stderr=STDERR)
+  try:
+    check_call(['which', 'git'], stdout=STDOUT, stderr=STDERR)
+  except:
+    puts('git.')
+    check_call(['apt-get', 'install', 'git-core'], stdout=STDOUT, stderr=STDERR)
+  if WITH_CAFFE:
+    puts(colored.yellow('Installing additional CAFFE dependencies...'))
+    with indent(4):
+      if not APPLY_UBUNTU_12_PATCHES:
+        puts('OpenBLAS.')
+        check_call(['apt-get', 'install', 'libopenblas-dev'], stdout=STDOUT, stderr=STDERR)
+        puts('glog.')
+        check_call(['apt-get', 'install', 'libgoogle-glog-dev'], stdout=STDOUT, stderr=STDERR)
+      puts('protobuf.')
+      check_call(['apt-get', 'install', 'libprotobuf-dev', 'protobuf-compiler'], stdout=STDOUT, stderr=STDERR)
+      puts('hdf5.')
+      check_call(['apt-get', 'install', 'libhdf5-serial-dev'], stdout=STDOUT, stderr=STDERR)
+      puts('AlexNet as default feature extractor.')
+      alex_dir = os.path.abspath(os.path.join(CAFFE_MODEL_DIR, 'bvlc_alexnet'))
+      if not os.path.exists(alex_dir):
+        os.mkdir(alex_dir)
+      layer_filename = os.path.join(alex_dir, 'bvlc_alexnet.caffemodel')
+      if not os.path.exists(layer_filename):
+        urllib.urlretrieve('http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel',
+                           layer_filename, download_reporthook)
+      model_filename = os.path.join(alex_dir, 'alexnet_extraction.prototxt')
+      orig_model_file = glob('./fertilized/feature_extraction/alexnet_extraction.prototxt')
+      if not os.path.exists(model_filename):
+        shutil.copyfile(os.path.abspath(str(orig_model_file[0])),
+                        model_filename)
+      mean_filename = os.path.join(alex_dir, 'alexnet_mean.txt')
+      orig_mean_file = glob('./fertilized/feature_extraction/alexnet_mean.txt')
+      if not os.path.exists(mean_filename):
+        shutil.copyfile(os.path.abspath(str(orig_mean_file[0])),
+                        mean_filename)
 
 #######################################
 # EIGEN include folder
@@ -231,7 +232,8 @@ CONDALIST = ['jinja2', 'numpy', 'scons']
 if WITH_PYTHON:
   CONDALIST.extend(['scipy', 'pillow', 'scikit-image', 'matplotlib', 'scikit-learn'])
 try:
-  CONDA_AVAILABLE = (check_call(['which', 'conda']) != '')
+  check_call(['which', 'conda'], stdout=STDOUT, stderr=STDERR)
+  CONDA_AVAILABLE = True
 except:
   CONDA_AVAILABLE = False
 if CONDA_AVAILABLE:
@@ -241,17 +243,17 @@ else:
   CONDALIST = []
 with indent(4):
   for mname in CONDALIST:
-    puts("%s:" % (mname))
+    puts("%s." % (mname))
     check_call(['conda', 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
-  for mname in MLIST:
-    puts("%s:" % (mname))
+  for mname in PIPLIST:
+    puts("%s." % (mname))
     check_call(['pip', 'install', mname], stdout=STDOUT, stderr=STDERR)
 
 #######################################
 # MATLAB
 if WITH_MATLAB:
   puts(colored.green('Configuring for MATLAB...'))
-  MATLAB_ROOT = prompt.query('Where is your MATLAB installed? This folder should have the subfolders "bin", "extern", ...', validators=[validators.PathValidator()])
+  MATLAB_ROOT = prompt.query('Where is your MATLAB installed? This folder should have the subfolders "bin", "extern", etc. Finish the foldername without trailing backslash, e.g., "/usr/local/MATLAB/R2014a":', validators=[validators.PathValidator()])
   MATLAB_PATH_STRING = 'export MATLAB_ROOT="%s"' % (MATLAB_ROOT)
 else:
   MATLAB_PATH_STRING = '# export MATLAB_ROOT=...'
