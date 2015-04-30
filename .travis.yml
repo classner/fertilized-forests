@@ -39,6 +39,7 @@ before_install:
 
 install:
   - sudo ./setup_environment.sh --quiet --ub12 --pyenabled --nomat --caffeenabled /home/travis/caffe-models --cpu-only --suppress-caffe-model-download /home/travis/miniconda/bin
+  - sudo chown travis . -R
   ## valgrind
   #- wget http://valgrind.org/downloads/valgrind-3.10.1.tar.bz2
   #- tar -xvf valgrind-3.10.1.tar.bz2 > allout.txt 2>&1
