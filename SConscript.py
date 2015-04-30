@@ -345,7 +345,7 @@ def setupTargets(env, root=".",
         sys.exit(1)
       import subprocess
       os.chdir('CodeGenerator')
-      subprocess.check_call(['python', 'CodeGenerator.py'])
+      subprocess.check_call([sys.executable, 'CodeGenerator.py'])
       os.chdir('..')
     interfaces_generated = os.path.isfile(os.path.join('fertilized', 'fertilized.h'))
     interfaces_emsg = "You first have to call scons --generate-interfaces to "+\
