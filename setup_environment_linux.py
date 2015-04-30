@@ -283,12 +283,12 @@ else:
 #######################################
 # Submodules
 puts(colored.green('Pulling in submodules...'))
-check_call(['git', 'submodule', 'update', '--init', '--recursive'])
+check_call(['git', 'submodule', 'update', '--init', '--recursive'], stdout=STDOUT, stderr=STDERR)
 
 #######################################
 # Generating interfaces
 puts(colored.green('Generating interfaces...'))
-check_call(['scons', '--generate-interfaces'])
+check_call(['%sscons' % (BIN_FOLDER), '--generate-interfaces'])
 
 #######################################
 # File generation
