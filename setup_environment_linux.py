@@ -121,7 +121,7 @@ if APPLY_UBUNTU_12_PATCHES:
           check_call(['ln', '-s', '/usr/local/OpenBLAS/lib/libopenblas.so', '/usr/local/lib/libopenblas.so.0'], stdout=STDOUT, stderr=STDERR)
           os.chdir('..')
           os.remove('v0.2.14.zip')
-          os.rmdir('OpenBLAS-0.2.14')
+          shutil.rmtree('OpenBLAS-0.2.14', ignore_errors=True)
       if QUIET_MODE or prompt.yn('Should I install a current version of GLOG?'):
         with indent(2):
           check_call(['wget', 'https://github.com/google/glog/archive/v0.3.4.zip'], stdout=STDOUT, stderr=STDERR)
@@ -132,7 +132,7 @@ if APPLY_UBUNTU_12_PATCHES:
           check_call(['make', 'install'], stdout=STDOUT, stderr=STDERR)
           os.chdir('..')
           os.remove('v0.3.4.zip')
-          os.rmdir('glog-0.3.4')
+          shutil.rmtree('glog-0.3.4', ignore_errors=True)
       if QUIET_MODE or prompt.yn('Should I install a current version of boost?'):
         with indent(2):
           check_call(['apt-get', 'install', 'libboost1.55-all-dev'], stdout=STDOUT, stderr=STDERR)
