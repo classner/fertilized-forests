@@ -27,9 +27,12 @@ before_install:
   - sudo ln -s /home/travis/miniconda/lib/libpython2.7.so.1.0 /usr/lib/libpython2.7.so.1.0
   - sudo rm /usr/bin/python
   - sudo rm /usr/local/bin/pip
-  - sudo ln -s /home/travis/miniconda/bin/python /usr/bin/python
-  - sudo ln -s /home/travis/miniconda/bin/pip /usr/local/bin/pip
-  - sudo ln -s /home/travis/miniconda/bin/conda /usr/local/bin/conda
+  - ls -la /home/travis/miniconda
+  - ls -la /home/travis/miniconda/bin
+  - ls -la /home/travis/miniconda/scripts
+  - sudo ln -s /home/travis/miniconda/python /usr/bin/python
+  - sudo ln -s /home/travis/miniconda/scripts/pip /usr/local/bin/pip
+  - sudo ln -s /home/travis/miniconda/scripts/conda /usr/local/bin/conda
   - export PATH=$MINICONDA_BIN:$PATH
 
 install:
