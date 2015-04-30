@@ -25,20 +25,20 @@ before_install:
   - sudo ln -s /home/travis/miniconda/lib/libpython2.7.so.1.0 /usr/lib/libpython2.7.so
   - sudo rm /usr/lib/libpython2.7.so.1.0
   - sudo ln -s /home/travis/miniconda/lib/libpython2.7.so.1.0 /usr/lib/libpython2.7.so.1.0
-  - sudo rm /usr/bin/python
-  - sudo rm /usr/local/bin/pip
-  - ls -la /home/travis/miniconda
-  - ls -la /home/travis/miniconda/bin
-  - sudo ln -s /home/travis/miniconda/bin/python2.7 /usr/bin/python
-  - sudo ln -s /home/travis/miniconda/bin/conda /usr/local/bin/conda
-  - sudo conda update --yes conda
-  - sudo conda install --yes pip
-  - ls -la /home/travis/miniconda/bin
-  - sudo ln -s /home/travis/miniconda/bin/pip /usr/local/bin/pip
+  #- sudo rm /usr/bin/python
+  #- sudo rm /usr/local/bin/pip
+  #- ls -la /home/travis/miniconda
+  #- ls -la /home/travis/miniconda/bin
+  #- sudo ln -s /home/travis/miniconda/bin/python2.7 /usr/bin/python
+  #- sudo ln -s /home/travis/miniconda/bin/conda /usr/local/bin/conda
+  - sudo /home/travis/miniconda/bin/conda update --yes conda
+  - sudo /home/travis/miniconda/bin/conda install --yes pip
+  #- ls -la /home/travis/miniconda/bin
+  #- sudo ln -s /home/travis/miniconda/bin/pip /usr/local/bin/pip
   - export PATH=$MINICONDA_BIN:$PATH
 
 install:
-  - sudo ./setup_environment.sh --quiet --ub12 --pyenabled --nomat --caffeenabled /home/travis/caffe-models --cpu-only --suppress-caffe-model-download
+  - sudo ./setup_environment.sh --quiet --ub12 --pyenabled --nomat --caffeenabled /home/travis/caffe-models --cpu-only --suppress-caffe-model-download /home/travis/miniconda/bin
   ## valgrind
   #- wget http://valgrind.org/downloads/valgrind-3.10.1.tar.bz2
   #- tar -xvf valgrind-3.10.1.tar.bz2 > allout.txt 2>&1

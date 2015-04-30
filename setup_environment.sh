@@ -37,54 +37,58 @@ echo "Done."
 ##############################################
 # Check for the availability of Python and pip
 
-if [[ `which python` != "" ]]; then
-  echo "Using Python at: `which python`."
+if [[ $9 != "" ]]; then
+  echo "Using Python and Pip at:" $9
 else
-  echo "No Python found on the command line! You can register an existing Python installation only for this script by running 'sudo PATH=\"/mypathtopython/bin:\$PATH\" ./setup_environment.sh' or by adding the line 'export PATH=\"/mypathtopython/bin:\$PATH\"' to your ~/.bashrc file permanently."
-
-  if [[ $1 == '--quiet' ]]; then
-    echo "Exiting..."
-    exit 1
+  if [[ `which python` != "" ]]; then
+    echo "Using Python at: `which python`."
   else
-    echo "
+    echo "No Python found on the command line! You can register an existing Python installation only for this script by running 'sudo PATH=\"/mypathtopython/bin:\$PATH\" ./setup_environment.sh' or by adding the line 'export PATH=\"/mypathtopython/bin:\$PATH\"' to your ~/.bashrc file permanently."
+
+    if [[ $1 == '--quiet' ]]; then
+      echo "Exiting..."
+      exit 1
+    else
+      echo "
 Alternatively, if you have no Python installed, should I install it by running 'apt-get install python python-dev python-pip' ('n' will exit)? [(y), n]"
 
-	read a
-	if [[ $a == "Y" || $a == "y" || $a = "" ]]; then
-	  echo "Installing..."
-	  apt-get install python python-dev python-pip
-	  echo "Installation finished."
-	  if [[ `which python` == "" || `which pip` == "" ]]; then
-	    echo "Can not find python or pip on the command line. Installation apparently failed. You will have to fix this manually. Exiting..."
-	    exit 1
-	  fi
-        else
-          exit 1 
-	fi
+  	read a
+  	if [[ $a == "Y" || $a == "y" || $a = "" ]]; then
+  	  echo "Installing..."
+  	  apt-get install python python-dev python-pip
+  	  echo "Installation finished."
+  	  if [[ `which python` == "" || `which pip` == "" ]]; then
+  	    echo "Can not find python or pip on the command line. Installation apparently failed. You will have to fix this manually. Exiting..."
+  	    exit 1
+  	  fi
+          else
+            exit 1 
+  	fi
+    fi
   fi
-fi
 
-if [[ `which pip` != "" ]]; then
-  echo "Using pip at: `which pip`."
-else
-  if [[ $1 == '--quiet' ]]; then
-    echo "Exiting..."
-    exit 1
+  if [[ `which pip` != "" ]]; then
+    echo "Using pip at: `which pip`."
   else
-    echo "No pip found! Should I install it by running 'apt-get install python-pip' ('n' will exit)? If you are using a Python distribution other than the system one, you will have to install it yourself! [(y), n]"
+    if [[ $1 == '--quiet' ]]; then
+      echo "Exiting..."
+      exit 1
+    else
+      echo "No pip found! Should I install it by running 'apt-get install python-pip' ('n' will exit)? If you are using a Python distribution other than the system one, you will have to install it yourself! [(y), n]"
 
-	read a
-	if [[ $a == "Y" || $a == "y" || $a = "" ]]; then
-	  echo "Installing..."
-	  apt-get install python-pip
-	  echo "Installation finished."
-	  if [[ `which python` == "" || `which pip` == "" ]]; then
-	    echo "Cannot find python or pip on the command line. Installation apparently failed. You will have to fix this manually. Exiting..."
-	    exit 1
-	  fi
-        else
-          exit 1 
-	fi
+  	read a
+  	if [[ $a == "Y" || $a == "y" || $a = "" ]]; then
+  	  echo "Installing..."
+  	  apt-get install python-pip
+  	  echo "Installation finished."
+  	  if [[ `which python` == "" || `which pip` == "" ]]; then
+  	    echo "Cannot find python or pip on the command line. Installation apparently failed. You will have to fix this manually. Exiting..."
+  	    exit 1
+  	  fi
+          else
+            exit 1 
+  	fi
+    fi
   fi
 fi
 
@@ -96,5 +100,8 @@ for i in $@;
 do
     params=" $params $i"
 done
-python setup_environment_linux.py $params
-
+if [[ $9 != "" ]]; then
+  $9/python setup_environment_linux.py $params
+else
+  python setup_environment_linux.py $params
+fi

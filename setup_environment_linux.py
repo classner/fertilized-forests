@@ -15,6 +15,14 @@ from glob import glob
 STDOUT = open("setup-stdout.txt","wb")
 STDERR = open("setup-stderr.txt","wb")
 
+if len(sys.argv) > 9:
+  BIN_FOLDER = sys.argv[9]
+  if not BIN_FOLDER.endswith('/'):
+    BIN_FOLDER = BIN_FOLDER + '/'
+  puts(colored.green('Python bin folder specified as %s' % (BIN_FOLDER)))
+else:
+  BIN_FOLDER = ''
+
 #######################################
 # Check for CLINT
 try:
@@ -22,7 +30,7 @@ try:
   print "Python CLINT detected."
 except:
   print "Python CLINT not found. Installing..."
-  check_call(["pip", "install", "clint"], stdout=STDOUT, stderr=STDERR)
+  check_call(["%spip" % (BIN_FOLDER), "install", "clint"], stdout=STDOUT, stderr=STDERR)
   print "Installation complete."
   import clint
 
@@ -245,23 +253,23 @@ CONDALIST = ['jinja2', 'numpy', 'scons']
 if WITH_PYTHON:
   CONDALIST.extend(['scipy', 'pillow', 'scikit-image', 'matplotlib', 'scikit-learn'])
 try:
-  check_call(['which', 'conda'], stdout=STDOUT, stderr=STDERR)
+  check_call(['which', '%sconda' % (BIN_FOLDER)], stdout=STDOUT, stderr=STDERR)
   CONDA_AVAILABLE = True
 except:
   CONDA_AVAILABLE = False
 if CONDA_AVAILABLE:
   puts(colored.green('conda detected! Using conda to install available packages.'))
-  check_call(['conda', 'update', '--yes', 'conda'], stdout=STDOUT, stderr=STDERR)
+  check_call(['%sconda' % (BIN_FOLDER), 'update', '--yes', 'conda'], stdout=STDOUT, stderr=STDERR)
 else:
   PIPLIST.extend(CONDALIST)
   CONDALIST = []
 with indent(4):
   for mname in CONDALIST:
     puts("%s." % (mname))
-    check_call(['conda', 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
+    check_call(['%sconda' % (BIN_FOLDER), 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
   for mname in PIPLIST:
     puts("%s." % (mname))
-    check_call(['pip', 'install', mname], stdout=STDOUT, stderr=STDERR)
+    check_call(['%spip' % (BIN_FOLDER), 'install', mname], stdout=STDOUT, stderr=STDERR)
 
 #######################################
 # MATLAB
