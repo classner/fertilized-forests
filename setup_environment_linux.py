@@ -19,7 +19,7 @@ if len(sys.argv) > 9:
   BIN_FOLDER = sys.argv[9]
   if not BIN_FOLDER.endswith('/'):
     BIN_FOLDER = BIN_FOLDER + '/'
-  puts(colored.green('Python bin folder specified as %s' % (BIN_FOLDER)))
+  print 'Python bin folder specified as %s.' % (BIN_FOLDER)
 else:
   BIN_FOLDER = ''
 
