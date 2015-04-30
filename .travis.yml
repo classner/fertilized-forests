@@ -58,7 +58,9 @@ before_script:
   - export OMP_NUM_THREADS=4
 
 script:
-  - ./compile.sh
+  - ./setup_paths.sh
+  - scons --with-tests --with-examples --with-caffe --caffe-model-dir=/home/travis/caffe-models --cpu-only
+  #- ./compile.sh
   #- $MINICONDA_BIN/scons --with-tests --with-examples --with-python --jobs=1
   ## --with-caffe --cpu-only --caffe-model-dir=/home/travis/caffe-models --with-serialization 
   - cd fertilized_tests

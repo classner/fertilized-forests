@@ -47,7 +47,7 @@ else:
 if QUIET_MODE:
   puts(colored.yellow("Using quiet mode!"))
   if len(sys.argv) < 9:
-    puts(colored.red("Too few arguments for quiet mode (%d, but required 8)!" % (len(sys.argv)- 1)))
+    puts(colored.red("Too few arguments for quiet mode (%d, but required 9)!" % (len(sys.argv)- 1)))
     sys.exit(1)
   else:
     APPLY_UBUNTU_12_PATCHES = (sys.argv[2] == '--ub12')
@@ -364,6 +364,7 @@ echo Compiling...
 # Add --with-caffe to build the CAFFE feature extraction.
 # Configure --caffe-model-dir to change the location of the CAFFE models for feature extraction.
 # Configure --temp-folder to change the CAFFE tmp folder.
+# Configure --cuda-architectures=20;30;35;50 to change the available compiled graphics card architectures.
 # Add --cpu-only to build the CPU only version of CAFFE.
 # Add --with-checks to enable assertions.
 # Add --disable-optimizations to create an -Od build for debugging.
@@ -384,4 +385,5 @@ if WITH_MATLAB:
 
 puts(colored.green("If there are any issues, please don't hesitate to post an issue report on github after consulting the FAQ page on http://www.fertilized-forests.org . For straightforward troubleshooting during the configuration process, see the file 'config.log'."))
 
+puts(colored.green("If you did not leave out any steps, you can now run './compile.sh' to compile the library.")
 
