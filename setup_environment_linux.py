@@ -62,10 +62,10 @@ if QUIET_MODE:
 else:
   #######################################
   # Determine the kind of patches to apply
-  APPLY_UBUNTU_12_PATCHES = prompt.yn('Is your system based on the Ubuntu 12 package sources (in doubt, no)? If you answer yes, I will apply fixes to the package sources to make the required software packages available.', default=False)
+  APPLY_UBUNTU_12_PATCHES = prompt.yn('Is your system based on the Ubuntu 12 package sources (in doubt, no)? If you answer yes, I will apply fixes to the package sources to make the required software packages available.', default='n')
 
   if not APPLY_UBUNTU_12_PATCHES:
-    APPLY_UBUNTU_13_PATCHES = prompt.yn('Is your system based on the Ubuntu 13 package sources AND you are not using the proprietary NVIDIA drivers (in doubt, no)? If you answer yes, a bug is fixed that erroneously pulls in NVIDIA drivers.', default=False)
+    APPLY_UBUNTU_13_PATCHES = prompt.yn('Is your system based on the Ubuntu 13 package sources AND you are not using the proprietary NVIDIA drivers (in doubt, no)? If you answer yes, a bug is fixed that erroneously pulls in NVIDIA drivers.', default='n')
   else:
     APPLY_UBUNTU_13_PATCHES = False
 
