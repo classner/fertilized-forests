@@ -110,9 +110,11 @@ if APPLY_UBUNTU_12_PATCHES:
       os.environ['CC'] = 'gcc-4.8'
     if WITH_CAFFE:
       if QUIET_MODE or prompt.yn('Should I install a current version of OpenBLAS?'):
-        with indent(2):
+        with indent(4):
+          puts('gfortran.')
           check_call(['apt-get', 'install', 'gfortran'], stdout=STDOUT, stderr=STDERR)
           check_call(['ln', '-s', '/usr/lib/x86_64-linux-gnu/libgfortran.so.3', '/usr/lib/x86_64-linux-gnu/libgfortran.so'], stdout=STDOUT, stderr=STDERR)
+          puts('OpenBLAS.')
           check_call(['wget', 'http://github.com/xianyi/OpenBLAS/archive/v0.2.14.zip'], stdout=STDOUT, stderr=STDERR)
           check_call(['unzip', 'v0.2.14.zip'], stdout=STDOUT, stderr=STDERR)
           os.chdir('OpenBLAS-0.2.14')
@@ -123,7 +125,8 @@ if APPLY_UBUNTU_12_PATCHES:
           os.remove('v0.2.14.zip')
           shutil.rmtree('OpenBLAS-0.2.14', ignore_errors=True)
       if QUIET_MODE or prompt.yn('Should I install a current version of GLOG?'):
-        with indent(2):
+        with indent(4):
+          puts('glog.')
           check_call(['wget', 'https://github.com/google/glog/archive/v0.3.4.zip'], stdout=STDOUT, stderr=STDERR)
           check_call(['unzip', 'v0.3.4.zip'], stdout=STDOUT, stderr=STDERR)
           os.chdir('glog-0.3.4')
@@ -134,13 +137,16 @@ if APPLY_UBUNTU_12_PATCHES:
           os.remove('v0.3.4.zip')
           shutil.rmtree('glog-0.3.4', ignore_errors=True)
       if QUIET_MODE or prompt.yn('Should I install a current version of boost?'):
-        with indent(2):
+        with indent(4):
+          puts('boost.')
           check_call(['apt-get', 'install', 'libboost1.55-all-dev'], stdout=STDOUT, stderr=STDERR)
       if QUIET_MODE or prompt.yn('Should I install a current version of EIGEN?'):
-        with indent(2):
+        with indent(4):
+          puts('eigen.')
           check_call(['wget', 'http://bitbucket.org/eigen/eigen/get/3.2.4.zip'], stdout=STDOUT, stderr=STDERR)
           check_call(['unzip', '3.2.4.zip', '-d', '/usr/include/eigen3'], stdout=STDOUT, stderr=STDERR)
           EIGEN_INSTALL_DIR = '/usr/include/eigen3/eigen-eigen-10219c95fe65'
+          os.remove('3.2.4.zip')
 
 #######################################
 # Ubuntu 13
@@ -173,10 +179,10 @@ with indent(4):
   puts('OpenCV.')
   check_call(['apt-get', 'install', 'libopencv-dev'], stdout=STDOUT, stderr=STDERR)
   if not APPLY_UBUNTU_12_PATCHES:
-    puts('BOOST.')
+    puts('boost.')
     check_call(['apt-get', 'install', 'libboost-all-dev'], stdout=STDOUT, stderr=STDERR)
-  puts('Eigen.')
-  check_call(['apt-get', 'install', 'libeigen3-dev'], stdout=STDOUT, stderr=STDERR)
+    puts('eigen.')
+    check_call(['apt-get', 'install', 'libeigen3-dev'], stdout=STDOUT, stderr=STDERR)
   try:
     check_call(['which', 'git'], stdout=STDOUT, stderr=STDERR)
   except:
@@ -195,6 +201,10 @@ with indent(4):
       puts('hdf5.')
       check_call(['apt-get', 'install', 'libhdf5-serial-dev'], stdout=STDOUT, stderr=STDERR)
       puts('AlexNet as default feature extractor.')
+      # This can happen in quiet mode.
+      if not os.path.exists(CAFFE_MODEL_DIR):
+        # Try the best.
+        os.mkdir(CAFFE_MODEL_DIR)
       alex_dir = os.path.abspath(os.path.join(CAFFE_MODEL_DIR, 'bvlc_alexnet'))
       if not os.path.exists(alex_dir):
         os.mkdir(alex_dir)
