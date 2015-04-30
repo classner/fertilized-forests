@@ -12,6 +12,9 @@ import urllib
 import shutil
 from glob import glob
 
+STDOUT = open("setup-stdout.txt","wb")
+STDERR = open("setup-stderr.txt","wb")
+
 #######################################
 # Check for CLINT
 try:
@@ -19,7 +22,7 @@ try:
   print "Python CLINT detected."
 except:
   print "Python CLINT not found. Installing..."
-  check_call(["pip", "install", "clint"])
+  check_call(["pip", "install", "clint"], stdout=STDOUT, stderr=STDERR)
   print "Installation complete."
   import clint
 
@@ -32,11 +35,9 @@ if QUIET_MODE:
   ADD_REPO_SUFF = '-y'
 else:
   ADD_REPO_SUFF = ''
-STDOUT = open("setup-stdout.txt","wb")
-STDERR = open("setup-stderr.txt","wb")
 
 if QUIET_MODE:
-  puts(colored.red("Using quiet mode!"))
+  puts(colored.yellow("Using quiet mode!"))
   if len(sys.argv) < 9:
     puts(colored.red("Too few arguments for quiet mode (%d, but required 8)!" % (len(sys.argv)- 1)))
     sys.exit(1)
@@ -89,7 +90,7 @@ check_call(['apt-get', 'install', 'build-essential'], stdout=STDOUT, stderr=STDE
 if APPLY_UBUNTU_12_PATCHES:
   puts(colored.green('Applying Ubuntu 12 patches.'))
   if not QUIET_MODE:
-    puts(colored.red('If you answer any of the following questions with "n", you will HAVE to care for installing a current version of the respective library and adjusting "setup_paths.sh" yourself. Otherwise, the build WILL fail!'))
+    puts(colored.yellow('If you answer any of the following questions with "n", you will HAVE to care for installing a current version of the respective library and adjusting "setup_paths.sh" yourself. Otherwise, the build WILL fail!'))
   with indent(4):
     puts('Adding current gcc repository...')
     check_call(['add-apt-repository','ppa:ubuntu-toolchain-r/test', ADD_REPO_SUFF], stdout=STDOUT, stderr=STDERR)
@@ -214,7 +215,7 @@ with indent(4):
           urllib.urlretrieve('http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel',
                              layer_filename, download_reporthook)
         else:
-          puts(colored.red('Caffe model download suppressed. You will have to manually install the "bvlc_alexnet.caffemodel" to %s.' % (layer_filename)))
+          puts(colored.yellow('Caffe model download suppressed. You will have to manually install the "bvlc_alexnet.caffemodel" to %s.' % (layer_filename)))
       model_filename = os.path.join(alex_dir, 'alexnet_extraction.prototxt')
       orig_model_file = glob('./fertilized/feature_extraction/alexnet_extraction.prototxt')
       if not os.path.exists(model_filename):
@@ -249,6 +250,7 @@ try:
 except:
   CONDA_AVAILABLE = False
 if CONDA_AVAILABLE:
+  puts(colored.green('conda detected! Using conda to install available packages.'))
   check_call(['conda', 'update', '--yes', 'conda'], stdout=STDOUT, stderr=STDERR)
 else:
   PIPLIST.extend(CONDALIST)
