@@ -41,12 +41,12 @@ install:
   - sudo ./setup_environment.sh --quiet --ub12 --pyenabled --nomat --caffeenabled /home/travis/caffe-models --cpu-only --suppress-caffe-model-download /home/travis/miniconda/bin
   - sudo chown travis . -R
   ## valgrind
-  #- wget http://valgrind.org/downloads/valgrind-3.10.1.tar.bz2
-  #- tar -xvf valgrind-3.10.1.tar.bz2 > allout.txt 2>&1
-  #- cd valgrind-3.10.1
-  #- ./configure > allout.txt 2>&1 && make > allout.txt 2>&1 && sudo make install > allout.txt 2>&1
-  #- cd ..
-  #- valgrind --version
+  - wget http://valgrind.org/downloads/valgrind-3.10.1.tar.bz2
+  - tar -xvf valgrind-3.10.1.tar.bz2 > allout.txt 2>&1
+  - cd valgrind-3.10.1
+  - ./configure > allout.txt 2>&1 && make > allout.txt 2>&1 && sudo make install > allout.txt 2>&1
+  - cd ..
+  - valgrind --version
   ## apt-get dependencies
   #- sudo apt-get install -qq m4 libboost1.55-all-dev libopencv-dev
   ##- ls -la /usr/local/openblas
@@ -59,17 +59,15 @@ before_script:
 
 script:
   - source setup_paths.sh
-  - scons --with-tests --with-examples --with-caffe --caffe-model-dir=/home/travis/caffe-models --cpu-only
+  - scons --with-tests --with-examples
   #- ./compile.sh
   #- $MINICONDA_BIN/scons --with-tests --with-examples --with-python --jobs=1
   ## --with-caffe --cpu-only --caffe-model-dir=/home/travis/caffe-models --with-serialization 
   - cd fertilized_tests
-  - ./fertilized_tests --run_test=Correctness*/*
-  - cd ..
-  #- valgrind --leak-check=full --show-reachable=yes --suppressions=./fertilized_tests.supp ./fertilized_tests --run_test=Correctness*/*
+  - valgrind --leak-check=full --show-reachable=yes --suppressions=./fertilized_tests.supp ./fertilized_tests --run_test=Correctness*/*
   #- cd ../Presentation
   #- $MINICONDA_BIN/python run_examples_as_tests.py /home/travis/WeizmannHorseDataset
-  #- cd ..
+  - cd ..
 
 after_success: true
 
