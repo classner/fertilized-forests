@@ -71,6 +71,8 @@ script:
 after_success: true
 
 after_failure:
+  - cat setup-stderr.txt
+  - cat setup-stdout.txt
   - cat config.log
   - cat allout.txt
 
