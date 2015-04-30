@@ -289,6 +289,13 @@ check_call(['git', 'submodule', 'update', '--init', '--recursive'], stdout=STDOU
 # Generating interfaces
 puts(colored.green('Generating interfaces...'))
 check_call(['%sscons' % (BIN_FOLDER), '--generate-interfaces'])
+# Cleanup
+if os.path.exists('config.log'):
+  os.remove('config.log')
+if os.path.exists('.sconsign.dblite'):
+  os.remove('.sconsign.dblite')
+if os.path.exists('.sconf_temp'):
+  shutil.rmtree('.sconf_temp')
 
 #######################################
 # File generation
