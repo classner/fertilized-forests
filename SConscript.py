@@ -394,6 +394,12 @@ def setupTargets(env, root=".",
         print "Please specify a directory to store the caffe models in with the parameter '--caffe-model-dir=/dir'!"
         sys.exit(1)
       else:
+        alex_dir = os.path.abspath(os.path.join(GetOption('caffe_model_dir'), 'bvlc_alexnet'))
+        if not os.path.exists(alex_dir):
+          os.mkdir(alex_dir)
+        layer_filename = os.path.join(alex_dir, 'bvlc_alexnet.caffemodel')
+        model_filename = os.path.join(alex_dir, 'alexnet_extraction.prototxt')
+        mean_filename = os.path.join(alex_dir, 'alexnet_mean.txt')
         with open('fertilized/feature_extraction/__alexnet.h', 'w') as alexf:
           alexf.write('/* This is an automatically generated file! */\n')
           alexf.write('const std::string __ALEXNET_MODELFILE = "%s";\n' % model_filename.replace('\\', '\\\\'))
