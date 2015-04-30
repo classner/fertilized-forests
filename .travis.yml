@@ -29,10 +29,12 @@ before_install:
   - sudo rm /usr/local/bin/pip
   - ls -la /home/travis/miniconda
   - ls -la /home/travis/miniconda/bin
-  - ls -la /home/travis/miniconda/scripts
-  - sudo ln -s /home/travis/miniconda/python /usr/bin/python
-  - sudo ln -s /home/travis/miniconda/scripts/pip /usr/local/bin/pip
-  - sudo ln -s /home/travis/miniconda/scripts/conda /usr/local/bin/conda
+  - sudo ln -s /home/travis/miniconda/bin/python2.7 /usr/bin/python
+  - sudo ln -s /home/travis/miniconda/bin/conda /usr/local/bin/conda
+  - sudo conda update --yes conda
+  - sudo conda install --yes pip
+  - ls -la /home/travis/miniconda/bin
+  - sudo ln -s /home/travis/miniconda/bin/pip /usr/local/bin/pip
   - export PATH=$MINICONDA_BIN:$PATH
 
 install:
