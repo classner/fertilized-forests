@@ -385,5 +385,5 @@ if WITH_MATLAB:
 
 puts(colored.green("If there are any issues, please don't hesitate to post an issue report on github after consulting the FAQ page on http://www.fertilized-forests.org . For straightforward troubleshooting during the configuration process, see the file 'config.log'."))
 
-puts(colored.green("If you did not leave out any steps, you can now run './compile.sh' to compile the library.")
+puts(colored.green("If you did not leave out any steps, you can now run './compile.sh' to compile the library."))
 
