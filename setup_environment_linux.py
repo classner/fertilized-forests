@@ -63,12 +63,10 @@ else:
   #######################################
   # Determine the kind of patches to apply
   APPLY_UBUNTU_12_PATCHES = not prompt.yn('Is your system based on the Ubuntu 12 package sources (in doubt, no)? If you answer yes, I will apply fixes to the package sources to make the required software packages available.', default='n')
-
   if not APPLY_UBUNTU_12_PATCHES:
     APPLY_UBUNTU_13_PATCHES = not prompt.yn('Is your system based on the Ubuntu 13 package sources AND you are not using the proprietary NVIDIA drivers (in doubt, no)? If you answer yes, a bug is fixed that erroneously pulls in NVIDIA drivers.', default='n')
   else:
     APPLY_UBUNTU_13_PATCHES = False
-
   #######################################
   # Initialize configuration.
   WITH_PYTHON = prompt.yn('Do you want to build the Python interface?')
@@ -84,9 +82,10 @@ else:
   except:
     puts(colored.red('No nvcc on the command line detected. Configuring CPU only build. If you want to change that, install nvcc and modify the file "compile.sh" (will be created at the end of this script).'))
     CPU_ONLY = True
-
   SET_CXX_CC = False
-  EIGEN_INSTALL_DIR = None
+
+EIGEN_INSTALL_DIR = None
+OPENBLAS_INSTALL_DIR = None
 
 #######################################
 # Build tools
@@ -133,6 +132,7 @@ if APPLY_UBUNTU_12_PATCHES:
           os.chdir('..')
           os.remove('v0.2.14.zip')
           shutil.rmtree('OpenBLAS-0.2.14', ignore_errors=True)
+          OPENBLAS_INSTALL_DIR = '/usr/local/OpenBLAS'
       if QUIET_MODE or prompt.yn('Should I install a current version of GLOG?'):
         with indent(4):
           puts('glog.')
@@ -304,6 +304,10 @@ if SET_CXX_CC:
   CXX_CC_CODE = 'export CXX="g++-4.8" CC="gcc-4.8"'
 else:
   CXX_CC_CODE = ''
+if OPENBLAS_INSTALL_DIR is None:
+  OPENBLAS_CODE = '# export OPENBLAS_ROOT=...'
+else:
+  OPENBLAS_CODE = 'export OPENBLAS_ROOT="%s"' % (OPENBLAS_INSTALL_DIR)
 with open('setup_paths.sh', 'w') as outfile:
   outfile.write(r"""
 # Modify this file as required.
@@ -311,14 +315,14 @@ with open('setup_paths.sh', 'w') as outfile:
 # export BOOST_LIB_DIR=...
 # export OPENCV_ROOT=...
 # export OPENCV_LIB_DIR=...
-# export OPENBLAS_ROOT=...
 # export PROTOBUF_ROOT=...
 # export PROTOC=...
 # export PATH="...:$PATH"
 %s
 %s
+%s
 export EIGEN_ROOT="%s"
-""" % (CXX_CC_CODE, MATLAB_PATH_STRING, EIGEN_INSTALL_DIR))
+""" % (OPENBLAS_CODE, CXX_CC_CODE, MATLAB_PATH_STRING, EIGEN_INSTALL_DIR))
 check_call(['chmod', '+x', 'setup_paths.sh'])
 puts(colored.green('Generating compile.sh...'))
 if WITH_PYTHON:
