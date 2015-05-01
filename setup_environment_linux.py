@@ -116,6 +116,17 @@ if APPLY_UBUNTU_12_PATCHES:
       # c.t. http://stackoverflow.com/questions/1506010/how-to-use-export-with-python-on-linux
       os.environ['CXX'] = 'g++-4.8'
       os.environ['CC'] = 'gcc-4.8'
+    if QUIET_MODE or prompt.yn('Should I install a current version of boost?'):
+      with indent(4):
+        puts('boost.')
+        check_call(['apt-get', 'install', 'libboost1.55-all-dev'], stdout=STDOUT, stderr=STDERR)
+    if QUIET_MODE or prompt.yn('Should I install a current version of EIGEN?'):
+      with indent(4):
+        puts('eigen.')
+        check_call(['wget', 'http://bitbucket.org/eigen/eigen/get/3.2.4.zip'], stdout=STDOUT, stderr=STDERR)
+        check_call(['unzip', '3.2.4.zip', '-d', '/usr/include/eigen3'], stdout=STDOUT, stderr=STDERR)
+        EIGEN_INSTALL_DIR = '/usr/include/eigen3/eigen-eigen-10219c95fe65'
+        os.remove('3.2.4.zip')
     if WITH_CAFFE:
       if QUIET_MODE or prompt.yn('Should I install a current version of OpenBLAS?'):
         with indent(4):
@@ -145,17 +156,6 @@ if APPLY_UBUNTU_12_PATCHES:
           os.chdir('..')
           os.remove('v0.3.4.zip')
           shutil.rmtree('glog-0.3.4', ignore_errors=True)
-      if QUIET_MODE or prompt.yn('Should I install a current version of boost?'):
-        with indent(4):
-          puts('boost.')
-          check_call(['apt-get', 'install', 'libboost1.55-all-dev'], stdout=STDOUT, stderr=STDERR)
-      if QUIET_MODE or prompt.yn('Should I install a current version of EIGEN?'):
-        with indent(4):
-          puts('eigen.')
-          check_call(['wget', 'http://bitbucket.org/eigen/eigen/get/3.2.4.zip'], stdout=STDOUT, stderr=STDERR)
-          check_call(['unzip', '3.2.4.zip', '-d', '/usr/include/eigen3'], stdout=STDOUT, stderr=STDERR)
-          EIGEN_INSTALL_DIR = '/usr/include/eigen3/eigen-eigen-10219c95fe65'
-          os.remove('3.2.4.zip')
 
 #######################################
 # Ubuntu 13
