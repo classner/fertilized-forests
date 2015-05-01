@@ -1,4 +1,3 @@
-## Need sudo to add ppas
 sudo: required
 
 language: cpp
@@ -8,11 +7,9 @@ branches:
     - unstable
 
 notifications:
-  ## This is, in fact, the default email setting so it is unnecessary.
-  ## It would probably be too annoying to set on_success: always
   email:
     on_success: changed
-    on_failure: always
+    on_failure: changed
 
 before_install:
   ## Use Miniconda for Python.
@@ -25,55 +22,31 @@ before_install:
   - sudo ln -s /home/travis/miniconda/lib/libpython2.7.so.1.0 /usr/lib/libpython2.7.so
   - sudo rm /usr/lib/libpython2.7.so.1.0
   - sudo ln -s /home/travis/miniconda/lib/libpython2.7.so.1.0 /usr/lib/libpython2.7.so.1.0
-  #- sudo rm /usr/bin/python
-  #- sudo rm /usr/local/bin/pip
-  #- ls -la /home/travis/miniconda
-  #- ls -la /home/travis/miniconda/bin
-  #- sudo ln -s /home/travis/miniconda/bin/python2.7 /usr/bin/python
-  #- sudo ln -s /home/travis/miniconda/bin/conda /usr/local/bin/conda
   - sudo /home/travis/miniconda/bin/conda update --yes conda
   - sudo /home/travis/miniconda/bin/conda install --yes pip
-  #- ls -la /home/travis/miniconda/bin
-  #- sudo ln -s /home/travis/miniconda/bin/pip /usr/local/bin/pip
   - export PATH=$MINICONDA_BIN:$PATH
 
 install:
-  - sudo ./setup_environment.sh --quiet --ub12 --pyenabled --nomat --caffeenabled /home/travis/caffe-models --cpu-only --suppress-caffe-model-download /home/travis/miniconda/bin
+  - sudo ./setup_environment.sh --quiet --ub12 --pyenabled --nomat --nocaffe /home/travis/caffe-models --cpu-only --suppress-caffe-model-download /home/travis/miniconda/bin
   - sudo chown travis . -R
   ## valgrind
-  - sudo apt-get install -qq libc6-dbg
-  - wget http://valgrind.org/downloads/valgrind-3.10.1.tar.bz2
+  - sudo apt-get install -qq libc6-dbg > allout.txt 2>&1
+  - wget http://valgrind.org/downloads/valgrind-3.10.1.tar.bz2 > allout.txt 2>&1
   - tar -xvf valgrind-3.10.1.tar.bz2 > allout.txt 2>&1
   - cd valgrind-3.10.1
   - ./configure > allout.txt 2>&1 && make > allout.txt 2>&1 && sudo make install > allout.txt 2>&1
   - cd ..
-  - valgrind --version
-  ## apt-get dependencies
-  #- sudo apt-get install -qq m4 libboost1.55-all-dev libopencv-dev
-  ##- ls -la /usr/local/openblas
-  ## Dataset
-  #- wget jamie.shotton.org/work/data/WeizmannMultiScale.zip
-  #- unzip WeizmannMultiScale.zip -d WeizmannHorseDataset > allout.txt 2>&1
 
 before_script:
-  - export OMP_NUM_THREADS=4
+  - export OMP_NUM_THREADS=2
 
 script:
   - source setup_paths.sh
   - scons --with-tests --with-examples
-  #- ./compile.sh
-  #- $MINICONDA_BIN/scons --with-tests --with-examples --with-python --jobs=1
-  ## --with-caffe --cpu-only --caffe-model-dir=/home/travis/caffe-models --with-serialization 
   - cd fertilized_tests
   - valgrind --leak-check=full --show-reachable=yes --suppressions=./fertilized_tests.supp ./fertilized_tests --run_test=Correctness*/*
-  #- cd ../Presentation
-  #- $MINICONDA_BIN/python run_examples_as_tests.py /home/travis/WeizmannHorseDataset
   - cd ..
-
-after_success: true
 
 after_failure:
   - cat config.log
-
-after_script: true
 
