@@ -3,7 +3,7 @@ branches:
     - unstable
 
 install:
-   - set ANACONDA_ROOT=C:\Anaconda
+  - set ANACONDA_ROOT=C:\Anaconda
   - set ANACONDA_BIN=%ANACONDA_ROOT%\bin
   ## miniconda
   - appveyor DownloadFile http://repo.continuum.io/miniconda/Miniconda-latest-Windows-x86_64.exe
