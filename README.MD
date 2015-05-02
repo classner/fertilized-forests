@@ -12,6 +12,7 @@ You can find detailed information including API documentation on
 The 'working' branch is `unstable`. Only versions that are completely tested
 get merged to `master`, so `master` is always always stable, with all tests passing and all builds running. The current status of `unstable` is as follows:
 
+* [![Build Status](https://travis-ci.org/ChrislS/fertilized-forests.svg?branch=unstable)](https://travis-ci.org/ChrislS/fertilized-forests) Build and tests of the core library - Linux
 * [![Jenkins](https://img.shields.io/jenkins/s/http/www.christophlassner.de/jenkins/fertilized-continuous-release.svg)]() Build and tests, core library
 * [![Jenkins](https://img.shields.io/jenkins/s/http/www.christophlassner.de/jenkins/fertilized-continuous-release-caffe.svg)]() Build and tests, core library and caffe feature extraction
 

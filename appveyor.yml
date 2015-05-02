@@ -6,7 +6,7 @@ install:
   - set ANACONDA_ROOT=C:\Anaconda
   - set ANACONDA_BIN=%ANACONDA_ROOT%\bin
   ## miniconda
-  - appveyor DownloadFile http://repo.continuum.io/miniconda/Miniconda-latest-Windows-x86_64.exe
+  #- appveyor DownloadFile http://repo.continuum.io/miniconda/Miniconda-latest-Windows-x86_64.exe
   - Miniconda-latest-Windows-x86_64.exe /S /D=C:\Anaconda
   - cd C:\projects\fertilized-forests
   - C:\Anaconda\Scripts\conda update --yes --quiet conda
@@ -36,5 +36,7 @@ test_script:
   - cd ..
 
 cache:
-  - Miniconda-latest-Windows-x86_64.exe
+#  - Miniconda-latest-Windows-x86_64.exe
+  - C:\Anaconda
+  - C:\projects\fertilized-forests\nuget-deps
 

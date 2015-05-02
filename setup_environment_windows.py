@@ -15,7 +15,11 @@ import zipfile
 STDOUT = open("setup-stdout.txt","wb")
 STDERR = open("setup-stderr.txt","wb")
 
-BIN_FOLDER = ''
+QUIET_MODE = len(sys.argv) > 1 and (sys.argv[1] == '--quiet')
+if QUIET_MODE:
+  BIN_FOLDER = sys.argv[2] + '\\'
+else:
+  BIN_FOLDER = ''
 
 #######################################
 # Check for CLINT
@@ -24,7 +28,7 @@ try:
   print "Python CLINT detected."
 except:
   print "Python CLINT not found. Installing..."
-  check_call(["pip", "install", "clint"], stdout=STDOUT, stderr=STDERR)
+  check_call(["%spip" % (BIN_FOLDER), "install", "clint"], stdout=STDOUT, stderr=STDERR)
   print "Installation complete."
   import clint
 
@@ -32,16 +36,12 @@ from clint.textui import prompt, validators, colored, puts, indent
 
 #######################################
 # Setup
-QUIET_MODE = len(sys.argv) > 1 and (sys.argv[1] == '--quiet')
-
-BIN_FOLDER = ''
 if QUIET_MODE:
   puts(colored.yellow("Using quiet mode!"))
   if len(sys.argv) < 9:
     puts(colored.red("Too few arguments for quiet mode (%d, but required 8)!" % (len(sys.argv)- 1)))
     sys.exit(1)
   else:
-    BIN_FOLDER = sys.argv[2] + '\\'
     WITH_PYTHON = (sys.argv[3] == '--pyenabled')
     WITH_MATLAB = (sys.argv[4] == '--matenabled')
     WITH_CAFFE = (sys.argv[5] == '--caffeenabled')
