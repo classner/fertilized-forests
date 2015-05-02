@@ -37,15 +37,16 @@ QUIET_MODE = len(sys.argv) > 1 and (sys.argv[1] == '--quiet')
 BIN_FOLDER = ''
 if QUIET_MODE:
   puts(colored.yellow("Using quiet mode!"))
-  if len(sys.argv) < 8:
-    puts(colored.red("Too few arguments for quiet mode (%d, but required 7)!" % (len(sys.argv)- 1)))
+  if len(sys.argv) < 9:
+    puts(colored.red("Too few arguments for quiet mode (%d, but required 8)!" % (len(sys.argv)- 1)))
     sys.exit(1)
   else:
-    WITH_PYTHON = (sys.argv[2] == '--pyenabled')
-    WITH_MATLAB = (sys.argv[3] == '--matenabled')
-    WITH_CAFFE = (sys.argv[4] == '--caffeenabled')
-    CAFFE_MODEL_DIR = sys.argv[5]
-    CPU_ONLY = (sys.argv[6] == '--cpu-only')
+    BIN_FOLDER = sys.argv[2] + '\\'
+    WITH_PYTHON = (sys.argv[3] == '--pyenabled')
+    WITH_MATLAB = (sys.argv[4] == '--matenabled')
+    WITH_CAFFE = (sys.argv[5] == '--caffeenabled')
+    CAFFE_MODEL_DIR = sys.argv[6]
+    CPU_ONLY = (sys.argv[7] == '--cpu-only')
     SUPPRESS_CAFFE_MODEL_DOWNLOAD = (sys.argv[7] == '--suppress-caffe-model-download')
 else:
   #######################################
