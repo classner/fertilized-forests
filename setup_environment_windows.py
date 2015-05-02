@@ -395,7 +395,7 @@ check_call([r'C:\\Program Files (x86)\\Git\\bin\\git.exe', 'submodule', 'update'
 #######################################
 # Generating interfaces
 puts(colored.green('Generating interfaces...'))
-if BIN_FOLDER = '':
+if BIN_FOLDER == '':
     SCONS = Popen('where scons', stdout=PIPE).communicate()[0].strip()
 else:
     SCONS = '%sscons' % (BIN_FOLDER)
