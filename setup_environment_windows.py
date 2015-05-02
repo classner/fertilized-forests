@@ -175,7 +175,8 @@ def copy_contents(src, dst):
     for item in os.listdir(src):
         s = os.path.join(src, item)
         d = os.path.join(dst, item)
-        shutil.copy2(s, d)
+        if not os.path.exists(d):
+            shutil.copy2(s, d)
 
 def install_boost_binary(name, package_name=None):
     if package_name is None:
@@ -218,22 +219,23 @@ with indent(4):
           os.mkdir(r'nuget-deps\boost-compiled\stage')
       if not os.path.exists(r'nuget-deps\boost-compiled\stage\lib'):
           os.mkdir(r'nuget-deps\boost-compiled\stage\lib')
+      install_boost_binary('serialization')
+      install_boost_binary('thread')
+      install_boost_binary('unit_test_framework')
+      install_boost_binary('wserialization')
+      install_boost_binary('test_exec_monitor')
+      if not os.path.exists(r'boost_python_2.7_cache.zip'):
+          puts(colored.yellow('Using a prepared version of boost python for Python 2.7. If you want to use the library with a different version of Python, you can, but will have to use a self-compiled version of boost with your specific Python.'))
+          urllib.urlretrieve('http://www.multimedia-computing.de/fertilized/files/cache/boost_python_2.7.zip',
+                             'boost_python_2.7.zip',
+                             download_reporthook)
+          bpcache_zip = zipfile.ZipFile('boost_python_2.7.zip')
+          bpcache_zip.extractall(path=r'nuget-deps\boost-compiled\stage\lib')
+      if WITH_CAFFE:
           install_boost_binary('chrono')
           install_boost_binary('date_time')
           install_boost_binary('filesystem')
-          install_boost_binary('serialization')
           install_boost_binary('system')
-          install_boost_binary('thread')
-          install_boost_binary('unit_test_framework')
-          install_boost_binary('wserialization')
-          install_boost_binary('test_exec_monitor')
-          if not os.path.exists(r'boost_python_2.7_cache.zip'):
-              puts(colored.yellow('Using a prepared version of boost python for Python 2.7. If you want to use the library with a different version of Python, you can, but will have to use a self-compiled version of boost with your specific Python.'))
-              urllib.urlretrieve('http://www.multimedia-computing.de/fertilized/files/cache/boost_python_2.7.zip',
-                                 'boost_python_2.7.zip',
-                                 download_reporthook)
-              bpcache_zip = zipfile.ZipFile('boost_python_2.7.zip')
-              bpcache_zip.extractall(path=r'nuget-deps\boost-compiled\stage\lib')
       BOOST_ROOT += '-compiled'
   if WITH_CAFFE:
     puts(colored.yellow('Installing additional CAFFE dependencies...'))
@@ -318,9 +320,10 @@ CONDALIST = ['jinja2', 'numpy']
 if WITH_PYTHON:
   CONDALIST.extend(['scipy', 'pillow', 'scikit-image', 'matplotlib', 'scikit-learn'])
 try:
-  print 'conda location: %s' % ('%sconda' % (BIN_FOLDER))
-  check_call(['where', '%sconda' % (BIN_FOLDER)], stdout=STDOUT, stderr=STDERR)
+  print 'conda location: %s' % ('%sconda.exe' % (BIN_FOLDER))
+  check_call(['where', '%sconda.exe' % (BIN_FOLDER)]) #, stdout=STDOUT, stderr=STDERR)
   CONDA_AVAILABLE = True
+  call(['dir', r'C:\Anaconda\Scripts'])
 except:
   CONDA_AVAILABLE = False
 if CONDA_AVAILABLE:
@@ -355,6 +358,7 @@ if not os.path.exists('scons-2.3.4.zip'):
         puts("Extracting...")
         protoc_zip = zipfile.ZipFile('scons-2.3.4.zip')
         protoc_zip.extractall(path='.')
+
         os.chdir('scons-2.3.4')
         puts("Installing...")
         check_call([sys.executable, 'setup.py', 'install'], stdout=STDOUT, stderr=STDERR)
