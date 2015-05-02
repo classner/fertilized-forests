@@ -1,92 +1,71 @@
 # Fertilized Forests Decision Forest library
 
-This project is currently being developed at the [Multimedia Computing
-and Computer Vision Lab](http://www.multimedia-computing.de) at the
-[University of Augsburg](http://www.uni-augsburg.de).
-
-You can find detailed information including API documentation on
-[http://www.fertilized-forests.org](http://www.fertilized-forests.org).
+The fertilized forests library is a general purpose, platform independent, easy
+to extend, Decision Forest library. You can find detailed information including 
+API documentation on [http://www.fertilized-forests.org](http://www.fertilized-forests.org).
 
 ## Build status
 
-The 'working' branch is `unstable`. Only versions that are completely tested
+The construction branch is `unstable`. Only versions that are completely tested
 get merged to `master`, so `master` is always always stable, with all tests passing and all builds running. The current status of `unstable` is as follows:
 
 * [![Build Status](https://travis-ci.org/ChrislS/fertilized-forests.svg?branch=unstable)](https://travis-ci.org/ChrislS/fertilized-forests) Build and tests, core library - Linux
-* [![Build status](https://ci.appveyor.com/api/projects/status/ypw6pxe1sp26hv62?svg=true)](https://ci.appveyor.com/project/ChrislS/fertilized-forests) Build and test, core library - Windows
-* [![Jenkins](https://img.shields.io/jenkins/s/http/www.christophlassner.de/jenkins/fertilized-continuous-release-caffe.svg)]() Build and tests, core library and caffe feature extraction
+* [![Build status](https://ci.appveyor.com/api/projects/status/ypw6pxe1sp26hv62?svg=true)](https://ci.appveyor.com/project/ChrislS/fertilized-forests) Build and tests, core library - Windows
+* [![Jenkins](https://img.shields.io/jenkins/s/http/www.christophlassner.de/jenkins/fertilized-continuous-release-caffe.svg)]() Build and tests, core library, Python interface and caffe feature extraction
 
-## Installation
+## Compilation & Installation
 
-For Windows, you can find a pre-compiled ready to use package to
-download [here](http://www.multimedia-computing.de/fertilized/pages/download.html).
+Since the library is quite versatile and can link against [caffe](http://caffe.berkeleyvision.org), it potentially has many dependencies. For
+your convenience, I created scripts for Windows with VS2013 and Linux to
+completely setup the build environment.
 
-For Linux and Mac OS, it is necessary to compile from source. Detailed
-instructions can be found [here](http://www.multimedia-computing.de/fertilized/pages/compiling.html),
-but I'll quickly sum up the steps for Ubuntu here:
+#### Windows
 
-* Install the prerequisites:
+The only remaining prerequisites are VS2013, a current Python 2.7 installation
+and git. To build, open a VS2013 x64 command prompt in admin mode and run 
 
-~~~~~
-# Workaround for Ubuntu 13.10 so that OpenCL (an OpenCV dependency)
-# does not pull in the nvidia drivers. Run only if you work on
-# Ubuntu 13.10 and you are not using the proprietary nvidia drivers.
-# http://askubuntu.com/questions/365897/how-to-install-opencv-without-nvidia-drivers
-sudo apt-get install ocl-icd-libopencl1
+    git clone https://github.com/ChrislS/fertilized-forests.git
+    cd fertilized-forests
+    setup_environment.bat
+    compile.bat
 
-# Install system dependencies.
-sudo apt-get install m4 doxygen libboost-all-dev libeigen3-dev \
-  python python-dev python-pip python-ply python-scipy \
-  python-numpy build-essential libopencv-dev scons
+The `setup_environment.bat` will ask you questions about what and how to build,
+so you can use your specific library versions if desired. The script creates
+the files `setup_paths.bat` and `compile.bat`, which are easy to read and
+modify. So even if you are using a different compiler than VS2013 you can
+run the script to produce the files and replace the libraries with your own
+ones.
 
-# Install Python dependencies.
-sudo pip install networkx
-sudo pip install jinja2 cppheaderparser pillow \
-  scikit-image matplotlib scikit-learn
-~~~~~
+#### Linux
 
-* Download the source from github:
+Similar to Windows, there's also a configuration script ready. On Linux,
+the requirements are a current Python 2.7 installation including pip.
+Then run with elevated privileges
 
-~~~~~
-git clone https://github.com/ChrislS/fertilized-forests.git
-cd fertilized-forests
-~~~~~
+    git clone https://github.com/ChrislS/fertilized-forests.git
+    cd fertilized-forests
+    setup_environment.sh
+    compile.sh
 
-* Get the required submodules:
+Similar to the Windows script, the script `setup_environment.sh` will create
+the executable files `setup_paths.sh` and `compile.sh`, which are simple
+to read and modify.
 
-~~~~~
-git submodule update --init --recursive
-~~~~~
+#### Mac OS and other
 
-* Set the EIGEN library include folder:
+Even though not 'supported', compilation on Mac OS and in other constellations
+should work. You can find detailed setup instructions on [the homepage](http://www.multimedia-computing.de/fertilized/pages/compiling.html).
 
-~~~~~
-# For older Ubuntu versions, this must be /usr/local/include/eigen3
-export EIGEN_ROOT=/usr/include/eigen3
-~~~~~
+## Troubleshooting
 
-* Compile and install
+There is an [FAQ page](http://www.multimedia-computing.de/fertilized/pages/faq-troubleshooting.html) on the homepage with many helpful tips. If configuring
+fails, always have a look at the file 'config.log'. If you want to see how
+environment setup in general works, see the files `appveyor.yaml` (Windows) or
+`.travis.yaml` (Linux).
 
-You can add `--jobs=X` to any of the scons build calls to speedup
-the build process.
+If all this fails or you find a bug, please submit it on github. Even if you
+find your experience worthy to share, don't hesitate to write so that I can
+add it to the FAQ page.
 
-~~~~~
-scons --generate-interfaces
-scons --with-serialization --with-tests --with-examples
-# Optional: install to your library and include folders
-sudo scons --with-serialization install
-# Optional: Matlab interface:
-export MATLAB_ROOT=/usr/local/MATLAB/R20XXc
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/MATLAB/R20XXc/bin/glnxa64
-scons --with-serialization --with-matlab
-# Optional: Python interface:
-scons --with-serialization --with-python
-cd pyfertilized && sudo python setup.py install && cd ..
-# Optional: generate the doxygen documentation
-scons --generate-documentation
-~~~~~
-
-_Hint_: On Linux, you might run into an issue about MATLAB not finding
-GLIBCXX_X.Y.ZZ. It's a known issue of MATLAB and easy to fix. You can
+_Hint_: When building with MATLAB on Linux, you might run into an issue about MATLAB not finding GLIBCXX_X.Y.ZZ. It's a known issue of MATLAB and easy to fix. You can
 find the solution [here](https://fantasticzr.wordpress.com/2013/05/29/matlab-error-libstdc-so-version-glibcxx_3-4-15-not-found/).
-
