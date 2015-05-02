@@ -24,7 +24,7 @@ install:
 build_script:
   - setup_environment.bat --quiet C:\Anaconda --nopy --nomat --nocaffe --nopath --cpu-only --suppress-caffe-model-download
   - setup_paths.bat
-  - C:\Anaconda\Scripts\scons --with-tests --with-examples
+  - C:\Anaconda\Scripts\scons --with-tests
   #- cd Presentation
   #- C:\Anaconda\python run_examples_as_tests.py /home/travis/WeizmannHorseDataset
   - cd fertilized_tests
