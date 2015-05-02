@@ -17,7 +17,8 @@ STDERR = open("setup-stderr.txt","wb")
 
 QUIET_MODE = len(sys.argv) > 1 and (sys.argv[1] == '--quiet')
 if QUIET_MODE:
-  BIN_FOLDER = sys.argv[2] + '\\'
+  BIN_FOLDER = sys.argv[2] + '\\Scripts\\'
+  print 'Using scripts folder at %s.' % (BIN_FOLDER)
 else:
   BIN_FOLDER = ''
 

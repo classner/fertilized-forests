@@ -22,7 +22,7 @@ install:
 #  - git submodule update --init --recursive
 
 build_script:
-  - setup_environment.bat --quiet C:\Anaconda\Scripts --nopy --nomat --nocaffe --nopath --cpu-only --suppress-caffe-model-download
+  - setup_environment.bat --quiet C:\Anaconda --nopy --nomat --nocaffe --nopath --cpu-only --suppress-caffe-model-download
   - C:\Anaconda\Scripts\scons --with-tests --with-examples
   #- cd Presentation
   #- C:\Anaconda\python run_examples_as_tests.py /home/travis/WeizmannHorseDataset

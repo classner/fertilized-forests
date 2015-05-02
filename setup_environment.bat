@@ -15,7 +15,6 @@ REM Check for elevated privileges.
 net session >nul 2>&1
 
 if %errorLevel% == 0 (
-
   REM Nothing to do here.
 ) else (
 
@@ -96,4 +95,8 @@ FOR %%i IN (%GITLOCATION%) DO IF EXIST %%~si goto :GITEXISTS
 
 REM ########################################################
 REM Entering Python layer.
-python setup_environment_windows.py %*
+if "%1" == "--quiet" (
+  %2\python setup_environment_windows.py %*
+) else (
+  python setup_environment_windows.py %*
+)
