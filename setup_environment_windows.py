@@ -87,6 +87,39 @@ def download_reporthook(count, block_size, total_size):
     sys.stdout.flush()
 
 #######################################
+# Python
+puts(colored.green('Installing Python modules...'))
+PIPLIST = ['networkx', 'cppheaderparser', 'ply', 'pypiwin32']
+CONDALIST = ['jinja2', 'numpy']
+if WITH_PYTHON:
+  CONDALIST.extend(['scipy', 'pillow', 'scikit-image', 'matplotlib', 'scikit-learn'])
+try:
+  print 'conda location: %s' % ('%sconda' % (BIN_FOLDER))
+  check_call(['where', ('%sconda' % (BIN_FOLDER)).replace('\\', '\\\\')]) #, stdout=STDOUT, stderr=STDERR)
+  CONDA_AVAILABLE = True
+  call(['dir', r'C:\\Anaconda\\Scripts'])
+except:
+  CONDA_AVAILABLE = False
+if CONDA_AVAILABLE:
+  puts(colored.green('conda detected! Using conda to install available packages.'))
+  check_call(['%sconda' % (BIN_FOLDER), 'update', '--yes', 'conda'], stdout=STDOUT, stderr=STDERR)
+else:
+  PIPLIST.extend(CONDALIST)
+  CONDALIST = []
+with indent(4):
+  for mname in CONDALIST:
+    puts("%s." % (mname))
+    check_call(['%sconda' % (BIN_FOLDER), 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
+  for mname in PIPLIST:
+    puts("%s." % (mname))
+    try:
+        check_call(['%spip' % (BIN_FOLDER), 'install', mname], stdout=STDOUT, stderr=STDERR)
+
+    except:
+        print "Installing %s using pip failed. Please try to install it yourself. If that's not possible, use the Anaconda Python distribution. In that case, this script will use the 'conda' installer, with which all packages can be installed for sure." % (mname)
+        sys.exit(1)
+
+#######################################
 # nuget
 puts(colored.green('Checking build tools...'))
 try:
@@ -311,38 +344,6 @@ with indent(4):
       if not os.path.exists(mean_filename):
         shutil.copyfile(os.path.abspath(str(orig_mean_file[0])),
                         mean_filename)
-
-#######################################
-# Python
-puts(colored.green('Installing Python modules...'))
-PIPLIST = ['networkx', 'cppheaderparser', 'ply', 'pypiwin32']
-CONDALIST = ['jinja2', 'numpy']
-if WITH_PYTHON:
-  CONDALIST.extend(['scipy', 'pillow', 'scikit-image', 'matplotlib', 'scikit-learn'])
-try:
-  print 'conda location: %s' % ('%sconda.exe' % (BIN_FOLDER))
-  check_call(['where', '%sconda.exe' % (BIN_FOLDER)]) #, stdout=STDOUT, stderr=STDERR)
-  CONDA_AVAILABLE = True
-  call(['dir', r'C:\Anaconda\Scripts'])
-except:
-  CONDA_AVAILABLE = False
-if CONDA_AVAILABLE:
-  puts(colored.green('conda detected! Using conda to install available packages.'))
-  check_call(['%sconda' % (BIN_FOLDER), 'update', '--yes', 'conda'], stdout=STDOUT, stderr=STDERR)
-else:
-  PIPLIST.extend(CONDALIST)
-  CONDALIST = []
-with indent(4):
-  for mname in CONDALIST:
-    puts("%s." % (mname))
-    check_call(['%sconda' % (BIN_FOLDER), 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
-  for mname in PIPLIST:
-    puts("%s." % (mname))
-    try:
-        check_call(['%spip' % (BIN_FOLDER), 'install', mname], stdout=STDOUT, stderr=STDERR)
-    except:
-        print "Installing %s using pip failed. Please try to install it yourself. If that's not possible, use the Anaconda Python distribution. In that case, this script will use the 'conda' installer, with which all packages can be installed for sure." % (mname)
-        sys.exit(1)
 
 #######################################
 # Scons
