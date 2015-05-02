@@ -127,8 +127,8 @@ with indent(4):
         sys.exit(1)
 
 #######################################
-# Scons
-# Scons must be installed from the homepage, since the version on pip is
+# SCons
+# SCons must be installed from the homepage, since the version on pip is
 # outdated and does not work with VS2013.
 puts(colored.green('Installing SCons 2.3.4...'))
 if not os.path.exists('scons-2.3.4.zip'):
@@ -422,6 +422,8 @@ OPENCV_ROOT = os.path.abspath(OPENCV_ROOT)
 EIGEN_ROOT = os.path.abspath(EIGEN_ROOT)
 if WITH_MATLAB:
   MATLAB_ROOT = os.path.abspath(MATLAB_ROOT)
+else:
+  MATLAB_ROOT = ''
 if WITH_CAFFE:
   HDF5_ROOT = os.path.abspath(HDF5_ROOT)
   HDF5_LIB = os.path.abspath(HDF5_LIB)
@@ -432,6 +434,16 @@ if WITH_CAFFE:
   PROTOBUF_INCLUDE_DIR = os.path.abspath(PROTOBUF_INCLUDE_DIR)
   PROTOBUF_LIB_DIR = os.path.abspath(PROTOBUF_LIB_DIR)
   PROTOC = os.path.abspath(PROTOC)
+else:
+  HDF5_ROOT = ''
+  HDF5_LIB = ''
+  HDF5_BIN = ''
+  OPENBLAS_ROOT = ''
+  OPENBLAS_LIB_DIR = ''
+  OPENBLAS_BIN_DIR = ''
+  PROTOBUF_INCLUDE_DIR = ''
+  PROTOBUF_LIB_DIR = ''
+  PROTOC = ''
 
 if WITH_MATLAB:
     matlab_code = r'set MATLAB_ROOT=%s' % (MATLAB_ROOT)
