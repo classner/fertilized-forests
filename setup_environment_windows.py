@@ -87,7 +87,8 @@ def download_reporthook(count, block_size, total_size):
     sys.stdout.flush()
 if QUIET_MODE:
   DOWNLOAD_HOOK = None
-else
+else:
+  DOWNLOAD_HOOK = download_reporthook
 
 
 #######################################
@@ -138,7 +139,8 @@ except:
   with indent(4):
       puts('nuget not found. Downloading...')
       urllib.urlretrieve('https://nuget.org/nuget.exe',
-                         'nuget.exe', download_reporthook)
+                         'nuget.exe',
+                          DOWNLOAD_HOOK)
 
 #######################################
 # General installation
@@ -191,7 +193,7 @@ def configure_package(name,
                 puts('Downloading...')
                 urllib.urlretrieve(download_url,
                                    download_filename,
-                                   download_reporthook)
+                                   DOWNLOAD_HOOK)
                 for command in install_commands:
                     check_call(command, stdout=STDOUT, stderr=STDERR)
             libpath = None
@@ -269,7 +271,7 @@ with indent(4):
           puts(colored.yellow('Using a prepared version of boost python for Python 2.7. If you want to use the library with a different version of Python, you can, but will have to use a self-compiled version of boost with your specific Python.'))
           urllib.urlretrieve('http://www.multimedia-computing.de/fertilized/files/cache/boost_python_2.7.zip',
                              'boost_python_2.7.zip',
-                             download_reporthook)
+                             DOWNLOAD_HOOK)
           bpcache_zip = zipfile.ZipFile('boost_python_2.7.zip')
           bpcache_zip.extractall(path=r'nuget-deps\boost-compiled\stage\lib')
       if WITH_CAFFE:
@@ -320,7 +322,7 @@ with indent(4):
       if not own and not os.path.exists(r'nuget-deps\hdf5'):
         urllib.urlretrieve('http://www.multimedia-computing.de/fertilized/files/cache/HDF5.zip',
                'HDF5.zip',
-               download_reporthook)
+               DOWNLOAD_HOOK)
         hdf5_zip = zipfile.ZipFile('hdf5.zip')
         os.mkdir(r'nuget-deps\hdf5')
         hdf5_zip.extractall(path=r'nuget-deps\hdf5')
@@ -339,7 +341,7 @@ with indent(4):
       if not os.path.exists(layer_filename):
         if not SUPPRESS_CAFFE_MODEL_DOWNLOAD:
           urllib.urlretrieve('http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel',
-                             layer_filename, download_reporthook)
+                             layer_filename, DOWNLOAD_HOOK)
         else:
           puts(colored.yellow('Caffe model download suppressed. You will have to manually install the "bvlc_alexnet.caffemodel" to %s.' % (layer_filename)))
       model_filename = os.path.join(alex_dir, 'alexnet_extraction.prototxt')
@@ -363,7 +365,7 @@ if not os.path.exists('scons-2.3.4.zip'):
         puts("Downloading...")
         urllib.urlretrieve('http://prdownloads.sourceforge.net/scons/scons-2.3.4.zip',
                            'scons-2.3.4.zip',
-                           download_reporthook)
+                           DOWNLOAD_HOOK)
         puts("Extracting...")
         protoc_zip = zipfile.ZipFile('scons-2.3.4.zip')
         protoc_zip.extractall(path='.')
