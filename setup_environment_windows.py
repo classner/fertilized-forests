@@ -398,7 +398,8 @@ puts(colored.green('Generating interfaces...'))
 if BIN_FOLDER == '':
     SCONS = Popen('where scons', stdout=PIPE).communicate()[0].strip()
 else:
-    SCONS = '%sscons' % (BIN_FOLDER)
+    SCONS = '%sscons.exe' % (BIN_FOLDER)
+print 'Using SCons at %s.' % (SCONS)
 check_call([SCONS, '--generate-interfaces'])
 # Cleanup
 if os.path.exists('config.log'):
