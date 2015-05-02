@@ -3,77 +3,14 @@ branches:
     - unstable
 
 install:
-  - set EIGEN_ROOT=C:\projects\fertilized-forests\deps\Eigen\build\native\include
-  - set BOOST_ROOT=C:\projects\fertilized-forests\deps\boost-compiled
-  - set HDF5_ROOT=C:\projects\fertilized-forests\deps\hdf5-v120\lib\native
-  - set HDF5_LIB_DIR=C:\projects\fertilized-forests\deps\hdf5-v120\lib\native\lib\x64
-  - set HDF5_INCLUDE_DIR=C:\projects\fertilized-forests\deps\hdf5-v120\lib\native\include
-  - set PATH=%PATH%;C:\projects\fertilized-forests\deps\hdf5-v120\lib\native\bin\x64
-  - set OPENBLAS_ROOT=C:\projects\fertilized-forests\deps\OpenBLAS\lib\native
-  - set OPENBLAS_INCLUDE_DIR=C:\projects\fertilized-forests\deps\OpenBLAS\lib\native\include
-  - set OPENBLAS_LIB_DIR=C:\projects\fertilized-forests\deps\OpenBLAS\lib\native\lib\x64
-  - set PATH=%PATH%;C:\projects\fertilized-forests\deps\OpenBLAS\lib\native\bin\x64
-  - set OPENCV_ROOT=C:\projects\fertilized-forests\deps\opencv\build
-  - set OPENCV_VERSION=2411
-  - set OPENCV_LIB_DIR=C:\projects\fertilized-forests\deps\opencv\build\x64\vc12\lib
-  - set PATH=%PATH%;C:\projects\fertilized-forests\deps\opencv\build\x64\vc12\bin
-  - set PROTOBUF_ROOT=C:\projects\fertilized-forests\deps\protobuf-v120\build\native
-  - set PROTOBUF_LIB_DIR=C:\projects\fertilized-forests\deps\protobuf-v120\build\native\lib\x64\v120\Release
-  - set PROTOBUF_INCLUDE_DIR=C:\projects\fertilized-forests\deps\protobuf-v120\build\native\include
-  - set PROTOC=C:\projects\fertilized-forests\deps\protoc\protoc.exe
-  - set ANACONDA_ROOT=C:\Anaconda
+   - set ANACONDA_ROOT=C:\Anaconda
   - set ANACONDA_BIN=%ANACONDA_ROOT%\bin
   ## miniconda
   - appveyor DownloadFile http://repo.continuum.io/miniconda/Miniconda-latest-Windows-x86_64.exe
   - Miniconda-latest-Windows-x86_64.exe /S /D=C:\Anaconda
   - cd C:\projects\fertilized-forests
   - C:\Anaconda\Scripts\conda update --yes --quiet conda
-  - C:\Anaconda\Scripts\conda install --yes --quiet pip scipy scikit-image scikit-learn jinja2 matplotlib pillow scons numpy
-  ## Python
-  - C:\Anaconda\Scripts\pip install networkx
-  - C:\Anaconda\Scripts\pip install cppheaderparser
-  - C:\Anaconda\Scripts\pip install ply
-  - C:\Anaconda\Scripts\pip install pypiwin32 --allow-external pywin32 --allow-unverified pywin32
-  - mkdir deps
-  ## Eigen
-  - nuget install Eigen -OutputDirectory deps -ExcludeVersion
-  ## Boost
-  - mkdir deps\boost-compiled
-  - nuget install boost -OutputDirectory deps -ExcludeVersion
-  - cd deps\boost\lib
-  - dir
-  - cd ..\..\..
-  - copy deps\boost\lib\native\include\* deps\boost-compiled\
-  - mkdir deps\boost-compiled\stage
-  - mkdir deps\boost-compiled\stage\lib
-  - nuget install boost_chrono-vc120 -OutputDirectory deps -ExcludeVersion
-  - move deps\boost_chrono-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib\
-  - nuget install boost_date_time-vc120 -OutputDirectory deps -ExcludeVersion
-  - move deps\boost_date_time-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
-  - nuget install boost_serialization-vc120 -OutputDirectory deps -ExcludeVersion
-  - move deps\boost_serialization-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
-  - nuget install boost_system-vc120 -OutputDirectory deps -ExcludeVersion
-  - move deps\boost_system-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
-  - nuget install boost_thread-vc120 -OutputDirectory deps -ExcludeVersion
-  - move deps\boost_thread-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
-  - nuget install boost_unit_test_framework-vc120 -OutputDirectory deps -ExcludeVersion
-  - move deps\boost_unit_test_framework-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
-  - nuget install boost_wserialization-vc120 -OutputDirectory deps -ExcludeVersion
-  - move deps\boost_wserialization-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
-  - nuget install boost_test_exec_monitor-vc120 -OutputDirectory deps -ExcludeVersion
-  - move deps\boost_test_exec_monitor-vc120\lib\native\address-model64\lib\* deps\boost-compiled\stage\lib
-  ## HDF5
-  - nuget install hdf5-v120 -OutputDirectory deps -ExcludeVersion
-  ## OpenBLAS
-  - nuget install OpenBLAS -OutputDirectory deps -ExcludeVersion
-  - move deps\OpenBLAS\lib\native\lib\x64\libopenblas.dll.a deps\OpenBLAS\lib\native\lib\x64\libopenblas.dll.a.lib
-  ## OpenCV
-  - appveyor DownloadFile http://downloads.sourceforge.net/project/opencvlibrary/opencv-win/2.4.11/opencv-2.4.11.exe
-  - opencv-2.4.11.exe -o".\deps" -y
-  ## Protobuf
-  - nuget install protobuf-v120 -Version 2.6.1 -OutputDirectory deps -ExcludeVersion
-  - appveyor DownloadFile https://github.com/google/protobuf/releases/download/v2.6.1/protoc-2.6.1-win32.zip
-  - ps: foreach($item in $shell.NameSpace(“protoc-2.6.1-win32.zip”).items()){ $shell.Namespace(“deps\protoc”).copyhere($item) }
+  - C:\Anaconda\Scripts\conda install --yes --quiet pip
   ## Dataset
   ## - wget jamie.shotton.org/work/data/WeizmannMultiScale.zip
   ## - unzip WeizmannMultiScale.zip -d WeizmannHorseDataset
@@ -81,20 +18,20 @@ install:
   - vcvarsall.bat amd64
   - cd C:\projects\fertilized-forests
 
-before_build:
-  - git submodule update --init --recursive
+#before_build:
+#  - git submodule update --init --recursive
 
 build_script:
-  - C:\Anaconda\Scripts\scons --generate-interfaces
-  - C:\Anaconda\Scripts\scons --with-serialization --with-tests --with-examples --with-python --with-caffe --cpu-only --caffe-model-dir=/home/travis/caffe-models
-  - cd fertilized_tests
-  - fertilized_tests --run_test=Correctness*/*
-  - cd ..
-  - cd Presentation
-  - C:\Anaconda\python run_examples_as_tests.py /home/travis/WeizmannHorseDataset
+  - setup_environment.bat --quiet --nopy --nomat --nocaffe --nopath --cpu-only --suppress-caffe-model-download
+  - C:\Anaconda\Scripts\scons --with-tests --with-examples
+  #- cd Presentation
+  #- C:\Anaconda\python run_examples_as_tests.py /home/travis/WeizmannHorseDataset
 
 on_failure:
   - type config.log
 
-test_script: echo Tests
+test_script:
+  - cd fertilized_tests
+  - fertilized_tests --run_test=Correctness*/*
+  - cd ..
 
