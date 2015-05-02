@@ -85,6 +85,10 @@ def download_reporthook(count, block_size, total_size):
     sys.stdout.write("\r...%d%%, %d MB, %d KB/s, %d seconds passed" %
                     (percent, progress_size / (1024 * 1024), speed, duration))
     sys.stdout.flush()
+if QUIET_MODE:
+  DOWNLOAD_HOOK = None
+else
+
 
 #######################################
 # Python
@@ -95,21 +99,25 @@ if WITH_PYTHON:
   CONDALIST.extend(['scipy', 'pillow', 'scikit-image', 'matplotlib', 'scikit-learn'])
 try:
   print 'conda location: %s' % ('%sconda' % (BIN_FOLDER))
-  check_call(['where', ('%sconda' % (BIN_FOLDER)).replace('\\', '\\\\')]) #, stdout=STDOUT, stderr=STDERR)
-  CONDA_AVAILABLE = True
-  call(['dir', r'C:\\Anaconda\\Scripts'])
+  if os.path.exists('%sconda.exe' % (BIN_FOLDER)):
+     CONDA_AVAILABLE = True
+     CONDA = '%sconda.exe' % (BIN_FOLDER)
+  else:
+     check_call(['where', 'conda'], stdout=STDOUT, stderr=STDERR)
+     CONDA_AVAILABLE = True
+     CONDA = 'conda'
 except:
   CONDA_AVAILABLE = False
 if CONDA_AVAILABLE:
   puts(colored.green('conda detected! Using conda to install available packages.'))
-  check_call(['%sconda' % (BIN_FOLDER), 'update', '--yes', 'conda'], stdout=STDOUT, stderr=STDERR)
+  check_call([CONDA, 'update', '--yes', 'conda'], stdout=STDOUT, stderr=STDERR)
 else:
   PIPLIST.extend(CONDALIST)
   CONDALIST = []
 with indent(4):
   for mname in CONDALIST:
     puts("%s." % (mname))
-    check_call(['%sconda' % (BIN_FOLDER), 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
+    check_call([CONDA, 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
   for mname in PIPLIST:
     puts("%s." % (mname))
     try:
