@@ -21,6 +21,14 @@ if QUIET_MODE:
   print 'Using scripts folder at %s.' % (BIN_FOLDER)
 else:
   BIN_FOLDER = ''
+if BIN_FOLDER == '':
+    SCONS = Popen('where scons', stdout=PIPE).communicate()[0].strip()
+else:
+    SCONS = '%sscons.bat' % (BIN_FOLDER)
+print 'Using SCons at %s.' % (SCONS)
+if not os.path.exists(SCONS):
+    print 'The SCons path is not valid! Exiting.'
+    sys.exit(1)
 
 #######################################
 # Check for CLINT
@@ -395,11 +403,6 @@ check_call([r'C:\\Program Files (x86)\\Git\\bin\\git.exe', 'submodule', 'update'
 #######################################
 # Generating interfaces
 puts(colored.green('Generating interfaces...'))
-if BIN_FOLDER == '':
-    SCONS = Popen('where scons', stdout=PIPE).communicate()[0].strip()
-else:
-    SCONS = '%sscons.exe' % (BIN_FOLDER)
-print 'Using SCons at %s.' % (SCONS)
 check_call([SCONS, '--generate-interfaces'])
 # Cleanup
 if os.path.exists('config.log'):
