@@ -299,6 +299,9 @@ with indent(4):
       install_boost_binary('wserialization')
       install_boost_binary('test_exec_monitor')
       install_boost_binary('system')
+      install_boost_binary('filesystem')
+      install_boost_binary('chrono')
+      install_boost_binary('date_time')
       if not os.path.exists(r'boost_python_2.7_cache.zip'):
           puts(colored.yellow('Using a prepared version of boost python for Python 2.7. If you want to use the library with a different version of Python, you can, but will have to use a self-compiled version of boost with your specific Python.'))
           urllib.urlretrieve('http://www.multimedia-computing.de/fertilized/files/cache/boost_python_2.7.zip',
@@ -306,10 +309,6 @@ with indent(4):
                              DOWNLOAD_HOOK)
           bpcache_zip = zipfile.ZipFile('boost_python_2.7.zip')
           bpcache_zip.extractall(path=r'nuget-deps\boost-compiled\stage\lib')
-      if WITH_CAFFE:
-          install_boost_binary('chrono')
-          install_boost_binary('date_time')
-          install_boost_binary('filesystem')
       BOOST_ROOT += '-compiled'
   if WITH_CAFFE:
     puts(colored.yellow('Installing additional CAFFE dependencies...'))
