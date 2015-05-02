@@ -21,14 +21,6 @@ if QUIET_MODE:
   print 'Using scripts folder at %s.' % (BIN_FOLDER)
 else:
   BIN_FOLDER = ''
-if BIN_FOLDER == '':
-    SCONS = Popen('where scons', stdout=PIPE).communicate()[0].strip()
-else:
-    SCONS = '%sscons.bat' % (BIN_FOLDER)
-print 'Using SCons at %s.' % (SCONS)
-if not os.path.exists(SCONS):
-    print 'The SCons path is not valid! Exiting.'
-    sys.exit(1)
 
 #######################################
 # Check for CLINT
@@ -133,6 +125,37 @@ with indent(4):
     except:
         print "Installing %s using pip failed. Please try to install it yourself. If that's not possible, use the Anaconda Python distribution. In that case, this script will use the 'conda' installer, with which all packages can be installed for sure." % (mname)
         sys.exit(1)
+
+#######################################
+# Scons
+# Scons must be installed from the homepage, since the version on pip is
+# outdated and does not work with VS2013.
+puts(colored.green('Installing SCons 2.3.4...'))
+if not os.path.exists('scons-2.3.4.zip'):
+    with indent(4):
+        puts("Downloading...")
+        urllib.urlretrieve('http://prdownloads.sourceforge.net/scons/scons-2.3.4.zip',
+                           'scons-2.3.4.zip',
+                           DOWNLOAD_HOOK)
+        puts("Extracting...")
+        protoc_zip = zipfile.ZipFile('scons-2.3.4.zip')
+        protoc_zip.extractall(path='.')
+        os.chdir('scons-2.3.4')
+        puts("Installing...")
+        check_call([sys.executable, 'setup.py', 'install'], stdout=STDOUT, stderr=STDERR)
+        os.chdir('..')
+else:
+    with indent(4):
+        puts("scons-2.3.4.zip detected. Skipping.")
+
+if BIN_FOLDER == '':
+    SCONS = Popen('where scons', stdout=PIPE).communicate()[0].strip()
+else:
+    SCONS = '%sscons.bat' % (BIN_FOLDER)
+print 'Using SCons at %s.' % (SCONS)
+if not os.path.exists(SCONS):
+    print 'The SCons path is not valid! Exiting.'
+    sys.exit(1)
 
 #######################################
 # nuget
@@ -362,29 +385,6 @@ with indent(4):
       if not os.path.exists(mean_filename):
         shutil.copyfile(os.path.abspath(str(orig_mean_file[0])),
                         mean_filename)
-
-#######################################
-# Scons
-# Scons must be installed from the homepage, since the version on pip is
-# outdated and does not work with VS2013.
-puts(colored.green('Installing SCons 2.3.4...'))
-if not os.path.exists('scons-2.3.4.zip'):
-    with indent(4):
-        puts("Downloading...")
-        urllib.urlretrieve('http://prdownloads.sourceforge.net/scons/scons-2.3.4.zip',
-                           'scons-2.3.4.zip',
-                           DOWNLOAD_HOOK)
-        puts("Extracting...")
-        protoc_zip = zipfile.ZipFile('scons-2.3.4.zip')
-        protoc_zip.extractall(path='.')
-
-        os.chdir('scons-2.3.4')
-        puts("Installing...")
-        check_call([sys.executable, 'setup.py', 'install'], stdout=STDOUT, stderr=STDERR)
-        os.chdir('..')
-else:
-    with indent(4):
-        puts("scons-2.3.4.zip detected. Skipping.")
 
 #######################################
 # MATLAB
