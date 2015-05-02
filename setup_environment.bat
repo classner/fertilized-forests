@@ -24,7 +24,6 @@ if %errorLevel% == 0 (
   exit 1
 )
 
-
 REM ########################################################
 REM Check for Python and pip.
 where python >nul 2>&1
@@ -38,6 +37,7 @@ if %errorLevel% == 0 (
   exit 1
 )
 
+if "%1" == "--quiet" goto PIPCHECKCOMPLETE
 where pip >nul 2>&1
 if %errorLevel% == 0 (
   REM Nothing to do here.
@@ -52,6 +52,7 @@ if %errorLevel% == 0 (
   pause
   exit 1
 )
+:PIPCHECKCOMPLETE
 
 REM ########################################################
 REM Check for x64 cl.

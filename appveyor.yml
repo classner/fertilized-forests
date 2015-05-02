@@ -35,3 +35,6 @@ test_script:
   - fertilized_tests --run_test=Correctness*/*
   - cd ..
 
+cache:
+  - Miniconda-latest-Windows-x86_64.exe
+
