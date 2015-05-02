@@ -19,7 +19,9 @@ BOOST_AUTO_TEST_CASE(Correctness_Basic) {
   }
   X[view()(0)] = copy(range);
   Array<unsigned int, 2,2> Y = allocate(10, 1);
-  Y[view()(0)] = copy(range);
+  for (unsigned int i = 0; i < 10; ++i) {
+    Y[i] = i;
+  }
   auto soil = Soil<double, double, double, Result_Types::probabilities>();
   auto tf = soil.StandardClassificationForest(10, 2);
   tf -> fit(X, Y);

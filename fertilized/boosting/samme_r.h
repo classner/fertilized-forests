@@ -105,7 +105,7 @@ namespace fertilized {
                     for(uint classIndex = 0; classIndex < result.size(); ++classIndex) {
                         weight += -1.f*((static_cast<float>(n_classes)-1.f)/static_cast<float>(n_classes)) *
                                 (classIndex == y ? 1.f : -1.f/(static_cast<float>(n_classes)-1.f)) *
-                                (result[classIndex] == 0 ? std::log(1e-5) : std::log(result[classIndex]));
+                                (result[classIndex] == 0.f ? std::log(1e-5f) : std::log(result[classIndex]));
                     }
                     samples->at(sampleIndex).weight *= (samples->at(sampleIndex).weight > 0 || estimator_weight < 0) ?
                                 std::exp(learning_rate * weight) : 1.f;
@@ -124,8 +124,8 @@ namespace fertilized {
                     boostingleafmanager->set_weight_function(treeIndex, [n_classes](std::vector<float> input)->std::vector<float>{
                         std::vector<float> output(n_classes);
                         float mean = 0.f;
-                        for(uint k; k < n_classes; ++k) mean+=(input[k] == 0 ? std::log(1e-5) : std::log(input[k])/static_cast<float>(n_classes));
-                        for(uint k; k < n_classes; ++k) output[k] = (input[k] == 0 ? std::log(1e-5) : std::log(input[k]))-mean;
+                        for(uint k = 0U; k < n_classes; ++k) mean+=(input[k] == 0.f ? std::log(1e-5f) : std::log(input[k])/static_cast<float>(n_classes));
+                        for(uint k = 0U; k < n_classes; ++k) output[k] = (input[k] == 0.f ? std::log(1e-5f) : std::log(input[k]))-mean;
                         return output;
                     });
                 }
@@ -162,3 +162,4 @@ namespace fertilized {
 };  // namespace fertilized
 
 #endif  // FERTILIZED_BOOSTING_SAMME_R_H_
+

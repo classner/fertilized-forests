@@ -113,7 +113,7 @@ namespace fertilized {
                     annotation_dtype y = *samples->at(sampleIndex).annotation;
                     std::vector<float> output = trees[treeIndex]->predict_leaf_result(samples->at(sampleIndex).data);
                     for(uint classIndex = 0; classIndex < n_classes; ++classIndex) {
-                        hypothesis[sampleIndex][classIndex] = output[classIndex] * (classIndex == y ? 0.5 : weightVector[sampleIndex][classIndex]);
+                        hypothesis[sampleIndex][classIndex] = output[classIndex] * (classIndex == y ? 0.5f : weightVector[sampleIndex][classIndex]);
                     }
                     float questionSum = 0.f;
                     for(uint classIndex = 0; classIndex < n_classes; ++classIndex) {
@@ -129,7 +129,7 @@ namespace fertilized {
                 for(int sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex) {
                     annotation_dtype y = *samples->at(sampleIndex).annotation;
                     for(uint classIndex = 0; classIndex < n_classes; ++classIndex) {
-                        weightVector[classIndex][sampleIndex] *=std::pow(beta, 0.5*(1+hypothesis[sampleIndex][y]-hypothesis[sampleIndex][classIndex]));
+                        weightVector[classIndex][sampleIndex] *= std::pow(beta, 0.5f*(1.f+hypothesis[sampleIndex][y]-hypothesis[sampleIndex][classIndex]));
                     }
                 }
 
@@ -137,7 +137,7 @@ namespace fertilized {
                 if(boostingleafmanager != nullptr) {
                     boostingleafmanager->set_weight_function(treeIndex, [n_classes,beta](std::vector<float> input)->std::vector<float>{
                         std::vector<float> output(n_classes);
-                        for(uint k; k < n_classes; ++k) output[k] = input[k]*std::log(1.f/beta);
+                        for(uint k = 0U; k < n_classes; ++k) output[k] = input[k]*std::log(1.f/beta);
                         return output;
                     });
                 }
@@ -171,3 +171,4 @@ namespace fertilized {
 };  // namespace fertilized
 
 #endif  // FERTILIZED_BOOSTING_ADABOOST_H_
+

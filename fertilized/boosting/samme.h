@@ -134,7 +134,7 @@ namespace fertilized {
                 if(boostingleafmanager != nullptr) {
                     boostingleafmanager->set_weight_function(treeIndex, [n_classes,estimator_weight](std::vector<float> input)->std::vector<float>{
                         std::vector<float> output(n_classes);
-                        for(uint k; k < n_classes; ++k) output[k] = input[k]*estimator_weight;
+                        for(uint k = 0U; k < n_classes; ++k) output[k] = input[k]*estimator_weight;
                         return output;
                     });
                 }
@@ -171,3 +171,4 @@ namespace fertilized {
 };  // namespace fertilized
 
 #endif  // FERTILIZED_BOOSTING_SAMME_H_
+

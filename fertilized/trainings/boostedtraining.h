@@ -95,9 +95,26 @@ namespace fertilized {
             auto usage_map = bagging_strategy.get_initial_split(trees.size(), fdata_provider);
             fdata_provider->create_tree_providers(trees.size(), usage_map);
 
-            //Let the chosen boosting strategy perform the training
-            boosting_strategy->perform(trees, fdata_provider, exec_strategy, trees[0]->get_leaf_manager()->get_summary_dimensions(0));
-        }
+            // Get the leaf manager
+            uint n_classes;
+            auto leaf_manager = trees[0] -> get_leaf_manager();
+            const auto *lm_ptr = dynamic_cast<ClassificationLeafManager<input_dtype,
+                                                                        annotation_dtype> const *>(leaf_manager.get());
+            if (lm_ptr == nullptr) {
+              const auto *blm_ptr = dynamic_cast<BoostingLeafManager<input_dtype,
+                                                                     annotation_dtype> const *>(leaf_manager.get());
+              if (blm_ptr == nullptr) {
+                throw Fertilized_Exception("Neither a ClassificationLeafManager nor a BoostingLeafManager is used."
+                  "The boosted training cannot deal with other leaf managers!");
+              } else {
+                n_classes = blm_ptr -> get_n_classes();
+              }
+            } else {
+              n_classes = lm_ptr -> get_n_classes();
+            }
+              //Let the chosen boosting strategy perform the training
+              boosting_strategy->perform(trees, fdata_provider, exec_strategy, n_classes);
+            }
 
         /**
         * \brief Include additional samples; Boosted training does not support this.
@@ -154,3 +171,4 @@ namespace fertilized {
 }  // namespace fertilized
 
 #endif // FERTILIZED_TRAININGS_BOOSTEDTRAINING_H_
+

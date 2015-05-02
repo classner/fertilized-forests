@@ -164,21 +164,13 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme) {
 
     Array<float, 2, 2> new_data = allocate(10, 2);
     float *raw_data = new_data.getData();
-    std::iota(raw_data, raw_data+10, 0.f);
-    std::iota(raw_data+10, raw_data+20, 0.f);
+    for (int i = 0; i < 20; ++i)
+      raw_data[i] = i / 2;
 
-    auto predictions = forest->predict(new_data);
-
-    BOOST_REQUIRE(predictions[0][0] == predictions[0][1]);
-    BOOST_REQUIRE(predictions[1][0] < predictions[1][1]);
-    BOOST_REQUIRE(predictions[2][0] < predictions[2][1]);
-    BOOST_REQUIRE(predictions[3][0] < predictions[3][1]);
-    BOOST_REQUIRE(predictions[4][0] < predictions[4][1]);
-    BOOST_REQUIRE(predictions[5][0] == predictions[5][1]);
-    BOOST_REQUIRE(predictions[6][0] < predictions[6][1]);
-    BOOST_REQUIRE(predictions[7][0] < predictions[7][1]);
-    BOOST_REQUIRE(predictions[8][0] < predictions[8][1]);
-    BOOST_REQUIRE(predictions[9][0] < predictions[9][1]);
+    auto predictions = forest -> predict(new_data);
+    BOOST_REQUIRE(predictions[0][0] == 1.);
+    for (int i = 1; i < 10; ++i)
+      BOOST_REQUIRE(predictions[i][0] == 0.);
 }
 
 //---------------------------------------------------------------------------//
@@ -234,21 +226,13 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme_R) {
 
     Array<float, 2, 2> new_data = allocate(10, 2);
     float *raw_data = new_data.getData();
-    std::iota(raw_data, raw_data+10, 0.f);
-    std::iota(raw_data+10, raw_data+20, 0.f);
+    for (int i = 0; i < 20; ++i)
+      raw_data[i] = i / 2;
 
-    auto predictions = forest->predict(new_data);
-
-    BOOST_REQUIRE(predictions[0][0] == predictions[0][1]);
-    BOOST_REQUIRE(predictions[1][0] < predictions[1][1]);
-    BOOST_REQUIRE(predictions[2][0] < predictions[2][1]);
-    BOOST_REQUIRE(predictions[3][0] < predictions[3][1]);
-    BOOST_REQUIRE(predictions[4][0] < predictions[4][1]);
-    BOOST_REQUIRE(predictions[5][0] == predictions[5][1]);
-    BOOST_REQUIRE(predictions[6][0] < predictions[6][1]);
-    BOOST_REQUIRE(predictions[7][0] < predictions[7][1]);
-    BOOST_REQUIRE(predictions[8][0] < predictions[8][1]);
-    BOOST_REQUIRE(predictions[9][0] < predictions[9][1]);
+    auto predictions = forest -> predict(new_data);
+    BOOST_REQUIRE(predictions[0][0] == 1.);
+    for (int i = 1; i < 10; ++i)
+      BOOST_REQUIRE(predictions[i][0] == 0.);
 }
 
 BOOST_AUTO_TEST_SUITE_END();

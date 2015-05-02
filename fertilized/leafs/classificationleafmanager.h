@@ -87,7 +87,7 @@ namespace fertilized {
       auto sample_list_ref = data_provider.get_samples();
 
       for (const auto &element_id : element_list) {
-        distribution[ *(*sample_list_ref)[ element_id ].annotation ] += 1.f;
+        distribution[ static_cast<const size_t>(*(*sample_list_ref)[ element_id ].annotation) ] += 1.f;
       }
       FASSERT(total > 0.f);
       // Normalize with the total count.
@@ -208,6 +208,11 @@ namespace fertilized {
       // Interpret as foreground probability.
       result[write_y][write_x] = forest_result[1];
     };
+    
+    /** Gets the number of classes. */
+    unsigned int get_n_classes() const {
+      return n_classes;
+    };
 
 #ifdef SERIALIZATION_ENABLED
     friend class boost::serialization::access;
@@ -228,3 +233,4 @@ namespace fertilized {
   };
 };  // namespace fertilized
 #endif  // FERTILIZED_LEAFS_CLASSIFICATIONLEAFMANAGER_H_
+

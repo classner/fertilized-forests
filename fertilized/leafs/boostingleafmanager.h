@@ -89,7 +89,7 @@ namespace fertilized {
     }
 
     /** Set a weight function */
-    void set_weight_function(uint tree_id, std::function<std::vector<float>(std::vector<float>)> function) {
+    void set_weight_function(size_t tree_id, std::function<std::vector<float>(std::vector<float>)> function) {
         weight_functions[tree_id] = function;
     }
 
@@ -114,6 +114,11 @@ namespace fertilized {
         return n_classes == rhs_c -> n_classes &&
                weight_functions.size() == rhs_c -> weight_functions.size();
     };
+    
+    /** Gets the number of classes. */
+    unsigned int get_n_classes() const {
+      return n_classes;
+    }
 
 #ifdef SERIALIZATION_ENABLED
     friend class boost::serialization::access;
@@ -133,3 +138,4 @@ namespace fertilized {
   };
 };  // namespace fertilized
 #endif  // FERTILIZED_LEAFS_BOOSTINGLEAFMANAGER_H_
+
