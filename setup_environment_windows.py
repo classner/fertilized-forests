@@ -318,6 +318,7 @@ CONDALIST = ['jinja2', 'numpy']
 if WITH_PYTHON:
   CONDALIST.extend(['scipy', 'pillow', 'scikit-image', 'matplotlib', 'scikit-learn'])
 try:
+  print 'conda location: %s' % ('%sconda' % (BIN_FOLDER))
   check_call(['where', '%sconda' % (BIN_FOLDER)], stdout=STDOUT, stderr=STDERR)
   CONDA_AVAILABLE = True
 except:
