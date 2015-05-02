@@ -90,7 +90,6 @@ if QUIET_MODE:
 else:
   DOWNLOAD_HOOK = download_reporthook
 
-
 #######################################
 # Python
 puts(colored.green('Installing Python modules...'))
@@ -99,7 +98,6 @@ CONDALIST = ['jinja2', 'numpy']
 if WITH_PYTHON:
   CONDALIST.extend(['scipy', 'pillow', 'scikit-image', 'matplotlib', 'scikit-learn'])
 try:
-  print 'conda location: %s' % ('%sconda' % (BIN_FOLDER))
   if os.path.exists('%sconda.exe' % (BIN_FOLDER)):
      CONDA_AVAILABLE = True
      CONDA = '%sconda.exe' % (BIN_FOLDER)
@@ -190,12 +188,14 @@ def configure_package(name,
                 with indent(4):
                     puts('Download file %s detected. Skipping.' % (download_filename))
             else:
-                puts('Downloading...')
-                urllib.urlretrieve(download_url,
-                                   download_filename,
-                                   DOWNLOAD_HOOK)
-                for command in install_commands:
-                    check_call(command, stdout=STDOUT, stderr=STDERR)
+                with indent(4):
+                    puts('Downloading...')
+                    urllib.urlretrieve(download_url,
+                                       download_filename,
+                                       DOWNLOAD_HOOK)
+                    puts('Installing...')
+                    for command in install_commands:
+                        check_call(command, stdout=STDOUT, stderr=STDERR)
             libpath = None
         else:
             if os.path.exists(os.path.join('nuget-deps', name)):
@@ -395,7 +395,10 @@ check_call([r'C:\\Program Files (x86)\\Git\\bin\\git.exe', 'submodule', 'update'
 #######################################
 # Generating interfaces
 puts(colored.green('Generating interfaces...'))
-SCONS = Popen('where scons', stdout=PIPE).communicate()[0].strip()
+if BIN_FOLDER = '':
+    SCONS = Popen('where scons', stdout=PIPE).communicate()[0].strip()
+else:
+    SCONS = '%sscons' % (BIN_FOLDER)
 check_call([SCONS, '--generate-interfaces'])
 # Cleanup
 if os.path.exists('config.log'):
