@@ -11,22 +11,14 @@ install:
   - cd C:\projects\fertilized-forests
   - C:\Anaconda\Scripts\conda update --yes --quiet conda
   - C:\Anaconda\Scripts\conda install --yes --quiet pip
-  ## Dataset
-  ## - wget jamie.shotton.org/work/data/WeizmannMultiScale.zip
-  ## - unzip WeizmannMultiScale.zip -d WeizmannHorseDataset
   - cd "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC"
   - vcvarsall.bat amd64
   - cd C:\projects\fertilized-forests
-
-#before_build:
-#  - git submodule update --init --recursive
 
 build_script:
   - setup_environment.bat --quiet C:\Anaconda --nopy --nomat --nocaffe --nopath --cpu-only --suppress-caffe-model-download
   - setup_paths.bat
   - C:\Anaconda\Scripts\scons --with-tests
-  #- cd Presentation
-  #- C:\Anaconda\python run_examples_as_tests.py /home/travis/WeizmannHorseDataset
   - cd fertilized_tests
   - fertilized_tests --run_test=Correctness*/*
   - cd ..

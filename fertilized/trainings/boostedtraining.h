@@ -19,6 +19,8 @@
 #include "../execution_strategies/iexecutionstrategy.h"
 #include "../execution_strategies/trainingaction.h"
 #include "../data_providers/iforestdataprovider.h"
+#include "../leafs/boostingleafmanager.h"
+#include "../leafs/classificationleafmanager.h"
 #include "./itraining.h"
 
 namespace fertilized {
