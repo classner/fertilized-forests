@@ -1,4 +1,5 @@
 @echo off
+cd ..
 echo Refreshing ndarray.
 start /wait cmd /C "scons --generate-ndarray"
 echo Refreshing interfaces.

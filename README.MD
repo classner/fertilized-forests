@@ -54,7 +54,7 @@ to read and modify.
 #### Mac OS and other
 
 Even though not 'supported', compilation on Mac OS and in other constellations
-should work. You can find detailed setup instructions on [the homepage](http://www.multimedia-computing.de/fertilized/pages/compiling.html).
+should work. You can find general setup instructions on [the homepage](http://www.multimedia-computing.de/fertilized/pages/compiling.html).
 
 ## Troubleshooting
 

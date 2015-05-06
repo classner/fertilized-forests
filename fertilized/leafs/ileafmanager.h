@@ -92,6 +92,7 @@ namespace fertilized {
       VIRTUAL(size_t);
 
     /** Creates a summarized result vector from a tree result. */
+    // cppcheck-suppress clarifyCondition
     virtual void summarize_tree_result(const leaf_return_dtype &tree_result,
                                        const ArrayRef<double, 1, 1> &result_row)
       const VIRTUAL_VOID;
@@ -102,6 +103,7 @@ namespace fertilized {
       const VIRTUAL_VOID;
 
     /** Adds a tree prediction to an image, if supported. */
+    // cppcheck-suppress clarifyCondition
     virtual void add_tree_prediction_to_image(const leaf_return_dtype &tree_result,
                                               const Array<float, 2, 2> &result,
                                               const size_t &write_x,
