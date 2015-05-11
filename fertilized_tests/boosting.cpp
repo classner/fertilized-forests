@@ -119,7 +119,11 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_AdaBoost) {
 
     auto predictions = forest->predict(new_X);
 
-    BOOST_CHECK_EQUAL(static_cast<uint>(f1_score(new_Y, predictions)*1000.f), 980);
+#ifdef _WIN32
+    BOOST_CHECK_EQUAL(static_cast<uint>(f1_score(new_Y, predictions)*100000.f), 98000);
+#else
+    BOOST_CHECK_EQUAL(static_cast<uint>(f1_score(new_Y, predictions)*100000.f), 98000);
+#endif
 }
 
 //---------------------------------------------------------------------------//
@@ -162,7 +166,11 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme) {
 
     auto predictions = forest->predict(new_X);
 
-    BOOST_CHECK_EQUAL(static_cast<uint>(f1_score(new_Y, predictions)*1000.f), 985);
+#ifdef _WIN32
+    BOOST_CHECK_EQUAL(static_cast<uint>(f1_score(new_Y, predictions)*100000.f), 98492);
+#else
+    BOOST_CHECK_EQUAL(static_cast<uint>(f1_score(new_Y, predictions)*100000.f), 98507);
+#endif
 }
 
 //---------------------------------------------------------------------------//
@@ -205,7 +213,11 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme_R) {
 
     auto predictions = forest->predict(new_X);
 
-    BOOST_CHECK_EQUAL(static_cast<uint>(f1_score(new_Y, predictions)*1000.f), 979);
+#ifdef _WIN32
+    BOOST_CHECK_EQUAL(static_cast<uint>(f1_score(new_Y, predictions)*100000.f), 97979);
+#else
+    BOOST_CHECK_EQUAL(static_cast<uint>(f1_score(new_Y, predictions)*100000.f), 97979);
+#endif
 }
 
 BOOST_AUTO_TEST_SUITE_END();
