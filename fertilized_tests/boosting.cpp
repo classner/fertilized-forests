@@ -48,9 +48,11 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Serialization) {
 }
 #endif
 
+//---------------------------------------------------------------------------//
+// Helper functions
 double f1_score(Array<uint, 2, 2>& truth, Array<double, 2, 2>& prediction) {
-    float values[4]; //tn, fp, fn, tp
-    values[0] = 0; values[1] = 0; values[2] = 0; values[3] = 0;
+    double values[4]; //tn, fp, fn, tp
+    values[0] = 0.0; values[1] = 0.0; values[2] = 0.0; values[3] = 0.0;
     for(size_t i = 0; i < truth.size(); ++i)
         values[truth[i][0]*2U+static_cast<uint>(prediction[i][1]-prediction[i][0]+1.0)]++;
     double precision = values[3]/(values[3]+values[1]);
@@ -58,8 +60,6 @@ double f1_score(Array<uint, 2, 2>& truth, Array<double, 2, 2>& prediction) {
     return 2.0 * (precision*recall) / (precision+recall);
 }
 
-//---------------------------------------------------------------------------//
-// Helper functions
 Array<float,1,1> point_on_circle(float phi, float r) {
     Array<float,1,1> out = allocate(2);
     out[0] = std::cos(phi) * r; out[1] = std::sin(phi) * r;
@@ -69,15 +69,15 @@ Array<float,1,1> point_on_circle(float phi, float r) {
 std::pair<Array<float,2,2>, Array<uint,2,2>> make_spiral_fixed(uint n_samples_per_arm=1000, uint n_arms=2, float noise=0.1) {
 #define M_PI 3.14159265358979323846
     Array<float,1,1> starting_angles = allocate(n_arms);
-    for(float i = 0; i < n_arms; ++i)
+    for(float i = 0.f; i < n_arms; ++i)
         starting_angles[i] = i * 2.f * static_cast<float>(M_PI) / static_cast<float>(n_arms);
     Array<float,2,2> points = allocate(n_arms * n_samples_per_arm, 2);
     Array<uint,2,2> ids = allocate(n_arms * n_samples_per_arm, 1);
-    for(uint arm_id = 0; arm_id < n_arms; ++arm_id) {
+    for(uint arm_id = 0U; arm_id < n_arms; ++arm_id) {
         float angle = starting_angles[arm_id];
-        for(uint point_id = 0; point_id < n_samples_per_arm; ++point_id) {
+        for(uint point_id = 0U; point_id < n_samples_per_arm; ++point_id) {
             float angle_add = 1.7f/static_cast<float>(point_id+1);
-            Array<float,1,1> position = point_on_circle(angle+angle_add*M_PI, 1.f + 2.f*angle_add);
+            Array<float,1,1> position = point_on_circle(angle+angle_add*static_cast<float>(M_PI), 1.f + 2.f*angle_add);
             position[0] += -0.152176*noise; position[1] += 0.141444*noise;
             points[arm_id * n_samples_per_arm + point_id] = position;
             ids[arm_id * n_samples_per_arm + point_id][0] = arm_id;
@@ -91,16 +91,15 @@ std::pair<Array<float,2,2>, Array<uint,2,2>> make_spiral_fixed(uint n_samples_pe
 BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_AdaBoost) {
     auto soil = Soil<float, float, uint, Result_Types::probabilities>();
 
-    Array<float, 2, 2> X;
-    Array<uint, 2, 2> Y;
     auto X_Y = make_spiral_fixed();
-    X = X_Y.first; Y = X_Y.second;
+    Array<float, 2, 2> X = X_Y.first;
+    Array<uint, 2, 2> Y = X_Y.second;
 
     uint n_trees = 200;
     decltype(soil.idecider_vec_t()) cls;
     decltype(soil.ileafmanager_vec_t()) lm;
 
-    for (uint i = 0; i < n_trees; ++i) {
+    for (uint i = 0U; i < n_trees; ++i) {
         auto stdFeatureSelect = soil.StandardFeatureSelectionProvider(1, 1, 2, 2, 1+i);
         auto rcto = soil.RandomizedClassificationThresholdOptimizer(1, 2, soil.EntropyGain(soil.ShannonEntropy()), 0, 1, 1+i);
         auto tClassifier = soil.ThresholdDecider(stdFeatureSelect, soil.AlignedSurfaceCalculator(), rcto);
@@ -114,10 +113,9 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_AdaBoost) {
 
     forest->fit(X, Y);
 
-    Array<float, 2, 2> new_X;
-    Array<uint, 2, 2> new_Y;
     auto new_X_Y = make_spiral_fixed(1000, 2, 0.75);
-    new_X = new_X_Y.first; new_Y = new_X_Y.second;
+    Array<float, 2, 2> new_X = new_X_Y.first;
+    Array<uint, 2, 2> new_Y = new_X_Y.second;
 
     auto predictions = forest->predict(new_X);
 
@@ -136,10 +134,9 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_InputCheck_Samme) {
 BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme) {
     auto soil = Soil<float, float, uint, Result_Types::probabilities>();
 
-    Array<float, 2, 2> X;
-    Array<uint, 2, 2> Y;
     auto X_Y = make_spiral_fixed();
-    X = X_Y.first; Y = X_Y.second;
+    Array<float, 2, 2> X = X_Y.first;
+    Array<uint, 2, 2> Y = X_Y.second;
 
     uint n_trees = 200;
     decltype(soil.idecider_vec_t()) cls;
@@ -159,10 +156,9 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme) {
 
     forest->fit(X, Y);
 
-    Array<float, 2, 2> new_X;
-    Array<uint, 2, 2> new_Y;
     auto new_X_Y = make_spiral_fixed(1000, 2, 0.75);
-    new_X = new_X_Y.first; new_Y = new_X_Y.second;
+    Array<float, 2, 2> new_X = new_X_Y.first;
+    Array<uint, 2, 2> new_Y = new_X_Y.second;
 
     auto predictions = forest->predict(new_X);
 
@@ -181,10 +177,9 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_InputCheck_Samme_R) {
 BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme_R) {
     auto soil = Soil<float, float, uint, Result_Types::probabilities>();
 
-    Array<float, 2, 2> X;
-    Array<uint, 2, 2> Y;
     auto X_Y = make_spiral_fixed();
-    X = X_Y.first; Y = X_Y.second;
+    Array<float, 2, 2> X = X_Y.first;
+    Array<uint, 2, 2> Y = X_Y.second;
 
     uint n_trees = 200;
     decltype(soil.idecider_vec_t()) cls;
@@ -204,10 +199,9 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme_R) {
 
     forest->fit(X, Y);
 
-    Array<float, 2, 2> new_X;
-    Array<uint, 2, 2> new_Y;
     auto new_X_Y = make_spiral_fixed(1000, 2, 0.75);
-    new_X = new_X_Y.first; new_Y = new_X_Y.second;
+    Array<float, 2, 2> new_X = new_X_Y.first;
+    Array<uint, 2, 2> new_Y = new_X_Y.second;
 
     auto predictions = forest->predict(new_X);
 

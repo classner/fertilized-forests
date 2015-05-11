@@ -1,3 +1,4 @@
+/* Author: Christian Diller. */
 #include <fertilized/fertilized.h>
 #include <iostream>
 
@@ -16,19 +17,19 @@ Array<float,1,1> point_on_circle(float phi, float r) {
 std::pair<Array<float,2,2>, Array<uint,2,2>> make_spiral(uint n_samples_per_arm=100, uint n_arms=2, float noise=0.25) {
 #define M_PI 3.14159265358979323846
     Array<float,1,1> starting_angles = allocate(n_arms);
-    for(float i = 0; i < n_arms; ++i)
+    for(float i = 0.f; i < n_arms; ++i)
         starting_angles[i] = i * 2.f * static_cast<float>(M_PI) / static_cast<float>(n_arms);
     Array<float,2,2> points = allocate(n_arms * n_samples_per_arm, 2);
     Array<uint,2,2> ids = allocate(n_arms * n_samples_per_arm, 1);
     float maxpifac = 1.7f;
-    for(uint arm_id = 0; arm_id < n_arms; ++arm_id) {
+    for(uint arm_id = 0U; arm_id < n_arms; ++arm_id) {
         float angle = starting_angles[arm_id];
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<> dis(0.f, maxpifac);
-        for(uint point_id = 0; point_id < n_samples_per_arm; ++point_id) {
+        for(uint point_id = 0U; point_id < n_samples_per_arm; ++point_id) {
             float angle_add = dis(gen);
-            Array<float,1,1> position = point_on_circle(angle+angle_add*M_PI, 1.f + 2.f*angle_add);
+            Array<float,1,1> position = point_on_circle(angle+angle_add*static_cast<float>(M_PI), 1.f + 2.f*angle_add);
             std::normal_distribution<> d(0.0, noise * angle_add);
             position[0] += d(gen); position[1] += d(gen);
             points[arm_id * n_samples_per_arm + point_id] = position;
@@ -39,8 +40,8 @@ std::pair<Array<float,2,2>, Array<uint,2,2>> make_spiral(uint n_samples_per_arm=
 }
 
 double f1_score(Array<uint, 2, 2>& truth, Array<double, 2, 2>& prediction) {
-    float values[4]; //tn, fp, fn, tp
-    values[0] = 0; values[1] = 0; values[2] = 0; values[3] = 0;
+    double values[4]; //tn, fp, fn, tp
+    values[0] = 0.0; values[1] = 0.0; values[2] = 0.0; values[3] = 0.0;
     for(size_t i = 0; i < truth.size(); ++i)
         values[truth[i][0]*2U+static_cast<uint>(prediction[i][1]-prediction[i][0]+1.0)]++;
     double precision = values[3]/(values[3]+values[1]);

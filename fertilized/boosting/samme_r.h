@@ -102,7 +102,7 @@ namespace fertilized {
                     float weight = 0.f;
                     annotation_dtype y = *samples->at(sampleIndex).annotation;
                     //Calculate the weight for the current sample
-                    for(uint classIndex = 0; classIndex < result.size(); ++classIndex) {
+                    for(uint classIndex = 0U; classIndex < result.size(); ++classIndex) {
                         weight += -1.f*((static_cast<float>(n_classes)-1.f)/static_cast<float>(n_classes)) *
                                 (classIndex == y ? 1.f : -1.f/(static_cast<float>(n_classes)-1.f)) *
                                 (result[classIndex] == 0.f ? std::log(1e-5f) : std::log(result[classIndex]));

@@ -2,8 +2,6 @@
 # Compares the performance of the fertilized forests boosting implementations
 # to the opencv and scikit learn implementations
 
-import numpy as np
-
 # Classifiers
 from cv2 import RTrees, Boost, BOOST_REAL, CV_ROW_SAMPLE, TERM_CRITERIA_MAX_ITER
 from sklearn.tree import DecisionTreeClassifier
@@ -20,8 +18,8 @@ from tabulate import tabulate
 from progressbar import ProgressBar, Percentage, Bar, ETA
 
 # Util
+import numpy as np
 from itertools import product
-
 
 # Samples creation
 def create_samples(n_samples, n_features, n_classes):
@@ -48,7 +46,7 @@ def setup_sklearn_randomForest(n_trees, n_features, max_depth, min_samples_at_le
     return forest
 
 def setup_sklearn_adaBoost(n_trees, n_features, max_depth, min_samples_at_leaf, algorithm):
-    base_estimator = DecisionTreeClassifier(criterion="entropy", splitter="random", max_features=n_features,
+    base_estimator = DecisionTreeClassifier(criterion="gini", splitter="best", max_features=n_features,
                                             max_depth=max_depth, min_samples_split=2*min_samples_at_leaf,
                                             min_samples_leaf=min_samples_at_leaf)
     boost = AdaBoostClassifier(base_estimator=base_estimator, n_estimators=n_trees, algorithm=algorithm)
