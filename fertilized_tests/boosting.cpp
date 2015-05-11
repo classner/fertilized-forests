@@ -91,7 +91,7 @@ std::pair<Array<float,2,2>, Array<uint,2,2>> make_spiral_fixed(uint n_samples_pe
 BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_AdaBoost) {
     auto soil = Soil<float, float, uint, Result_Types::probabilities>();
 
-    auto X_Y = make_spiral_fixed();
+    auto X_Y = make_spiral_fixed(1000, 2, 0.5);
     Array<float, 2, 2> X = X_Y.first;
     Array<uint, 2, 2> Y = X_Y.second;
 
@@ -113,13 +113,13 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_AdaBoost) {
 
     forest->fit(X, Y);
 
-    auto new_X_Y = make_spiral_fixed(1000, 2, 0.75);
+    auto new_X_Y = make_spiral_fixed(100, 2, 0.75);
     Array<float, 2, 2> new_X = new_X_Y.first;
     Array<uint, 2, 2> new_Y = new_X_Y.second;
 
     auto predictions = forest->predict(new_X);
 
-    BOOST_CHECK_EQUAL(f1_score(new_Y, predictions), 0.998);
+    BOOST_CHECK_EQUAL(static_cast<uint>(f1_score(new_Y, predictions)*1000.f), 980);
 }
 
 //---------------------------------------------------------------------------//
@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_InputCheck_Samme) {
 BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme) {
     auto soil = Soil<float, float, uint, Result_Types::probabilities>();
 
-    auto X_Y = make_spiral_fixed();
+    auto X_Y = make_spiral_fixed(1000, 2, 0.5);
     Array<float, 2, 2> X = X_Y.first;
     Array<uint, 2, 2> Y = X_Y.second;
 
@@ -156,13 +156,13 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme) {
 
     forest->fit(X, Y);
 
-    auto new_X_Y = make_spiral_fixed(1000, 2, 0.75);
+    auto new_X_Y = make_spiral_fixed(100, 2, 0.75);
     Array<float, 2, 2> new_X = new_X_Y.first;
     Array<uint, 2, 2> new_Y = new_X_Y.second;
 
     auto predictions = forest->predict(new_X);
 
-    BOOST_CHECK_EQUAL(f1_score(new_Y, predictions), 0.99850074962518731);
+    BOOST_CHECK_EQUAL(static_cast<uint>(f1_score(new_Y, predictions)*1000.f), 985);
 }
 
 //---------------------------------------------------------------------------//
@@ -177,7 +177,7 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_InputCheck_Samme_R) {
 BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme_R) {
     auto soil = Soil<float, float, uint, Result_Types::probabilities>();
 
-    auto X_Y = make_spiral_fixed();
+    auto X_Y = make_spiral_fixed(1000, 2, 0.5);
     Array<float, 2, 2> X = X_Y.first;
     Array<uint, 2, 2> Y = X_Y.second;
 
@@ -199,13 +199,13 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme_R) {
 
     forest->fit(X, Y);
 
-    auto new_X_Y = make_spiral_fixed(1000, 2, 0.75);
+    auto new_X_Y = make_spiral_fixed(100, 2, 0.75);
     Array<float, 2, 2> new_X = new_X_Y.first;
     Array<uint, 2, 2> new_Y = new_X_Y.second;
 
     auto predictions = forest->predict(new_X);
 
-    BOOST_CHECK_EQUAL(f1_score(new_Y, predictions), 0.99799799799799804);
+    BOOST_CHECK_EQUAL(static_cast<uint>(f1_score(new_Y, predictions)*1000.f), 979);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
