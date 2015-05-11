@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_AdaBoost) {
 
     auto predictions = forest->predict(new_X);
 
-    BOOST_CHECK_EQUAL(f1_score(new_Y, predictions), 0.99800002574920654);
+    BOOST_CHECK_EQUAL(f1_score(new_Y, predictions), 0.998);
 }
 
 //---------------------------------------------------------------------------//
@@ -162,7 +162,7 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme) {
 
     auto predictions = forest->predict(new_X);
 
-    BOOST_CHECK_EQUAL(f1_score(new_Y, predictions), 0.99850075340365041);
+    BOOST_CHECK_EQUAL(f1_score(new_Y, predictions), 0.99850074962518731);
 }
 
 //---------------------------------------------------------------------------//
@@ -205,7 +205,7 @@ BOOST_AUTO_TEST_CASE(Correctness_Boosting_Result_Samme_R) {
 
     auto predictions = forest->predict(new_X);
 
-    BOOST_CHECK_EQUAL(f1_score(new_Y, predictions), 0.99799798265859674);
+    BOOST_CHECK_EQUAL(f1_score(new_Y, predictions), 0.99799799799799804);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
