@@ -92,7 +92,7 @@ namespace fertilized {
                 for(size_t sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex) {
                     annotation_dtype y = *samples->at(sampleIndex).annotation;
                     float W = 0.f;
-                    for(uint classIndex = 0; classIndex < n_classes; ++classIndex) {
+                    for(uint classIndex = 0U; classIndex < n_classes; ++classIndex) {
                         if(classIndex == y) continue;
                         W += weightVector[sampleIndex][classIndex];
                     }
@@ -112,11 +112,11 @@ namespace fertilized {
                 for(int sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex) {
                     annotation_dtype y = *samples->at(sampleIndex).annotation;
                     std::vector<float> output = trees[treeIndex]->predict_leaf_result(samples->at(sampleIndex).data);
-                    for(uint classIndex = 0; classIndex < n_classes; ++classIndex) {
+                    for(uint classIndex = 0U; classIndex < n_classes; ++classIndex) {
                         hypothesis[sampleIndex][classIndex] = output[classIndex] * (classIndex == y ? 0.5f : weightVector[sampleIndex][classIndex]);
                     }
                     float questionSum = 0.f;
-                    for(uint classIndex = 0; classIndex < n_classes; ++classIndex) {
+                    for(uint classIndex = 0U; classIndex < n_classes; ++classIndex) {
                         if(classIndex == y) continue;
                         questionSum += (weightVector[sampleIndex][classIndex]/W_sum)*hypothesis[sampleIndex][classIndex];
                     }
@@ -128,7 +128,7 @@ namespace fertilized {
                 float beta = epsilon/(1.f-epsilon);
                 for(int sampleIndex = 0; sampleIndex < samples->size(); ++sampleIndex) {
                     annotation_dtype y = *samples->at(sampleIndex).annotation;
-                    for(uint classIndex = 0; classIndex < n_classes; ++classIndex) {
+                    for(uint classIndex = 0U; classIndex < n_classes; ++classIndex) {
                         weightVector[classIndex][sampleIndex] *= std::pow(beta, 0.5f*(1.f+hypothesis[sampleIndex][y]-hypothesis[sampleIndex][classIndex]));
                     }
                 }
