@@ -22,7 +22,8 @@ completely setup the build environment.
 #### Windows
 
 The only remaining prerequisites are VS2013, a current Python 2.7 installation
-and git. To build, open a VS2013 x64 command prompt in admin mode and run 
+with pip and git. To build, open a VS2013 x64 command prompt in admin mode and
+run 
 
     git clone https://github.com/ChrislS/fertilized-forests.git
     cd fertilized-forests
@@ -39,8 +40,7 @@ ones.
 #### Linux
 
 Similar to Windows, there's also a configuration script ready. On Linux,
-the requirements are a current Python 2.7 installation including pip.
-Then run with elevated privileges
+there are no required prerequisites. Simply run with elevated privileges
 
     git clone https://github.com/ChrislS/fertilized-forests.git
     cd fertilized-forests

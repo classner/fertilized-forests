@@ -270,7 +270,7 @@ with indent(4):
   puts('OpenCV.')
   OPENCV_ROOT, own = configure_package('OpenCV',
                                        [r'include\opencv2'],
-                                       'http://downloads.sourceforge.net/project/opencvlibrary/opencv-win/2.4.11/opencv-2.4.11.exe',
+                                       'http://www.multimedia-computing.de/fertilized/files/cache/opencv-2.4.11.exe',
                                        'opencv-2.4.11.exe',
                                        [['opencv-2.4.11.exe', r'-o"%s"' % (os.path.relpath(os.path.abspath('nuget-deps'), os.path.splitdrive(os.getcwd())[0] + '\\')), '-y']])
   if own:

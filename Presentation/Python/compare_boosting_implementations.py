@@ -2,6 +2,10 @@
 # Compares the performance of the fertilized forests boosting implementations
 # to the opencv and scikit learn implementations
 
+import os
+import sys
+sys.path.insert(0, os.path.join('..', '..', 'pyfertilized'))
+
 # Classifiers
 from cv2 import RTrees, Boost, BOOST_REAL, CV_ROW_SAMPLE, TERM_CRITERIA_MAX_ITER
 from sklearn.tree import DecisionTreeClassifier
@@ -31,46 +35,60 @@ def create_samples(n_samples, n_features, n_classes):
 
 # Classifiers setup
 def setup_opencv_rtrees(n_trees, n_features, max_depth, min_samples_at_leaf):
-    parameters = {"max_depth": max_depth, "min_sample_count": min_samples_at_leaf,
-                  "nactive_vars": n_features, "max_num_of_trees_in_the_forest": n_trees,
+    parameters = {"max_depth": max_depth,
+                  "min_sample_count": min_samples_at_leaf,
+                  "nactive_vars": n_features,
+                  "max_num_of_trees_in_the_forest": n_trees,
                   "term_crit": (TERM_CRITERIA_MAX_ITER, n_trees, 1)}
     return parameters
 
 def setup_opencv_boost(n_trees, max_depth):
-    parameters = {"boost_type": BOOST_REAL, "weak_count": n_trees, "weight_trim_rate": 0, "max_depth": max_depth}
+    parameters = {"boost_type": BOOST_REAL,
+                  "weak_count": n_trees,
+                  "weight_trim_rate": 0,
+                  "max_depth": max_depth}
     return parameters
 
 def setup_sklearn_randomForest(n_trees, n_features, max_depth, min_samples_at_leaf):
-    forest = RandomForestClassifier(n_estimators=n_trees, max_depth=max_depth, min_samples_leaf=min_samples_at_leaf,
-                                    min_samples_split=2*min_samples_at_leaf, max_features=n_features)
+    forest = RandomForestClassifier(n_estimators=n_trees,
+                                    criterion='gini',
+                                    max_features=n_features,
+                                    max_depth=max_depth,
+                                    min_samples_leaf=min_samples_at_leaf,
+                                    min_samples_split=2*min_samples_at_leaf,
+                                    bootstrap=False)
     return forest
 
 def setup_sklearn_adaBoost(n_trees, n_features, max_depth, min_samples_at_leaf, algorithm):
-    base_estimator = DecisionTreeClassifier(criterion="gini", splitter="best", max_features=n_features,
-                                            max_depth=max_depth, min_samples_split=2*min_samples_at_leaf,
+    base_estimator = DecisionTreeClassifier(criterion="gini",
+                                            splitter="best",
+                                            max_features=n_features,
+                                            max_depth=max_depth,
+                                            min_samples_split=2*min_samples_at_leaf,
                                             min_samples_leaf=min_samples_at_leaf)
     boost = AdaBoostClassifier(base_estimator=base_estimator, n_estimators=n_trees, algorithm=algorithm)
     return boost
 
 def setup_fertilized(n_trees, n_features, n_classes, max_depth, min_samples_at_leaf, algorithm, use_boosting_leafman):
     soil = Soil('f', 'f', 'uint', Result_Types.probabilities)
-
     cls = []  # Deciders
     lm = []   # Leaf managers
-
     for i in xrange(n_trees):
-        stdFeatureSelect = soil.StandardFeatureSelectionProvider(10,   # Selections per node
+        stdFeatureSelect = soil.StandardFeatureSelectionProvider(n_features,   # Selections per node
                                                                  1,    # Data dimensions selected per proposal
                                                                  n_features,   # How many dimensions available (number of features)
                                                                  n_features,   # How many dimensions to use
                                                                  1+i)  # Seed for random number generator
-
-        rcto = soil.RandomizedClassificationThresholdOptimizer(10,    # Number of thresholds to test per node
-                                                               n_classes,    # Number of classes
-                                                               soil.EntropyGain(soil.ShannonEntropy()),
-                                                               0,    # Minimum gain to continue splitting
-                                                               1,    # Memory step from one annotation to another
-                                                               1+i)  # Seed for random number generator
+        rcto = soil.ClassificationThresholdOptimizer(True, # fast approximation
+                                                     n_classes,
+                                                     soil.EntropyGain(soil.InducedEntropy(2.)),
+                                                     0.) # gain threshold                                                     
+#        rcto = soil.RandomizedClassificationThresholdOptimizer(10,    # Number of thresholds to test per node
+#                                                               n_classes,    # Number of classes
+#                                                               soil.EntropyGain(soil.ShannonEntropy()),
+#                                                               0,    # Minimum gain to continue splitting
+#                                                               1,    # Memory step from one annotation to another
+#                                                               1+i)  # Seed for random number generator
 
         # ThresholdDecider
         tClassifier = soil.ThresholdDecider(stdFeatureSelect, soil.AlignedSurfaceCalculator(), rcto)
