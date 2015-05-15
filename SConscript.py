@@ -321,6 +321,7 @@ def setupTargets(env, root=".",
     #   - the doxygen builder module of SCons does not work for me on Windows.
     # I decided to work with explicit command line options instead of implicit
     # build targets to make the options more visible to the build user.
+    print "Debug: setupTargets"
     if GetOption("generate_ndarray"):
       ndarraypath = os.path.join(root,'external','ndarray','include')
       ndarrayheaders = SConscript(os.path.join(ndarraypath,
@@ -335,6 +336,7 @@ def setupTargets(env, root=".",
         installedheaders.append(env.InstallAs(os.path.join(root,
                                                            'fertilized',
                                                            relative), header))
+    print "Debug: generate_ndarray passed"
     ndarray_installed = os.path.isfile(os.path.join('fertilized', 'ndarray.h'))
     ndarray_emsg = "You first have to call scons --generate-ndarray to use any " +\
                    "other build options. Otherwise, clone the complete project " +\
@@ -347,6 +349,7 @@ def setupTargets(env, root=".",
       os.chdir('CodeGenerator')
       subprocess.check_call([sys.executable, 'CodeGenerator.py'])
       os.chdir('..')
+    print "Debug: generate_interfaces passed"
     interfaces_generated = os.path.isfile(os.path.join('fertilized', 'fertilized.h'))
     interfaces_emsg = "You first have to call scons --generate-interfaces to "+\
       "build python, matlab and C++ interfaces. Otherwise, clone the complete " +\
@@ -358,6 +361,7 @@ def setupTargets(env, root=".",
         sys.exit(1)
       SConscript(os.path.join(root, 'documentation', 'SConscript.py'),
                  exports=['env'])
+    print "Debug: generate_documentation passed"
     generate_mode = GetOption("generate_interfaces") or \
                     GetOption("generate_ndarray") or \
                     GetOption("generate_documentation")
@@ -384,11 +388,14 @@ def setupTargets(env, root=".",
       lib, headers = SConscript(os.path.join(root, "fertilized", "SConscript.py"),
                                 exports=['env', 'caffe_headers', 'caffe_core_objects', 'caffe_link_libs'],
                                 variant_dir='build/'+env['VARIANT_DIR_PREF']+'/fertilized')
+      print "Debug: lib set up"
       # A copy in the project root for UNIX-sytems to get the linking paths
       # right.
       lib_lnk = lib[1] if os.name=='nt' else lib[0]
       lib_lnk = env.Install('#', lib_lnk)[0]
+      print "Debug: lib installed"
     if GetOption('with_caffe'):
+      print "Debug: caffe entered"
       # Prepare the AlexNet as standard feature extractor.
       if GetOption('caffe_model_dir') == "":
         print "Please specify a directory to store the caffe models in with the parameter '--caffe-model-dir=/dir'!"
@@ -406,6 +413,7 @@ def setupTargets(env, root=".",
           alexf.write('const std::string __ALEXNET_MEANFILE = "%s";\n' % mean_filename.replace('\\', '\\\\'))
           alexf.write('const std::string __ALEXNET_LAYERFILE = "%s";\n' % layer_filename.replace('\\', '\\\\'))
     if GetOption('with_python') and not generate_mode:
+      print "Debug: python entered"
       # Build boost numpy
       VERSION = sys.version_info.major
       if os.name == 'nt':
@@ -439,10 +447,12 @@ def setupTargets(env, root=".",
       python_module = SConscript(os.path.join(root, "pyfertilized", "SConscript.py"),
                                  exports=['env', 'bn_module', 'lib', 'PY_SUFFIX', 'lib_lnk'],
                                  variant_dir='build/'+env['VARIANT_DIR_PREF']+'/pyfertilized')
+      print "Debug: python set up"
     if GetOption('with_tests') and not generate_mode:
       tests_executable = SConscript(os.path.join(root, "fertilized_tests", "SConscript.py"),
                                     exports=['env', 'lib', 'lib_lnk'],
                                     variant_dir='build/'+env['VARIANT_DIR_PREF']+'/fertilized_tests')
+      print "Debug: tests set up"
     if GetOption('with_matlab') and not generate_mode:
       matlab_module = SConscript(os.path.join(root, "matfertilized", "SConscript.py"),
                                  exports=['env', 'lib', 'lib_lnk'],
@@ -451,6 +461,7 @@ def setupTargets(env, root=".",
       SConscript(os.path.join(root, 'Presentation', 'SConscript.py'),
                  exports=['env', 'lib', 'lib_lnk'],
                  variant_dir='build/'+env['VARIANT_DIR_PREF']+'/Presentation')
+      print "Debug: examples set up"
     if not generate_mode:
       if GetOption("with_python"):
         print 'The project is built with python support. If you want you can install it ' +\
@@ -490,6 +501,7 @@ def setupTargets(env, root=".",
         env.Alias("install", env.InstallAs(os.path.join(install_headers,
                                                         'fertilized',
                                                         relative), header))
+      print "Debug: targets set up"
 
 Return("setupOptions",
        "makeEnvironment",
