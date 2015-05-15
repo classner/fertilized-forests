@@ -69,4 +69,6 @@ bin
 bindep
 include
 lib
+setup-stderr.txt
+setup-stdout.txt
 

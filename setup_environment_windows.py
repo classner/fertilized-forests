@@ -39,16 +39,17 @@ from clint.textui import prompt, validators, colored, puts, indent
 # Setup
 if QUIET_MODE:
   puts(colored.yellow("Using quiet mode!"))
-  if len(sys.argv) < 9:
-    puts(colored.red("Too few arguments for quiet mode (%d, but required 8)!" % (len(sys.argv)- 1)))
+  if len(sys.argv) < 10:
+    puts(colored.red("Too few arguments for quiet mode (%d, but required 9)!" % (len(sys.argv)- 1)))
     sys.exit(1)
   else:
     WITH_PYTHON = (sys.argv[3] == '--pyenabled')
     WITH_MATLAB = (sys.argv[4] == '--matenabled')
     WITH_CAFFE = (sys.argv[5] == '--caffeenabled')
     CAFFE_MODEL_DIR = sys.argv[6]
-    CPU_ONLY = (sys.argv[7] == '--cpu-only')
-    SUPPRESS_CAFFE_MODEL_DOWNLOAD = (sys.argv[7] == '--suppress-caffe-model-download')
+    CAFFE_TMP_DIR = sys.argv[7]
+    CPU_ONLY = (sys.argv[8] == '--cpu-only')
+    SUPPRESS_CAFFE_MODEL_DOWNLOAD = (sys.argv[9] == '--suppress-caffe-model-download')
 else:
   #######################################
   # Initialize configuration.
@@ -57,8 +58,10 @@ else:
   WITH_CAFFE = prompt.yn('Do you want to use the CAFFE feature extraction?')
   if WITH_CAFFE:
     CAFFE_MODEL_DIR = prompt.query('Where do you want the CAFFE models to be stored (no spaces allowed)?', validators=[validators.PathValidator()])
+    CAFFE_TMP_DIR = prompt.query('Where do you want the CAFFE temporary files to be stored?', validators=[validators.PathValidator()])
   else:
     CAFFE_MODEL_DIR = None
+    CAFFE_TMP_DIR = None
   try:
     check_call(['which', 'nvcc'])
     CPU_ONLY = prompt.yn('Do you want to build the CPU only version of CAFFE?')
@@ -514,10 +517,15 @@ if WITH_CAFFE:
     CA_CP_STRING = '--cpu-only '
   else:
     CA_CP_STRING = ''
+  if CAFFE_TMP_DIR is None:
+    CA_TMP_STRING = ''
+  else:
+    CA_TMP_STRING = '--temp-folder=%s ' % (CAFFE_TMP_DIR)
 else:
   CA_STRING = ''
   CA_MO_STRING = ''
   CA_CP_STRING = ''
+  CA_TMP_STRING = ''
 
 with open('compile.bat', 'w') as outfile:
   outfile.write(r"""
@@ -540,8 +548,8 @@ REM Configure --temp-folder to change the CAFFE tmp folder.
 REM Add --cpu-only to build the CPU only version of CAFFE.
 REM Add --with-checks to enable assertions.
 REM Add --disable-optimizations to create an -Od build for debugging.
-scons --with-serialization %s%s--with-tests --with-examples %s%s%s--jobs=1
-""" % (PY_STRING, MA_STRING, CA_STRING, CA_MO_STRING, CA_CP_STRING))
+scons --with-serialization %s%s--with-tests --with-examples %s%s%s%s--jobs=1
+""" % (PY_STRING, MA_STRING, CA_STRING, CA_MO_STRING, CA_TMP_STRING, CA_CP_STRING))
 
 puts(colored.green('All set! Adjust "setup_paths.bat" and "compile.bat" to your needs!'))
 if WITH_PYTHON:

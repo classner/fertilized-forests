@@ -6,7 +6,8 @@
 
 import sys
 import os
-from subprocess import call, check_call
+import subprocess
+from subprocess import check_call
 import time
 import urllib
 import shutil
@@ -69,9 +70,9 @@ else:
     APPLY_UBUNTU_13_PATCHES = False
   #######################################
   # Initialize configuration.
-  WITH_PYTHON = prompt.yn('Do you want to build the Python interface?')
-  WITH_MATLAB = prompt.yn('Do you want to build the MATLAB interface?')
-  WITH_CAFFE = prompt.yn('Do you want to use the CAFFE feature extraction?')
+  WITH_PYTHON = not prompt.yn('Do you want to build the Python interface?', default='n')
+  WITH_MATLAB = not prompt.yn('Do you want to build the MATLAB interface?', default='n')
+  WITH_CAFFE = not prompt.yn('Do you want to use the CAFFE feature extraction?', default='n')
   if WITH_CAFFE:
     CAFFE_MODEL_DIR = prompt.query('Where do you want the CAFFE models to be stored?', validators=[validators.PathValidator()])
   else:
@@ -90,7 +91,7 @@ OPENBLAS_INSTALL_DIR = None
 #######################################
 # Build tools
 puts(colored.green('Installing build tools...'))
-check_call(['apt-get', 'install', 'build-essential'], stdout=STDOUT, stderr=STDERR)
+check_call(['sudo', 'apt-get', 'install', 'build-essential'], stdout=STDOUT, stderr=STDERR)
 
 #######################################
 # Ubuntu 12
@@ -100,15 +101,15 @@ if APPLY_UBUNTU_12_PATCHES:
     puts(colored.yellow('If you answer any of the following questions with "n", you will HAVE to care for installing a current version of the respective library and adjusting "setup_paths.sh" yourself. Otherwise, the build WILL fail!'))
   with indent(4):
     puts('Adding current gcc repository...')
-    check_call(['add-apt-repository','ppa:ubuntu-toolchain-r/test', ADD_REPO_SUFF], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'add-apt-repository','ppa:ubuntu-toolchain-r/test', ADD_REPO_SUFF], stdout=STDOUT, stderr=STDERR)
     puts('Adding current OpenCV repository...')
-    check_call(['add-apt-repository', 'ppa:yjwong/opencv2', ADD_REPO_SUFF], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'add-apt-repository', 'ppa:yjwong/opencv2', ADD_REPO_SUFF], stdout=STDOUT, stderr=STDERR)
     puts('Adding current boost repository...')
-    check_call(['add-apt-repository', 'ppa:boost-latest/ppa', ADD_REPO_SUFF], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'add-apt-repository', 'ppa:boost-latest/ppa', ADD_REPO_SUFF], stdout=STDOUT, stderr=STDERR)
     puts('Updating package cache...')
-    check_call(['apt-get', 'update'], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'apt-get', 'update'], stdout=STDOUT, stderr=STDERR)
     puts('Installing gcc 4.8...')
-    check_call(['apt-get', 'install', 'g++-4.8'], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'apt-get', 'install', 'g++-4.8'], stdout=STDOUT, stderr=STDERR)
     if not QUIET_MODE:
       SET_CXX_CC = prompt.yn('Should gcc-4.8 be registered as system compiler (CXX and CC environment variables will be set)?')
     if SET_CXX_CC:
@@ -119,27 +120,27 @@ if APPLY_UBUNTU_12_PATCHES:
     if QUIET_MODE or prompt.yn('Should I install a current version of boost?'):
       with indent(4):
         puts('boost.')
-        check_call(['apt-get', 'install', 'libboost1.55-all-dev'], stdout=STDOUT, stderr=STDERR)
+        check_call(['sudo', 'apt-get', 'install', 'libboost1.55-all-dev'], stdout=STDOUT, stderr=STDERR)
     if QUIET_MODE or prompt.yn('Should I install a current version of EIGEN?'):
       with indent(4):
         puts('eigen.')
         check_call(['wget', 'http://bitbucket.org/eigen/eigen/get/3.2.4.zip'], stdout=STDOUT, stderr=STDERR)
-        check_call(['unzip', '3.2.4.zip', '-d', '/usr/include/eigen3'], stdout=STDOUT, stderr=STDERR)
+        check_call(['sudo', 'unzip', '3.2.4.zip', '-d', '/usr/include/eigen3'], stdout=STDOUT, stderr=STDERR)
         EIGEN_INSTALL_DIR = '/usr/include/eigen3/eigen-eigen-10219c95fe65'
         os.remove('3.2.4.zip')
     if WITH_CAFFE:
       if QUIET_MODE or prompt.yn('Should I install a current version of OpenBLAS?'):
         with indent(4):
           puts('gfortran.')
-          check_call(['apt-get', 'install', 'gfortran'], stdout=STDOUT, stderr=STDERR)
-          check_call(['ln', '-s', '/usr/lib/x86_64-linux-gnu/libgfortran.so.3', '/usr/lib/x86_64-linux-gnu/libgfortran.so'], stdout=STDOUT, stderr=STDERR)
+          check_call(['sudo', 'apt-get', 'install', 'gfortran'], stdout=STDOUT, stderr=STDERR)
+          check_call(['sudo', 'ln', '-s', '/usr/lib/x86_64-linux-gnu/libgfortran.so.3', '/usr/lib/x86_64-linux-gnu/libgfortran.so'], stdout=STDOUT, stderr=STDERR)
           puts('OpenBLAS.')
           check_call(['wget', 'http://github.com/xianyi/OpenBLAS/archive/v0.2.14.zip'], stdout=STDOUT, stderr=STDERR)
           check_call(['unzip', 'v0.2.14.zip'], stdout=STDOUT, stderr=STDERR)
           os.chdir('OpenBLAS-0.2.14')
           check_call(['make'], stdout=STDOUT, stderr=STDERR)
-          check_call(['make', 'install', 'PREFIX=/usr/local/OpenBLAS'], stdout=STDOUT, stderr=STDERR)
-          check_call(['ln', '-s', '/usr/local/OpenBLAS/lib/libopenblas.so', '/usr/local/lib/libopenblas.so.0'], stdout=STDOUT, stderr=STDERR)
+          check_call(['sudo', 'make', 'install', 'PREFIX=/usr/local/OpenBLAS'], stdout=STDOUT, stderr=STDERR)
+          check_call(['sudo', 'ln', '-s', '/usr/local/OpenBLAS/lib/libopenblas.so', '/usr/local/lib/libopenblas.so.0'], stdout=STDOUT, stderr=STDERR)
           os.chdir('..')
           os.remove('v0.2.14.zip')
           shutil.rmtree('OpenBLAS-0.2.14', ignore_errors=True)
@@ -152,7 +153,7 @@ if APPLY_UBUNTU_12_PATCHES:
           os.chdir('glog-0.3.4')
           check_call(['./configure'], stdout=STDOUT, stderr=STDERR)
           check_call(['make'], stdout=STDOUT, stderr=STDERR)
-          check_call(['make', 'install'], stdout=STDOUT, stderr=STDERR)
+          check_call(['sudo', 'make', 'install'], stdout=STDOUT, stderr=STDERR)
           os.chdir('..')
           os.remove('v0.3.4.zip')
           shutil.rmtree('glog-0.3.4', ignore_errors=True)
@@ -163,7 +164,7 @@ if APPLY_UBUNTU_13_PATCHES:
   puts(colored.green('Applying Ubuntu 13 patches.'))
   with indent(4):
     puts('OpenCL:')
-    check_call(['apt-get', 'install', 'ocl-icd-libopencl1'], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'apt-get', 'install', 'ocl-icd-libopencl1'], stdout=STDOUT, stderr=STDERR)
 
 #######################################
 # General installation
@@ -186,29 +187,29 @@ def download_reporthook(count, block_size, total_size):
 puts(colored.green('Installing system packages...'))
 with indent(4):
   puts('OpenCV.')
-  check_call(['apt-get', 'install', 'libopencv-dev'], stdout=STDOUT, stderr=STDERR)
+  check_call(['sudo', 'apt-get', 'install', 'libopencv-dev'], stdout=STDOUT, stderr=STDERR)
   if not APPLY_UBUNTU_12_PATCHES:
     puts('boost.')
-    check_call(['apt-get', 'install', 'libboost-all-dev'], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'apt-get', 'install', 'libboost-all-dev'], stdout=STDOUT, stderr=STDERR)
     puts('eigen.')
-    check_call(['apt-get', 'install', 'libeigen3-dev'], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'apt-get', 'install', 'libeigen3-dev'], stdout=STDOUT, stderr=STDERR)
   try:
     check_call(['which', 'git'], stdout=STDOUT, stderr=STDERR)
   except:
     puts('git.')
-    check_call(['apt-get', 'install', 'git-core'], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'apt-get', 'install', 'git-core'], stdout=STDOUT, stderr=STDERR)
   if WITH_CAFFE:
     puts(colored.yellow('Installing additional CAFFE dependencies...'))
     with indent(4):
       if not APPLY_UBUNTU_12_PATCHES:
         puts('OpenBLAS.')
-        check_call(['apt-get', 'install', 'libopenblas-dev'], stdout=STDOUT, stderr=STDERR)
+        check_call(['sudo', 'apt-get', 'install', 'libopenblas-dev'], stdout=STDOUT, stderr=STDERR)
         puts('glog.')
-        check_call(['apt-get', 'install', 'libgoogle-glog-dev'], stdout=STDOUT, stderr=STDERR)
+        check_call(['sudo', 'apt-get', 'install', 'libgoogle-glog-dev'], stdout=STDOUT, stderr=STDERR)
       puts('protobuf.')
-      check_call(['apt-get', 'install', 'libprotobuf-dev', 'protobuf-compiler'], stdout=STDOUT, stderr=STDERR)
+      check_call(['sudo', 'apt-get', 'install', 'libprotobuf-dev', 'protobuf-compiler'], stdout=STDOUT, stderr=STDERR)
       puts('hdf5.')
-      check_call(['apt-get', 'install', 'libhdf5-serial-dev'], stdout=STDOUT, stderr=STDERR)
+      check_call(['sudo', 'apt-get', 'install', 'libhdf5-serial-dev'], stdout=STDOUT, stderr=STDERR)
       puts('AlexNet as default feature extractor.')
       # This can happen in quiet mode.
       if not os.path.exists(CAFFE_MODEL_DIR):
@@ -247,29 +248,53 @@ if EIGEN_INSTALL_DIR is None:
 
 #######################################
 # Python
+def check_output(command):
+    r""" see http://stackoverflow.com/questions/5020538/python-get-output-from-a-command-line-which-exits-with-nonzero-exit-code
+    """
+    process = subprocess.Popen(command, stdout=subprocess.PIPE)
+    output = process.communicate()[0].strip()
+    retcode = process.poll()
+    if retcode:
+            raise subprocess.CalledProcessError(retcode, command, output=output[0])
+    return output 
+
 puts(colored.green('Installing Python modules...'))
 PIPLIST = ['networkx', 'cppheaderparser', 'ply']
 CONDALIST = ['jinja2', 'numpy', 'scons']
 if WITH_PYTHON:
   CONDALIST.extend(['scipy', 'pillow', 'scikit-image', 'matplotlib', 'scikit-learn'])
 try:
-  check_call(['which', '%sconda' % (BIN_FOLDER)], stdout=STDOUT, stderr=STDERR)
+  CONDA = check_output(['which', '%sconda' % (BIN_FOLDER)])
   CONDA_AVAILABLE = True
 except:
   CONDA_AVAILABLE = False
 if CONDA_AVAILABLE:
   puts(colored.green('conda detected! Using conda to install available packages.'))
-  check_call(['%sconda' % (BIN_FOLDER), 'update', '--yes', 'conda'], stdout=STDOUT, stderr=STDERR)
+  CONDA_SU = False
+  try:
+    check_call([CONDA, 'update', '--yes', 'conda'], stdout=STDOUT, stderr=STDERR)
+  except:
+    puts("Calling `conda update --yes conda` failed. Trying with sudo...")
+    CONDA_SU = True
+    try:
+      check_call(['sudo', CONDA, 'update', '--yes', 'conda'], stdout=STDOUT, stderr=STDERR)
+    except:
+      puts("Cannot use conda! Please repair your conda installation (see setup_stdout.txt and setup_stderr.txt for output).")
+      sys.exit(1)
 else:
   PIPLIST.extend(CONDALIST)
   CONDALIST = []
+PIP = check_output(['which', '%spip' % (BIN_FOLDER)])
 with indent(4):
   for mname in CONDALIST:
     puts("%s." % (mname))
-    check_call(['%sconda' % (BIN_FOLDER), 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
+    if CONDA_SU:
+      check_call(['sudo', CONDA, 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
+    else:
+      check_call([CONDA, 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
   for mname in PIPLIST:
     puts("%s." % (mname))
-    check_call(['%spip' % (BIN_FOLDER), 'install', mname], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', PIP, 'install', mname], stdout=STDOUT, stderr=STDERR)
 
 #######################################
 # MATLAB
@@ -310,6 +335,7 @@ else:
   OPENBLAS_CODE = 'export OPENBLAS_ROOT="%s"' % (OPENBLAS_INSTALL_DIR)
 with open('setup_paths.sh', 'w') as outfile:
   outfile.write(r"""
+#!/bin/bash
 # Modify this file as required.
 # export BOOST_ROOT=...
 # export BOOST_LIB_DIR=...
@@ -349,6 +375,7 @@ else:
 
 with open('compile.sh', 'w') as outfile:
   outfile.write(r"""
+#!/bin/bash
 echo You can speed up the build process by editing
 echo "compile.sh" and increasing the --jobs=1
 echo value.

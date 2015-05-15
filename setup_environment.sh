@@ -20,18 +20,8 @@ else
   read a
 fi
 
-#############################################
-# Check for root execution.
-# (c.t. http://www.linuxquestions.org/questions/programming-9/root-user-check-in-bash-script-doesn%27t-work-273911/)
-E_NOTROOT=67   # Non-root exit error.
-
-if [[ `whoami` != "root" ]]; then
-  echo "The script must be run with root privileges! Exiting..."
-  exit $E_NOTROOT
-fi
-
 echo "Updating package cache..."
-#apt-get update > /dev/null 2>&1
+sudo apt-get update > /dev/null 2>&1
 echo "Done."
 
 ##############################################
@@ -55,7 +45,7 @@ Alternatively, if you have no Python installed, should I install it by running '
   	read a
   	if [[ $a == "Y" || $a == "y" || $a = "" ]]; then
   	  echo "Installing..."
-  	  apt-get install python python-dev python-pip
+  	  sudo apt-get install python python-dev python-pip
   	  echo "Installation finished."
   	  if [[ `which python` == "" || `which pip` == "" ]]; then
   	    echo "Can not find python or pip on the command line. Installation apparently failed. You will have to fix this manually. Exiting..."
@@ -79,7 +69,7 @@ Alternatively, if you have no Python installed, should I install it by running '
   	read a
   	if [[ $a == "Y" || $a == "y" || $a = "" ]]; then
   	  echo "Installing..."
-  	  apt-get install python-pip
+  	  sudo apt-get install python-pip
   	  echo "Installation finished."
   	  if [[ `which python` == "" || `which pip` == "" ]]; then
   	    echo "Cannot find python or pip on the command line. Installation apparently failed. You will have to fix this manually. Exiting..."
