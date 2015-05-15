@@ -406,9 +406,9 @@ scons --with-serialization %s%s--with-tests --with-examples %s%s%s--jobs=1
 """ % (PY_STRING, MA_STRING, CA_STRING, CA_MO_STRING, CA_CP_STRING))
 check_call(['chmod', '+x', 'compile.sh'])
 
-puts(colored.green('Setting permissions...'))
-check_call(['sudo', 'chown', '-R', getpass.getuser(), '.'])
-puts('Done.')
+#puts(colored.green('Setting permissions...'))
+#check_call(['sudo', 'chown', '-R', getpass.getuser(), '.'])
+#puts('Done.')
 
 puts(colored.green('All set! Adjust "setup_paths.sh" and "compile.sh" to your needs!'))
 if WITH_PYTHON:

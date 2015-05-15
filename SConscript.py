@@ -376,13 +376,16 @@ def setupTargets(env, root=".",
       # After configuring, OpenCV highgui ist included.
       # Remove OpenCV highgui lib, since it is not required.
       if not GetOption("clean") and not GetOption("help"):
+        print "Debug: extending libs"
         tmp_libs = []
         for libitem in env['LIBS']:
+          print "Item: " + str(libitem)
           if isinstance(libitem, list):
             tmp_libs.extend(libitem)
           else:
             tmp_libs.append(libitem)
         if not GetOption("with_caffe"):
+          print "Debug: in caffe preparation")
           env.Replace(LIBS=[lib for lib in tmp_libs \
                             if not lib.startswith("opencv_highgui")])
       lib, headers = SConscript(os.path.join(root, "fertilized", "SConscript.py"),
