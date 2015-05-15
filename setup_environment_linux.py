@@ -91,7 +91,7 @@ OPENBLAS_INSTALL_DIR = None
 #######################################
 # Build tools
 puts(colored.green('Installing build tools...'))
-check_call(['sudo', 'apt-get', 'install', 'build-essential'], stdout=STDOUT, stderr=STDERR)
+check_call(['sudo', 'apt-get', 'install', 'build-essential', 'doxygen'], stdout=STDOUT, stderr=STDERR)
 
 #######################################
 # Ubuntu 12
@@ -291,7 +291,15 @@ with indent(4):
     if CONDA_SU:
       check_call(['sudo', CONDA, 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
     else:
-      check_call([CONDA, 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
+      try:
+        check_call([CONDA, 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
+      except:
+        puts("Retrying with sudo...")
+        try:
+          check_call(['sudo', CONDA, 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
+          CONDA_SU = True
+        except:
+          puts("Cannot use conda! Please repair your conda installation (see setup_stdout.txt and setup_stderr.txt for output).")
   for mname in PIPLIST:
     puts("%s." % (mname))
     check_call(['sudo', PIP, 'install', mname], stdout=STDOUT, stderr=STDERR)
@@ -334,8 +342,7 @@ if OPENBLAS_INSTALL_DIR is None:
 else:
   OPENBLAS_CODE = 'export OPENBLAS_ROOT="%s"' % (OPENBLAS_INSTALL_DIR)
 with open('setup_paths.sh', 'w') as outfile:
-  outfile.write(r"""
-#!/bin/bash
+  outfile.write(r"""#!/bin/bash
 # Modify this file as required.
 # export BOOST_ROOT=...
 # export BOOST_LIB_DIR=...
@@ -374,8 +381,7 @@ else:
   CA_CP_STRING = ''
 
 with open('compile.sh', 'w') as outfile:
-  outfile.write(r"""
-#!/bin/bash
+  outfile.write(r"""#!/bin/bash
 echo You can speed up the build process by editing
 echo "compile.sh" and increasing the --jobs=1
 echo value.
