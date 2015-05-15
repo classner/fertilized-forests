@@ -385,7 +385,7 @@ def setupTargets(env, root=".",
           else:
             tmp_libs.append(libitem)
         if not GetOption("with_caffe"):
-          print "Debug: in caffe preparation")
+          print "Debug: in caffe preparation"
           env.Replace(LIBS=[lib for lib in tmp_libs \
                             if not lib.startswith("opencv_highgui")])
       lib, headers = SConscript(os.path.join(root, "fertilized", "SConscript.py"),
