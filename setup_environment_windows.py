@@ -53,9 +53,9 @@ if QUIET_MODE:
 else:
   #######################################
   # Initialize configuration.
-  WITH_PYTHON = prompt.yn('Do you want to build the Python interface?')
-  WITH_MATLAB = prompt.yn('Do you want to build the MATLAB interface?')
-  WITH_CAFFE = prompt.yn('Do you want to use the CAFFE feature extraction?')
+  WITH_PYTHON = not prompt.yn('Do you want to build the Python interface?', default='n')
+  WITH_MATLAB = not prompt.yn('Do you want to build the MATLAB interface?', default='n')
+  WITH_CAFFE = not prompt.yn('Do you want to use the CAFFE feature extraction?', default='n')
   if WITH_CAFFE:
     CAFFE_MODEL_DIR = prompt.query('Where do you want the CAFFE models to be stored (no spaces allowed)?', validators=[validators.PathValidator()])
     CAFFE_TMP_DIR = prompt.query('Where do you want the CAFFE temporary files to be stored?', validators=[validators.PathValidator()])
@@ -304,7 +304,7 @@ with indent(4):
       install_boost_binary('system')
       install_boost_binary('filesystem')
       install_boost_binary('chrono')
-      if not os.path.exists(r'boost_python_2.7_cache.zip'):
+      if not os.path.exists(r'boost_python_2.7.zip'):
           puts(colored.yellow('Using a prepared version of boost python for Python 2.7. If you want to use the library with a different version of Python, you can, but will have to use a self-compiled version of boost with your specific Python.'))
           urllib.urlretrieve('http://www.multimedia-computing.de/fertilized/files/cache/boost_python_2.7.zip',
                              'boost_python_2.7.zip',
@@ -352,7 +352,6 @@ with indent(4):
          PROTOC = r'nuget-deps\protoc\protoc.exe'
       os.environ['PROTOC'] = PROTOC
       puts('hdf5.')
-      HDF5_ROOT, own = configure_package('hdf5-v120', [r'include\hdf5.h', r'lib\hdf5.lib'], doubleindent=True)
       if not own and not os.path.exists(r'nuget-deps\hdf5'):
         urllib.urlretrieve('http://www.multimedia-computing.de/fertilized/files/cache/HDF5.zip',
                'HDF5.zip',

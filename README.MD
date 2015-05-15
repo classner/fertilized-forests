@@ -9,7 +9,6 @@ API documentation on [http://www.fertilized-forests.org](http://www.fertilized-f
 The construction branch is `unstable`. Only versions that are completely tested
 get merged to `master`, so `master` is always always stable, with all tests passing and all builds running. The current status of `unstable` is as follows:
 
-* [![Build Status](https://travis-ci.org/ChrislS/fertilized-forests.svg?branch=unstable)](https://travis-ci.org/ChrislS/fertilized-forests) Build and tests, core library - Linux
 * [![Build status](https://ci.appveyor.com/api/projects/status/ypw6pxe1sp26hv62?svg=true)](https://ci.appveyor.com/project/ChrislS/fertilized-forests) Build and tests, core library - Windows
 * [![Jenkins](https://img.shields.io/jenkins/s/http/www.christophlassner.de/jenkins/fertilized-continuous-release-caffe.svg)]() Build and tests, core library, Python interface and caffe feature extraction
 

@@ -374,7 +374,6 @@ def setupTargets(env, root=".",
       if not GetOption("clean") and not GetOption("help"):
         tmp_libs = []
         for libitem in env['LIBS']:
-          print "Item: " + str(libitem)
           if isinstance(libitem, list):
             tmp_libs.extend(libitem)
           else:
