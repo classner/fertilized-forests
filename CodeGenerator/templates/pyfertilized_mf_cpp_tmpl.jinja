@@ -24,8 +24,6 @@ namespace np = boost::numpy;
 
 using namespace pyfertilized;
 
-namespace pyfertilized {
-
 BOOST_PYTHON_MODULE(pyfertilized_mf) {
   // Allow releasing the GIL.
   PyEval_InitThreads();
@@ -45,6 +43,5 @@ BOOST_PYTHON_MODULE(pyfertilized_mf) {
 @ for func_ind in nmfuncids
   __export_module_function_{{func_ind}}();
 @ endfor
-};
 };
 

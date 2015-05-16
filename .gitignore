@@ -52,7 +52,7 @@ pyfertilized/exporters
 pyfertilized/fertilized/TypeTranslations.py
 pyfertilized/tests_pickle.py
 pyfertilized/tmpfertilized
-pyfertilized/pyfertilized.cpp
+pyfertilized/pyfertilized_*.cpp
 pyfertilized/pyfertilized_mf.cpp
 pyfertilized/fertilized/init.py
 pyfertilized/fertilized

@@ -265,6 +265,7 @@ python_exporter_cpp_tmpl = templateEnv.get_template("python_exporter_cpp.jinja")
 python_exporter_h_tmpl = templateEnv.get_template("python_exporter_h.jinja")
 pyfertilized_cpp_tmpl = templateEnv.get_template("pyfertilized_cpp_tmpl.jinja")
 pyfertilized_mf_cpp_tmpl = templateEnv.get_template("pyfertilized_mf_cpp_tmpl.jinja")
+pyfertilized_vec_cpp_tmpl = templateEnv.get_template("pyfertilized_vec_cpp_tmpl.jinja")
 python_export_module_functions_cpp_tmpl = templateEnv.get_template("python_export_module_functions_cpp.jinja")
 python_soil_tmpl = templateEnv.get_template("python_soil_py.jinja")
 array_exporter_tmpl = templateEnv.get_template("array_exporter_cpp.jinja")
@@ -385,19 +386,35 @@ for cls in python_exp_classes:
     else:
         cls_inst_tpls.append((cls, None))
 pyfunc_export_dir = os.path.join('..', 'pyfertilized', 'exporters_mod_funcs')
-templateVars = {"classes" : python_exp_classes,
-                'nmfuncids':xrange(len(func_inst_tpls)),
-                'tmplids':xrange(len(vec_types)),
-                'clsids':xrange(len(cls_inst_tpls))}
-generated = pyfertilized_cpp_tmpl.render(templateVars)
-with open(os.path.join('..',
-                       'pyfertilized',
-                       'pyfertilized.cpp'), 'w') as expfile:
-  expfile.write(generated)
+def chunks(seq, size):
+    r"""
+    Creates chunks of `size` of `seq`.
+
+    See http://stackoverflow.com/questions/434287/what-is-the-most-pythonic-way-to-iterate-over-a-list-in-chunks.  # noqa
+    """
+    return (seq[pos:pos + size] for pos in xrange(0, len(seq), size))
+# Care! The chunksize must be equal in pyfertilized/SConscript.py
+chunksize = 50
+for export_id, clsids in enumerate(chunks(range(len(cls_inst_tpls)), chunksize)):
+    templateVars = {"classes" : python_exp_classes,
+                    'nmfuncids':xrange(len(func_inst_tpls)),
+                    'tmplids':xrange(len(vec_types)),
+                    'clsids': clsids,
+                    'export_id': export_id}
+    generated = pyfertilized_cpp_tmpl.render(templateVars)
+    with open(os.path.join('..',
+                           'pyfertilized',
+                           'pyfertilized_%d.cpp' % (export_id)), 'w') as expfile:
+      expfile.write(generated)
 generated = pyfertilized_mf_cpp_tmpl.render(templateVars)
 with open(os.path.join('..',
                        'pyfertilized',
                        'pyfertilized_mf.cpp'), 'w') as expfile:
+  expfile.write(generated)
+generated = pyfertilized_vec_cpp_tmpl.render(templateVars)
+with open(os.path.join('..',
+                       'pyfertilized',
+                       'pyfertilized_vec.cpp'), 'w') as expfile:
   expfile.write(generated)
 # Cleanup!
 delfiles = glob.glob(os.path.join('..', 'pyfertilized', 'exporters', '__*'))
@@ -466,12 +483,6 @@ generated = vec_exporter_h_tmpl.render({'tmplids':xrange(len(vec_types))})
 with open(os.path.join(vec_export_dir,
                         'vec_exporter.h'), 'w') as expfile:
     expfile.write(generated)
-
-generated = tests_pickle_tmpl.render({"classes" : python_exp_classes})
-with open(os.path.join('..',
-                       'pyfertilized',
-                       'tests_pickle.py'), 'w') as expfile:
-  expfile.write(generated)
 
 print('Generating MATLAB interface...')
 if not os.path.exists(os.path.join('..', 'matfertilized', 'exporters')):

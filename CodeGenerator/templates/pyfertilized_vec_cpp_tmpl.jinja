@@ -24,14 +24,7 @@ namespace np = boost::numpy;
 
 using namespace pyfertilized;
 
-namespace pyfertilized {
-  // Forward declarations.
-@ for clsid in clsids
-  void __python_export_{{clsid}}();
-@ endfor
-};
-
-BOOST_PYTHON_MODULE(pyfertilized_{{export_id}}) {
+BOOST_PYTHON_MODULE(pyfertilized_vec) {
   // Allow releasing the GIL.
   PyEval_InitThreads();
   // Boost numpy needs an initialization method call *critical*.
@@ -44,10 +37,10 @@ BOOST_PYTHON_MODULE(pyfertilized_{{export_id}}) {
   doc_options.enable_py_signatures();
   doc_options.disable_cpp_signatures();
 
-  py::scope().attr("__doc__") = "Fertilized Python Interface\n";
+  py::scope().attr("__doc__") = "Fertilized Python Vectors\n";
 
-  // Export classes.
-@ for clsid in clsids
-  __python_export_{{clsid}}();
+  // Vectors of C++ types.
+@ for tpind in tmplids
+  __export_vectors_{{tpind}}();
 @ endfor
 };
