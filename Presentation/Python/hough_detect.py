@@ -76,7 +76,7 @@ def evaluate(im_idx, im, lock):
     if VISUALIZATION:
       plt.imshow(scaled_image)
     for ratio in ratios:
-      probmap = forest.predict_image(fertilized._pyfertilized.extract_hough_forest_features(scaled_image, (n_feature_channels==32)),
+      probmap = forest.predict_image(fertilized.extract_hough_forest_features(scaled_image, (n_feature_channels==32)),
                                      application_step_size,
                                      use_reduced_grid,
                                      ratio,
