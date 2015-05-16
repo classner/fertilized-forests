@@ -73,6 +73,9 @@ else:
 EIGEN_INSTALL_DIR = None
 OPENBLAS_INSTALL_DIR = None
 
+# Store binary dependencies here.
+os.mkdir('bindep')
+
 def download_reporthook(count, block_size, total_size):
     """
     From http://blog.moleculea.com/2012/10/04/urlretrieve-progres-indicator/
@@ -280,6 +283,11 @@ with indent(4):
       OPENCV_ROOT = r"nuget-deps\opencv\build"
   OPENCV_LIB_DIR = os.path.join(OPENCV_ROOT, 'x64', 'vc12', 'lib')
   OPENCV_BIN_DIR = os.path.join(OPENCV_ROOT, 'x64', 'vc12', 'bin')
+  for binfile in ['OPENCV_IMGPROC%s.DLL',
+                  'OPENCV_HIGHGUI%s.DLL',
+                  'OPENCV_CORE%s.DLL']:
+    shutil.copy2(os.path.join(OPENCV_BIN_DIR, binfile),
+                 os.path.join('bindep', binfile))
   puts('eigen 3.')
   EIGEN_ROOT, own = configure_package('Eigen', [r'Eigen\Eigen'])
   if not own:
@@ -314,6 +322,8 @@ with indent(4):
       if WITH_CAFFE:
           install_boost_binary('date_time')
       BOOST_ROOT += '-compiled'
+  shutil.copy2(os.path.join(BOOST_ROOT, 'stage', 'lib', 'BOOST_PYTHON-VC120-MT-1_58.DLL'),
+               os.path.join('bindep', 'BOOST_PYTHON-VC120-MT-1_58.DLL'))
   if WITH_CAFFE:
     puts(colored.yellow('Installing additional CAFFE dependencies...'))
     with indent(4):
@@ -328,6 +338,7 @@ with indent(4):
           OPENBLAS_BIN_DIR = os.path.join(OPENBLAS_ROOT, 'bin')
       shutil.copy2(os.path.join(OPENBLAS_LIB_DIR, 'libopenblas.dll.a'),
                    os.path.join(OPENBLAS_LIB_DIR, 'libopenblas.dll.a.lib'))
+      copy_contents(OPENBLAS_BIN_DIR, 'bindep')
       puts('protobuf.')
       PROTOBUF_ROOT, own = configure_package('protobuf-v120', [r'src\google\protobuf'], version='2.6.1', doubleindent=True)
       if own:
@@ -362,6 +373,9 @@ with indent(4):
         HDF5_ROOT = r'nuget-deps\hdf5'
       HDF5_LIB = HDF5_ROOT + r'\lib'
       HDF5_BIN = HDF5_ROOT + r'\bin'
+      for binfile in ['hdf5.dll', 'hdf5_hl.dll', 'zlib.dll', 'szip.dll']:
+          shutil.copy2(os.path.join(HDF5_BIN, binfile),
+                       os.path.join('bindep', binfile))
       puts('AlexNet as default feature extractor.')
       # This can happen in quiet mode.
       if not os.path.exists(CAFFE_MODEL_DIR):
