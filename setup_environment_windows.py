@@ -74,7 +74,8 @@ EIGEN_INSTALL_DIR = None
 OPENBLAS_INSTALL_DIR = None
 
 # Store binary dependencies here.
-os.mkdir('bindep')
+if not os.path.exists('bindep'):
+  os.mkdir('bindep')
 
 def download_reporthook(count, block_size, total_size):
     """
@@ -283,9 +284,9 @@ with indent(4):
       OPENCV_ROOT = r"nuget-deps\opencv\build"
   OPENCV_LIB_DIR = os.path.join(OPENCV_ROOT, 'x64', 'vc12', 'lib')
   OPENCV_BIN_DIR = os.path.join(OPENCV_ROOT, 'x64', 'vc12', 'bin')
-  for binfile in ['OPENCV_IMGPROC%s.DLL',
-                  'OPENCV_HIGHGUI%s.DLL',
-                  'OPENCV_CORE%s.DLL']:
+  for binfile in ['OPENCV_IMGPROC%s.DLL' % (OPENCV_VERSION),
+                  'OPENCV_HIGHGUI%s.DLL' % (OPENCV_VERSION),
+                  'OPENCV_CORE%s.DLL' % (OPENCV_VERSION)]:
     shutil.copy2(os.path.join(OPENCV_BIN_DIR, binfile),
                  os.path.join('bindep', binfile))
   puts('eigen 3.')
@@ -322,8 +323,8 @@ with indent(4):
       if WITH_CAFFE:
           install_boost_binary('date_time')
       BOOST_ROOT += '-compiled'
-  shutil.copy2(os.path.join(BOOST_ROOT, 'stage', 'lib', 'BOOST_PYTHON-VC120-MT-1_58.DLL'),
-               os.path.join('bindep', 'BOOST_PYTHON-VC120-MT-1_58.DLL'))
+  for file in glob(os.path.join(BOOST_ROOT, 'stage', 'lib', 'BOOST_PYTHON-VC120-MT-*.DLL')):
+    shutil.copy2(file, 'bindep')
   if WITH_CAFFE:
     puts(colored.yellow('Installing additional CAFFE dependencies...'))
     with indent(4):
@@ -363,13 +364,17 @@ with indent(4):
          PROTOC = r'nuget-deps\protoc\protoc.exe'
       os.environ['PROTOC'] = PROTOC
       puts('hdf5.')
-      if not own and not os.path.exists(r'nuget-deps\hdf5'):
-        urllib.urlretrieve('http://www.multimedia-computing.de/fertilized/files/cache/HDF5.zip',
-               'HDF5.zip',
-               DOWNLOAD_HOOK)
-        hdf5_zip = zipfile.ZipFile('hdf5.zip')
-        os.mkdir(r'nuget-deps\hdf5')
-        hdf5_zip.extractall(path=r'nuget-deps\hdf5')
+      HDF5_ROOT, own = configure_package('HDF5',
+                                         [r'include\hdf5.h', r'lib\hdf5.lib'],
+                                         'http://www.multimedia-computing.de/fertilized/files/cache/HDF5.zip',
+                                         'HDF5.zip',
+                                         [],
+                                         doubleindent=True)
+      if not own:
+        if not os.path.exists(r'nuget-deps\hdf5'):
+          hdf5_zip = zipfile.ZipFile('hdf5.zip')
+          os.mkdir(r'nuget-deps\hdf5')
+          hdf5_zip.extractall(path=r'nuget-deps\hdf5')
         HDF5_ROOT = r'nuget-deps\hdf5'
       HDF5_LIB = HDF5_ROOT + r'\lib'
       HDF5_BIN = HDF5_ROOT + r'\bin'
