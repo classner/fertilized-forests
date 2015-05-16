@@ -323,7 +323,9 @@ with indent(4):
       if WITH_CAFFE:
           install_boost_binary('date_time')
       BOOST_ROOT += '-compiled'
-  for file in glob(os.path.join(BOOST_ROOT, 'stage', 'lib', 'BOOST_PYTHON-VC120-MT-*.DLL')):
+  for file in glob(os.path.join(BOOST_ROOT, 'stage', 'lib', 'BOOST_PYTHON-*.DLL')):
+    shutil.copy2(file, 'bindep')
+  for file in glob(os.path.join(BOOST_ROOT, 'stage', 'lib', 'BOOST_UNIT_TEST_FRAMEWORK-*.DLL')):
     shutil.copy2(file, 'bindep')
   if WITH_CAFFE:
     puts(colored.yellow('Installing additional CAFFE dependencies...'))
