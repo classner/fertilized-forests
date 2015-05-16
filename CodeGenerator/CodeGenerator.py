@@ -264,6 +264,7 @@ serialization_obj_cpp_cpp_tmpl = templateEnv.get_template("serialization_obj_cpp
 python_exporter_cpp_tmpl = templateEnv.get_template("python_exporter_cpp.jinja")
 python_exporter_h_tmpl = templateEnv.get_template("python_exporter_h.jinja")
 pyfertilized_cpp_tmpl = templateEnv.get_template("pyfertilized_cpp_tmpl.jinja")
+pyfertilized_mf_cpp_tmpl = templateEnv.get_template("pyfertilized_mf_cpp_tmpl.jinja")
 python_export_module_functions_cpp_tmpl = templateEnv.get_template("python_export_module_functions_cpp.jinja")
 python_soil_tmpl = templateEnv.get_template("python_soil_py.jinja")
 array_exporter_tmpl = templateEnv.get_template("array_exporter_cpp.jinja")
@@ -392,6 +393,11 @@ generated = pyfertilized_cpp_tmpl.render(templateVars)
 with open(os.path.join('..',
                        'pyfertilized',
                        'pyfertilized.cpp'), 'w') as expfile:
+  expfile.write(generated)
+generated = pyfertilized_mf_cpp_tmpl.render(templateVars)
+with open(os.path.join('..',
+                       'pyfertilized',
+                       'pyfertilized_mf.cpp'), 'w') as expfile:
   expfile.write(generated)
 # Cleanup!
 delfiles = glob.glob(os.path.join('..', 'pyfertilized', 'exporters', '__*'))

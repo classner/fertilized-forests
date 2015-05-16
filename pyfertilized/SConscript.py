@@ -24,20 +24,29 @@ pyfertilized_lib_env.AppendUnique(LIBPATH=[os.path.dirname(lib_lnk.abspath)])
 # Create the build file list.
 file_list = Glob('pyfertilized.cpp') + \
             Glob('./exporters/*.cpp') + \
-            Glob('./exporters_mod_funcs/*.cpp') + \
             Glob('./exporters_vec_types/*.cpp')
-# The library.
+file_list_mf = Glob('pyfertilized_mf.cpp') + \
+               Glob('./exporters_mod_funcs/*.cpp') + \
+               Glob('./exporters_vec_types/*.cpp')
+# The libraries.
 pylib = pyfertilized_lib_env.SharedLibrary('pyfertilized', file_list)
+pylib_mf = pyfertilized_lib_env.SharedLibrary('pyfertilized_mf', file_list_mf)
 # Install.
 lib_file = pyfertilized_lib_env.Command(os.path.join(Dir('.').srcnode().abspath,
                                                      'fertilized',
                                                      'pyfertilized') + PY_SUFFIX,
                                         pylib[0],
                                         Copy("$TARGET", "$SOURCE"))
+lib_file_mf = pyfertilized_lib_env.Command(os.path.join(Dir('.').srcnode().abspath,
+                                                        'fertilized',
+                                                        'pyfertilized_mf') + PY_SUFFIX,
+                                           pylib_mf[0],
+                                           Copy("$TARGET", "$SOURCE"))
 # Binary dependencies.
 if os.name == 'nt':
   if os.path.exists(Dir('#bindep').abspath):
     bindeps = Glob(os.path.join(Dir('#bindep').abspath, '*'))
     for bindep in bindeps:
       env.InstallAs(os.path.join(Dir('#pyfertilized/fertilized').abspath, os.path.basename(bindep.abspath)), bindep)
-Return("lib_file")
+Return("lib_file", "lib_file_mf")
+

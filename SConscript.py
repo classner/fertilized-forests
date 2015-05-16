@@ -436,9 +436,9 @@ def setupTargets(env, root=".",
       bn_module = SConscript(os.path.join(bn_module_path, 'SConscript'),
                              exports=['env', 'EXT_SUFFIX', 'LIB_SUFFIX', 'OBJ_SUFFIX', 'PY_SUFFIX'])
       env = tmp_env
-      python_module = SConscript(os.path.join(root, "pyfertilized", "SConscript.py"),
-                                 exports=['env', 'bn_module', 'lib', 'PY_SUFFIX', 'lib_lnk'],
-                                 variant_dir='build/'+env['VARIANT_DIR_PREF']+'/pyfertilized')
+      py_mod, pymf_mod = SConscript(os.path.join(root, "pyfertilized", "SConscript.py"),
+                                    exports=['env', 'bn_module', 'lib', 'PY_SUFFIX', 'lib_lnk'],
+                                    variant_dir='build/'+env['VARIANT_DIR_PREF']+'/pyfertilized')
     if GetOption('with_tests') and not generate_mode:
       tests_executable = SConscript(os.path.join(root, "fertilized_tests", "SConscript.py"),
                                     exports=['env', 'lib', 'lib_lnk'],
