@@ -54,7 +54,7 @@ double f1_score(Array<uint, 2, 2>& truth, Array<double, 2, 2>& prediction) {
     double values[4]; //tn, fp, fn, tp
     values[0] = 0.0; values[1] = 0.0; values[2] = 0.0; values[3] = 0.0;
     for(size_t i = 0; i < truth.size(); ++i)
-        values[truth[i][0]*2U+static_cast<uint>(prediction[i][1]-prediction[i][0]+1.0)]++;
+        values[truth[i][0]*2U+std::min(static_cast<uint>(prediction[i][1]-prediction[i][0]+1.0), 1U)]++;
     double precision = values[3]/(values[3]+values[1]);
     double recall = values[3]/(values[3]+values[2]);
     return 2.0 * (precision*recall) / (precision+recall);
