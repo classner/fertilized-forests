@@ -63,6 +63,9 @@
     <Compile Include="SConscript.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="C++\boosting.cpp">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="C++\custom.cpp">
       <SubType>Code</SubType>
     </Content>
