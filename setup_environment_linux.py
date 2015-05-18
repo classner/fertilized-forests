@@ -27,12 +27,33 @@ else:
 
 #######################################
 # Check for CLINT
+
+
+def check_output(command):
+    r""" see http://stackoverflow.com/questions/5020538/python-get-output-from-a-command-line-which-exits-with-nonzero-exit-code
+    """
+    process = subprocess.Popen(command, stdout=subprocess.PIPE)
+    output = process.communicate()[0].strip()
+    retcode = process.poll()
+    if retcode:
+            raise subprocess.CalledProcessError(retcode, command, output=output[0])
+    return output
+PIP = check_output(['which', '%spip' % (BIN_FOLDER)])
+PIP_SU = False
+
 try:
   import clint
   print "Python CLINT detected."
 except:
   print "Python CLINT not found. Installing..."
-  check_call(["%spip" % (BIN_FOLDER), "install", "clint"], stdout=STDOUT, stderr=STDERR)
+  try:
+      check_call([PIP, 'install', 'clint'], stdout=STDOUT, stderr=STDERR)
+  except:
+      try:
+          check_call(['sudo', PIP, 'install', 'clint'], stdout=STDOUT, stderr=STDERR)
+          PIP_SU = True
+      except:
+          print "Cannot use pip! Please repair your conda installation (see setup_stdout.txt and setup_stderr.txt for output)."
   print "Installation complete."
   import clint
 
@@ -85,6 +106,7 @@ else:
     puts(colored.red('No nvcc on the command line detected. Configuring CPU only build. If you want to change that, install nvcc and modify the file "compile.sh" (will be created at the end of this script).'))
     CPU_ONLY = True
   SET_CXX_CC = False
+  SUPPRESS_CAFFE_MODEL_DOWNLOAD = False
 
 EIGEN_INSTALL_DIR = None
 OPENBLAS_INSTALL_DIR = None
@@ -249,16 +271,6 @@ if EIGEN_INSTALL_DIR is None:
 
 #######################################
 # Python
-def check_output(command):
-    r""" see http://stackoverflow.com/questions/5020538/python-get-output-from-a-command-line-which-exits-with-nonzero-exit-code
-    """
-    process = subprocess.Popen(command, stdout=subprocess.PIPE)
-    output = process.communicate()[0].strip()
-    retcode = process.poll()
-    if retcode:
-            raise subprocess.CalledProcessError(retcode, command, output=output[0])
-    return output 
-
 puts(colored.green('Installing Python modules...'))
 PIPLIST = ['networkx', 'cppheaderparser', 'ply']
 CONDALIST = ['jinja2', 'numpy', 'scons']
@@ -285,7 +297,6 @@ if CONDA_AVAILABLE:
 else:
   PIPLIST.extend(CONDALIST)
   CONDALIST = []
-PIP = check_output(['which', '%spip' % (BIN_FOLDER)])
 with indent(4):
   for mname in CONDALIST:
     puts("%s." % (mname))
@@ -303,8 +314,17 @@ with indent(4):
           puts("Cannot use conda! Please repair your conda installation (see setup_stdout.txt and setup_stderr.txt for output).")
   for mname in PIPLIST:
     puts("%s." % (mname))
-    check_call(['sudo', PIP, 'install', mname], stdout=STDOUT, stderr=STDERR)
-
+    if PIP_SU:
+        check_call(['sudo', PIP, 'install', mname], stdout=STDOUT, stderr=STDERR)
+    else:
+        try:
+            check_call([PIP, 'install', mname], stdout=STDOUT, stderr=STDERR)
+        except:
+            try:
+                check_call(['sudo', PIP, 'install', mname], stdout=STDOUT, stderr=STDERR)
+                PIP_SU = True
+            except:
+                puts("Cannot use pip! Please repair your conda installation (see setup_stdout.txt and setup_stderr.txt for output).")
 #######################################
 # MATLAB
 if WITH_MATLAB:

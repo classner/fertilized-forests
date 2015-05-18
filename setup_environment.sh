@@ -3,7 +3,7 @@
 
 echo "This is the Linux environment setup script of the fertilized-forests library.
 
-It is a guided walkthrough through the requirement installations and setup options. It will (but only with your permission) install required software and create two files on success:
+It is a guided walkthrough through the requirement installations and setup options. It will install required software and create two files on success:
 
 * setup_paths.sh
 * compile.sh
