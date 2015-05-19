@@ -5,6 +5,7 @@
 
 import sys
 import os
+import subprocess
 from subprocess import check_call, Popen, PIPE
 import time
 import urllib
@@ -34,6 +35,18 @@ except:
   import clint
 
 from clint.textui import prompt, validators, colored, puts, indent
+
+#######################################
+# Visual Studio Version detection
+process = subprocess.Popen(['cl'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+MSC_VER_IDENT = process.communicate()[1].strip()
+retcode = process.poll()
+assert retcode == 0, "Error calling `cl`. Is this a Visual Studio command prompt?"
+if not "Version 18" in MSC_VER_IDENT:
+  VSVERSION_FIT = False
+  puts(colored.yellow("Detected VS Version other than 2013. Automatic dependency installation disabled!"))
+else:
+  VSVERSION_FIT = True
 
 #######################################
 # Setup
@@ -164,19 +177,20 @@ if not os.path.exists(SCONS):
     print 'The SCons path is not valid! Exiting.'
     sys.exit(1)
 
-#######################################
-# nuget
-puts(colored.green('Checking build tools...'))
-try:
-  check_call(['where', 'nuget'], stdout=STDOUT, stderr=STDERR)
-  with indent(4):
-      puts('nuget found.')
-except:
-  with indent(4):
-      puts('nuget not found. Downloading...')
-      urllib.urlretrieve('https://nuget.org/nuget.exe',
-                         'nuget.exe',
-                          DOWNLOAD_HOOK)
+if VSVERSION_FIT:
+  #######################################
+  # nuget
+  puts(colored.green('Checking build tools...'))
+  try:
+    check_call(['where', 'nuget'], stdout=STDOUT, stderr=STDERR)
+    with indent(4):
+        puts('nuget found.')
+  except:
+    with indent(4):
+        puts('nuget not found. Downloading...')
+        urllib.urlretrieve('https://nuget.org/nuget.exe',
+                           'nuget.exe',
+                            DOWNLOAD_HOOK)
 
 #######################################
 # General installation
@@ -213,9 +227,9 @@ def configure_package(name,
         indents = '        '
     else:
         indents = '    '
-    if not QUIET_MODE:
+    if not QUIET_MODE and VSVERSION_FIT:
         SPECIFY_PATH = not prompt.yn(indents + "Do you want to use your own version of %s?" % (name), default='n')
-    if SPECIFY_PATH:
+    if SPECIFY_PATH or not VSVERSION_FIT:
         libpath = prompt.query(indents + "Please specify the path to %s. The folder must " % (name) +\
           "contain the files/folders " + ", ".join(contained_files) + ".",
           validators=[PackageValidator(contained_files=contained_files)])
@@ -323,8 +337,11 @@ with indent(4):
       if WITH_CAFFE:
           install_boost_binary('date_time')
       BOOST_ROOT += '-compiled'
+  file_found = False
   for file in glob(os.path.join(BOOST_ROOT, 'stage', 'lib', 'BOOST_PYTHON-*.DLL')):
+    file_found = True
     shutil.copy2(file, 'bindep')
+  assert file_found, "The boost libraries and binaries must be in folder stage\\lib (e.g., BOOST_PYTHON-VC120-mt-1_58.dll)."
   for file in glob(os.path.join(BOOST_ROOT, 'stage', 'lib', 'BOOST_UNIT_TEST_FRAMEWORK-*.DLL')):
     shutil.copy2(file, 'bindep')
   if WITH_CAFFE:

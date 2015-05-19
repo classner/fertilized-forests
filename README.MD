@@ -20,9 +20,7 @@ completely setup the build environment.
 
 #### Windows
 
-The only remaining prerequisites are VS2013, a current Python 2.7 installation
-with pip and git. To build, open a VS2013 x64 command prompt in admin mode and
-run 
+The only remaining prerequisites are VS2013 (with other Versions, the setupscript will ask you for the paths to dependencies, but will not be able to automatically install them), a current Python 2.7 installation with pip and git. To build, open a VS2013 x64 command prompt in admin mode and run 
 
     git clone https://github.com/ChrislS/fertilized-forests.git
     cd fertilized-forests
@@ -32,9 +30,7 @@ run
 The `setup_environment.bat` will ask you questions about what and how to build,
 so you can use your specific library versions if desired. The script creates
 the files `setup_paths.bat` and `compile.bat`, which are easy to read and
-modify. So even if you are using a different compiler than VS2013 you can
-run the script to produce the files and replace the libraries with your own
-ones.
+modify.
 
 #### Linux
 
