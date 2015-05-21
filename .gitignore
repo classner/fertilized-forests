@@ -5,8 +5,6 @@ x64/
 _CL_*
 *.suo
 *.sdf
-compile.sh
-compile.bat
 setup_paths.sh
 setup_paths.bat
 nuget-deps/

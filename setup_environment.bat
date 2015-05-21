@@ -1,7 +1,7 @@
 @echo off
 
 echo This is the Windows environment setup script of the fertilized-forests library.
-echo It is a guided walkthrough through the requirement installations and setup options. It will install required software and create two files on success:
+echo It is a guided walkthrough through the requirement installations and setup options. It will install required software and create/customize two files on success:
 echo * setup_paths.bat
 echo * compile.bat
 echo You can use and modify them easily, since they are very short and simple to read. Use them to build the library afterwards.

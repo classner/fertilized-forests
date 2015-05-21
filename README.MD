@@ -29,8 +29,8 @@ The only remaining prerequisites are VS2013 (with other Versions, the setupscrip
 
 The `setup_environment.bat` will ask you questions about what and how to build,
 so you can use your specific library versions if desired. The script creates
-the files `setup_paths.bat` and `compile.bat`, which are easy to read and
-modify.
+the file `setup_paths.bat` and customizes `compile.bat`.
+Both files are easy to read and modify.
 
 #### Linux
 
@@ -43,8 +43,8 @@ there are no required prerequisites. Simply run with elevated privileges
     compile.sh
 
 Similar to the Windows script, the script `setup_environment.sh` will create
-the executable files `setup_paths.sh` and `compile.sh`, which are simple
-to read and modify.
+the executable file `setup_paths.sh` and customize `compile.sh`.
+Both files are simple to read and modify.
 
 #### Mac OS and other
 
