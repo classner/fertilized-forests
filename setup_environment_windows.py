@@ -24,13 +24,18 @@ else:
   BIN_FOLDER = ''
 
 #######################################
+# Find PIP
+PIP = Popen('where pip', stdout=PIPE).communicate()[0].strip()
+print "Using pip at: " + PIP
+  
+#######################################
 # Check for CLINT
 try:
   import clint
   print "Python CLINT detected."
 except:
   print "Python CLINT not found. Installing..."
-  check_call(["%spip" % (BIN_FOLDER), "install", "clint"], stdout=STDOUT, stderr=STDERR)
+  check_call([PIP, "install", "clint"], stdout=STDOUT, stderr=STDERR)
   print "Installation complete."
   import clint
 
@@ -71,7 +76,7 @@ else:
   WITH_CAFFE = not prompt.yn('Do you want to use the CAFFE feature extraction?', default='n')
   if WITH_CAFFE:
     CAFFE_MODEL_DIR = prompt.query('Where do you want the CAFFE models to be stored (no spaces allowed)?', validators=[validators.PathValidator()])
-    CAFFE_TMP_DIR = prompt.query('Where do you want the CAFFE temporary files to be stored?', validators=[validators.PathValidator()])
+    CAFFE_TMP_DIR = prompt.query('Where do you want the CAFFE temporary files to be stored (no spaces allowed)?', validators=[validators.PathValidator()])
   else:
     CAFFE_MODEL_DIR = None
     CAFFE_TMP_DIR = None
@@ -136,15 +141,16 @@ else:
 with indent(4):
   for mname in CONDALIST:
     puts("%s." % (mname))
-    check_call([CONDA, 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
+    try:
+        check_call([CONDA, 'install', '--yes', mname], stdout=STDOUT, stderr=STDERR)
+    except:
+        puts("Installation failed. Please install yourself!")
   for mname in PIPLIST:
     puts("%s." % (mname))
     try:
-        check_call(['%spip' % (BIN_FOLDER), 'install', mname], stdout=STDOUT, stderr=STDERR)
-
+        check_call([PIP, 'install', mname], stdout=STDOUT, stderr=STDERR)
     except:
         print "Installing %s using pip failed. Please try to install it yourself. If that's not possible, use the Anaconda Python distribution. In that case, this script will use the 'conda' installer, with which all packages can be installed for sure." % (mname)
-        sys.exit(1)
 
 #######################################
 # SCons
@@ -296,8 +302,14 @@ with indent(4):
   else:
       OPENCV_VERSION = "2411"
       OPENCV_ROOT = r"nuget-deps\opencv\build"
-  OPENCV_LIB_DIR = os.path.join(OPENCV_ROOT, 'x64', 'vc12', 'lib')
-  OPENCV_BIN_DIR = os.path.join(OPENCV_ROOT, 'x64', 'vc12', 'bin')
+  if not VSVERSION_FIT or own:
+      OPENCV_LIB_DIR = prompt.query("    Please specify the path to the OpenCV libraries. The folder must "
+          "contain the files like OPENCV_CORE%s.LIB." % (OPENCV_VERSION), validators=[validators.PathValidator()])
+      OPENCV_BIN_DIR = prompt.query("    Please specify the path to the OpenCV binaries. The folder must "
+          "contain the files like OPENCV_CORE%s.DLL." % (OPENCV_VERSION), validators=[validators.PathValidator()])
+  else:
+      OPENCV_LIB_DIR = os.path.join(OPENCV_ROOT, 'x64', 'vc12', 'lib')
+      OPENCV_BIN_DIR = os.path.join(OPENCV_ROOT, 'x64', 'vc12', 'bin')
   for binfile in ['OPENCV_IMGPROC%s.DLL' % (OPENCV_VERSION),
                   'OPENCV_HIGHGUI%s.DLL' % (OPENCV_VERSION),
                   'OPENCV_CORE%s.DLL' % (OPENCV_VERSION)]:
@@ -341,7 +353,7 @@ with indent(4):
   for file in glob(os.path.join(BOOST_ROOT, 'stage', 'lib', 'BOOST_PYTHON-*.DLL')):
     file_found = True
     shutil.copy2(file, 'bindep')
-  assert file_found, "The boost libraries and binaries must be in folder stage\\lib (e.g., BOOST_PYTHON-VC120-mt-1_58.dll)."
+  assert file_found, "The boost libraries and binaries must be in folder BOOST_ROOT\\stage\\lib (e.g., BOOST_PYTHON-VC120-mt-1_58.dll)."
   for file in glob(os.path.join(BOOST_ROOT, 'stage', 'lib', 'BOOST_UNIT_TEST_FRAMEWORK-*.DLL')):
     shutil.copy2(file, 'bindep')
   if WITH_CAFFE:
@@ -506,7 +518,8 @@ set BOOST_ROOT={BOOST_ROOT}
 REM Whereever the compiled files are.
 set BOOST_LIB_DIR=%BOOST_ROOT%\stage\lib
 set OPENCV_ROOT={OPENCV_ROOT}
-set OPENCV_LIB_DIR=%OPENCV_ROOT%\x64\vc12\lib
+set OPENCV_LIB_DIR={OPENCV_LIB_DIR}
+set OPENCV_BIN_DIR={OPENCV_BIN_DIR}
 set OPENCV_VERSION={OPENCV_VERSION}
 set EIGEN_ROOT={EIGEN_ROOT}
 REM Only required if you build --with-matlab
@@ -519,7 +532,7 @@ REM Only required if you build --with-caffe
 
 IF NOT "%FERTILIZED_ADDED_PATH%"=="" goto notextending
   echo Extending path!
-  set PATH=%PATH%;%OPENCV_ROOT%\x64\vc12\bin;%BOOST_LIB_DIR%;
+  set PATH=%PATH%;%OPENCV_BIN_DIR%;%BOOST_LIB_DIR%;
   IF "%HDF5_ROOT%"=="" goto hdf5done
   set PATH=%PATH%;{HDF5_BIN};
 :hdf5done
