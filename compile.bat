@@ -1,6 +1,15 @@
 @echo off
 REM This file will be overwritten by running setup_environment.bat!
+REM ######################
+REM Initialization
+REM Run after every `git pull`, etc.
+REM Get the submodules
+REM git submodule update --init --recursive
+REM Generate the interfaces
+REM scons --generate-interfaces
 
+REM #######################
+REM Setup environment
 echo You can speed up the build process by editing
 echo "compile.bat" and increasing the --jobs=1
 echo value. For further information and setup info, display/edit it.
@@ -43,6 +52,8 @@ IF NOT "%FERTILIZED_ADDED_PATH%"=="" goto notextending
 
 :end
 
+REM #######################
+REM Compile
 echo Compiling...
 REM Add --with-python to build the python interface.
 REM Add --with-matlab to build the MATLAB interface.

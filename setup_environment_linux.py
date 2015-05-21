@@ -114,7 +114,7 @@ OPENBLAS_INSTALL_DIR = None
 #######################################
 # Build tools
 puts(colored.green('Installing build tools...'))
-check_call(['sudo', 'apt-get', 'install', 'build-essential', 'doxygen'], stdout=STDOUT, stderr=STDERR)
+check_call(['sudo', 'apt-get', '-y', 'install', 'build-essential', 'doxygen'], stdout=STDOUT, stderr=STDERR)
 
 #######################################
 # Ubuntu 12
@@ -130,9 +130,9 @@ if APPLY_UBUNTU_12_PATCHES:
     puts('Adding current boost repository...')
     check_call(['sudo', 'add-apt-repository', 'ppa:boost-latest/ppa', ADD_REPO_SUFF], stdout=STDOUT, stderr=STDERR)
     puts('Updating package cache...')
-    check_call(['sudo', 'apt-get', 'update'], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'apt-get', '-y', 'update'], stdout=STDOUT, stderr=STDERR)
     puts('Installing gcc 4.8...')
-    check_call(['sudo', 'apt-get', 'install', 'g++-4.8'], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'apt-get', '-y', 'install', 'g++-4.8'], stdout=STDOUT, stderr=STDERR)
     if not QUIET_MODE:
       SET_CXX_CC = prompt.yn('Should gcc-4.8 be registered as system compiler (CXX and CC environment variables will be set)?')
     if SET_CXX_CC:
@@ -143,7 +143,7 @@ if APPLY_UBUNTU_12_PATCHES:
     if QUIET_MODE or prompt.yn('Should I install a current version of boost?'):
       with indent(4):
         puts('boost.')
-        check_call(['sudo', 'apt-get', 'install', 'libboost1.55-all-dev'], stdout=STDOUT, stderr=STDERR)
+        check_call(['sudo', 'apt-get', '-y', 'install', 'libboost1.55-all-dev'], stdout=STDOUT, stderr=STDERR)
     if QUIET_MODE or prompt.yn('Should I install a current version of EIGEN?'):
       with indent(4):
         puts('eigen.')
@@ -155,7 +155,7 @@ if APPLY_UBUNTU_12_PATCHES:
       if QUIET_MODE or prompt.yn('Should I install a current version of OpenBLAS?'):
         with indent(4):
           puts('gfortran.')
-          check_call(['sudo', 'apt-get', 'install', 'gfortran'], stdout=STDOUT, stderr=STDERR)
+          check_call(['sudo', 'apt-get', '-y', 'install', 'gfortran'], stdout=STDOUT, stderr=STDERR)
           check_call(['sudo', 'ln', '-s', '/usr/lib/x86_64-linux-gnu/libgfortran.so.3', '/usr/lib/x86_64-linux-gnu/libgfortran.so'], stdout=STDOUT, stderr=STDERR)
           puts('OpenBLAS.')
           check_call(['wget', 'http://github.com/xianyi/OpenBLAS/archive/v0.2.14.zip'], stdout=STDOUT, stderr=STDERR)
@@ -187,7 +187,7 @@ if APPLY_UBUNTU_13_PATCHES:
   puts(colored.green('Applying Ubuntu 13 patches.'))
   with indent(4):
     puts('OpenCL:')
-    check_call(['sudo', 'apt-get', 'install', 'ocl-icd-libopencl1'], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'apt-get', '-y', 'install', 'ocl-icd-libopencl1'], stdout=STDOUT, stderr=STDERR)
 
 #######################################
 # General installation
@@ -210,29 +210,29 @@ def download_reporthook(count, block_size, total_size):
 puts(colored.green('Installing system packages...'))
 with indent(4):
   puts('OpenCV.')
-  check_call(['sudo', 'apt-get', 'install', 'libopencv-dev'], stdout=STDOUT, stderr=STDERR)
+  check_call(['sudo', 'apt-get', '-y', 'install', 'libopencv-dev'], stdout=STDOUT, stderr=STDERR)
   if not APPLY_UBUNTU_12_PATCHES:
     puts('boost.')
-    check_call(['sudo', 'apt-get', 'install', 'libboost-all-dev'], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'apt-get', '-y', 'install', 'libboost-all-dev'], stdout=STDOUT, stderr=STDERR)
     puts('eigen.')
-    check_call(['sudo', 'apt-get', 'install', 'libeigen3-dev'], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'apt-get', '-y', 'install', 'libeigen3-dev'], stdout=STDOUT, stderr=STDERR)
   try:
     check_call(['which', 'git'], stdout=STDOUT, stderr=STDERR)
   except:
     puts('git.')
-    check_call(['sudo', 'apt-get', 'install', 'git-core'], stdout=STDOUT, stderr=STDERR)
+    check_call(['sudo', 'apt-get', '-y', 'install', 'git-core'], stdout=STDOUT, stderr=STDERR)
   if WITH_CAFFE:
     puts(colored.yellow('Installing additional CAFFE dependencies...'))
     with indent(4):
       if not APPLY_UBUNTU_12_PATCHES:
         puts('OpenBLAS.')
-        check_call(['sudo', 'apt-get', 'install', 'libopenblas-dev'], stdout=STDOUT, stderr=STDERR)
+        check_call(['sudo', 'apt-get', '-y', 'install', 'libopenblas-dev'], stdout=STDOUT, stderr=STDERR)
         puts('glog.')
-        check_call(['sudo', 'apt-get', 'install', 'libgoogle-glog-dev'], stdout=STDOUT, stderr=STDERR)
+        check_call(['sudo', 'apt-get', '-y', 'install', 'libgoogle-glog-dev'], stdout=STDOUT, stderr=STDERR)
       puts('protobuf.')
-      check_call(['sudo', 'apt-get', 'install', 'libprotobuf-dev', 'protobuf-compiler'], stdout=STDOUT, stderr=STDERR)
+      check_call(['sudo', 'apt-get', '-y', 'install', 'libprotobuf-dev', 'protobuf-compiler'], stdout=STDOUT, stderr=STDERR)
       puts('hdf5.')
-      check_call(['sudo', 'apt-get', 'install', 'libhdf5-serial-dev'], stdout=STDOUT, stderr=STDERR)
+      check_call(['sudo', 'apt-get', '-y', 'install', 'libhdf5-serial-dev'], stdout=STDOUT, stderr=STDERR)
       puts('AlexNet as default feature extractor.')
       # This can happen in quiet mode.
       if not os.path.exists(CAFFE_MODEL_DIR):
@@ -258,6 +258,7 @@ with indent(4):
       if not os.path.exists(mean_filename):
         shutil.copyfile(os.path.abspath(str(orig_mean_file[0])),
                         mean_filename)
+      puts('')
 
 #######################################
 # EIGEN include folder

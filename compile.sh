@@ -22,8 +22,14 @@
 # sudo pip install jinja2 cppheaderparser pillow \
 #   scikit-image matplotlib scikit-learn
 
-# Get the submodules.
+######################
+# Initialization
+# Run after every `git pull`, etc.
+# Get the submodules
 # git submodule update --init --recursive
+
+# Generate the interfaces
+# scons --generate-interfaces
 
 ######################
 # Compilation
