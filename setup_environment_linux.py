@@ -111,10 +111,22 @@ else:
 EIGEN_INSTALL_DIR = None
 OPENBLAS_INSTALL_DIR = None
 
+def ask_install(package, indents=0):
+    if not QUIET_MODE:
+        install = prompt.yn(' '*indents +
+                            'Should I install `{0}`?'.format(package))
+    else:
+        install = True
+    if install:
+          check_call(['sudo', 'apt-get', '-y', 'install', package],
+                     stdout=STDOUT,
+                     stderr=STDERR)
+
 #######################################
 # Build tools
 puts(colored.green('Installing build tools...'))
-check_call(['sudo', 'apt-get', '-y', 'install', 'build-essential', 'doxygen'], stdout=STDOUT, stderr=STDERR)
+ask_install('build-essential')
+ask_install('doxygen')
 
 #######################################
 # Ubuntu 12
@@ -210,29 +222,30 @@ def download_reporthook(count, block_size, total_size):
 puts(colored.green('Installing system packages...'))
 with indent(4):
   puts('OpenCV.')
-  check_call(['sudo', 'apt-get', '-y', 'install', 'libopencv-dev'], stdout=STDOUT, stderr=STDERR)
+  ask_install('libopencv-dev', 4)
   if not APPLY_UBUNTU_12_PATCHES:
     puts('boost.')
-    check_call(['sudo', 'apt-get', '-y', 'install', 'libboost-all-dev'], stdout=STDOUT, stderr=STDERR)
+    ask_install('libboost-all-dev', 4)
     puts('eigen.')
-    check_call(['sudo', 'apt-get', '-y', 'install', 'libeigen3-dev'], stdout=STDOUT, stderr=STDERR)
+    ask_install('libeigen3-dev', 4)
   try:
     check_call(['which', 'git'], stdout=STDOUT, stderr=STDERR)
   except:
     puts('git.')
-    check_call(['sudo', 'apt-get', '-y', 'install', 'git-core'], stdout=STDOUT, stderr=STDERR)
+    ask_install('git-core', 4)
   if WITH_CAFFE:
     puts(colored.yellow('Installing additional CAFFE dependencies...'))
     with indent(4):
       if not APPLY_UBUNTU_12_PATCHES:
         puts('OpenBLAS.')
-        check_call(['sudo', 'apt-get', '-y', 'install', 'libopenblas-dev'], stdout=STDOUT, stderr=STDERR)
+        ask_install('libopenblas-dev', 8)
         puts('glog.')
-        check_call(['sudo', 'apt-get', '-y', 'install', 'libgoogle-glog-dev'], stdout=STDOUT, stderr=STDERR)
+        ask_install('libgoogle-glog-dev', 8)
       puts('protobuf.')
-      check_call(['sudo', 'apt-get', '-y', 'install', 'libprotobuf-dev', 'protobuf-compiler'], stdout=STDOUT, stderr=STDERR)
+      ask_install('libprotobuf-dev', 8)
+      ask_install('protobuf-compiler', 8)
       puts('hdf5.')
-      check_call(['sudo', 'apt-get', '-y', 'install', 'libhdf5-serial-dev'], stdout=STDOUT, stderr=STDERR)
+      ask_install('libhdf5-serial-dev', 8)
       puts('AlexNet as default feature extractor.')
       # This can happen in quiet mode.
       if not os.path.exists(CAFFE_MODEL_DIR):
