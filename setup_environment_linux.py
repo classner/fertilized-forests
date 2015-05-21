@@ -53,7 +53,7 @@ except:
           check_call(['sudo', PIP, 'install', 'clint'], stdout=STDOUT, stderr=STDERR)
           PIP_SU = True
       except:
-          print "Cannot use pip! Please repair your conda installation (see setup_stdout.txt and setup_stderr.txt for output)."
+          print "Cannot use pip! Please repair your Python installation (see setup_stdout.txt and setup_stderr.txt for output)."
   print "Installation complete."
   import clint
 
@@ -121,6 +121,29 @@ def ask_install(package, indents=0):
           check_call(['sudo', 'apt-get', '-y', 'install', package],
                      stdout=STDOUT,
                      stderr=STDERR)
+
+def ask_pip_install(mname, indents=4):
+    global PIP_SU
+    install = prompt.yn(' '*indents +
+                            'Should I install `{0}` with pip?'.format(mname))
+    if not install:
+        return
+    command = [PIP, 'install', mname]
+    if mname == 'scons':
+        command.append('--egg')
+    if PIP_SU:
+        command.prepend('sudo')
+        check_call(command, stdout=STDOUT, stderr=STDERR)
+    else:
+        try:
+            check_call(command, stdout=STDOUT, stderr=STDERR)
+        except:
+            try:
+                command.prepend('sudo')
+                check_call(command, stdout=STDOUT, stderr=STDERR)
+                PIP_SU = True
+            except:
+                puts("Cannot use pip! Please repair your Python installation (see setup_stdout.txt and setup_stderr.txt for output).")
 
 #######################################
 # Build tools
@@ -286,15 +309,25 @@ if EIGEN_INSTALL_DIR is None:
 #######################################
 # Python
 puts(colored.green('Installing Python modules...'))
-PIPLIST = ['networkx', 'cppheaderparser', 'ply']
-CONDALIST = ['jinja2', 'numpy', 'scons']
-if WITH_PYTHON:
-  CONDALIST.extend(['scipy', 'pillow', 'scikit-image', 'matplotlib', 'scikit-learn'])
 try:
   CONDA = check_output(['which', '%sconda' % (BIN_FOLDER)])
   CONDA_AVAILABLE = True
 except:
   CONDA_AVAILABLE = False
+PIPLIST = ['networkx', 'cppheaderparser', 'ply']
+if CONDA_AVAILABLE:
+    CONDALIST = ['jinja2', 'numpy', 'scons']
+    if WITH_PYTHON:
+      CONDALIST.extend(['scipy', 'pillow', 'scikit-image', 'matplotlib', 'scikit-learn'])
+    PIPSCIPY = False
+else:
+    CONDALIST = []
+    PIPLIST.extend(['jinja2', 'numpy'])
+    if WITH_PYTHON:
+       PIPSCIPY = True
+       PIPLIST.extend(['scipy', 'scikit-image', 'pillow', 'matplotlib', 'scikit-learn', 'scons'])
+if PIPSCIPY:
+    ask_install('gfortran')
 if CONDA_AVAILABLE:
   puts(colored.green('conda detected! Using conda to install available packages.'))
   CONDA_SU = False
@@ -328,17 +361,8 @@ with indent(4):
           puts("Cannot use conda! Please repair your conda installation (see setup_stdout.txt and setup_stderr.txt for output).")
   for mname in PIPLIST:
     puts("%s." % (mname))
-    if PIP_SU:
-        check_call(['sudo', PIP, 'install', mname], stdout=STDOUT, stderr=STDERR)
-    else:
-        try:
-            check_call([PIP, 'install', mname], stdout=STDOUT, stderr=STDERR)
-        except:
-            try:
-                check_call(['sudo', PIP, 'install', mname], stdout=STDOUT, stderr=STDERR)
-                PIP_SU = True
-            except:
-                puts("Cannot use pip! Please repair your conda installation (see setup_stdout.txt and setup_stderr.txt for output).")
+    ask_pip_install(mname)
+
 #######################################
 # MATLAB
 if WITH_MATLAB:
@@ -385,6 +409,9 @@ with open('setup_paths.sh', 'w') as outfile:
 # export OPENCV_LIB_DIR=...
 # export PROTOBUF_ROOT=...
 # export PROTOC=...
+# export HDF5_ROOT=...
+# export HDF5_LIB_DIR=...
+# export HDF5_INCLUDE_DIR=...
 # export PATH="...:$PATH"
 %s
 %s
