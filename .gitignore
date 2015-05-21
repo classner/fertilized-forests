@@ -5,6 +5,9 @@ x64/
 _CL_*
 *.suo
 *.sdf
+setup_paths.sh
+setup_paths.bat
+nuget-deps/
 Debug/
 *.opensdf
 documentation/html/
@@ -18,6 +21,7 @@ Presentation/test.png
 Presentation/*.csv
 Presentation/*.png
 Presentation/*/*.png
+Presentation/C++/boosting
 Presentation/C++/custom
 Presentation/C++/overview
 Presentation/C++/regression
@@ -46,7 +50,8 @@ pyfertilized/exporters
 pyfertilized/fertilized/TypeTranslations.py
 pyfertilized/tests_pickle.py
 pyfertilized/tmpfertilized
-pyfertilized/pyfertilized.cpp
+pyfertilized/pyfertilized_*.cpp
+pyfertilized/pyfertilized_mf.cpp
 pyfertilized/fertilized/init.py
 pyfertilized/fertilized
 pyfertilized/exporters_mod_funcs
@@ -64,4 +69,6 @@ bin
 bindep
 include
 lib
+setup-stderr.txt
+setup-stdout.txt
 

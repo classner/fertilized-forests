@@ -99,7 +99,7 @@ if os.name == 'nt':
         return exit_code
 
 def SetupSpawn( env ):
-    if env['CC'] == 'g++' and sys.platform == 'win32':
+    if env['CXX'].startswith('g++') and sys.platform == 'win32':
         # Enable workaround for handling of extralong
         # command lines. This is not handled by the
         # default toolchain spawner of SCons in this
@@ -180,11 +180,16 @@ def setupOptions():
 def makeEnvironment(variables):
     shellEnv = {}
     # Some of these don't make sense on Windows, but don't hurt.
-    for key in ("PATH", "LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH", "PYTHONPATH"):
+    for key in ("CXX", "CC", "PATH", "LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH", "PYTHONPATH"):
         if key in os.environ:
             shellEnv[key] = os.environ[key]
     # Create build enviromnent.
     env = Environment(tools=['default', GetOption("toolchain"), 'm4'], variables=variables, ENV=shellEnv)
+    if "CXX" in os.environ:
+	env["CXX"] = os.environ["CXX"]
+    if "CC" in os.environ:
+        env["CC"] = os.environ["CC"]
+    print "Using CXX: %s, CC: %s" % (env["CXX"], env["CC"]) 
     #SetupSpawn(env)
     if GetOption("with_caffe") and not GetOption("cpu_only"):
         env.Tool('nvcc')
@@ -222,7 +227,7 @@ def makeEnvironment(variables):
         #env.Replace(CCFLAGS=[flag for flag in env['CCFLAGS'] if flag not in ['/GL']])
         #env.AppendUnique(CCFLAGS=['/Qipo-jobs4'])
     # Specifics for gcc.
-    if env['CC'] == 'g++' or env['CC'] == 'gcc':
+    if env['CXX'].startswith('g++') or env['CC'] == 'gcc':
         # Replace default /O2 on Windows if MinGW is used.
         if '/O2' in env['CCFLAGS']:
           env.Replace(CCFLAGS=[flag for flag in env['CCFLAGS'] \
@@ -340,7 +345,7 @@ def setupTargets(env, root=".",
         sys.exit(1)
       import subprocess
       os.chdir('CodeGenerator')
-      subprocess.check_call(['python', 'CodeGenerator.py'])
+      subprocess.check_call([sys.executable, 'CodeGenerator.py'])
       os.chdir('..')
     interfaces_generated = os.path.isfile(os.path.join('fertilized', 'fertilized.h'))
     interfaces_emsg = "You first have to call scons --generate-interfaces to "+\
@@ -389,28 +394,12 @@ def setupTargets(env, root=".",
         print "Please specify a directory to store the caffe models in with the parameter '--caffe-model-dir=/dir'!"
         sys.exit(1)
       else:
-        print "Setting up caffe model directory..."
-        if not os.path.exists(GetOption('caffe_model_dir')):
-          os.mkdir(GetOption('caffe_model_dir'))
-        print "Setting up AlexNet as default DNN feature extractor..."
         alex_dir = os.path.abspath(os.path.join(GetOption('caffe_model_dir'), 'bvlc_alexnet'))
         if not os.path.exists(alex_dir):
           os.mkdir(alex_dir)
         layer_filename = os.path.join(alex_dir, 'bvlc_alexnet.caffemodel')
-        if not os.path.exists(layer_filename):
-            print "Downloading AlexNet..."
-            urllib.urlretrieve('http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel',
-                               layer_filename, download_reporthook)
         model_filename = os.path.join(alex_dir, 'alexnet_extraction.prototxt')
-        orig_model_file = Glob('./fertilized/feature_extraction/alexnet_extraction.prototxt')
-        if not os.path.exists(model_filename):
-            shutil.copyfile(os.path.abspath(str(orig_model_file[0])),
-                            model_filename)
         mean_filename = os.path.join(alex_dir, 'alexnet_mean.txt')
-        orig_mean_file = Glob('fertilized/feature_extraction/alexnet_mean.txt')
-        if not os.path.exists(mean_filename):
-            shutil.copyfile(os.path.abspath(str(orig_mean_file[0])),
-                            mean_filename)
         with open('fertilized/feature_extraction/__alexnet.h', 'w') as alexf:
           alexf.write('/* This is an automatically generated file! */\n')
           alexf.write('const std::string __ALEXNET_MODELFILE = "%s";\n' % model_filename.replace('\\', '\\\\'))
@@ -447,9 +436,9 @@ def setupTargets(env, root=".",
       bn_module = SConscript(os.path.join(bn_module_path, 'SConscript'),
                              exports=['env', 'EXT_SUFFIX', 'LIB_SUFFIX', 'OBJ_SUFFIX', 'PY_SUFFIX'])
       env = tmp_env
-      python_module = SConscript(os.path.join(root, "pyfertilized", "SConscript.py"),
-                                 exports=['env', 'bn_module', 'lib', 'PY_SUFFIX', 'lib_lnk'],
-                                 variant_dir='build/'+env['VARIANT_DIR_PREF']+'/pyfertilized')
+      py_mods = SConscript(os.path.join(root, "pyfertilized", "SConscript.py"),
+                           exports=['env', 'bn_module', 'lib', 'PY_SUFFIX', 'lib_lnk'],
+                           variant_dir='build/'+env['VARIANT_DIR_PREF']+'/pyfertilized')
     if GetOption('with_tests') and not generate_mode:
       tests_executable = SConscript(os.path.join(root, "fertilized_tests", "SConscript.py"),
                                     exports=['env', 'lib', 'lib_lnk'],

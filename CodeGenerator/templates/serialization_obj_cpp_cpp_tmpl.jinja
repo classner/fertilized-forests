@@ -21,6 +21,13 @@ namespace fertilized {
   void __serialization_register_{{tplid}}(Archive &ar,
                                           const bool &always_register,
                                           const unsigned int &serialization_library_version) {
+    if ({{cls.SerializationGeneration}} > FERTILIZED_LIB_VERSION()) {
+        throw Fertilized_Exception("The serialization generation of the class "
+          "{{cls.ClassName}} is higher than the current library version "
+          "({{cls.SerializationGeneration}} > " + std::to_string(FERTILIZED_LIB_VERSION()) +
+          ")! This will break serialization! Raise the library version in the file "
+          "'global.h' to at least {{cls.SerializationGeneration}}!");
+    }
     if (always_register ||
         serialization_library_version >= {{cls.SerializationGeneration}}) {
 @ if not cls.IsAbstract

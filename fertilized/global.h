@@ -4,7 +4,7 @@
 #define FERTILIZED_GLOBAL_H_
 
 // The library version information.
-static const unsigned int FERTILIZED_LIB_VERSION() { return 100U; }
+static const unsigned int FERTILIZED_LIB_VERSION() { return 101U; }
 
 #ifdef PYTHON_ENABLED
 // This inclusion must be done before certain system header to avoid nasty

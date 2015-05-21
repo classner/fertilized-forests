@@ -10,7 +10,7 @@ import glob
 import sys
 import traceback
 from os.path import basename
-from helper_classes import InstantiationTypes
+from helper_classes import InstantiationTypes, Node
 from TypeTranslations import _dtype_str_translation
 
 print("Parsing source code...")
@@ -18,7 +18,7 @@ import ParseHeader
 from helper_classes import FertilizedClass
 using_rel_strs = ParseHeader.using_relations_str
 classes = ParseHeader.parsed_classes
-functions = ParseHeader.parsed_functions
+functions =  sorted(ParseHeader.parsed_functions, key=lambda x: x.FunctionPrefix)
 lib_headers = ParseHeader.lib_headers
 
 # Do some consistency checks.
@@ -30,9 +30,19 @@ for cls in classes:
 using_relations = []
 for child_str, parent_str in using_rel_strs:
   if not defined_class_assocs.has_key(child_str):
-    raise Exception("Class %s not found!" % child_str)
+    raise Exception("During parsing, I determined that class %s is using " +\
+     "class %s. However, class %s does not seem to be a library defined " +\
+     "class. These using relations are determined just by the #include " +\
+     "header names. If you are using an external header, simply blacklist " +\
+     "it in the file CodeGenerator/SingleFileParser.py (list starting on " +\
+     "line 46)." % (parent_str, child_str, child_str))
   if not defined_class_assocs.has_key(parent_str):
-    raise Exception("Class %s not found!" % parent_str)
+    raise Exception("During parsing, I determined that class %s is using " +\
+     "class %s. However, class %s does not seem to be a library defined " +\
+     "class. These using relations are determined just by the #include " +\
+     "header names. If you are using an external header, simply blacklist " +\
+     "it in the file CodeGenerator/SingleFileParser.py (list starting on " +\
+     "line 46)." % (parent_str, child_str, parent_str))
   using_relations.append((defined_class_assocs[child_str],
                           defined_class_assocs[parent_str]))
 # Parse inheritance.
@@ -50,8 +60,36 @@ for cls in classes:
     else:
       raise Exception("No class names %s found, but required for inheritance!"\
         % (cls.Inherits))
-print ("Created inheritance relations. Checking type availability...")
-
+print ("Created inheritance relations. Building inheritance graph...")
+# Create a node for each class.
+cls_nodes = dict()
+for cls in classes:
+  cls_nodes[cls] = Node(cls)
+# Add the connections.
+for rel in inheritance_relations:
+  cls_nodes[rel[1]].add_incoming_from(cls_nodes[rel[0]])
+# Assume correctness and do not search for loops!
+# Order the nodes by depth.
+depth_search_cls = classes[:]
+depth_ordered_cls = []
+depth = 0
+while True:
+  depth_ordered_cls.append([])
+  for cls in depth_search_cls:
+    if cls_nodes[cls].out_degree() == 0:
+      depth_ordered_cls[depth].append(cls)
+  assert len(depth_ordered_cls[-1]) != 0
+  # Remove the classes from the 'todo list'.
+  for cls in depth_ordered_cls[-1]:
+    cls_nodes[cls].__del__()
+    del cls_nodes[cls]
+    depth_search_cls.remove(cls)
+  if len(depth_search_cls) == 0:
+    break
+  depth += 1
+for clslist in depth_ordered_cls:
+  clslist.sort()
+print ("Inheritance graph complete. Checking type availability...")
 def parse_instantiations(relations):
   child_instantiation_sets = {}
   for (child, parent) in relations:
@@ -226,6 +264,8 @@ serialization_obj_cpp_cpp_tmpl = templateEnv.get_template("serialization_obj_cpp
 python_exporter_cpp_tmpl = templateEnv.get_template("python_exporter_cpp.jinja")
 python_exporter_h_tmpl = templateEnv.get_template("python_exporter_h.jinja")
 pyfertilized_cpp_tmpl = templateEnv.get_template("pyfertilized_cpp_tmpl.jinja")
+pyfertilized_mf_cpp_tmpl = templateEnv.get_template("pyfertilized_mf_cpp_tmpl.jinja")
+pyfertilized_vec_cpp_tmpl = templateEnv.get_template("pyfertilized_vec_cpp_tmpl.jinja")
 python_export_module_functions_cpp_tmpl = templateEnv.get_template("python_export_module_functions_cpp.jinja")
 python_soil_tmpl = templateEnv.get_template("python_soil_py.jinja")
 array_exporter_tmpl = templateEnv.get_template("array_exporter_cpp.jinja")
@@ -261,6 +301,8 @@ for delfile in delfiles:
 serialization_classes = [cls for cls in classes if cls.isSerializable()]
 serialization_classes.sort(key=lambda x: (x.SerializationGeneration, \
                                           x.ClassName))
+serialization_max_generation = serialization_classes[-1].SerializationGeneration
+print ('Latest serialization object generation: %d.' % (serialization_max_generation))
 ser_insttypes_tpls = []
 for cls in serialization_classes:
   if not cls.SupportedTypes is None:
@@ -310,7 +352,7 @@ else:
     delfiles = glob.glob(os.path.join('..', 'pyfertilized', 'exporters', '__*'))
     for delfile in delfiles:
         os.remove(delfile)
-python_exp_classes = [cls for cls in classes if 'Python' in cls.AvailableIn]
+python_exp_classes = [cls for cls in itertools.chain(*depth_ordered_cls) if 'Python' in cls.AvailableIn]
 python_exp_functions = [func for func in functions if 'Python' in func.AvailableIn]
 vec_types = set()
 vec_headers = dict()
@@ -337,23 +379,42 @@ for func in python_exp_functions:
     else:
         func_inst_tpls.append((func, None))
 cls_inst_tpls = []
-for cls in [cls for cls in python_exp_classes if cls.IsAbstract and not cls.ClassName == 'PatchSampleManager'] +\
-            [cls for cls in python_exp_classes if cls.ClassName == 'PatchSampleManager'] + \
-            [cls for cls in python_exp_classes if not cls.IsAbstract and not cls.ClassName == 'PatchSampleManager']:
+for cls in python_exp_classes:
     if not cls.SupportedTypes is None and not cls.TemplatingString is None and cls.TemplatingString != '':
         for insttypes in cls.SupportedTypes:
             cls_inst_tpls.append((cls, insttypes))
     else:
         cls_inst_tpls.append((cls, None))
 pyfunc_export_dir = os.path.join('..', 'pyfertilized', 'exporters_mod_funcs')
-templateVars = {"classes" : python_exp_classes,
-                'nmfuncids':xrange(len(func_inst_tpls)),
-                'tmplids':xrange(len(vec_types)),
-                'clsids':xrange(len(cls_inst_tpls))}
-generated = pyfertilized_cpp_tmpl.render(templateVars)
+def chunks(seq, size):
+    r"""
+    Creates chunks of `size` of `seq`.
+
+    See http://stackoverflow.com/questions/434287/what-is-the-most-pythonic-way-to-iterate-over-a-list-in-chunks.  # noqa
+    """
+    return (seq[pos:pos + size] for pos in xrange(0, len(seq), size))
+# Care! The chunksize must be equal in pyfertilized/SConscript.py
+chunksize = 50
+for export_id, clsids in enumerate(chunks(range(len(cls_inst_tpls)), chunksize)):
+    templateVars = {"classes" : python_exp_classes,
+                    'nmfuncids':xrange(len(func_inst_tpls)),
+                    'tmplids':xrange(len(vec_types)),
+                    'clsids': clsids,
+                    'export_id': export_id}
+    generated = pyfertilized_cpp_tmpl.render(templateVars)
+    with open(os.path.join('..',
+                           'pyfertilized',
+                           'pyfertilized_%d.cpp' % (export_id)), 'w') as expfile:
+      expfile.write(generated)
+generated = pyfertilized_mf_cpp_tmpl.render(templateVars)
 with open(os.path.join('..',
                        'pyfertilized',
-                       'pyfertilized.cpp'), 'w') as expfile:
+                       'pyfertilized_mf.cpp'), 'w') as expfile:
+  expfile.write(generated)
+generated = pyfertilized_vec_cpp_tmpl.render(templateVars)
+with open(os.path.join('..',
+                       'pyfertilized',
+                       'pyfertilized_vec.cpp'), 'w') as expfile:
   expfile.write(generated)
 # Cleanup!
 delfiles = glob.glob(os.path.join('..', 'pyfertilized', 'exporters', '__*'))
@@ -422,12 +483,6 @@ generated = vec_exporter_h_tmpl.render({'tmplids':xrange(len(vec_types))})
 with open(os.path.join(vec_export_dir,
                         'vec_exporter.h'), 'w') as expfile:
     expfile.write(generated)
-
-generated = tests_pickle_tmpl.render({"classes" : python_exp_classes})
-with open(os.path.join('..',
-                       'pyfertilized',
-                       'tests_pickle.py'), 'w') as expfile:
-  expfile.write(generated)
 
 print('Generating MATLAB interface...')
 if not os.path.exists(os.path.join('..', 'matfertilized', 'exporters')):

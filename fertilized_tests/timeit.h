@@ -113,9 +113,10 @@ START_BATCH_MEASURE:
     // Determine how often the function batches should be executed in powers
     // of ten to approximate the execution length.
     num_iterations = static_cast<cr::high_resolution_clock::rep>(
-      pow(10, floor(log10(static_cast<double>(
-      std::max(num_iterations, time_to_approximate / elapsed_for_one))))));
-
+      pow(10, floor(log10(std::max(
+        static_cast<double>(num_iterations),
+          static_cast<double>(cr::duration_cast<cr::nanoseconds>(time_to_approximate).count()) /
+          static_cast<double>(elapsed_for_one.count()))))));
     // Use Donald Knuth's running mean algorithm or determine the min.
     float m = (return_min ? std::numeric_limits<float>::max() : 0.f);
     for (unsigned int i = 0; i < num_iterations; ++i) {
@@ -146,3 +147,4 @@ START_BATCH_MEASURE:
 };  // namespace utility
 
 #endif  // UTILITY_TIMEIT_H_
+

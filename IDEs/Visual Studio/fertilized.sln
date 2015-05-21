@@ -1,44 +1,43 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fertilized", "fertilized\fertilized.vcxproj", "{1AA35DFB-9560-4EDB-9E8B-3DA6D6EEC6BF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fertilized", "..\..\fertilized\fertilized.vcxproj", "{1AA35DFB-9560-4EDB-9E8B-3DA6D6EEC6BF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{95F5AB9B-FA7A-4608-A04E-7AB3557A0D34}"
 	ProjectSection(SolutionItems) = preProject
-		build_release.bat = build_release.bat
-		config.log = config.log
-		cppcheck.supp = cppcheck.supp
-		license.txt = license.txt
-		README.MD = README.MD
-		SConscript.py = SConscript.py
-		SConstruct = SConstruct
+		config.log = ..\..\config.log
+		cppcheck.supp = ..\..\deployment\cppcheck.supp
+		license.txt = ..\..\license.txt
+		README.MD = ..\..\README.MD
+		SConscript.py = ..\..\SConscript.py
+		SConstruct = ..\..\SConstruct
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pyfertilized", "pyfertilized\pyfertilized.vcxproj", "{CC74E343-85F9-461E-9607-BA20965589DC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pyfertilized", "..\..\pyfertilized\pyfertilized.vcxproj", "{CC74E343-85F9-461E-9607-BA20965589DC}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Presentation", "Presentation\Presentation.pyproj", "{A57D344D-0DDC-4F0F-A4DB-1BD34200AC1A}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Presentation", "..\..\Presentation\Presentation.pyproj", "{A57D344D-0DDC-4F0F-A4DB-1BD34200AC1A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "documentation", "documentation\documentation.vcxproj", "{54DE39A3-8D36-45C8-9880-C2D517886388}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "documentation", "..\..\documentation\documentation.vcxproj", "{54DE39A3-8D36-45C8-9880-C2D517886388}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fertilized_tests", "fertilized_tests\fertilized_tests.vcxproj", "{673B9E68-CB0C-49C7-AEA7-65D0EA668822}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fertilized_tests", "..\..\fertilized_tests\fertilized_tests.vcxproj", "{673B9E68-CB0C-49C7-AEA7-65D0EA668822}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SConsChecks", "SConsChecks", "{DBE1B9A2-EAEF-4128-B5CC-859654DA39C9}"
 	ProjectSection(SolutionItems) = preProject
-		SConsChecks\__init__.py = SConsChecks\__init__.py
-		SConsChecks\_tools.py = SConsChecks\_tools.py
-		SConsChecks\boost.py = SConsChecks\boost.py
-		SConsChecks\eigen.py = SConsChecks\eigen.py
-		SConsChecks\fftw.py = SConsChecks\fftw.py
-		SConsChecks\matlab.py = SConsChecks\matlab.py
-		SConsChecks\opencv.py = SConsChecks\opencv.py
-		SConsChecks\python.py = SConsChecks\python.py
-		SConsChecks\README.MD = SConsChecks\README.MD
-		SConsChecks\swig.py = SConsChecks\swig.py
+		SConsChecks\__init__.py = ..\..\SConsChecks\__init__.py
+		SConsChecks\_tools.py = ..\..\SConsChecks\_tools.py
+		SConsChecks\boost.py = ..\..\SConsChecks\boost.py
+		SConsChecks\eigen.py = ..\..\SConsChecks\eigen.py
+		SConsChecks\fftw.py = ..\..\SConsChecks\fftw.py
+		SConsChecks\matlab.py = ..\..\SConsChecks\matlab.py
+		SConsChecks\opencv.py = ..\..\SConsChecks\opencv.py
+		SConsChecks\python.py = ..\..\SConsChecks\python.py
+		SConsChecks\README.MD = ..\..\SConsChecks\README.MD
+		SConsChecks\swig.py = ..\..\SConsChecks\swig.py
 	EndProjectSection
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CodeGenerator", "CodeGenerator\CodeGenerator.pyproj", "{0A6B0517-29EE-4434-956B-0F09F9FAECB1}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CodeGenerator", "..\..\CodeGenerator\CodeGenerator.pyproj", "{0A6B0517-29EE-4434-956B-0F09F9FAECB1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "matfertilized", "matfertilized\matfertilized.vcxproj", "{261F9BAC-1F51-47B6-BA60-6284A48F2B34}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "matfertilized", "..\..\matfertilized\matfertilized.vcxproj", "{261F9BAC-1F51-47B6-BA60-6284A48F2B34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

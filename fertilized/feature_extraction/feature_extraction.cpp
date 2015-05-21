@@ -64,8 +64,15 @@ namespace fertilized {
         // Copy the results to the array.
         uint8_t *resptr = reinterpret_cast<uint8_t*>(result.getData());
         for (int i = 0; i < n_channels; ++i) {
-          std::copy(resvec[i].data, resvec[i].dataend,
-                    resptr + i * image.getSize<0>() * image.getSize<1>());
+          // Copy row-wise, since this is the only guaranteed way to work with
+          // OpenCV.
+          for (int row = 0; row < resvec[i].rows; ++row) {
+            std::copy(resvec[i].ptr<uint8_t>(row),
+                      resvec[i].ptr<uint8_t>(row) + resvec[i].cols,
+                      resptr +
+                        i * image.getSize<0>() * image.getSize<1>() +
+                        row * resvec[i].cols);
+          }
         }
       }
       return result;
