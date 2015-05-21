@@ -25,8 +25,12 @@ else:
 
 #######################################
 # Find PIP
-PIP = Popen('where pip', stdout=PIPE).communicate()[0].strip()
+if BIN_FOLDER == '':
+    PIP = Popen('where pip', stdout=PIPE).communicate()[0].strip()
+else:
+    PIP = '%spip' % (BIN_FOLDER)
 print "Using pip at: " + PIP
+
   
 #######################################
 # Check for CLINT
