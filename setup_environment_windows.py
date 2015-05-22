@@ -201,6 +201,7 @@ if VSVERSION_FIT:
         urllib.urlretrieve('https://nuget.org/nuget.exe',
                            'nuget.exe',
                             DOWNLOAD_HOOK)
+        puts('')
 
 #######################################
 # General installation
@@ -475,6 +476,8 @@ puts(colored.green('Generating setup_paths.bat...'))
 # Making paths absolute.
 BOOST_ROOT = os.path.abspath(BOOST_ROOT)
 OPENCV_ROOT = os.path.abspath(OPENCV_ROOT)
+OPENCV_LIB_DIR = os.path.abspath(OPENCV_LIB_DIR)
+OPENCV_BIN_DIR = os.path.abspath(OPENCV_BIN_DIR)
 EIGEN_ROOT = os.path.abspath(EIGEN_ROOT)
 if WITH_MATLAB:
   MATLAB_ROOT = os.path.abspath(MATLAB_ROOT)
