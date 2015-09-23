@@ -59,43 +59,31 @@ namespace fertilized {
      *
      * -----
      *
+     * \param net_layout_file string
+     *    The protobuf file describing the network layout.
+     *
+     * \param net_weights_file string
+     *    Filename of the pretrained network weights file.
+     *
+     * \param net_outlayer string
+     *    The name of the blob and layer from which to read.
+     *
      * \param use_cpu bool
      *    Whether to only use the CPU or use the GPU. Default: false.
      *
      * \param device_id int>=0
      *    The CUDA device id. Only relevant, if `use_cpu` is false. Default: 0.
      *
-     * \param net_layout_file string
-     *    The protobuf file describing the network layout. Default: "".
-     *    This reserved value is resolved to the path
-     *    to the AlexNet installed to the directory specified during
-     *    compilation as `--caffe-model-dir`.
-     *
-     * \param net_weights_file string
-     *    Filename of the pretrained network weights file. Default: "".
-     *    This reserved value is resolved to the
-     *    AlexNet weights file installed to the directory specified during
-     *    compilation as `--caffe-model-dir`.
-     *
-     * \param net_outlayer string
-     *    The name of the blob and layer from which to read. Default: "pool5".
-     *
-     * \param load_mean bool
-     *    If set to true, loads the mean image specified by `mean_file`.
-     *    Default: true.
-     *
      * \param mean_file string
      *    The filename of the mean image file to use. For a file
      *    format description, see the documentation of this class. Default: "".
-     *    This reserved value is resolved to the ImageNet mean file installed
-     *    to the `--caffe-model-dir`.
+     *    If this is an empty string, do not use a mean.
      */
-    DllExport DNNFeatureExtractor(const bool &use_cpu=false,
+    DllExport DNNFeatureExtractor(std::string net_layout_file,
+                                  std::string net_weights_file,
+                                  std::string net_outlayer,
+                                  const bool &use_cpu=false,
                                   const int &device_id=0,
-                                  std::string net_layout_file="",
-                                  std::string net_weights_file="",
-                                  std::string net_outlayer="",
-                                  const bool &load_mean=true,
                                   std::string mean_file="");
     DllExport ~DNNFeatureExtractor();
 

@@ -1,6 +1,6 @@
 clear;
 close all;
-addpath('../../matfertilized/fertilized');
+addpath('../../bindings/matlab/fertilized');
 
 [X, Y] = make_spiral(100, 2, 0.1);
 

@@ -17,7 +17,7 @@ namespace fertilized {
   namespace Result_Types {
     /**
      * \brief Classification result types.
-     * 
+     *
      * They are always defined as std::vector<float>.
      */
     struct probabilities {
@@ -32,7 +32,7 @@ namespace fertilized {
     };
     /**
      * \brief Regression result types.
-     * 
+     *
      * They depend on the input_dtype. See the documentation of the
      * \ref RegressionLeafManager.
      */
@@ -48,7 +48,7 @@ namespace fertilized {
     };
     /**
      * \brief Hough Forest result types.
-     * 
+     *
      * They consist of a pair of float (foreground prob.) and a pointer to
      * a vector of int16_t (offsets). For a forest, contains a vector of these
      * pairs.
@@ -326,7 +326,7 @@ namespace fertilized {
 *
 * Use exactly the library template names `input_dtype`, `feature_dtype`,
 * `annotation_dtype`, `leaf_return_dtype`, `forest_dtype` for your
-* objects as necessary (you may omit unnecessary ones). If your class is 
+* objects as necessary (you may omit unnecessary ones). If your class is
 * templated differently, only one possible
 * template instantiation can be used for the interfaces. In that case, you
 * have to specify this with a parser list "Soil type always:". You can find
@@ -628,7 +628,7 @@ namespace fertilized {
 * - double; double
 * - float; float
 * .
-* 
+*
 * -----
 */
   std::shared_ptr<fertilized::UnchangedFDataProvider<input_dtype,annotation_dtype>>
@@ -652,7 +652,7 @@ namespace fertilized {
 * It builds its sample database from two pointer on memory arrays with
 * data and annotations. Both must be provided in contiguous layout. The
 * data (but not the annotations!) can be provided row- or column-wise.
-* Column-wise layout is to be preferred, since it has more locality for 
+* Column-wise layout is to be preferred, since it has more locality for
 * most optimization processes.
 *
 * The annotations MUST always be provided in row major order, independent
@@ -676,7 +676,7 @@ namespace fertilized {
 * - double; double
 * - float; float
 * .
-* 
+*
 * -----
 */
   std::shared_ptr<fertilized::UnchangedDataProvider<input_dtype,annotation_dtype>>
@@ -860,7 +860,7 @@ namespace fertilized {
   /**
 * \brief Calculator for constant regression.
 *
-* This regression calculator uses a constant value to predict the output value. 
+* This regression calculator uses a constant value to predict the output value.
 * Therefore, it provides a constant prediction and a constant prediction covariance matrix.
 *
 * -----
@@ -1010,7 +1010,7 @@ namespace fertilized {
 * Soil type always:
 * - float
 * .
-* 
+*
 * -----
 */
   std::shared_ptr<fertilized::ShannonEntropy<float>>
@@ -1539,24 +1539,20 @@ namespace fertilized {
 */
   std::shared_ptr<fertilized::DNNFeatureExtractor>
   DNNFeatureExtractor(
-
+        std::string net_layout_file,
+        std::string net_weights_file,
+        std::string net_outlayer,
         const bool & use_cpu=0,
         const int & device_id=0,
-        std::string net_layout_file="",
-        std::string net_weights_file="",
-        std::string net_outlayer="",
-        const bool & load_mean=1,
         std::string mean_file=""
     ) {
    return std::shared_ptr<fertilized::DNNFeatureExtractor>(
      new fertilized::DNNFeatureExtractor(
-
-         use_cpu,
-         device_id,
          net_layout_file,
          net_weights_file,
          net_outlayer,
-         load_mean,
+         use_cpu,
+         device_id,
          mean_file
 	   ));
   };
@@ -1646,7 +1642,7 @@ namespace fertilized {
 *
 *
 * \ingroup fertilizedfeaturesGroup
-*   
+*
 * -----
 * Available in:
 * - C++
@@ -1856,7 +1852,7 @@ namespace fertilized {
 * - uint8_t; uint
 * - uint8_t; int16_t
 * .
-* 
+*
 * -----
 */
   std::shared_ptr<fertilized::ClassificationLeafManager<input_dtype,annotation_dtype>>
@@ -2940,7 +2936,7 @@ namespace fertilized {
     };
 
   /**
-* Extract the Hough forest features. If `full` is set, uses the 
+* Extract the Hough forest features. If `full` is set, uses the
 * 32 feature channels used by Juergen Gall in his original publications,
 * else use 15 feature channels as used by Matthias Dantone.
 *
@@ -2952,7 +2948,7 @@ namespace fertilized {
 * - Python
 * - Matlab
 * .
-* 
+*
 * -----
 *
 * \param image Array<uint8_t>, row-major contiguous

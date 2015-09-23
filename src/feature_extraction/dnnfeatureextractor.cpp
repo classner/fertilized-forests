@@ -19,8 +19,6 @@
 #define GLOG_NO_ABBREVIATED_SEVERITIES
 #endif
 #include <caffe/caffe.hpp>
-#include <glog/logging.h>
-#include "./__alexnet.h"
 #endif
 
 #ifdef _MSC_VER
@@ -85,29 +83,17 @@ namespace fertilized {
 #endif
 
   DllExport DNNFeatureExtractor::DNNFeatureExtractor(
-                                        const bool &use_cpu,
-                                        const int &device_id,
                                         std::string net_layout_file,
                                         std::string net_weights_file,
                                         std::string net_outlayer,
-                                        const bool &load_mean,
+                                        const bool &use_cpu,
+                                        const int &device_id,
                                         std::string mean_file)
     : net_ptr(nullptr),
       mean_available(false),
       read_layer_idx(-1),
       read_blob_idx(-1) {
 #ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
-    // Set google log level to error to avoid cluttering the shell.
-    FLAGS_minloglevel = 2;
-    // Replace defaults.
-    if (net_layout_file == "")
-      net_layout_file = __ALEXNET_MODELFILE;
-    if (net_weights_file == "")
-      net_weights_file = __ALEXNET_LAYERFILE;
-    if (net_outlayer == "")
-      net_outlayer = "pool5";
-    if (mean_file == "")
-      mean_file = __ALEXNET_MEANFILE;
     if (device_id < 0)
       throw Fertilized_Exception("Device id >= 0 required!");
     // Set mode.
@@ -139,7 +125,7 @@ namespace fertilized {
     input_size = cv::Size(net -> input_blobs()[0] -> width(),
                           net -> input_blobs()[0] -> height());
     // Load the mean image if necessary.
-    if (load_mean) {
+    if (mean_file != "") {
       int mean_x = 0;
       int mean_y = 0;
       int mean_channels = 0;

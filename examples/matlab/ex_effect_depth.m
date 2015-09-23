@@ -1,6 +1,6 @@
 clear;
 close all;
-addpath('../../matfertilized/fertilized');
+addpath('../../bindings/matlab/fertilized');
 
 n_classes = 3;
 

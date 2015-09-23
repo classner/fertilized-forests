@@ -1,6 +1,6 @@
 clear;
 close all;
-addpath('../../matfertilized/fertilized');
+addpath('../../bindings/matlab/fertilized');
 
 % load('testdata.mat');
 % Y = uint32(randi([0 1],200,1));
@@ -10,7 +10,7 @@ Y = [];
 for x = -6: .1 : 6;
     y = cos(x) * tan(x + 1);
     X = [X; [x, y]];
-    Y = [Y; tan(x + 1)<0];    
+    Y = [Y; tan(x + 1)<0];
 end
 
 X = single(X);
@@ -49,7 +49,7 @@ for i = 1:n_trees
 
     % ClassificationLeafManager
     leafMgr = s.ClassificationLeafManager(2);
-    
+
     cls{i} = tClassifier;
     lm{i} = leafMgr;
 end

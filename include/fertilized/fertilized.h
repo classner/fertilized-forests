@@ -78,7 +78,6 @@
 #include "./feature_extraction/dnnfeatureextractor.h"
 #include "./feature_extraction/feature_extraction.h"
 #include "./feature_extraction/hog_extractor.h"
-#include "./feature_extraction/__alexnet.h"
 #include "./features/ifeatureselectionprovider.h"
 #include "./features/standardfeatureselectionprovider.h"
 #include "./features/_issubsdprov_dpdsc.h"

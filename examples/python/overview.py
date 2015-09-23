@@ -6,7 +6,7 @@ Created on Mon Apr 07 14:55:11 2014
 """
 import os
 import sys
-sys.path.insert(0, os.path.join('..', '..', 'pyfertilized'))
+sys.path.insert(0, os.path.join('..', '..', 'bindings', 'python'))
 if len(sys.argv) > 1:
   print 'Quiet mode. Plot display disabled.'
   INTERACTIVE = False

@@ -3,8 +3,7 @@
 #ifndef FERTILIZED_GLOBAL_H_
 #define FERTILIZED_GLOBAL_H_
 
-// The library version information.
-static const unsigned int FERTILIZED_LIB_VERSION() { return 101U; }
+#include "fertilized/version.h"
 
 #ifdef PYTHON_ENABLED
 // This inclusion must be done before certain system header to avoid nasty
@@ -56,7 +55,7 @@ static const unsigned int FERTILIZED_LIB_VERSION() { return 101U; }
   TypeName(const TypeName&);               \
   void operator=(const TypeName&)
 
-/// @cond 
+/// @cond
 // Declare the ndarray namespace for later use.
 namespace ndarray { }
 namespace boost { namespace python {} }

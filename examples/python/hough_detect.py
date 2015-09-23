@@ -8,7 +8,7 @@ from skimage import draw
 import numpy as np
 import os
 import sys
-sys.path.insert(0, os.path.join('..', '..', 'pyfertilized'))
+sys.path.insert(0, os.path.join('..', '..', 'bindings', 'python'))
 if len(sys.argv) > 2:
   print('Quiet mode. Plot display disabled.')
   INTERACTIVE = False

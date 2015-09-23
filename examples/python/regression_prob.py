@@ -6,7 +6,7 @@ Created on Sun Nov 02 12:12:03 2014
 """
 import os
 import sys
-sys.path.insert(0, os.path.join('..', '..', 'pyfertilized'))
+sys.path.insert(0, os.path.join('..', '..', 'bindings', 'python'))
 
 import numpy as np
 import matplotlib.pyplot as plt

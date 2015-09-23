@@ -6,7 +6,7 @@ Created on Sun Apr 06 09:32:17 2014
 """
 import os
 import sys
-sys.path.insert(0, os.path.join('..', '..', 'pyfertilized'))
+sys.path.insert(0, os.path.join('..', '..', 'bindings', 'python'))
 if len(sys.argv) > 1:
   print 'Quiet mode. Plot display disabled.'
   INTERACTIVE = False
@@ -79,7 +79,7 @@ for rs in xrange(1, 201):
                     ),
                     soil.ClassificationLeafManager(2)
                    )
-  
+
   stump.fit(X, Y)
   stumps.append(stump)
 

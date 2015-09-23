@@ -6,7 +6,7 @@ Created on Mon Jul 14 16:11:37 2014
 """
 import os
 import sys
-sys.path.insert(0, os.path.join('..', '..', 'pyfertilized'))
+sys.path.insert(0, os.path.join('..', '..', 'bindings', 'python'))
 
 import numpy as np
 import fertilized
