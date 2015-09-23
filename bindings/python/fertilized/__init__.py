@@ -120,6 +120,128 @@ class Soil:
     else:
       raise Exception("Unknown result type!")
 
+  def DNNFeatureExtractor(self,
+        
+        use_cpu=0,
+        device_id=0,
+        net_layout_file="",
+        net_weights_file="",
+        net_outlayer="",
+        load_mean=1,
+        mean_file=""
+           ):
+    r"""Class information:
+    ==================
+    
+    Extracts DNN features using a pretrained caffe network.
+    
+    To obtain reproducible results, you have to remove the dropout layers
+    from the network specification file (this has been done for the default
+    AlexNet). During extraction, always the full batch size is used. This
+    means, that if you repeatedly only extract features from one image with
+    the extract method, most of the batch will be unused. You should observe
+    large speed gains by reducing the batch size in the model specification
+    file to a batch size of one in that case.
+    
+    The mean image must be subtracted from any image before
+    using the feature extractor. This can be done within the `extract` method,
+    or, if you want to use many samples from an image, you can do that before.
+    The default mean image is the one of the ImageNet dataset. The mean image
+    format is a text file with a very simple layout:
+    
+    
+    - the first line consists of the number of rows,
+    - the second line consists of the columns,
+    - the third line consists of the number of channels,
+    - the fourth line contains all pixel values, in OpenCV memory layout
+    (rows, columns, channels, where channels are contiguous).
+    
+    -----
+
+    Available in:
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    Constructor:
+    ============
+    
+    Standard constructor.
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    
+    Parameters
+    ==========
+    
+    use_cpu : bool
+      Whether to only use the CPU or use the GPU. Default: false.
+    
+    
+    device_id : int>=0
+      The CUDA device id. Only relevant, if `use_cpu` is false. Default: 0.
+    
+    
+    net_layout_file : string
+      The protobuf file describing the network layout. Default: "".
+      This reserved value is resolved to the path
+      to the AlexNet installed to the directory specified during
+      compilation as `--caffe-model-dir`.
+    
+    
+    net_weights_file : string
+      Filename of the pretrained network weights file. Default: "".
+      This reserved value is resolved to the
+      AlexNet weights file installed to the directory specified during
+      compilation as `--caffe-model-dir`.
+    
+    
+    net_outlayer : string
+      The name of the blob and layer from which to read. Default: "pool5".
+    
+    
+    load_mean : bool
+      If set to true, loads the mean image specified by `mean_file`.
+      Default: true.
+    
+    
+    mean_file : string
+      The filename of the mean image file to use. For a file
+      format description, see the documentation of this class. Default: "".
+      This reserved value is resolved to the ImageNet mean file installed
+      to the `--caffe-model-dir`.
+    r"""
+    attrname = 'DNNFeatureExtractor' % ()
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+        use_cpu,
+        device_id,
+        net_layout_file,
+        net_weights_file,
+        net_outlayer,
+        load_mean,
+        mean_file
+          )
+    return obj
+
   def Tree(self,
         
         max_depth,
@@ -397,128 +519,6 @@ class Soil:
       raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
     obj = cons_method(
         example_param
-          )
-    return obj
-
-  def DNNFeatureExtractor(self,
-        
-        use_cpu=0,
-        device_id=0,
-        net_layout_file="",
-        net_weights_file="",
-        net_outlayer="",
-        load_mean=1,
-        mean_file=""
-           ):
-    r"""Class information:
-    ==================
-    
-    Extracts DNN features using a pretrained caffe network.
-    
-    To obtain reproducible results, you have to remove the dropout layers
-    from the network specification file (this has been done for the default
-    AlexNet). During extraction, always the full batch size is used. This
-    means, that if you repeatedly only extract features from one image with
-    the extract method, most of the batch will be unused. You should observe
-    large speed gains by reducing the batch size in the model specification
-    file to a batch size of one in that case.
-    
-    The mean image must be subtracted from any image before
-    using the feature extractor. This can be done within the `extract` method,
-    or, if you want to use many samples from an image, you can do that before.
-    The default mean image is the one of the ImageNet dataset. The mean image
-    format is a text file with a very simple layout:
-    
-    
-    - the first line consists of the number of rows,
-    - the second line consists of the columns,
-    - the third line consists of the number of channels,
-    - the fourth line contains all pixel values, in OpenCV memory layout
-    (rows, columns, channels, where channels are contiguous).
-    
-    -----
-
-    Available in:
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    Standard constructor.
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    
-    Parameters
-    ==========
-    
-    use_cpu : bool
-      Whether to only use the CPU or use the GPU. Default: false.
-    
-    
-    device_id : int>=0
-      The CUDA device id. Only relevant, if `use_cpu` is false. Default: 0.
-    
-    
-    net_layout_file : string
-      The protobuf file describing the network layout. Default: "".
-      This reserved value is resolved to the path
-      to the AlexNet installed to the directory specified during
-      compilation as `--caffe-model-dir`.
-    
-    
-    net_weights_file : string
-      Filename of the pretrained network weights file. Default: "".
-      This reserved value is resolved to the
-      AlexNet weights file installed to the directory specified during
-      compilation as `--caffe-model-dir`.
-    
-    
-    net_outlayer : string
-      The name of the blob and layer from which to read. Default: "pool5".
-    
-    
-    load_mean : bool
-      If set to true, loads the mean image specified by `mean_file`.
-      Default: true.
-    
-    
-    mean_file : string
-      The filename of the mean image file to use. For a file
-      format description, see the documentation of this class. Default: "".
-      This reserved value is resolved to the ImageNet mean file installed
-      to the `--caffe-model-dir`.
-    r"""
-    attrname = 'DNNFeatureExtractor' % ()
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-        use_cpu,
-        device_id,
-        net_layout_file,
-        net_weights_file,
-        net_outlayer,
-        load_mean,
-        mean_file
           )
     return obj
 
@@ -890,6 +890,138 @@ class Soil:
           )
     return obj
 
+  def HoughLeafManager(self,
+        
+        n_classes=2,
+        annot_dim=2
+           ):
+    r"""Class information:
+    ==================
+    
+    Stores the offset vectors for positive samples and their
+    probabilities in the leafs.
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - uint8_t; int16_t
+    
+    
+    -----
+
+    Constructor:
+    ============
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    
+    Parameters
+    ==========
+    
+    n_classes : uint>1
+      The number of classes. Currently only 2 are supported. Default: 2.
+    
+    annot_dim : size_t>0
+      The number of offset dimensions. Default: 2.
+    r"""
+    attrname = 'HoughLeafManager_%s_%s' % (self._inp_str, self._ann_str)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+        n_classes,
+        annot_dim
+          )
+    return obj
+
+  def Samme(self,
+        
+        learning_rate=1
+           ):
+    r"""Class information:
+    ==================
+    
+    SAMME boosting algorithm implementation
+    
+    Implements the SAMME boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
+    
+    See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
+    
+    One can set the learning rate which specifies the contribution of each classifier
+    
+    Output when using BoostingLeafManager is estimator_probability*estimator_weight
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - int; int; uint; std::vector<float>; std::vector<float>
+    - float; float; uint; std::vector<float>; std::vector<float>
+    - double; double; uint; std::vector<float>; std::vector<float>
+    - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
+    
+    Serialization generation: 101
+    
+    -----
+
+    Constructor:
+    ============
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    r"""
+    attrname = 'Samme_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+        learning_rate
+          )
+    return obj
+
   def RegressionLeafManager(self,
         
         selection_provider,
@@ -1006,496 +1138,6 @@ class Soil:
         use_fallback_constant_regression,
         num_threads,
         summary_mode
-          )
-    return obj
-
-  def Samme_R(self,
-        
-        learning_rate=1
-           ):
-    r"""Class information:
-    ==================
-    
-    SAMME.R real boosting algorithm implementation
-    
-    Implements the SAMME.R real boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
-    
-    See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
-    
-    One can set the learning rate which specifies the contribution of each classifier
-    
-    Output when using BoostingLeafManager is log(p_k^m(x))-1/K*sum_k(log(p_k^m(x)))
-    
-    with x the sample to classify, K the number of classes, k the classIndex, m the estimatorIndex and p the estimator probability
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - int; int; uint; std::vector<float>; std::vector<float>
-    - float; float; uint; std::vector<float>; std::vector<float>
-    - double; double; uint; std::vector<float>; std::vector<float>
-    - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
-    
-    Serialization generation: 101
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    r"""
-    attrname = 'Samme_R_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-        learning_rate
-          )
-    return obj
-
-  def Samme(self,
-        
-        learning_rate=1
-           ):
-    r"""Class information:
-    ==================
-    
-    SAMME boosting algorithm implementation
-    
-    Implements the SAMME boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
-    
-    See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
-    
-    One can set the learning rate which specifies the contribution of each classifier
-    
-    Output when using BoostingLeafManager is estimator_probability*estimator_weight
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - int; int; uint; std::vector<float>; std::vector<float>
-    - float; float; uint; std::vector<float>; std::vector<float>
-    - double; double; uint; std::vector<float>; std::vector<float>
-    - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
-    
-    Serialization generation: 101
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    r"""
-    attrname = 'Samme_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-        learning_rate
-          )
-    return obj
-
-  def ClassificationLeafManager(self,
-        
-        n_classes
-           ):
-    r"""Class information:
-    ==================
-    
-    Stores the probability distributions for n_classes at a leaf.
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - int; uint
-    - float; uint
-    - double; uint
-    - uint8_t; uint
-    - uint8_t; int16_t
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    
-    Parameters
-    ==========
-    
-    n_classes : uint>1
-      The number of classes.
-    r"""
-    attrname = 'ClassificationLeafManager_%s_%s' % (self._inp_str, self._ann_str)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-        n_classes
-          )
-    return obj
-
-  def HoughLeafManager(self,
-        
-        n_classes=2,
-        annot_dim=2
-           ):
-    r"""Class information:
-    ==================
-    
-    Stores the offset vectors for positive samples and their
-    probabilities in the leafs.
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - uint8_t; int16_t
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    
-    Parameters
-    ==========
-    
-    n_classes : uint>1
-      The number of classes. Currently only 2 are supported. Default: 2.
-    
-    annot_dim : size_t>0
-      The number of offset dimensions. Default: 2.
-    r"""
-    attrname = 'HoughLeafManager_%s_%s' % (self._inp_str, self._ann_str)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-        n_classes,
-        annot_dim
-          )
-    return obj
-
-  def ClassicTraining(self,
-        
-        bagging_strategy
-           ):
-    r"""Class information:
-    ==================
-    
-    Implements the vanilla decision forest training.
-    
-    Trains all trees independent of each other as allowed by the
-    IExecutionStrategy, possibly exploiting parallelism, etc.
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - int; int; uint; std::vector<float>; std::vector<float>
-    - float; float; uint; std::vector<float>; std::vector<float>
-    - double; double; uint; std::vector<float>; std::vector<float>
-    - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; int16_t; std::pair<float, std::shared_ptr<std::vector<int16_t>>>; std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>>
-    - float; float; float; std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
-    - double; double; double; std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    
-    Parameters
-    ==========
-    
-    bagging_strategy : IBagginStrategy
-      The bagging strategy to use to distribute samples amongst trees.
-    r"""
-    attrname = 'ClassicTraining_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-        bagging_strategy
-          )
-    return obj
-
-  def LinearSurfaceCalculator(self,
-        
-        n_params_per_feat_sel,
-        n_comb_dims=2,
-        random_seed=1
-           ):
-    r"""Class information:
-    ==================
-    
-    Calculates a feature as linear combination of inputs.
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - int; uint
-    - uint8_t; uint
-    - float; uint
-    - float; float
-    - double; double
-    - double; uint
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    
-    Parameters
-    ==========
-    
-    n_params_per_feat_sel : size_t>0
-      The number of linear configurations to evaluate per feature selection.
-    
-    n_comb_dims : size_t>0
-      The dimensionality of the linear surface. Default: 2.
-    
-    random_seed : uint>0
-      Seed for the RNG. Default: 1.
-    r"""
-    attrname = 'LinearSurfaceCalculator_%s_%s' % (self._inp_str, self._ann_str)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-        n_params_per_feat_sel,
-        n_comb_dims,
-        random_seed
-          )
-    return obj
-
-  def DirectPatchDifferenceSurfCalculator(self,
-        
-        psx,
-        psy,
-        psz,
-        luc
-           ):
-    r"""Class information:
-    ==================
-    
-    Calculates a feature as the difference between two data dimensions
-    of inputs.
-    
-    In contrast to the DifferenceSurfaceCalculator, works with patches
-    in images directly. It only works together with a SubsamplingDataProvider
-    with a NoCopyPatchSampleManager, because they provide the images
-    in the correct format.
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - uint8_t; int16_t; uint
-    - uint8_t; int16_t; int16_t
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    
-    Parameters
-    ==========
-    
-    psx : size_t>0
-      Horizontal patch size.
-    
-    psy : size_t>0
-      Vertical patch size.
-    
-    psz : size_t>0
-      Patch depth.
-    
-    luc : bool
-      Whether the Left Upper Corner of a patch is used when specifying
-      positions or its center.
-    r"""
-    attrname = 'DirectPatchDifferenceSurfCalculator_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-        psx,
-        psy,
-        psz,
-        luc
           )
     return obj
 
@@ -1633,22 +1275,17 @@ class Soil:
           )
     return obj
 
-  def ClassificationThresholdOptimizer(self,
+  def ClassicTraining(self,
         
-        use_fast_search_approximation,
-        n_classes,
-        gain_calculator,
-        gain_threshold=1E-7,
-        annotation_step=1
+        bagging_strategy
            ):
     r"""Class information:
     ==================
     
-    Optimizes one threshold very efficiently.
+    Implements the vanilla decision forest training.
     
-    Supports only classification annotations (unsigned int) with annotation
-    values ranging in [0; n_classes - 1]. Searches the perfect threshold to
-    split the data.
+    Trains all trees independent of each other as allowed by the
+    IExecutionStrategy, possibly exploiting parallelism, etc.
     
     
     -----
@@ -1661,56 +1298,21 @@ class Soil:
     
     Instantiations:
     
-    - int; int; uint
-    - int; float; uint
-    - float; int; uint
-    - uint8_t; int; uint
-    - uint8_t; uint8_t; uint
-    - uint8_t; float; uint
-    - uint8_t; int16_t; uint
-    - float; float; uint
-    - double; double; uint
-    - uint8_t; int16_t; int16_t
+    - int; int; uint; std::vector<float>; std::vector<float>
+    - float; float; uint; std::vector<float>; std::vector<float>
+    - double; double; uint; std::vector<float>; std::vector<float>
+    - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; int16_t; std::pair<float, std::shared_ptr<std::vector<int16_t>>>; std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>>
+    - float; float; float; std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
+    - double; double; double; std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>
     
     
     -----
 
     Constructor:
     ============
-    
-    Standard constructor.
-    
-    use_fast_search_approximation is an interesting option to speed up the
-    optimization process. In general, the elements are considered in sorted
-    feature order. If use_fast_search_approximation is set to true, the
-    gain is only calculated at positions, where the currently considered
-    element is from a different class than the last one AND if the
-    feature value changed.
-    
-    This is a true approximation (i.e. the optimal gain can be at a
-    position where the current element is from the same class than the
-    last), but this hardly ever occurs for the usual gain calculation
-    functions.
-    
-    A necessary, but not sufficient criterion for the approximation to
-    be equal to the optimal value is the following:
-    Assuming the (weighted) histogram values at position :math:`k` are
-    :math:`k_{li}` for the left hand-side histogram and :math:`k_{ri}` for the
-    right hand-side histogram, :math:`i\in[0,n\_classes-1]`. Then the gain
-    function :math:`g(.)` must have the property
-    
-    .. math::
-      \forall j\forall k_{li},k_{ri}: g(\{k_{li}\},\{k_{ri}\})<
-    g(\{k_{li}\}_{i\backslash j}\cup\{k_{lj}+1\},
-    \{k_{ri}\}_{i\backslash j}\cup\{k_{rj}-1\}) \vee
-    g(\{k_{li}\}_{i\backslash j}\cup\{k_{lj}-1\},
-    \{k_{ri}\}_{i\backslash j}\cup\{k_{rj}+1\})
-    .
-    
-    This does not hold in general, but for the standard information gain
-    based measures, cases where it doesn't hold occur very rarely and even
-    if so, the found positions aren't a lot worse than the theoretical
-    optimum.
     
     -----
 
@@ -1727,22 +1329,10 @@ class Soil:
     Parameters
     ==========
     
-    use_fast_search_approximation : bool
-      Whether to use the approximation described above or not.
-    
-    n_classes : size_t >1
-      The number of classes. All annotations must be in [0, ..., n_classes[.
-    
-    gain_calculator : IGainCalculator
-      The gain calculator to estimate the gain at each split.
-    
-    gain_threshold : float>=0f
-      The minimum gain that must be reached to continue splitting. Default: 1E-7f.
-    
-    annotation_step : size_t>0
-      The memory step size for the annotation data. Default: 1.
+    bagging_strategy : IBagginStrategy
+      The bagging strategy to use to distribute samples amongst trees.
     r"""
-    attrname = 'ClassificationThresholdOptimizer_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str)
+    attrname = 'ClassicTraining_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
     cons_method = None
     for part_mod in _pyfertilized:
         if hasattr(part_mod, attrname):
@@ -1751,24 +1341,18 @@ class Soil:
     if cons_method is None:
       raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
     obj = cons_method(
-        use_fast_search_approximation,
-        n_classes,
-        gain_calculator,
-        gain_threshold,
-        annotation_step
+        bagging_strategy
           )
     return obj
 
-  def AlternatingThresholdOptimizer(self,
+  def ClassificationLeafManager(self,
         
-        opt1,
-        opt2,
-        random_seed=1
+        n_classes
            ):
     r"""Class information:
     ==================
     
-    Uses two other threshold optimizers and randomly selects one of them at each split.
+    Stores the probability distributions for n_classes at a leaf.
     
     
     -----
@@ -1781,18 +1365,11 @@ class Soil:
     
     Instantiations:
     
-    - float; float; float
-    - double; double; double
-    - int; int; uint
-    - int; float; uint
-    - float; int; uint
-    - uint8_t; int; uint
-    - uint8_t; uint8_t; uint
-    - uint8_t; float; uint
-    - uint8_t; int16_t; uint
-    - float; float; uint
-    - double; double; uint
-    - uint8_t; int16_t; int16_t
+    - int; uint
+    - float; uint
+    - double; uint
+    - uint8_t; uint
+    - uint8_t; int16_t
     
     
     -----
@@ -1815,16 +1392,10 @@ class Soil:
     Parameters
     ==========
     
-    opt1 : shared(IThresholdOptimizer)
-      The first threshold optimizer to alternate in between.
-    
-    opt2 : shared(IThresholdOptimizer)
-      The second threshold optimizer to alternate in between.
-    
-    random_seed : uint>0
-      The random seed for the RNG. Default: 1.
+    n_classes : uint>1
+      The number of classes.
     r"""
-    attrname = 'AlternatingThresholdOptimizer_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str)
+    attrname = 'ClassificationLeafManager_%s_%s' % (self._inp_str, self._ann_str)
     cons_method = None
     for part_mod in _pyfertilized:
         if hasattr(part_mod, attrname):
@@ -1833,9 +1404,7 @@ class Soil:
     if cons_method is None:
       raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
     obj = cons_method(
-        opt1,
-        opt2,
-        random_seed
+        n_classes
           )
     return obj
 
@@ -1939,91 +1508,16 @@ class Soil:
           )
     return obj
 
-  def AdaBoost(self,
+  def LinearSurfaceCalculator(self,
         
-           ):
-    r"""Class information:
-    ==================
-    
-    AdaBoost.M2 boosting algorithm implementation
-    
-    Implements the original AdaBoost algorithm proposed by Freund and Schapire
-    
-    See "A decision-theoretic generalization of on-line learning and an application to boosting". Journal of Computer and System Sciences 55. 1997
-    
-    To support multi-class classification, the AdaBoost.M2 algorithm is used
-    
-    Output when using BoostingLeafManager is estimator_probability*std::log(1.f/beta)
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - int; int; uint; std::vector<float>; std::vector<float>
-    - float; float; uint; std::vector<float>; std::vector<float>
-    - double; double; uint; std::vector<float>; std::vector<float>
-    - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
-    
-    Serialization generation: 101
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    r"""
-    attrname = 'AdaBoost_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-          )
-    return obj
-
-  def RegressionThresholdOptimizer(self,
-        
-        n_thresholds,
-        regression_calculator,
-        entropy_function,
-        gain_threshold=1E-7,
-        annotation_step=1,
+        n_params_per_feat_sel,
+        n_comb_dims=2,
         random_seed=1
            ):
     r"""Class information:
     ==================
     
-    Optimizes the threshold for splitting a dataset, to ensure optimal
-    regression results on the splits.
-    
-    This threshold optimizer draws n_thresholds random values between
-    the minimum and maximum observed feature value and returns the best
-    one.
-    Multiple annotations (and therefore multiple output regression) are allowed.
-    The splits are evaluated using a provided regression calculator.
+    Calculates a feature as linear combination of inputs.
     
     
     -----
@@ -2036,13 +1530,16 @@ class Soil:
     
     Instantiations:
     
+    - int; uint
+    - uint8_t; uint
+    - float; uint
     - float; float
     - double; double
+    - double; uint
     
     
     -----
 
-    
     Constructor:
     ============
     
@@ -2061,26 +1558,16 @@ class Soil:
     Parameters
     ==========
     
-    n_thresholds : size_t>0
-      Number of randomly drawn threshold values that are asessed.
+    n_params_per_feat_sel : size_t>0
+      The number of linear configurations to evaluate per feature selection.
     
-    regression_calculator : shared(IRegressionCalculator)
-      The regression calculator used to evaluate possible splits.
+    n_comb_dims : size_t>0
+      The dimensionality of the linear surface. Default: 2.
     
-    entropy_function : shared(IEntropyFunction)
-      The entropy function used on the regression results.
-    
-    gain_threshold : float >=0.f
-      The minimum information gain a split has to achieve.
-    
-    annotation_step : size_t >0
-      The memory layout of sample annotations.
-    
-    random_seed : uint >0
-      The random seed.
-      \returns A new RegressionThresholdOptimizer.
+    random_seed : uint>0
+      Seed for the RNG. Default: 1.
     r"""
-    attrname = 'RegressionThresholdOptimizer_%s_%s' % (self._inp_str, self._feat_str)
+    attrname = 'LinearSurfaceCalculator_%s_%s' % (self._inp_str, self._ann_str)
     cons_method = None
     for part_mod in _pyfertilized:
         if hasattr(part_mod, attrname):
@@ -2089,11 +1576,8 @@ class Soil:
     if cons_method is None:
       raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
     obj = cons_method(
-        n_thresholds,
-        regression_calculator,
-        entropy_function,
-        gain_threshold,
-        annotation_step,
+        n_params_per_feat_sel,
+        n_comb_dims,
         random_seed
           )
     return obj
@@ -2225,6 +1709,283 @@ class Soil:
           )
     return obj
 
+  def ClassificationThresholdOptimizer(self,
+        
+        use_fast_search_approximation,
+        n_classes,
+        gain_calculator,
+        gain_threshold=1E-7,
+        annotation_step=1
+           ):
+    r"""Class information:
+    ==================
+    
+    Optimizes one threshold very efficiently.
+    
+    Supports only classification annotations (unsigned int) with annotation
+    values ranging in [0; n_classes - 1]. Searches the perfect threshold to
+    split the data.
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - int; int; uint
+    - int; float; uint
+    - float; int; uint
+    - uint8_t; int; uint
+    - uint8_t; uint8_t; uint
+    - uint8_t; float; uint
+    - uint8_t; int16_t; uint
+    - float; float; uint
+    - double; double; uint
+    - uint8_t; int16_t; int16_t
+    
+    
+    -----
+
+    Constructor:
+    ============
+    
+    Standard constructor.
+    
+    use_fast_search_approximation is an interesting option to speed up the
+    optimization process. In general, the elements are considered in sorted
+    feature order. If use_fast_search_approximation is set to true, the
+    gain is only calculated at positions, where the currently considered
+    element is from a different class than the last one AND if the
+    feature value changed.
+    
+    This is a true approximation (i.e. the optimal gain can be at a
+    position where the current element is from the same class than the
+    last), but this hardly ever occurs for the usual gain calculation
+    functions.
+    
+    A necessary, but not sufficient criterion for the approximation to
+    be equal to the optimal value is the following:
+    Assuming the (weighted) histogram values at position :math:`k` are
+    :math:`k_{li}` for the left hand-side histogram and :math:`k_{ri}` for the
+    right hand-side histogram, :math:`i\in[0,n\_classes-1]`. Then the gain
+    function :math:`g(.)` must have the property
+    
+    .. math::
+      \forall j\forall k_{li},k_{ri}: g(\{k_{li}\},\{k_{ri}\})<
+    g(\{k_{li}\}_{i\backslash j}\cup\{k_{lj}+1\},
+    \{k_{ri}\}_{i\backslash j}\cup\{k_{rj}-1\}) \vee
+    g(\{k_{li}\}_{i\backslash j}\cup\{k_{lj}-1\},
+    \{k_{ri}\}_{i\backslash j}\cup\{k_{rj}+1\})
+    .
+    
+    This does not hold in general, but for the standard information gain
+    based measures, cases where it doesn't hold occur very rarely and even
+    if so, the found positions aren't a lot worse than the theoretical
+    optimum.
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    
+    Parameters
+    ==========
+    
+    use_fast_search_approximation : bool
+      Whether to use the approximation described above or not.
+    
+    n_classes : size_t >1
+      The number of classes. All annotations must be in [0, ..., n_classes[.
+    
+    gain_calculator : IGainCalculator
+      The gain calculator to estimate the gain at each split.
+    
+    gain_threshold : float>=0f
+      The minimum gain that must be reached to continue splitting. Default: 1E-7f.
+    
+    annotation_step : size_t>0
+      The memory step size for the annotation data. Default: 1.
+    r"""
+    attrname = 'ClassificationThresholdOptimizer_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+        use_fast_search_approximation,
+        n_classes,
+        gain_calculator,
+        gain_threshold,
+        annotation_step
+          )
+    return obj
+
+  def Samme_R(self,
+        
+        learning_rate=1
+           ):
+    r"""Class information:
+    ==================
+    
+    SAMME.R real boosting algorithm implementation
+    
+    Implements the SAMME.R real boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
+    
+    See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
+    
+    One can set the learning rate which specifies the contribution of each classifier
+    
+    Output when using BoostingLeafManager is log(p_k^m(x))-1/K*sum_k(log(p_k^m(x)))
+    
+    with x the sample to classify, K the number of classes, k the classIndex, m the estimatorIndex and p the estimator probability
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - int; int; uint; std::vector<float>; std::vector<float>
+    - float; float; uint; std::vector<float>; std::vector<float>
+    - double; double; uint; std::vector<float>; std::vector<float>
+    - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
+    
+    Serialization generation: 101
+    
+    -----
+
+    Constructor:
+    ============
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    r"""
+    attrname = 'Samme_R_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+        learning_rate
+          )
+    return obj
+
+  def DirectPatchDifferenceSurfCalculator(self,
+        
+        psx,
+        psy,
+        psz,
+        luc
+           ):
+    r"""Class information:
+    ==================
+    
+    Calculates a feature as the difference between two data dimensions
+    of inputs.
+    
+    In contrast to the DifferenceSurfaceCalculator, works with patches
+    in images directly. It only works together with a SubsamplingDataProvider
+    with a NoCopyPatchSampleManager, because they provide the images
+    in the correct format.
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - uint8_t; int16_t; uint
+    - uint8_t; int16_t; int16_t
+    
+    
+    -----
+
+    Constructor:
+    ============
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    
+    Parameters
+    ==========
+    
+    psx : size_t>0
+      Horizontal patch size.
+    
+    psy : size_t>0
+      Vertical patch size.
+    
+    psz : size_t>0
+      Patch depth.
+    
+    luc : bool
+      Whether the Left Upper Corner of a patch is used when specifying
+      positions or its center.
+    r"""
+    attrname = 'DirectPatchDifferenceSurfCalculator_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+        psx,
+        psy,
+        psz,
+        luc
+          )
+    return obj
+
   def StandardFeatureSelectionProvider(self,
         
         n_selections_per_node,
@@ -2320,165 +2081,6 @@ class Soil:
         how_many_available,
         max_to_use,
         random_seed
-          )
-    return obj
-
-  def RandomizedClassificationThresholdOptimizer(self,
-        
-        n_thresholds,
-        n_classes,
-        gain_calculator,
-        gain_threshold=1E-7,
-        annotation_step=1,
-        random_seed=1
-           ):
-    r"""Class information:
-    ==================
-    
-    Optimizes a threshold by selecting the best of few random values.
-    
-    Supports only classification annotations (unsigned int) with annotation
-    values in [0, ..., n_classes[.
-    The threshold optimizer draws n_thresholds random values between
-    the minimum and maximum observed feature value and returns the best
-    one.
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - int; int; uint
-    - int; float; uint
-    - float; int; uint
-    - uint8_t; int; uint
-    - uint8_t; uint8_t; uint
-    - uint8_t; float; uint
-    - uint8_t; int16_t; uint
-    - float; float; uint
-    - double; double; uint
-    - uint8_t; int16_t; int16_t
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    Standard constructor.
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    
-    Parameters
-    ==========
-    
-    n_thresholds : size_t>0
-      The number of thresholds to test per node.
-    
-    n_classes : size_t>1
-      The number of classes. All annotations must be within
-      [0, ..., n_classes[.
-    
-    gain_calculator : IGainCalculator
-      The gain calculator to use.
-    
-    gain_threshold : float >= 0f
-      The minimum gain that must be reached to continue splitting. Optional.
-    
-    annotation_step : size_t>0
-      The memory step from one annotation value to the next. Optional.
-    
-    random_seed : uint>0
-      The random seed to initialize the RNG. Optional.
-    r"""
-    attrname = 'RandomizedClassificationThresholdOptimizer_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-        n_thresholds,
-        n_classes,
-        gain_calculator,
-        gain_threshold,
-        annotation_step,
-        random_seed
-          )
-    return obj
-
-  def DifferenceSurfaceCalculator(self,
-        
-           ):
-    r"""Class information:
-    ==================
-    
-    Calculates a feature as the difference between two data dimensions
-    of inputs.
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - int; int; uint
-    - uint8_t; int16_t; uint
-    - float; float; uint
-    - float; float; float
-    - double; double; uint
-    - double; double; double
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    r"""
-    attrname = 'DifferenceSurfaceCalculator_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
           )
     return obj
 
@@ -2687,21 +2289,26 @@ class Soil:
           )
     return obj
 
-  def TsallisEntropy(self,
+  def RegressionThresholdOptimizer(self,
         
-        q
+        n_thresholds,
+        regression_calculator,
+        entropy_function,
+        gain_threshold=1E-7,
+        annotation_step=1,
+        random_seed=1
            ):
     r"""Class information:
     ==================
     
-    Computes the Tsallis entropy.
+    Optimizes the threshold for splitting a dataset, to ensure optimal
+    regression results on the splits.
     
-    Works correctly up to a total sum of elements of
-    numeric_limits<input_dtype>::max().
-    
-    This is the Tsallis entropy, as introduced by Constantino Tsallis
-    (see http://en.wikipedia.org/wiki/Tsallis_entropy).
-    
+    This threshold optimizer draws n_thresholds random values between
+    the minimum and maximum observed feature value and returns the best
+    one.
+    Multiple annotations (and therefore multiple output regression) are allowed.
+    The splits are evaluated using a provided regression calculator.
     
     
     -----
@@ -2714,21 +2321,20 @@ class Soil:
     
     Instantiations:
     
-    - float
-    - uint
+    - float; float
+    - double; double
     
-    Soil type always:
-    
-    - float
     
     -----
 
+    
     Constructor:
     ============
     
     -----
 
     Available in:
+    
     - C++
     - Python
     - Matlab
@@ -2740,10 +2346,26 @@ class Soil:
     Parameters
     ==========
     
-    q : float>0.f
-      The entropy parameter.
+    n_thresholds : size_t>0
+      Number of randomly drawn threshold values that are asessed.
+    
+    regression_calculator : shared(IRegressionCalculator)
+      The regression calculator used to evaluate possible splits.
+    
+    entropy_function : shared(IEntropyFunction)
+      The entropy function used on the regression results.
+    
+    gain_threshold : float >=0.f
+      The minimum information gain a split has to achieve.
+    
+    annotation_step : size_t >0
+      The memory layout of sample annotations.
+    
+    random_seed : uint >0
+      The random seed.
+      \returns A new RegressionThresholdOptimizer.
     r"""
-    attrname = 'TsallisEntropy_%s' % ('f')
+    attrname = 'RegressionThresholdOptimizer_%s_%s' % (self._inp_str, self._feat_str)
     cons_method = None
     for part_mod in _pyfertilized:
         if hasattr(part_mod, attrname):
@@ -2752,34 +2374,34 @@ class Soil:
     if cons_method is None:
       raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
     obj = cons_method(
-        q
+        n_thresholds,
+        regression_calculator,
+        entropy_function,
+        gain_threshold,
+        annotation_step,
+        random_seed
           )
     return obj
 
-  def ShannonEntropy(self,
+  def RandomizedClassificationThresholdOptimizer(self,
         
+        n_thresholds,
+        n_classes,
+        gain_calculator,
+        gain_threshold=1E-7,
+        annotation_step=1,
+        random_seed=1
            ):
     r"""Class information:
     ==================
     
-    Computes the classical Shannon-Entropy.
+    Optimizes a threshold by selecting the best of few random values.
     
-    Works correctly up to a total sum of elements of
-    numeric_limits<input_dtype>::max().
-    
-    For classes :math:`C={c_1, \ldots, c_n}`, the Shannon entropy is defined as
-    
-    .. math::
-      -\sum_{c\in C}p_z\cdot \log_2 p_z.
-    
-    
-    The differential Shannon entropy for a normal distribution with covariance
-    matrix :math:`\Sigma` in :math:`n` dimensions is defined as
-    
-    .. math::
-      \frac{1}{2}\log\left((2\pi e)^n\left|\Sigma\right|\right).
-    
-    
+    Supports only classification annotations (unsigned int) with annotation
+    values in [0, ..., n_classes[.
+    The threshold optimizer draws n_thresholds random values between
+    the minimum and maximum observed feature value and returns the best
+    one.
     
     
     -----
@@ -2792,12 +2414,111 @@ class Soil:
     
     Instantiations:
     
-    - float
-    - uint
+    - int; int; uint
+    - int; float; uint
+    - float; int; uint
+    - uint8_t; int; uint
+    - uint8_t; uint8_t; uint
+    - uint8_t; float; uint
+    - uint8_t; int16_t; uint
+    - float; float; uint
+    - double; double; uint
+    - uint8_t; int16_t; int16_t
     
-    Soil type always:
     
-    - float
+    -----
+
+    Constructor:
+    ============
+    
+    Standard constructor.
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    
+    Parameters
+    ==========
+    
+    n_thresholds : size_t>0
+      The number of thresholds to test per node.
+    
+    n_classes : size_t>1
+      The number of classes. All annotations must be within
+      [0, ..., n_classes[.
+    
+    gain_calculator : IGainCalculator
+      The gain calculator to use.
+    
+    gain_threshold : float >= 0f
+      The minimum gain that must be reached to continue splitting. Optional.
+    
+    annotation_step : size_t>0
+      The memory step from one annotation value to the next. Optional.
+    
+    random_seed : uint>0
+      The random seed to initialize the RNG. Optional.
+    r"""
+    attrname = 'RandomizedClassificationThresholdOptimizer_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+        n_thresholds,
+        n_classes,
+        gain_calculator,
+        gain_threshold,
+        annotation_step,
+        random_seed
+          )
+    return obj
+
+  def AlternatingThresholdOptimizer(self,
+        
+        opt1,
+        opt2,
+        random_seed=1
+           ):
+    r"""Class information:
+    ==================
+    
+    Uses two other threshold optimizers and randomly selects one of them at each split.
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - float; float; float
+    - double; double; double
+    - int; int; uint
+    - int; float; uint
+    - float; int; uint
+    - uint8_t; int; uint
+    - uint8_t; uint8_t; uint
+    - uint8_t; float; uint
+    - uint8_t; int16_t; uint
+    - float; float; uint
+    - double; double; uint
+    - uint8_t; int16_t; int16_t
     
     
     -----
@@ -2816,8 +2537,20 @@ class Soil:
     
     -----
 
+    
+    Parameters
+    ==========
+    
+    opt1 : shared(IThresholdOptimizer)
+      The first threshold optimizer to alternate in between.
+    
+    opt2 : shared(IThresholdOptimizer)
+      The second threshold optimizer to alternate in between.
+    
+    random_seed : uint>0
+      The random seed for the RNG. Default: 1.
     r"""
-    attrname = 'ShannonEntropy_%s' % ('f')
+    attrname = 'AlternatingThresholdOptimizer_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str)
     cons_method = None
     for part_mod in _pyfertilized:
         if hasattr(part_mod, attrname):
@@ -2826,116 +2559,9 @@ class Soil:
     if cons_method is None:
       raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
     obj = cons_method(
-          )
-    return obj
-
-  def ConstantRegressionCalculator(self,
-        
-           ):
-    r"""Class information:
-    ==================
-    
-    Calculator for constant regression.
-    
-    This regression calculator uses a constant value to predict the output value.
-    Therefore, it provides a constant prediction and a constant prediction covariance matrix.
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - float
-    - double
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    r"""
-    attrname = 'ConstantRegressionCalculator_%s' % (self._inp_str)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-          )
-    return obj
-
-  def ClassificationError(self,
-        
-           ):
-    r"""Class information:
-    ==================
-    
-    Computes the classification error as 1-\max(p_i).
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - float
-    - uint
-    
-    Soil type always:
-    
-    - float
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    r"""
-    attrname = 'ClassificationError_%s' % ('f')
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
+        opt1,
+        opt2,
+        random_seed
           )
     return obj
 
@@ -3099,15 +2725,29 @@ class Soil:
           )
     return obj
 
-  def UnchangedFDataProvider(self,
+  def ShannonEntropy(self,
         
-        data_array,
-        annotation_array
            ):
     r"""Class information:
     ==================
     
-    Uses unchanged data providers for each tree.
+    Computes the classical Shannon-Entropy.
+    
+    Works correctly up to a total sum of elements of
+    numeric_limits<input_dtype>::max().
+    
+    For classes :math:`C={c_1, \ldots, c_n}`, the Shannon entropy is defined as
+    
+    .. math::
+      -\sum_{c\in C}p_z\cdot \log_2 p_z.
+    
+    
+    The differential Shannon entropy for a normal distribution with covariance
+    matrix :math:`\Sigma` in :math:`n` dimensions is defined as
+    
+    .. math::
+      \frac{1}{2}\log\left((2\pi e)^n\left|\Sigma\right|\right).
+    
     
     
     
@@ -3121,13 +2761,12 @@ class Soil:
     
     Instantiations:
     
-    - float; uint
-    - int; uint
-    - uint8_t; uint
-    - uint8_t; int16_t
-    - double; uint
-    - double; double
-    - float; float
+    - float
+    - uint
+    
+    Soil type always:
+    
+    - float
     
     
     -----
@@ -3143,29 +2782,11 @@ class Soil:
     - Python
     - Matlab
     
-    Instantiations:
-    
-    - float; uint
-    - uint8_t; uint
-    - uint8_t; int16_t
-    - double; uint
-    - double; double
-    - float; float
-    
     
     -----
 
-    
-    Parameters
-    ==========
-    
-    data_array : Array<input_dtype>, 2D, row-major contiguous.
-      The data to use, with one data sample per row.
-    
-    annotation_array : Array<annotation_dtype>, 2D, row-major contiguous.
-      The annotations to use, with one annotation per row.
     r"""
-    attrname = 'UnchangedFDataProvider_%s_%s' % (self._inp_str, self._ann_str)
+    attrname = 'ShannonEntropy_%s' % ('f')
     cons_method = None
     for part_mod in _pyfertilized:
         if hasattr(part_mod, attrname):
@@ -3174,8 +2795,131 @@ class Soil:
     if cons_method is None:
       raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
     obj = cons_method(
-        data_array,
-        annotation_array
+          )
+    return obj
+
+  def ClassificationError(self,
+        
+           ):
+    r"""Class information:
+    ==================
+    
+    Computes the classification error as 1-\max(p_i).
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - float
+    - uint
+    
+    Soil type always:
+    
+    - float
+    
+    
+    -----
+
+    Constructor:
+    ============
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    r"""
+    attrname = 'ClassificationError_%s' % ('f')
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+          )
+    return obj
+
+  def TsallisEntropy(self,
+        
+        q
+           ):
+    r"""Class information:
+    ==================
+    
+    Computes the Tsallis entropy.
+    
+    Works correctly up to a total sum of elements of
+    numeric_limits<input_dtype>::max().
+    
+    This is the Tsallis entropy, as introduced by Constantino Tsallis
+    (see http://en.wikipedia.org/wiki/Tsallis_entropy).
+    
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - float
+    - uint
+    
+    Soil type always:
+    
+    - float
+    
+    -----
+
+    Constructor:
+    ============
+    
+    -----
+
+    Available in:
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    
+    Parameters
+    ==========
+    
+    q : float>0.f
+      The entropy parameter.
+    r"""
+    attrname = 'TsallisEntropy_%s' % ('f')
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+        q
           )
     return obj
 
@@ -3269,6 +3013,239 @@ class Soil:
           )
     return obj
 
+  def ConstantRegressionCalculator(self,
+        
+           ):
+    r"""Class information:
+    ==================
+    
+    Calculator for constant regression.
+    
+    This regression calculator uses a constant value to predict the output value.
+    Therefore, it provides a constant prediction and a constant prediction covariance matrix.
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - float
+    - double
+    
+    
+    -----
+
+    Constructor:
+    ============
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    r"""
+    attrname = 'ConstantRegressionCalculator_%s' % (self._inp_str)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+          )
+    return obj
+
+  def NoBagging(self,
+        
+           ):
+    r"""Class information:
+    ==================
+    
+    As the name suggests, performs no bagging and uses all samples for all trees.
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - int; int; uint; std::vector<float>; std::vector<float>
+    - float; float; uint; std::vector<float>; std::vector<float>
+    - double; double; uint; std::vector<float>; std::vector<float>
+    - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; int16_t; std::pair<float, std::shared_ptr<std::vector<int16_t>>>; std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>>
+    - float; float; float; std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
+    - double; double; double; std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>
+    
+    
+    -----
+
+    Constructor:
+    ============
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    r"""
+    attrname = 'NoBagging_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+          )
+    return obj
+
+  def EqualDistBagging(self,
+        
+           ):
+    r"""Class information:
+    ==================
+    
+    Equal distribution bagging.
+    
+    The samples are distributed equally amongst the trees. Each sample belongs
+    to exactly one tree. Note that this behaviour destroys the max-margin
+    property of decision forests.
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - int; int; uint; std::vector<float>; std::vector<float>
+    - float; float; uint; std::vector<float>; std::vector<float>
+    - double; double; uint; std::vector<float>; std::vector<float>
+    - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; int16_t; std::pair<float, std::shared_ptr<std::vector<int16_t>>>; std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>>
+    - float; float; float; std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
+    - double; double; double; std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>
+    
+    
+    -----
+
+    Constructor:
+    ============
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    r"""
+    attrname = 'EqualDistBagging_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+          )
+    return obj
+
+  def DifferenceSurfaceCalculator(self,
+        
+           ):
+    r"""Class information:
+    ==================
+    
+    Calculates a feature as the difference between two data dimensions
+    of inputs.
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - int; int; uint
+    - uint8_t; int16_t; uint
+    - float; float; uint
+    - float; float; float
+    - double; double; uint
+    - double; double; double
+    
+    
+    -----
+
+    Constructor:
+    ============
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    r"""
+    attrname = 'DifferenceSurfaceCalculator_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+          )
+    return obj
+
   def SubsamplingDataProvider(self,
         
         max_samples_per_node,
@@ -3342,202 +3319,6 @@ class Soil:
         max_samples_per_node,
         sample_manager,
         random_seed
-          )
-    return obj
-
-  def EntropyGain(self,
-        
-        entropy_function
-           ):
-    r"""Class information:
-    ==================
-    
-    Calculates the gain as difference of current entropy and the
-    weighted sum of subgroup entropies.
-    
-    Works correctly up to a total sum of elements of
-    min(numeric_limits<float>::max(), numeric_limits<input_dtype>::max())
-    and the limitations of the selected entropy function.
-    Speed optimized function that does no checks in release mode!
-    
-    Parameters
-    ==========
-    
-    input_dtype : The datatype for counting class members. This might
-      be a float if sample weights are used.
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - float
-    - uint
-    
-    Soil type always:
-    
-    - float
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    
-    
-    entropy_function : shared(IEntropyFunction<float>)
-      The entropy to use for gain calculation.
-    r"""
-    attrname = 'EntropyGain_%s' % ('f')
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-        entropy_function
-          )
-    return obj
-
-  def EqualDistBagging(self,
-        
-           ):
-    r"""Class information:
-    ==================
-    
-    Equal distribution bagging.
-    
-    The samples are distributed equally amongst the trees. Each sample belongs
-    to exactly one tree. Note that this behaviour destroys the max-margin
-    property of decision forests.
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - int; int; uint; std::vector<float>; std::vector<float>
-    - float; float; uint; std::vector<float>; std::vector<float>
-    - double; double; uint; std::vector<float>; std::vector<float>
-    - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; int16_t; std::pair<float, std::shared_ptr<std::vector<int16_t>>>; std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>>
-    - float; float; float; std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
-    - double; double; double; std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    r"""
-    attrname = 'EqualDistBagging_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-          )
-    return obj
-
-  def NoBagging(self,
-        
-           ):
-    r"""Class information:
-    ==================
-    
-    As the name suggests, performs no bagging and uses all samples for all trees.
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - int; int; uint; std::vector<float>; std::vector<float>
-    - float; float; uint; std::vector<float>; std::vector<float>
-    - double; double; uint; std::vector<float>; std::vector<float>
-    - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; int16_t; std::pair<float, std::shared_ptr<std::vector<int16_t>>>; std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>>
-    - float; float; float; std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
-    - double; double; double; std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    
-    -----
-
-    r"""
-    attrname = 'NoBagging_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
           )
     return obj
 
@@ -3686,6 +3467,245 @@ class Soil:
           )
     return obj
 
+  def UnchangedDataProvider(self,
+        
+        data,
+        annotations
+           ):
+    r"""Class information:
+    ==================
+    
+    Uses the provided data unchanged throughout the training.
+    
+    It builds its sample database from two pointer on memory arrays with
+    data and annotations. Both must be provided in contiguous layout. The
+    data (but not the annotations!) can be provided row- or column-wise.
+    Column-wise layout is to be preferred, since it has more locality for
+    most optimization processes.
+    
+    The annotations MUST always be provided in row major order, independent
+    of the provided value for column_wise.
+    
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - float; uint
+    - int; uint
+    - uint8_t; uint
+    - uint8_t; int16_t
+    - double; uint
+    - double; double
+    - float; float
+    
+    
+    -----
+
+    Constructor:
+    ============
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - float; uint
+    - uint8_t; uint
+    - uint8_t; int16_t
+    - double; uint
+    - double; double
+    - float; float
+    
+    
+    -----
+
+    
+    Parameters
+    ==========
+    
+    data_array : Array<input_dtype>, 2D, row-major contiguous.
+      The data to use, with one data sample per row.
+    
+    annotation_array : Array<annotation_dtype>, 2D, row-major contiguous.
+      The annotations to use, with one annotation per row.
+    r"""
+    attrname = 'UnchangedDataProvider_%s_%s' % (self._inp_str, self._ann_str)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+        data,
+        annotations
+          )
+    return obj
+
+  def UnchangedFDataProvider(self,
+        
+        data_array,
+        annotation_array
+           ):
+    r"""Class information:
+    ==================
+    
+    Uses unchanged data providers for each tree.
+    
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - float; uint
+    - int; uint
+    - uint8_t; uint
+    - uint8_t; int16_t
+    - double; uint
+    - double; double
+    - float; float
+    
+    
+    -----
+
+    Constructor:
+    ============
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - float; uint
+    - uint8_t; uint
+    - uint8_t; int16_t
+    - double; uint
+    - double; double
+    - float; float
+    
+    
+    -----
+
+    
+    Parameters
+    ==========
+    
+    data_array : Array<input_dtype>, 2D, row-major contiguous.
+      The data to use, with one data sample per row.
+    
+    annotation_array : Array<annotation_dtype>, 2D, row-major contiguous.
+      The annotations to use, with one annotation per row.
+    r"""
+    attrname = 'UnchangedFDataProvider_%s_%s' % (self._inp_str, self._ann_str)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+        data_array,
+        annotation_array
+          )
+    return obj
+
+  def LocalExecutionStrategy(self,
+        
+        num_threads=1
+           ):
+    r"""Class information:
+    ==================
+    
+    Executes the training on the local machine.
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - int; int; uint; std::vector<float>; std::vector<float>
+    - float; float; uint; std::vector<float>; std::vector<float>
+    - double; double; uint; std::vector<float>; std::vector<float>
+    - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
+    - uint8_t; int16_t; int16_t; std::pair<float, std::shared_ptr<std::vector<int16_t>>>; std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>>
+    - float; float; float; std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
+    - double; double; double; std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>
+    
+    
+    -----
+
+    Constructor:
+    ============
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    
+    Parameters
+    ==========
+    
+    num_threads : int>0
+      The number of threads to use for parallelism on forest training level.
+      Note that this multiplies with the parallelism applied for training
+      steps, such as for IDecider optimization! Default: 1.
+    r"""
+    attrname = 'LocalExecutionStrategy_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+        num_threads
+          )
+    return obj
+
   def PatchSampleManager(self,
         
         images,
@@ -3790,104 +3810,21 @@ class Soil:
           )
     return obj
 
-  def UnchangedDataProvider(self,
+  def AdaBoost(self,
         
-        data,
-        annotations
            ):
     r"""Class information:
     ==================
     
-    Uses the provided data unchanged throughout the training.
+    AdaBoost.M2 boosting algorithm implementation
     
-    It builds its sample database from two pointer on memory arrays with
-    data and annotations. Both must be provided in contiguous layout. The
-    data (but not the annotations!) can be provided row- or column-wise.
-    Column-wise layout is to be preferred, since it has more locality for
-    most optimization processes.
+    Implements the original AdaBoost algorithm proposed by Freund and Schapire
     
-    The annotations MUST always be provided in row major order, independent
-    of the provided value for column_wise.
+    See "A decision-theoretic generalization of on-line learning and an application to boosting". Journal of Computer and System Sciences 55. 1997
     
+    To support multi-class classification, the AdaBoost.M2 algorithm is used
     
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - float; uint
-    - int; uint
-    - uint8_t; uint
-    - uint8_t; int16_t
-    - double; uint
-    - double; double
-    - float; float
-    
-    
-    -----
-
-    Constructor:
-    ============
-    
-    
-    -----
-
-    Available in:
-    
-    - C++
-    - Python
-    - Matlab
-    
-    Instantiations:
-    
-    - float; uint
-    - uint8_t; uint
-    - uint8_t; int16_t
-    - double; uint
-    - double; double
-    - float; float
-    
-    
-    -----
-
-    
-    Parameters
-    ==========
-    
-    data_array : Array<input_dtype>, 2D, row-major contiguous.
-      The data to use, with one data sample per row.
-    
-    annotation_array : Array<annotation_dtype>, 2D, row-major contiguous.
-      The annotations to use, with one annotation per row.
-    r"""
-    attrname = 'UnchangedDataProvider_%s_%s' % (self._inp_str, self._ann_str)
-    cons_method = None
-    for part_mod in _pyfertilized:
-        if hasattr(part_mod, attrname):
-            cons_method = part_mod.__dict__[attrname]
-            break
-    if cons_method is None:
-      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
-    obj = cons_method(
-        data,
-        annotations
-          )
-    return obj
-
-  def LocalExecutionStrategy(self,
-        
-        num_threads=1
-           ):
-    r"""Class information:
-    ==================
-    
-    Executes the training on the local machine.
+    Output when using BoostingLeafManager is estimator_probability*std::log(1.f/beta)
     
     
     -----
@@ -3906,9 +3843,76 @@ class Soil:
     - uint8_t; uint8_t; uint; std::vector<float>; std::vector<float>
     - uint8_t; int16_t; uint; std::vector<float>; std::vector<float>
     - uint8_t; int16_t; int16_t; std::vector<float>; std::vector<float>
-    - uint8_t; int16_t; int16_t; std::pair<float, std::shared_ptr<std::vector<int16_t>>>; std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>>
-    - float; float; float; std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
-    - double; double; double; std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>; std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>
+    
+    Serialization generation: 101
+    
+    -----
+
+    Constructor:
+    ============
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    
+    -----
+
+    r"""
+    attrname = 'AdaBoost_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
+    cons_method = None
+    for part_mod in _pyfertilized:
+        if hasattr(part_mod, attrname):
+            cons_method = part_mod.__dict__[attrname]
+            break
+    if cons_method is None:
+      raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
+    obj = cons_method(
+          )
+    return obj
+
+  def EntropyGain(self,
+        
+        entropy_function
+           ):
+    r"""Class information:
+    ==================
+    
+    Calculates the gain as difference of current entropy and the
+    weighted sum of subgroup entropies.
+    
+    Works correctly up to a total sum of elements of
+    min(numeric_limits<float>::max(), numeric_limits<input_dtype>::max())
+    and the limitations of the selected entropy function.
+    Speed optimized function that does no checks in release mode!
+    
+    Parameters
+    ==========
+    
+    input_dtype : The datatype for counting class members. This might
+      be a float if sample weights are used.
+    
+    
+    -----
+
+    Available in:
+    
+    - C++
+    - Python
+    - Matlab
+    
+    Instantiations:
+    
+    - float
+    - uint
+    
+    Soil type always:
+    
+    - float
     
     
     -----
@@ -3928,15 +3932,11 @@ class Soil:
     -----
 
     
-    Parameters
-    ==========
     
-    num_threads : int>0
-      The number of threads to use for parallelism on forest training level.
-      Note that this multiplies with the parallelism applied for training
-      steps, such as for IDecider optimization! Default: 1.
+    entropy_function : shared(IEntropyFunction<float>)
+      The entropy to use for gain calculation.
     r"""
-    attrname = 'LocalExecutionStrategy_%s_%s_%s_%s_%s' % (self._inp_str, self._feat_str, self._ann_str, self._tres, self._fres)
+    attrname = 'EntropyGain_%s' % ('f')
     cons_method = None
     for part_mod in _pyfertilized:
         if hasattr(part_mod, attrname):
@@ -3945,7 +3945,7 @@ class Soil:
     if cons_method is None:
       raise Exception("This object is not supported by the current Soil (pyfertilized.%s)!" % (attrname))
     obj = cons_method(
-        num_threads
+        entropy_function
           )
     return obj
 

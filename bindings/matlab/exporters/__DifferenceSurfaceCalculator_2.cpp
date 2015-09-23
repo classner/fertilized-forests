@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__features.h"
-#include <fertilized/features/differencesurfacecalculator.h>
+#include <../../include/fertilized/features/differencesurfacecalculator.h>
 
 using namespace fertilized;
 

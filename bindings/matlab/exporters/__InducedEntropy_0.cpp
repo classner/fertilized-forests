@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__impurities.h"
-#include <fertilized/impurities/inducedentropy.h>
+#include <../../include/fertilized/impurities/inducedentropy.h>
 
 using namespace fertilized;
 

@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__boosting.h"
-#include <fertilized/boosting/samme.h>
+#include <../../include/fertilized/boosting/samme.h>
 
 using namespace fertilized;
 

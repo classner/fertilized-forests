@@ -8,9 +8,9 @@
 namespace pyfertilized {
   void __python_export_40() {
     export_IThresholdOptimizer<
-              int,
-              int,
-              uint
-                            >("_i_i_uint");
+              float,
+              float,
+              float
+                            >("_f_f_f");
   };
 }  // namespace pyfertilized

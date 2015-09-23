@@ -3,11 +3,11 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ITraining_exporter.h"
+#include "./__IBoostingStrategy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_9() {
-    export_ITraining<
+    export_IBoostingStrategy<
               float,
               float,
               uint,

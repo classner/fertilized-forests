@@ -3,16 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__AdaBoost_exporter.h"
+#include "./__VarianceClassificationThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_195() {
-    export_AdaBoost<
+    export_VarianceClassificationThresholdOptimizer<
               float,
-              float,
-              uint,
-              std::vector<float>,
-              std::vector<float>
-                            >("_f_f_uint_fv_fv");
+              int,
+              uint
+                            >("_f_i_uint");
   };
 }  // namespace pyfertilized

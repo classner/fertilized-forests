@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__execution_strategies.h"
-#include <fertilized/execution_strategies/localexecutionstrategy.h>
+#include <../../include/fertilized/execution_strategies/localexecutionstrategy.h>
 
 using namespace fertilized;
 

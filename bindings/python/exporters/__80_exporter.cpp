@@ -3,16 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IExecutionStrategy_exporter.h"
+#include "./__IDecider_exporter.h"
 
 namespace pyfertilized {
   void __python_export_80() {
-    export_IExecutionStrategy<
-              double,
-              double,
-              uint,
-              std::vector<float>,
-              std::vector<float>
-                            >("_d_d_uint_fv_fv");
+    export_IDecider<
+              float,
+              float,
+              float
+                            >("_f_f_f");
   };
 }  // namespace pyfertilized

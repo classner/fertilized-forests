@@ -1,6 +1,9 @@
-
+// Ensure that there is always a library file created in Windows.
 namespace fertilized {
-__declspec( dllexport ) int dummyfunc() {
-	return 0;
-};
+#if defined(_MSC_VER)
+  __declspec( dllexport )
+#endif
+	int dummyfunc() {
+	  return 0;
+  };
 };

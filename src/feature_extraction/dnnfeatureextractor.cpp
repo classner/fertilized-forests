@@ -1,8 +1,8 @@
 /* Author: Christoph Lassner. */
 #ifndef _MSC_VER
-#include "../global.h"
+#include "fertilized/global.h"
 #endif
-#include "../ndarray.h"
+#include "fertilized/ndarray.h"
 
 #include <cstdint>
 #include <memory>
@@ -24,10 +24,10 @@
 #endif
 
 #ifdef _MSC_VER
-#include "../global.h"
+#include "fertilized/global.h"
 #endif
 
-#include "./dnnfeatureextractor.h"
+#include "fertilized/feature_extraction/dnnfeatureextractor.h"
 
 namespace fs = boost::filesystem;
 

@@ -8,11 +8,11 @@
 namespace pyfertilized {
   void __python_export_149() {
     export_ClassicTraining<
-              float,
-              float,
-              float,
-              std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,
-              std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
-                            >("_f_f_f_rpf_vprpff");
+              uint8_t,
+              int16_t,
+              int16_t,
+              std::pair<float, std::shared_ptr<std::vector<int16_t>>>,
+              std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>>
+                            >("_uint8_int16_int16_hp_vhp");
   };
 }  // namespace pyfertilized

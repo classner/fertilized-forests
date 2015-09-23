@@ -3,13 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__SubsamplingDataProvider_exporter.h"
+#include "./__DifferenceSurfaceCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_261() {
-    export_SubsamplingDataProvider<
-              uint8_t,
+    export_DifferenceSurfaceCalculator<
+              float,
+              float,
               uint
-                            >("_uint8_uint");
+                            >("_f_f_uint");
   };
 }  // namespace pyfertilized

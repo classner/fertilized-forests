@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__gains.h"
-#include <fertilized/gains/igaincalculator.h>
+#include <../../include/fertilized/gains/igaincalculator.h>
 
 using namespace fertilized;
 

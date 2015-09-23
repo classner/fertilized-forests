@@ -10,7 +10,7 @@
 #pragma warning(pop)
 
 #include "../global.h"
-#include <fertilized/feature_extraction/feature_extraction.h>
+#include <../include/fertilized/feature_extraction/feature_extraction.h>
 
 namespace py = boost::python;
 using namespace fertilized;

@@ -3,12 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ClassificationError_exporter.h"
+#include "./__NoBagging_exporter.h"
 
 namespace pyfertilized {
   void __python_export_245() {
-    export_ClassificationError<
-              float
-                            >("_f");
+    export_NoBagging<
+              uint8_t,
+              int16_t,
+              uint,
+              std::vector<float>,
+              std::vector<float>
+                            >("_uint8_int16_uint_fv_fv");
   };
 }  // namespace pyfertilized

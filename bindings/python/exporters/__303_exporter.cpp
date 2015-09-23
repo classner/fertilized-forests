@@ -3,16 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__LocalExecutionStrategy_exporter.h"
+#include "./__AdaBoost_exporter.h"
 
 namespace pyfertilized {
   void __python_export_303() {
-    export_LocalExecutionStrategy<
+    export_AdaBoost<
               uint8_t,
-              int16_t,
+              uint8_t,
               uint,
               std::vector<float>,
               std::vector<float>
-                            >("_uint8_int16_uint_fv_fv");
+                            >("_uint8_uint8_uint_fv_fv");
   };
 }  // namespace pyfertilized

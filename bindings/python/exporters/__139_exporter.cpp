@@ -3,13 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ClassificationLeafManager_exporter.h"
+#include "./__QuadraticSurfaceCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_139() {
-    export_ClassificationLeafManager<
-              uint8_t,
+    export_QuadraticSurfaceCalculator<
+              float,
               uint
-                            >("_uint8_uint");
+                            >("_f_uint");
   };
 }  // namespace pyfertilized

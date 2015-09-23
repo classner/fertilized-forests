@@ -1,2 +1,6 @@
+# The standard CMake build folders.
 build
+build_debug
 
+# The developer tools if installed.
+developer_tools

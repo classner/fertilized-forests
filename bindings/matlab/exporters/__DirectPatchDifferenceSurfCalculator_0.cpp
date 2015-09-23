@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__features.h"
-#include <fertilized/features/directpatchdifferencesurfcalculator.h>
+#include <../../include/fertilized/features/directpatchdifferencesurfcalculator.h>
 
 using namespace fertilized;
 

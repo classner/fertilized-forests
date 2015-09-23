@@ -3,13 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__UnchangedDataProvider_exporter.h"
+#include "./__LocalExecutionStrategy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_297() {
-    export_UnchangedDataProvider<
+    export_LocalExecutionStrategy<
               double,
-              double
-                            >("_d_d");
+              double,
+              double,
+              std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,
+              std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>
+                            >("_d_d_d_rpd_vprpfd");
   };
 }  // namespace pyfertilized

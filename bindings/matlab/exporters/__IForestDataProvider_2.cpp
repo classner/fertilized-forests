@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__data_providers.h"
-#include <fertilized/data_providers/iforestdataprovider.h>
+#include <../../include/fertilized/data_providers/iforestdataprovider.h>
 
 using namespace fertilized;
 

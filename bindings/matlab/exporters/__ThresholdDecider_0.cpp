@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__deciders.h"
-#include <fertilized/deciders/thresholddecider.h>
+#include <../../include/fertilized/deciders/thresholddecider.h>
 
 using namespace fertilized;
 

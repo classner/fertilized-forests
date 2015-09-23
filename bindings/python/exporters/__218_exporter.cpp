@@ -3,14 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__RandomizedClassificationThresholdOptimizer_exporter.h"
+#include "./__AlternatingThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_218() {
-    export_RandomizedClassificationThresholdOptimizer<
-              uint8_t,
+    export_AlternatingThresholdOptimizer<
+              int,
               float,
               uint
-                            >("_uint8_f_uint");
+                            >("_i_f_uint");
   };
 }  // namespace pyfertilized

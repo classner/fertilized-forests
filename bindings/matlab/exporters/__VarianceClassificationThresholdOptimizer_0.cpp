@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__threshold_optimizers.h"
-#include <fertilized/threshold_optimizers/varianceclassificationthresholdoptimizer.h>
+#include <../../include/fertilized/threshold_optimizers/varianceclassificationthresholdoptimizer.h>
 
 using namespace fertilized;
 

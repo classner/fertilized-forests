@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__rootdir.h"
-#include <fertilized/./objecttemplate.h>
+#include <../../include/fertilized/./objecttemplate.h>
 
 using namespace fertilized;
 

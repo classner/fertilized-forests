@@ -3,14 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__AlternatingThresholdOptimizer_exporter.h"
+#include "./__Samme_R_exporter.h"
 
 namespace pyfertilized {
   void __python_export_185() {
-    export_AlternatingThresholdOptimizer<
+    export_Samme_R<
               float,
-              int,
-              uint
-                            >("_f_i_uint");
+              float,
+              uint,
+              std::vector<float>,
+              std::vector<float>
+                            >("_f_f_uint_fv_fv");
   };
 }  // namespace pyfertilized

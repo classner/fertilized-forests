@@ -3,10 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__StandardFeatureSelectionProvider_exporter.h"
+#include "./__RandomizedClassificationThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_212() {
-    export_StandardFeatureSelectionProvider("");
+    export_RandomizedClassificationThresholdOptimizer<
+              float,
+              float,
+              uint
+                            >("_f_f_uint");
   };
 }  // namespace pyfertilized

@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__impurities.h"
-#include <fertilized/impurities/tsallisentropy.h>
+#include <../../include/fertilized/impurities/tsallisentropy.h>
 
 using namespace fertilized;
 

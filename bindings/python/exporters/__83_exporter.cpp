@@ -3,16 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IExecutionStrategy_exporter.h"
+#include "./__IForestDataProvider_exporter.h"
 
 namespace pyfertilized {
   void __python_export_83() {
-    export_IExecutionStrategy<
-              uint8_t,
-              int16_t,
-              int16_t,
-              std::vector<float>,
-              std::vector<float>
-                            >("_uint8_int16_int16_fv_fv");
+    export_IForestDataProvider<
+              int,
+              uint
+                            >("_i_uint");
   };
 }  // namespace pyfertilized

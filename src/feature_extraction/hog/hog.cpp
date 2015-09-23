@@ -3,8 +3,7 @@
 // Email: gall@vision.ee.ethz.ch
 // Christoph Lassner
 */
-
-#include "hog.h"
+#include "fertilized/feature_extraction/hog/hog.h"
 
 using namespace std;
 using namespace cv;
@@ -78,6 +77,3 @@ void HoG::extractOBin(Mat& Iorient, Mat& Imagn, vector<Mat>& out, int off) {
   delete[] desc;
 
 }
-
-
-

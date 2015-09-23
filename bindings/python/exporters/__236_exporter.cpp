@@ -3,14 +3,12 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__VarianceClassificationThresholdOptimizer_exporter.h"
+#include "./__TsallisEntropy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_236() {
-    export_VarianceClassificationThresholdOptimizer<
-              float,
-              float,
+    export_TsallisEntropy<
               uint
-                            >("_f_f_uint");
+                            >("_uint");
   };
 }  // namespace pyfertilized

@@ -10,7 +10,7 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
 
-#include "hog_extractor.h"
+#include "fertilized/feature_extraction/hog_extractor.h"
 
 #if defined(_MSC_VER)
 #if _MSC_VER < 1800

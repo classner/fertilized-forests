@@ -4,14 +4,14 @@
  * This is an automatically generated file!
  */
 #if defined SERIALIZATION_ENABLED
-#include "../global.h"
+#include "fertilized/global.h"
 
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/version.hpp>
 
-#include "../features/differencesurfacecalculator.h"
-#include "./_serialization_definition.h"
+#include "fertilized/features/differencesurfacecalculator.h"
+#include "fertilized/serialization/_serialization_definition.h"
 
 namespace fertilized {
   template <class Archive>

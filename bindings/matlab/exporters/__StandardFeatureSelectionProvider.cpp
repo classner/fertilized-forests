@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__features.h"
-#include <fertilized/features/standardfeatureselectionprovider.h>
+#include <../../include/fertilized/features/standardfeatureselectionprovider.h>
 
 using namespace fertilized;
 

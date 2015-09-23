@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__bagging.h"
-#include <fertilized/bagging/equaldistbagging.h>
+#include <../../include/fertilized/bagging/equaldistbagging.h>
 
 using namespace fertilized;
 

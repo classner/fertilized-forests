@@ -1,6 +1,6 @@
 /* Author: Christoph Lassner. */
-#include "./feature_extraction.h"
-#include "./feature_extraction_vision.h"
+#include "fertilized/feature_extraction/feature_extraction.h"
+#include "fertilized/feature_extraction/feature_extraction_vision.h"
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -8,12 +8,12 @@
 #include <vector>
 #include <algorithm>
 
-#include "../ndarray.h"
+#include "fertilized/ndarray.h"
 
-#include "../global.h"
-#include "../types.h"
-#include "../util/gil.hpp"
-#include "./hog_extractor.h"
+#include "fertilized/global.h"
+#include "fertilized/types.h"
+#include "fertilized/util/gil.hpp"
+#include "fertilized/feature_extraction/hog_extractor.h"
 
 namespace ft = fertilized::vision::features::feature_channels;
 #ifdef PYTHON_ENABLED

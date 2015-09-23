@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__regression.h"
-#include <fertilized/regression/constantregressioncalculator.h>
+#include <../../include/fertilized/regression/constantregressioncalculator.h>
 
 using namespace fertilized;
 

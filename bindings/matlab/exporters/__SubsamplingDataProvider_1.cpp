@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__data_providers.h"
-#include <fertilized/data_providers/subsamplingdataprovider.h>
+#include <../../include/fertilized/data_providers/subsamplingdataprovider.h>
 
 using namespace fertilized;
 

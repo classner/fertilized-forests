@@ -3,12 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__InducedEntropy_exporter.h"
+#include "./__NoBagging_exporter.h"
 
 namespace pyfertilized {
   void __python_export_248() {
-    export_InducedEntropy<
-              uint
-                            >("_uint");
+    export_NoBagging<
+              float,
+              float,
+              float,
+              std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,
+              std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
+                            >("_f_f_f_rpf_vprpff");
   };
 }  // namespace pyfertilized

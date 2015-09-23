@@ -3,13 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__RegressionThresholdOptimizer_exporter.h"
+#include "./__VarianceClassificationThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_200() {
-    export_RegressionThresholdOptimizer<
+    export_VarianceClassificationThresholdOptimizer<
               float,
-              float
-                            >("_f_f");
+              float,
+              uint
+                            >("_f_f_uint");
   };
 }  // namespace pyfertilized

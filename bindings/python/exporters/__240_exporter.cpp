@@ -3,12 +3,12 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__TsallisEntropy_exporter.h"
+#include "./__ConstantRegressionCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_240() {
-    export_TsallisEntropy<
-              uint
-                            >("_uint");
+    export_ConstantRegressionCalculator<
+              double
+                            >("_d");
   };
 }  // namespace pyfertilized

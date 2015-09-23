@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__impurities.h"
-#include <fertilized/impurities/classificationerror.h>
+#include <../../include/fertilized/impurities/classificationerror.h>
 
 using namespace fertilized;
 

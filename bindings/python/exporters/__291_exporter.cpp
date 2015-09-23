@@ -3,13 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__PatchSampleManager_exporter.h"
+#include "./__LocalExecutionStrategy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_291() {
-    export_PatchSampleManager<
-              uint8_t,
-              uint
-                            >("_uint8_uint");
+    export_LocalExecutionStrategy<
+              double,
+              double,
+              uint,
+              std::vector<float>,
+              std::vector<float>
+                            >("_d_d_uint_fv_fv");
   };
 }  // namespace pyfertilized

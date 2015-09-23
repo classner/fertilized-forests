@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__impurities.h"
-#include <fertilized/impurities/shannonentropy.h>
+#include <../../include/fertilized/impurities/shannonentropy.h>
 
 using namespace fertilized;
 

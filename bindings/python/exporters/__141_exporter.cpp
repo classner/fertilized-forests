@@ -3,13 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__HoughLeafManager_exporter.h"
+#include "./__QuadraticSurfaceCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_141() {
-    export_HoughLeafManager<
-              uint8_t,
-              int16_t
-                            >("_uint8_int16");
+    export_QuadraticSurfaceCalculator<
+              double,
+              uint
+                            >("_d_uint");
   };
 }  // namespace pyfertilized

@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__features.h"
-#include <fertilized/features/alignedsurfacecalculator.h>
+#include <../../include/fertilized/features/alignedsurfacecalculator.h>
 
 using namespace fertilized;
 

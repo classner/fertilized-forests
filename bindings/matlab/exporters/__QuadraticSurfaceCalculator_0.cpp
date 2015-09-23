@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__features.h"
-#include <fertilized/features/quadraticsurfacecalculator.h>
+#include <../../include/fertilized/features/quadraticsurfacecalculator.h>
 
 using namespace fertilized;
 

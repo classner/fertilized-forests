@@ -3,16 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__NoBagging_exporter.h"
+#include "./__ThresholdDecider_exporter.h"
 
 namespace pyfertilized {
   void __python_export_273() {
-    export_NoBagging<
-              int,
-              int,
-              uint,
-              std::vector<float>,
-              std::vector<float>
-                            >("_i_i_uint_fv_fv");
+    export_ThresholdDecider<
+              float,
+              float,
+              float
+                            >("_f_f_f");
   };
 }  // namespace pyfertilized

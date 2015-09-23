@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__leafs.h"
-#include <fertilized/leafs/regressionleafmanager.h>
+#include <../../include/fertilized/leafs/regressionleafmanager.h>
 
 using namespace fertilized;
 

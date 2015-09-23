@@ -10,7 +10,7 @@ namespace pyfertilized {
     export_ClassificationThresholdOptimizer<
               uint8_t,
               int16_t,
-              int16_t
-                            >("_uint8_int16_int16");
+              uint
+                            >("_uint8_int16_uint");
   };
 }  // namespace pyfertilized

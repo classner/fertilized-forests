@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__regression.h"
-#include <fertilized/regression/linearregressioncalculator.h>
+#include <../../include/fertilized/regression/linearregressioncalculator.h>
 
 using namespace fertilized;
 

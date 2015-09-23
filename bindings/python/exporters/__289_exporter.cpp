@@ -3,14 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ThresholdDecider_exporter.h"
+#include "./__LocalExecutionStrategy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_289() {
-    export_ThresholdDecider<
-              double,
-              double,
-              double
-                            >("_d_d_d");
+    export_LocalExecutionStrategy<
+              int,
+              int,
+              uint,
+              std::vector<float>,
+              std::vector<float>
+                            >("_i_i_uint_fv_fv");
   };
 }  // namespace pyfertilized

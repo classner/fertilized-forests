@@ -3,14 +3,12 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__VarianceClassificationThresholdOptimizer_exporter.h"
+#include "./__RenyiEntropy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_230() {
-    export_VarianceClassificationThresholdOptimizer<
-              int,
-              float,
+    export_RenyiEntropy<
               uint
-                            >("_i_f_uint");
+                            >("_uint");
   };
 }  // namespace pyfertilized

@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__features.h"
-#include <fertilized/features/featcalcparamset.h>
+#include <../../include/fertilized/features/featcalcparamset.h>
 
 using namespace fertilized;
 

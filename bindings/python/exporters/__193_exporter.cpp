@@ -3,10 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__VolumeFeatureSelectionProvider_exporter.h"
+#include "./__VarianceClassificationThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_193() {
-    export_VolumeFeatureSelectionProvider("");
+    export_VarianceClassificationThresholdOptimizer<
+              int,
+              int,
+              uint
+                            >("_i_i_uint");
   };
 }  // namespace pyfertilized

@@ -10,7 +10,7 @@
 #pragma warning(pop)
 
 #include "../global.h"
-#include <fertilized/standard_forests.h>
+#include <../include/fertilized/standard_forests.h>
 
 namespace py = boost::python;
 using namespace fertilized;

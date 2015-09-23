@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__bagging.h"
-#include <fertilized/bagging/nobagging.h>
+#include <../../include/fertilized/bagging/nobagging.h>
 
 using namespace fertilized;
 

@@ -3,14 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__AlternatingThresholdOptimizer_exporter.h"
+#include "./__DirectPatchDifferenceSurfCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_190() {
-    export_AlternatingThresholdOptimizer<
-              float,
-              float,
+    export_DirectPatchDifferenceSurfCalculator<
+              uint8_t,
+              int16_t,
               uint
-                            >("_f_f_uint");
+                            >("_uint8_int16_uint");
   };
 }  // namespace pyfertilized

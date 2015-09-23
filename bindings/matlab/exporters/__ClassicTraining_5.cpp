@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__trainings.h"
-#include <fertilized/trainings/classictraining.h>
+#include <../../include/fertilized/trainings/classictraining.h>
 
 using namespace fertilized;
 

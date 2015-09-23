@@ -5,12 +5,12 @@
  */
 
 #if defined SERIALIZATION_ENABLED
-#include "../global.h"
+#include "fertilized/global.h"
 
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 
-#include "./serialization.h"
+#include "fertilized/serialization/serialization.h"
 
 namespace fertilized {
   // Forward declarations.

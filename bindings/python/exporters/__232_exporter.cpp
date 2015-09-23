@@ -3,14 +3,12 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__VarianceClassificationThresholdOptimizer_exporter.h"
+#include "./__ShannonEntropy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_232() {
-    export_VarianceClassificationThresholdOptimizer<
-              uint8_t,
-              int,
+    export_ShannonEntropy<
               uint
-                            >("_uint8_i_uint");
+                            >("_uint");
   };
 }  // namespace pyfertilized

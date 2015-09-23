@@ -3,13 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IForestDataProvider_exporter.h"
+#include "./__IDataProvider_exporter.h"
 
 namespace pyfertilized {
   void __python_export_65() {
-    export_IForestDataProvider<
-              int,
+    export_IDataProvider<
+              float,
               uint
-                            >("_i_uint");
+                            >("_f_uint");
   };
 }  // namespace pyfertilized

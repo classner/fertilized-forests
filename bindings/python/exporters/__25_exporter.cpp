@@ -3,11 +3,11 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IEntropyFunction_exporter.h"
+#include "./__IGainCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_25() {
-    export_IEntropyFunction<
+    export_IGainCalculator<
               uint
                             >("_uint");
   };

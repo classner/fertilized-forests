@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__boosting.h"
-#include <fertilized/boosting/adaboost.h>
+#include <../../include/fertilized/boosting/adaboost.h>
 
 using namespace fertilized;
 

@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__leafs.h"
-#include <fertilized/leafs/houghleafmanager.h>
+#include <../../include/fertilized/leafs/houghleafmanager.h>
 
 using namespace fertilized;
 

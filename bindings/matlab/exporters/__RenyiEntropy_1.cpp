@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__impurities.h"
-#include <fertilized/impurities/renyientropy.h>
+#include <../../include/fertilized/impurities/renyientropy.h>
 
 using namespace fertilized;
 

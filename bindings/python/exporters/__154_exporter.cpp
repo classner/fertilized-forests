@@ -3,13 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__LinearSurfaceCalculator_exporter.h"
+#include "./__ClassificationLeafManager_exporter.h"
 
 namespace pyfertilized {
   void __python_export_154() {
-    export_LinearSurfaceCalculator<
-              float,
-              float
-                            >("_f_f");
+    export_ClassificationLeafManager<
+              double,
+              uint
+                            >("_d_uint");
   };
 }  // namespace pyfertilized

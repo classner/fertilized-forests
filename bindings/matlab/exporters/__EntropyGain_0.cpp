@@ -5,7 +5,7 @@
  */
 #include "../global.h"
 #include "../matlab_headers/__gains.h"
-#include <fertilized/gains/entropygain.h>
+#include <../../include/fertilized/gains/entropygain.h>
 
 using namespace fertilized;
 
