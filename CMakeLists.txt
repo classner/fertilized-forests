@@ -124,7 +124,6 @@ if (WITH_CAFFE)
                           CAFFE but CUDA could not be found!")
   endif ()
 endif ()
-find_package (OpenCV REQUIRED core imgproc highgui)
 
 # Use C++11 features.
 set (REQ_CPP11_FEATURES
