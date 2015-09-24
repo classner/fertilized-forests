@@ -56,7 +56,7 @@ namespace pyfertilized {
     (
 
         const std::shared_ptr<typename fertilized::Forest<input_dtype, feature_dtype, annotation_dtype, leaf_return_dtype, forest_return_dtype>::fdprov_t> &,
-        fertilized::exec_strat_t *
+        typename fertilized::Forest<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::exec_strat_t *
 ) =
       &fertilized::Forest<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::fit_dprov;
     Array<double , 2 , 2> (fertilized::Forest<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::*ptr_Forest_3)

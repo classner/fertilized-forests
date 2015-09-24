@@ -9,12 +9,12 @@
 
 #include "../global.h"
 #include "../util.h"
-#include <fertilized/data_providers/patchsamplemanager.h>
+#include <fertilized/forest.h>
 
 using namespace fertilized;
 
 namespace pyfertilized {
   void __export_vectors_8() {
-    custom_vector_from_seq<fertilized::Array<const uint8_t,3,3>>();
+    custom_vector_from_seq<std::shared_ptr<typename fertilized::Forest<double,double,uint,std::vector<float>,std::vector<float>>::leaf_man_t>>();
   };
 }  // namespace pyfertilized

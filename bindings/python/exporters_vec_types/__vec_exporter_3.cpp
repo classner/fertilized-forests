@@ -15,6 +15,6 @@ using namespace fertilized;
 
 namespace pyfertilized {
   void __export_vectors_3() {
-    custom_vector_from_seq<std::string>();
+    custom_vector_from_seq<float>();
   };
 }  // namespace pyfertilized

@@ -43,7 +43,7 @@ namespace pyfertilized {
     void (fertilized::Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::*ptr_Tree_0)
     (
 
-        fertilized::dprov_t *,
+        typename fertilized::Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::dprov_t *,
         const bool &
 ) =
       &fertilized::Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::make_node;
@@ -63,7 +63,7 @@ namespace pyfertilized {
     void (fertilized::Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::*ptr_Tree_3)
     (
 
-        fertilized::dprov_t *,
+        typename fertilized::Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::dprov_t *,
         const bool
 ) =
       &fertilized::Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::fit_dprov;
@@ -133,7 +133,7 @@ namespace pyfertilized {
     bool (fertilized::Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::*ptr_Tree_15)
     (
 
-        const fertilized::tree_t &
+        const typename fertilized::Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::tree_t &
 ) const =
       &fertilized::Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::operator==;
     void (fertilized::Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::*ptr_Tree_16)
@@ -145,13 +145,13 @@ namespace pyfertilized {
     bool (*ptr_Tree_17)
     (
 
-        const fertilized::tree_t &
+        const typename fertilized::Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::tree_t &
 ,
      
 
-        const fertilized::tree_t &
+        const typename fertilized::Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::tree_t &
 ) =
-    &ne_from_eq<fertilized::tree_t>;
+    &ne_from_eq<typename fertilized::Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>::tree_t>;
     py::class_<Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>,
                std::shared_ptr<Tree<input_dtype,feature_dtype,annotation_dtype,leaf_return_dtype,forest_return_dtype>>,
                boost::noncopyable>
