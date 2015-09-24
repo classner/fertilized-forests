@@ -3,7 +3,7 @@ import os
 import sys
 sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 if len(sys.argv) > 1:
-  print 'Quiet mode. Plot display disabled.'
+  print('Quiet mode. Plot display disabled.')
   INTERACTIVE = False
 else:
   INTERACTIVE = True
@@ -41,7 +41,7 @@ ys = np.linspace(X[:, 1].min() - 1, X[:, 1].max() + 1, 100)
 Xm, Ym = np.meshgrid(xs, ys)
 
 stumps = []
-for rs in xrange(1, 201):
+for rs in range(1, 201):
   dec_name='aligned'
   #%% Create stump.
   if dec_name == 'aligned':
@@ -94,7 +94,7 @@ for rs in xrange(1, 201):
         plt.savefig('classification_stump_%d.png' % (rs))
         plt.show()
 
-print "Stump 0 depth: ", stumps[0].depth()
+print("Stump 0 depth: ", stumps[0].depth())
 forest8 = soil.CombineTrees(stumps[:8])
 forest = soil.CombineTrees(stumps)
 

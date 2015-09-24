@@ -73,7 +73,7 @@ def setup_fertilized(n_trees, n_features, n_classes, max_depth, min_samples_at_l
     soil = Soil('f', 'f', 'uint', Result_Types.probabilities)
     cls = []  # Deciders
     lm = []   # Leaf managers
-    for i in xrange(n_trees):
+    for i in range(n_trees):
         stdFeatureSelect = soil.StandardFeatureSelectionProvider(n_features,   # Selections per node
                                                                  1,    # Data dimensions selected per proposal
                                                                  n_features,   # How many dimensions available (number of features)
@@ -136,9 +136,9 @@ def perform_evaluation(trees, features, samples, n_iterations, n_classes, testin
 
         pbar = ProgressBar(widgets=[Percentage(), Bar(), ETA()], maxval=steps*n_iterations).start()
 
-        print("Current parameters: n_trees="+str(n_trees)+" n_samples="+str(n_samples)+" n_features="+str(n_features))
+        print(("Current parameters: n_trees="+str(n_trees)+" n_samples="+str(n_samples)+" n_features="+str(n_features)))
 
-        for index in xrange(n_iterations):
+        for index in range(n_iterations):
             current_step = 0
             # Generate samples
             trainX, trainY = create_samples(n_samples, n_features, n_classes)

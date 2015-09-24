@@ -30,7 +30,7 @@ X, Y = make_spiral(n_arms=n_classes, noise=.4)
 ##############################################################################
 parameters = {'kernel': ['rbf'],
               'C': [1, 10, 100, 1000, 10000, 100000],
-              'gamma': [10 ** x for x in xrange(-5, 3)],
+              'gamma': [10 ** x for x in range(-5, 3)],
               'probability':[True]}
 svr = svm.SVC()
 clf = grid_search.GridSearchCV(svr, parameters)

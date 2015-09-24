@@ -10,7 +10,14 @@ from fertilized import *
 
 soil = Soil('d', 'd', 'd', Result_Types.regression)
 # Deserialize tree serialized on Windows.
-tree_win = soil.TreeFromFile("tree_windows.ft")
+try:
+    tree_win = soil.TreeFromFile("tree_windows.ft")
+except RuntimeError as re:
+    if str(re).startswith("To use the libraries serialization features"):
+        # All good, the library has been built without serialization support.
+        sys.exit(0)
+    else:
+        raise Exception(str(re))
 # Deserialize tree serialized on Linux.
 tree_lin = soil.TreeFromFile("tree_linux.ft")
 

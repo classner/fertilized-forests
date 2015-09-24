@@ -53,8 +53,8 @@ def forest_probabilistic_plot(forest, X_train, Y_train, plotX, plotY):
   max_likelihood = np.max(normal_pdf(prediction[:,0], prediction[:,0], prediction[:,1]))
   # Get the likelihood for all x-y combinations
   # and transform it into a red saturated color
-  for y in xrange(image.shape[0]):
-    for x in xrange(image.shape[1]):
+  for y in range(image.shape[0]):
+    for x in range(image.shape[1]):
       image[y,x] = color_for_likelihood(normal_pdf(Y_test[y], prediction[x,0], prediction[x,1]), max_likelihood)
 
   plt.imshow(image, origin='lower')

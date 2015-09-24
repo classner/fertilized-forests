@@ -1,5 +1,5 @@
 #%% Imports
-from __future__ import print_function
+
 from PIL import Image
 import skimage.color
 from skimage.transform import rescale
@@ -37,12 +37,12 @@ with open('forest.pkl', 'r') as df:
 soil = fertilized.Soil()
 
 #%% Read the dataset.
-test_ids = range(200, 655)
+test_ids = list(range(200, 655))
 
 #%% Determine mean box size of training set.
 widths = []
 heights = []
-for idx in range(50) + range(100, 150):
+for idx in list(range(50)) + list(range(100, 150)):
   with open(os.path.join(root_dir, annot_dir, 'bounding-boxes-%03d.txt' % (idx))) as f:
     _ = f.readline()
     l, t, r, b = f.readline().split("\t")

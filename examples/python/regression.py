@@ -8,7 +8,7 @@ import os
 import sys
 sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 if len(sys.argv) > 1:
-  print 'Quiet mode. Plot display disabled.'
+  print('Quiet mode. Plot display disabled.')
   INTERACTIVE = False
 else:
   INTERACTIVE = True

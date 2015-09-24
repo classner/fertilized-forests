@@ -8,7 +8,7 @@ import os
 import sys
 sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 if len(sys.argv) > 1:
-  print 'Quiet mode. Plot display disabled.'
+  print('Quiet mode. Plot display disabled.')
   INTERACTIVE = False
 else:
   INTERACTIVE = True
@@ -39,7 +39,7 @@ n_trees = 200
 # These variables will contain the classifiers and leaf managers for each tree.
 cls = []
 lm = []
-for i in xrange(n_trees):
+for i in range(n_trees):
   # Classifier:
   cls.append(soil.ThresholdDecider(
                soil.StandardFeatureSelectionProvider(1, 2, 2, 2, random_seed=1+i),

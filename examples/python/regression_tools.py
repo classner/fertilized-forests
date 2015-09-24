@@ -32,7 +32,7 @@ def prob_dist_from_tree_result(tree_result, sample_index):
       mean = mean.T
   covar_mat = npmat.zeros((annot_dim,annot_dim), dtype=tree_result.dtype)
   mat_diag_entries = tree_result[sample_index,1,:]
-  for i in xrange(annot_dim):
+  for i in range(annot_dim):
       covar_mat[i,i] = mat_diag_entries[i]
   
   return mean, covar_mat
@@ -61,7 +61,7 @@ def likelihood_from_forest_result(forest_result ,sample_index, test_vec=None):
       raise Exception("Invalid sample index.")
   n_trees = forest_result.shape[1]
   likelihood = 0
-  for t in xrange(n_trees):
+  for t in range(n_trees):
       mean_vec, covar_mat = prob_dist_from_tree_result(forest_result[:,t,0:2,:], sample_index)
       if (test_vec != None):
           likelihood += likelihood_from_norm_dist(test_vec, mean_vec, covar_mat) / n_trees

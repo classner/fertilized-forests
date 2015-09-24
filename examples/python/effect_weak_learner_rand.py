@@ -8,7 +8,7 @@ import os
 import sys
 sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 if len(sys.argv) > 1:
-  print 'Quiet mode. Plot display disabled.'
+  print('Quiet mode. Plot display disabled.')
   INTERACTIVE = False
 else:
   INTERACTIVE = True
@@ -53,7 +53,7 @@ for suggestions in [3, 250]:
                                                   random_seed=rs)
     cls = []
     lm = []
-    for i in xrange(n_trees):
+    for i in range(n_trees):
       cls.append(soil.ThresholdDecider(   feat_sel_prov,
                                           feat_calc,
                                           soil.RandomizedClassificationThresholdOptimizer(

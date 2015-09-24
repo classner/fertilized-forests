@@ -2,5 +2,10 @@
 build
 build_debug
 
+# The examples runtime results.
+examples/python/*.png
+examples/python/*.pyc
+examples/python/__pycache__
+
 # The developer tools if installed.
 fertilized-devtools

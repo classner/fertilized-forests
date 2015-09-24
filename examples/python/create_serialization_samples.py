@@ -18,7 +18,7 @@ X = np.array([[0.], [0.]])
 Y = np.array([[0.], [10**3]])
 tree.fit(X, Y)
 
-print 'Tree: %f, STD: %f' % (np.sqrt(tree.predict(np.array([[0.]]))[0,1]), np.std(Y[:, 0]))
+print('Tree: %f, STD: %f' % (np.sqrt(tree.predict(np.array([[0.]]))[0,1]), np.std(Y[:, 0])))
 
 if os.name == 'nt':
     tree.save('tree_windows.ft')

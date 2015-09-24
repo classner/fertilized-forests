@@ -8,7 +8,7 @@ import os
 import sys
 sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 if len(sys.argv) > 1:
-  print 'Quiet mode. Plot display disabled.'
+  print('Quiet mode. Plot display disabled.')
   INTERACTIVE = False
 else:
   INTERACTIVE = True
@@ -32,7 +32,7 @@ soil = f.Soil('float', 'float', 'uint', f.Result_Types.probabilities)
 for depth in [3, 6, 15]:
   cls = []
   lm = []
-  for i in xrange(n_trees):
+  for i in range(n_trees):
     cls.append(soil.ThresholdDecider(
                   soil.StandardFeatureSelectionProvider(1, 2, 2, 2),
 #                  soil.AlignedSurfaceCalculator(),

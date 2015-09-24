@@ -34,8 +34,8 @@ sympy.plot(*[(teq, (sx, -1, 1)) for teq in eqsy])
 
 #%%
 Z = np.zeros(X.shape)
-for y in xrange(Z.shape[0]):
-  for x in xrange(Z.shape[1]):
+for y in range(Z.shape[0]):
+  for x in range(Z.shape[1]):
     posvec = np.matrix([Y[y, x], X[y, x], 1.])
     Z[y, x] = posvec*(Q * posvec.T) #+ P*posvec.T
 plt.figure()

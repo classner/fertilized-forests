@@ -6,7 +6,7 @@ import os
 import sys
 sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 if len(sys.argv) > 2:
-  print 'Quiet mode. Plot display disabled.'
+  print('Quiet mode. Plot display disabled.')
   INTERACTIVE = False
 else:
   INTERACTIVE = True
@@ -24,8 +24,8 @@ if len(sys.argv) > 1:
 np.random.seed(8)
 
 #%% Read the dataset.
-train_pos_ids = range(50) + range(100, 150)
-train_neg_ids = range(50, 100) + range(150, 200)
+train_pos_ids = list(range(50)) + list(range(100, 150))
+train_neg_ids = list(range(50, 100)) + list(range(150, 200))
 annotations = np.zeros((n_samples_pos * len(train_pos_ids) +\
                         n_samples_neg * len(train_neg_ids), 5), dtype='int16')
 images = []
@@ -97,8 +97,8 @@ else:
 #%% Forest construction.
 random_init = 1
 trees = []
-for tree_idx in xrange(n_trees):
-  print 'Constructing and training tree %d.' % (tree_idx)
+for tree_idx in range(n_trees):
+  print('Constructing and training tree %d.' % (tree_idx))
   random_seed = tree_idx * 2 + 1 + random_init * n_trees
   sman = soil.NoCopyPatchSampleManager(
             feat_images,

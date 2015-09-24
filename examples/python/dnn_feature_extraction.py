@@ -25,7 +25,7 @@ soil = fertilized.Soil()
 try:
     extractor = soil.DNNFeatureExtractor(True) # CPU only.
 except:
-    print "The library has been built without caffe. Features cannot be extracted."
+    print("The library has been built without caffe. Features cannot be extracted.")
     sys.exit(0)
 # Assume the image has had its means subtracted already.
 zero_res = extractor.extract([timage_zeros], False)
@@ -49,7 +49,7 @@ assert np.all(zero_one_res[1] == one_res)
 try:
     extractor = soil.DNNFeatureExtractor(False) # GPU
 except:
-    print "The library has been built without caffe GPU. Skipping."
+    print("The library has been built without caffe GPU. Skipping.")
     sys.exit(0)
 # Assume the image has had its means subtracted already.
 zero_res = extractor.extract([timage_zeros], False)

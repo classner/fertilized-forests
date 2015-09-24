@@ -13,7 +13,7 @@ def to_im_coords(points, im_spec):
   retpoints = []
   for point in points:
     if point < im_spec[0] or point > im_spec[1]:
-      print 'Warning: detected point outside im region.'
+      print('Warning: detected point outside im region.')
       continue
     retpoints.append((point - im_spec[0]) / (im_spec[1] - im_spec[0]) * im_spec[2])
   return np.array(retpoints)
@@ -28,8 +28,8 @@ def point_prob_plot(classifier, X, Y, plotx, ploty):
 
   coltemp = np.array([0,0,0], dtype='uint8')
   Zm = np.zeros((Xm.shape[0], Xm.shape[1], 3), dtype='uint8')
-  for y in xrange(Zm.shape[0]):
-    for x in xrange(Zm.shape[1]):
+  for y in range(Zm.shape[0]):
+    for x in range(Zm.shape[1]):
       prediction = classifier.predict(np.array([[Xm[y, x], Ym[y, x]]], dtype='float32'))
       coltemp[2] = (prediction[0,0] * 255.).astype('uint8')
       if n_classes == 2:
@@ -58,9 +58,9 @@ def make_spiral(n_samples_per_arm = 100, n_arms=2, noise=0.1):
   points = np.empty((n_arms * n_samples_per_arm, 2), dtype='float32')
   ids = np.empty((points.shape[0], 1), dtype='uint32')
   maxpifac = 1.7
-  for arm_id in xrange(n_arms):
+  for arm_id in range(n_arms):
     angle = starting_angles[arm_id]
-    for point_id in xrange(n_samples_per_arm):
+    for point_id in range(n_samples_per_arm):
       angle_add = np.random.uniform(low=0., high=maxpifac)
       position = point_on_circle(angle + angle_add * np.pi, 1. + 2. * angle_add)
       position += np.random.normal(scale=noise * angle_add, size=(2))

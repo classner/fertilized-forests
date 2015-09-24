@@ -39,11 +39,11 @@ test = theano.function([sx, sy], cost.output)
 train = theano.function([sx, sy], cost.output,
                         updates=get_updates(cost.params, cost.output, 0.01))
 
-print "Error at start:", test(X, Y)
+print("Error at start:", test(X, Y))
 
 for i in range(200000):
     train(X, Y)
-print "Error after 200000:", test(X, Y)
+print("Error after 200000:", test(X, Y))
 
 def pfunc(x):
   return 1. - eval(x)
