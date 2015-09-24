@@ -14,12 +14,11 @@ using namespace fertilized;
 
 void * getDNNFeatureExtractor (
 
-        int use_cpu,
-        int device_id,
         char* net_layout_file,
         char* net_weights_file,
         char* net_outlayer,
-        int load_mean,
+        int use_cpu,
+        int device_id,
         char* mean_file
 ) {
   // From C types conversions.
@@ -30,12 +29,11 @@ void * getDNNFeatureExtractor (
   // Get the libraries' result.
   auto *libfunc_result = new std::shared_ptr<DNNFeatureExtractor>(
     new DNNFeatureExtractor(
-          use_cpu,
-          device_id,
           net_layout_file,
           net_weights_file,
           net_outlayer,
-          load_mean,
+          use_cpu,
+          device_id,
           mean_file
           ));
 #pragma warning( pop )

@@ -32,6 +32,7 @@ BOOST_AUTO_TEST_CASE(Correctness_Trees_Basic) {
 #endif
 };
 
+#ifdef _OPENMP
 BOOST_AUTO_TEST_CASE(Correctness_Trees_threaded_prediction) {
   std::mt19937 rng;
   rng.seed(1);
@@ -57,10 +58,8 @@ BOOST_AUTO_TEST_CASE(Correctness_Trees_threaded_prediction) {
       auto res_parallel = tf -> predict(data, 2);
       BOOST_CHECK(all(equal(res_serial, res_parallel)));
   }
-  //auto timestruct = PredictTimer<Tree<float, float, uint, std::vector<float>, std::vector<float>>, Array<float, 2, 2>>(tf.get(), &data);
-  //float time = Utility::timeit<std::chrono::nanoseconds>(&timestruct, false, 3, 2);
-  //std::cout << time;
 };
+#endif
 
 BOOST_AUTO_TEST_CASE(Correctness_Tree_depth) {
   auto s = Soil<>();

@@ -8,8 +8,8 @@
 namespace pyfertilized {
   void __python_export_138() {
     export_QuadraticSurfaceCalculator<
-              uint8_t,
-              uint
-                            >("_uint8_uint");
+              double,
+              double
+                            >("_d_d");
   };
 }  // namespace pyfertilized

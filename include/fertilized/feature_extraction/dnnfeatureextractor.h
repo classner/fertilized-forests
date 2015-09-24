@@ -4,12 +4,13 @@
 
 #include "../global.h"
 #include "../ndarray.h"
-
 #include <memory>
 #include <vector>
 #include <string>
 
+#ifdef WITH_OPENCV
 #include <opencv2/opencv.hpp>
+#endif
 
 namespace fertilized {
 
@@ -115,8 +116,10 @@ namespace fertilized {
 
    private:
     void *net_ptr;
+#ifdef WITH_OPENCV
     cv::Size input_size;
     cv::Mat mean_data;
+#endif
     bool mean_available;
     int read_layer_idx;
     int read_blob_idx;

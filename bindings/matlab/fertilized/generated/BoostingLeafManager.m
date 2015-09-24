@@ -1,9 +1,11 @@
 classdef BoostingLeafManager < FertilizedObject
-    % Allows the boosting strategies to set their own tree functions to influence the combined result.
+    % Allows the boosting strategies to set their own tree functions
+    % to influence the combined result.
     % 
     % Using thes LeafManager may lead to better classifcation results.
     % 
-    % Note that the output does not represent probabilites and may vary when using different IBoostingStrategies
+    % Note that the output does not represent probabilites and may vary when
+    % using different IBoostingStrategies
     % 
     % 
     % -----

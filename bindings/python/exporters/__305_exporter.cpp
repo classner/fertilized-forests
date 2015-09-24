@@ -3,16 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__AdaBoost_exporter.h"
+#include "./__PatchSampleManager_exporter.h"
 
 namespace pyfertilized {
   void __python_export_305() {
-    export_AdaBoost<
+    export_PatchSampleManager<
               uint8_t,
-              int16_t,
-              int16_t,
-              std::vector<float>,
-              std::vector<float>
-                            >("_uint8_int16_int16_fv_fv");
+              uint
+                            >("_uint8_uint");
   };
 }  // namespace pyfertilized

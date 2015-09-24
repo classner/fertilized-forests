@@ -33,8 +33,9 @@ namespace pyfertilized {
                (("IBoostingStrategy" + type_short).c_str(),
                 "Specifies the boosting algorithm that will be used for training\n\
 \n\
-Use the IBoostingStrategy in combination with a BoostingLeafManager to allow it to set a custom\n\
-weight function per tree which may lead to better classification results.\n\
+Use the IBoostingStrategy in combination with a BoostingLeafManager\n\
+to allow it to set a custom weight function per tree which may lead to\n\
+better classification results.\n\
 \n\
 \n\
 -----\n\

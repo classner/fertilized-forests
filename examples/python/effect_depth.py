@@ -6,7 +6,7 @@ Created on Sun Apr 06 15:05:00 2014
 """
 import os
 import sys
-sys.path.insert(0, os.path.join('..', '..', 'bindings', 'python'))
+sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 if len(sys.argv) > 1:
   print 'Quiet mode. Plot display disabled.'
   INTERACTIVE = False
@@ -54,11 +54,11 @@ for depth in [3, 6, 15]:
                        cls,
                        lm,
                        soil.ClassicTraining(soil.NoBagging()))
-  forest.fit(X, Y, 15)
+  forest.fit(X, Y, 1)
   plt.figure()
   point_prob_plot(forest, X, Y, plotx, ploty)
   assert sklearn.metrics.accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95
   plt.title('Depth %d' %(depth))
-  plt.savefig('effect_depth_%d.png' % (depth))
   if INTERACTIVE:
+    plt.savefig('effect_depth_%d.png' % (depth))
     plt.show()

@@ -3,16 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ClassicTraining_exporter.h"
+#include "./__LinearSurfaceCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_147() {
-    export_ClassicTraining<
+    export_LinearSurfaceCalculator<
               uint8_t,
-              int16_t,
-              uint,
-              std::vector<float>,
-              std::vector<float>
-                            >("_uint8_int16_uint_fv_fv");
+              uint
+                            >("_uint8_uint");
   };
 }  // namespace pyfertilized

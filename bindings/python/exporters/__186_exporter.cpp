@@ -8,11 +8,11 @@
 namespace pyfertilized {
   void __python_export_186() {
     export_Samme_R<
-              double,
-              double,
+              int,
+              int,
               uint,
               std::vector<float>,
               std::vector<float>
-                            >("_d_d_uint_fv_fv");
+                            >("_i_i_uint_fv_fv");
   };
 }  // namespace pyfertilized

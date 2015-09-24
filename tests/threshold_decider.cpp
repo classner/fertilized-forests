@@ -14,6 +14,7 @@ using namespace fertilized;
 
 BOOST_AUTO_TEST_SUITE(Correctness_Deciders);
 
+#ifdef _OPENMP
 BOOST_AUTO_TEST_CASE(Correctness_Parallel_Tree_Training) {
   auto soil = Soil<double, double>();
   auto eng = std::mt19937_64();
@@ -24,32 +25,41 @@ BOOST_AUTO_TEST_CASE(Correctness_Parallel_Tree_Training) {
       100, // n samples
       100, // sample dim
       2, // n classes
-      [&feat_dist, &eng](double *val, size_t ind) { for (int i = 0; i < 100; ++i) { val[i] = feat_dist(eng); } }, // data generator
-      [&class_dist, &eng](uint *cls, size_t ind) { *cls = class_dist(eng); }, // annotation generator
-      [](float *weight, size_t ind) {*weight = 1.f;}, // weight generator
+      [&feat_dist, &eng](double *val, size_t ind) {
+        for (int i = 0; i < 100; ++i) { val[i] = feat_dist(eng); } }, // data
+      [&class_dist, &eng](uint *cls, size_t ind) {
+        *cls = class_dist(eng); }, // annotation
+      [](float *weight, size_t ind) {*weight = 1.f;}, // weight
       false,
       1);
-  auto forest_unthreaded = soil.StandardClassificationTree(2, 100, 0, 2, 10, 1, 2, 0., true, 1, "induced", 2.f, 1);
-  auto forest_threaded = soil.StandardClassificationTree(2, 100, 0, 2, 10, 1, 2, 0., true, 1, "induced", 2.f, 4);
+  auto forest_unthreaded = soil.StandardClassificationTree(
+    2, 100, 0, 2, 10, 1, 2, 0., true, 1, "induced", 2.f, 1);
+  auto forest_threaded = soil.StandardClassificationTree(
+    2, 100, 0, 2, 10, 1, 2, 0., true, 1, "induced", 2.f, 4);
   // std::cout << "Before fitting: " << std::endl;
   BOOST_CHECK((*forest_unthreaded) == (*forest_threaded));
   // std::cout << "Fitting unthreaded..." << std::endl;
-  forest_unthreaded -> fit(dprov_fixture_threaded.input_array, dprov_fixture_threaded.annot_array);
+  forest_unthreaded -> fit(dprov_fixture_threaded.input_array,
+                           dprov_fixture_threaded.annot_array);
   // std::cout << "Fitting threaded..." << std::endl;
-  forest_threaded -> fit(dprov_fixture_threaded.input_array, dprov_fixture_threaded.annot_array);
+  forest_threaded -> fit(dprov_fixture_threaded.input_array,
+                         dprov_fixture_threaded.annot_array);
   BOOST_CHECK(*forest_threaded == *forest_unthreaded);
-  BOOST_CHECK(*(forest_threaded -> get_decider()) == *(forest_unthreaded -> get_decider()));
+  BOOST_CHECK(*(forest_threaded -> get_decider()) ==
+              *(forest_unthreaded -> get_decider()));
 }
+#endif
 
+#ifdef _OPENMP
 BOOST_AUTO_TEST_CASE(Correctness_Deciders_threading) {
   auto s = Soil<double, double>();
   auto selprov = s.StandardFeatureSelectionProvider(2, // selections per node
                                                     1, // selection dimension
-                                                    100); // selections available
+                                                    100); // selections av
   auto featcalc = s.AlignedSurfaceCalculator();
   auto gainc = s.EntropyGain(s.ShannonEntropy());
-  auto threshopt = s.RandomizedClassificationThresholdOptimizer(10, // number of thresholds
-                                                                2,  // number of classes
+  auto threshopt = s.RandomizedClassificationThresholdOptimizer(10, // thresholds
+                                                                2,  // classes
                                                                 gainc);
   auto tdec_threaded = s.ThresholdDecider(selprov, featcalc, threshopt,
                                           0, // valid features to use (0 ignores)
@@ -69,9 +79,11 @@ BOOST_AUTO_TEST_CASE(Correctness_Deciders_threading) {
     ClassificationDataProviderFixture<double>(1000, // n samples
       100, // sample dim
       2, // n classes
-      [&feat_dist, &eng](double *val, size_t ind) { for (int i = 0; i < 100; ++i) { val[i] = feat_dist(eng); } }, // data generator
-      [&class_dist, &eng](uint *cls, size_t ind) { *cls = class_dist(eng); }, // annotation generator
-      [](float *weight, size_t ind) {*weight = 1.f;}, // weight generator
+      [&feat_dist, &eng](double *val, size_t ind) {
+         for (int i = 0; i < 100; ++i) { val[i] = feat_dist(eng); } }, // data
+      [&class_dist, &eng](uint *cls, size_t ind) {
+         *cls = class_dist(eng); }, // annotation
+      [](float *weight, size_t ind) {*weight = 1.f;}, // weight
       false,
       1);
   bool make_to_leaf_threaded;
@@ -88,9 +100,11 @@ BOOST_AUTO_TEST_CASE(Correctness_Deciders_threading) {
     ClassificationDataProviderFixture<double>(1000, // n samples
       100, // sample dim
       2, // n classes
-      [&feat_dist, &eng](double *val, size_t ind) { for (int i = 0; i < 100; ++i) { val[i] = feat_dist(eng); } }, // data generator
-      [&class_dist, &eng](uint *cls, size_t ind) { *cls = class_dist(eng); }, // annotation generator
-      [](float *weight, size_t ind) {*weight = 1.f;}, // weight generator
+      [&feat_dist, &eng](double *val, size_t ind) {
+         for (int i = 0; i < 100; ++i) { val[i] = feat_dist(eng); } }, // data
+      [&class_dist, &eng](uint *cls, size_t ind) {
+        *cls = class_dist(eng); }, // annotation
+      [](float *weight, size_t ind) {*weight = 1.f;}, // weight
       false,
       1);
   bool make_to_leaf_unthreaded;
@@ -107,6 +121,7 @@ BOOST_AUTO_TEST_CASE(Correctness_Deciders_threading) {
   BOOST_REQUIRE((*elem_list_left_threaded) == (*elem_list_left_unthreaded));
   BOOST_REQUIRE((*elem_list_right_threaded) == (*elem_list_right_unthreaded));
 };
+#endif
 
 BOOST_AUTO_TEST_CASE(Correctness_Deciders_early_stop) {
   auto s = Soil<double, double>();
@@ -150,8 +165,10 @@ BOOST_AUTO_TEST_CASE(Correctness_Deciders_early_stop) {
     ClassificationDataProviderFixture<double>(100, // n samples
       1, // sample dim
       2, // n classes
-      [&feat_dist, &eng](double *val, size_t ind) { *val = feat_dist(eng); }, // data generator
-      [&class_dist, &eng](uint *cls, size_t ind) { *cls = class_dist(eng); }, // annotation generator
+      [&feat_dist, &eng](double *val, size_t ind) {
+         *val = feat_dist(eng); }, // data generator
+      [&class_dist, &eng](uint *cls, size_t ind) {
+         *cls = class_dist(eng); }, // annotation generator
       [](float *weight, size_t ind) {*weight = 1.f;}, // weight generator
       false,
       1);
@@ -162,16 +179,20 @@ BOOST_AUTO_TEST_CASE(Correctness_Deciders_early_stop) {
     ClassificationDataProviderFixture<double>(100, // n samples
       1, // sample dim
       2, // n classes
-      [&feat_dist_nonearly, &eng_nonearly](double *val, size_t ind) { *val = feat_dist_nonearly(eng_nonearly); }, // data generator
-      [&class_dist_nonearly, &eng_nonearly](uint *cls, size_t ind) { *cls = class_dist_nonearly(eng_nonearly); }, // annotation generator
+      [&feat_dist_nonearly, &eng_nonearly](double *val, size_t ind) {
+        *val = feat_dist_nonearly(eng_nonearly); }, // data generator
+      [&class_dist_nonearly, &eng_nonearly](uint *cls, size_t ind) {
+        *cls = class_dist_nonearly(eng_nonearly); }, // annotation generator
       [](float *weight, size_t ind) {*weight = 1.f;}, // weight generator
       false,
       1);
 
   //BOOST_REQUIRE(*tree_early == *tree_nonearly);
-  tree_early -> fit(dprov_fixture_threaded.input_array, dprov_fixture_threaded.annot_array, false);
+  tree_early -> fit(dprov_fixture_threaded.input_array,
+                    dprov_fixture_threaded.annot_array, false);
   //std::cout << dprov_fixture_threaded.input_array << std::endl;
-  tree_nonearly -> fit(dprov_fixture_nonearly.input_array, dprov_fixture_nonearly.annot_array, false);
+  tree_nonearly -> fit(dprov_fixture_nonearly.input_array,
+                       dprov_fixture_nonearly.annot_array, false);
   //std::cout << dprov_fixture_threaded.annot_array << std::endl;
   while (tree_early -> get_marks().size() > 0) {
     tree_early -> make_node(dprov_fixture_threaded.dprov.get(), false);

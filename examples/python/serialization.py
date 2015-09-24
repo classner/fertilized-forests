@@ -3,7 +3,7 @@
 # Platform independent serialization.
 import os
 import sys
-sys.path.insert(0, os.path.join('..', '..', 'bindings', 'python'))
+sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 
 import numpy as np
 from fertilized import *

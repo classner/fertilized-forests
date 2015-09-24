@@ -21,8 +21,9 @@ namespace fertilized {
    /**
     * \brief Specifies the boosting algorithm that will be used for training
     *
-    * Use the IBoostingStrategy in combination with a \ref BoostingLeafManager to allow it to set a custom
-    * weight function per tree which may lead to better classification results.
+    * Use the IBoostingStrategy in combination with a \ref BoostingLeafManager
+    * to allow it to set a custom weight function per tree which may lead to
+    * better classification results.
     *
     * \ingroup fertilizedboostingGroup
     *
@@ -46,18 +47,27 @@ namespace fertilized {
     template <typename input_dtype, typename feature_dtype, typename annotation_dtype, typename leaf_return_dtype, typename forest_return_dtype>
     class IBoostingStrategy {
     public:
-        typedef Tree<input_dtype, feature_dtype, annotation_dtype, leaf_return_dtype, forest_return_dtype> tree_t;
+        typedef Tree<input_dtype, feature_dtype, annotation_dtype,
+                     leaf_return_dtype, forest_return_dtype> tree_t;
         typedef IForestDataProvider<input_dtype, annotation_dtype> fdprov_t;
         typedef std::shared_ptr<tree_t> tree_ptr_t;
         typedef std::vector<tree_ptr_t> tree_ptr_vec_t;
-        typedef IExecutionStrategy<input_dtype, feature_dtype, annotation_dtype, leaf_return_dtype, forest_return_dtype> exec_strat_t;
+        typedef IExecutionStrategy<input_dtype, feature_dtype, annotation_dtype,
+                      leaf_return_dtype, forest_return_dtype> exec_strat_t;
 
         virtual ~IBoostingStrategy() {}
 
-        virtual void perform(const tree_ptr_vec_t& trees, fdprov_t* fdata_provider, exec_strat_t* exec_strategy, uint n_classes)
+        virtual void perform(const tree_ptr_vec_t& trees,
+                             fdprov_t* fdata_provider,
+                             exec_strat_t* exec_strategy,
+                             uint n_classes)
             VIRTUAL_VOID;
 
-        virtual bool operator==(const IBoostingStrategy<input_dtype, feature_dtype, annotation_dtype, leaf_return_dtype, forest_return_dtype> &rhs)
+        virtual bool operator==(const IBoostingStrategy<input_dtype,
+                                                        feature_dtype,
+                                                        annotation_dtype,
+                                                        leaf_return_dtype,
+                                                        forest_return_dtype> &rhs)
             const VIRTUAL(bool);
 
     #ifdef SERIALIZATION_ENABLED

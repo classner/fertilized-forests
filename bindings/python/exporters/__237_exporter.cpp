@@ -3,11 +3,11 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__LinearRegressionCalculator_exporter.h"
+#include "./__ShannonEntropy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_237() {
-    export_LinearRegressionCalculator<
+    export_ShannonEntropy<
               float
                             >("_f");
   };

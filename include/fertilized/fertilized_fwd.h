@@ -187,7 +187,7 @@ namespace fertilized {
   template <typename T>
   class SamplingWithoutReplacement;
 
-  template <typename input_dtype, typename feature_dtype,typename annotation_dtype, typename leaf_return_dtype,typename forest_return_dtype>
+  template <typename input_dtype, typename feature_dtype, typename annotation_dtype, typename leaf_return_dtype,typename forest_return_dtype>
   class AdaBoost;
 
   template <typename input_dtype, typename feature_dtype,typename annotation_dtype, typename leaf_return_dtype,typename forest_return_dtype>

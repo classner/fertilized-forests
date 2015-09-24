@@ -57,11 +57,13 @@ namespace pyfertilized {
                boost::noncopyable,
                py::bases<ClassificationLeafManager<input_dtype, annotation_dtype> >>
                (("BoostingLeafManager" + type_short).c_str(),
-                "Allows the boosting strategies to set their own tree functions to influence the combined result.\n\
+                "Allows the boosting strategies to set their own tree functions\n\
+to influence the combined result.\n\
 \n\
 Using thes LeafManager may lead to better classifcation results.\n\
 \n\
-Note that the output does not represent probabilites and may vary when using different IBoostingStrategies\n\
+Note that the output does not represent probabilites and may vary when\n\
+using different IBoostingStrategies\n\
 \n\
 \n\
 -----\n\

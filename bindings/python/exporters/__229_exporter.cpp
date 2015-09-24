@@ -3,12 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__RenyiEntropy_exporter.h"
+#include "./__AlternatingThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_229() {
-    export_RenyiEntropy<
-              float
-                            >("_f");
+    export_AlternatingThresholdOptimizer<
+              uint8_t,
+              int16_t,
+              uint
+                            >("_uint8_int16_uint");
   };
 }  // namespace pyfertilized

@@ -3,11 +3,11 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ConstantRegressionCalculator_exporter.h"
+#include "./__ClassificationError_exporter.h"
 
 namespace pyfertilized {
   void __python_export_239() {
-    export_ConstantRegressionCalculator<
+    export_ClassificationError<
               float
                             >("_f");
   };

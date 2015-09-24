@@ -8,11 +8,11 @@
 namespace pyfertilized {
   void __python_export_256() {
     export_EqualDistBagging<
-              uint8_t,
-              int16_t,
-              int16_t,
-              std::pair<float, std::shared_ptr<std::vector<int16_t>>>,
-              std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>>
-                            >("_uint8_int16_int16_hp_vhp");
+              int,
+              int,
+              uint,
+              std::vector<float>,
+              std::vector<float>
+                            >("_i_i_uint_fv_fv");
   };
 }  // namespace pyfertilized

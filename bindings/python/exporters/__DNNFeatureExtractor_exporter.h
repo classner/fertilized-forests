@@ -75,12 +75,11 @@ Available in:\n\
 ",
                  py::init<
 
+        std::string,
+        std::string,
+        std::string,
         py::optional<const bool &,
         const int &,
-        std::string,
-        std::string,
-        std::string,
-        const bool &,
         std::string>
                          >())
 #ifdef SERIALIZATION_ENABLED

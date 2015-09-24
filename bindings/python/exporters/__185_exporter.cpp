@@ -3,16 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__Samme_R_exporter.h"
+#include "./__DifferenceSurfaceCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_185() {
-    export_Samme_R<
-              float,
-              float,
-              uint,
-              std::vector<float>,
-              std::vector<float>
-                            >("_f_f_uint_fv_fv");
+    export_DifferenceSurfaceCalculator<
+              double,
+              double,
+              double
+                            >("_d_d_d");
   };
 }  // namespace pyfertilized

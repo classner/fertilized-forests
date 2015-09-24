@@ -97,7 +97,8 @@ namespace fertilized {
       const uint &n_classes=2,
       const size_t &annot_dim=2)
     : n_classes(n_classes), annot_dim(annot_dim)
-    , distribution_map(std::unordered_map<node_id_t, std::pair<float, std::shared_ptr<std::vector<annotation_dtype>>>>()) {
+    , distribution_map(std::unordered_map<node_id_t,
+       std::pair<float, std::shared_ptr<std::vector<annotation_dtype>>>>()) {
       if (n_classes != 2) {
         throw Fertilized_Exception("The HoughLeaf Manager currently only supports "
           "two classes!");
@@ -154,7 +155,7 @@ namespace fertilized {
     };
 
     /** \brief Gets the probability and offset vectors. */
-    std::pair<float, std::shared_ptr<std::vector<annotation_dtype>>> get_result(const node_id_t &node_id, 
+    std::pair<float, std::shared_ptr<std::vector<annotation_dtype>>> get_result(const node_id_t &node_id,
                                                                       const input_dtype *data,
                                                                       const size_t &data_step=1,
                                                                       const std::function<void(void*)> &dptf = nullptr) const {
@@ -269,7 +270,7 @@ namespace fertilized {
                                                tree_weights.end(), 0.f);
       size_t tree_index = 0;
       for (const auto &prediction_pair : forest_result) {
-        // Do the trick of Juergen Gall to speed up detection and only add 
+        // Do the trick of Juergen Gall to speed up detection and only add
         // vectors for which the determined object probability > min_prob_threshold.
         if (prediction_pair.first > ratio_parameters[1]) {
           float weight = (prediction_pair.first * tree_weights[tree_index]) /

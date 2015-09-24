@@ -59,15 +59,18 @@ namespace pyfertilized {
                (("Samme_R" + type_short).c_str(),
                 "SAMME.R real boosting algorithm implementation\n\
 \n\
-Implements the SAMME.R real boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie\n\
+Implements the SAMME.R real boosting algorithm proposed by J. Zhu,\n\
+H. Zou, S. Rosset and T. Hastie (\"Multi-class AdaBoost\", 2009).\n\
 \n\
-See Zhu, H. Zou, S. Rosset, T. Hastie, \"Multi-class AdaBoost\", 2009\n\
+One can set the learning rate which specifies the contribution of\n\
+each classifier.\n\
 \n\
-One can set the learning rate which specifies the contribution of each classifier\n\
+Output when using BoostingLeafManager is\n\
+:math:`log(p_k^m(x))-1/K*sum_k(log(p_k^m(x)))`.\n\
 \n\
-Output when using BoostingLeafManager is log(p_k^m(x))-1/K*sum_k(log(p_k^m(x)))\n\
-\n\
-with x the sample to classify, K the number of classes, k the classIndex, m the estimatorIndex and p the estimator probability\n\
+with :math:`x` the sample to classify, :math:`K` the number of classes,\n\
+:math:`k` the classIndex, :math:`m` the estimatorIndex and :math:`p` the\n\
+estimator probability.\n\
 \n\
 \n\
 -----\n\

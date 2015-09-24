@@ -1,0 +1,38 @@
+name: "DCNN"
+input: "data"
+input: "annotations"
+force_backward: false
+state {
+  phase: TEST
+  level: 0
+  stage: "fit"
+}
+debug_info: false
+input_shape {
+  dim: 10
+  dim: 3
+  dim: 10
+  dim: 10
+}
+input_shape {
+  dim: 10
+  dim: 10
+  dim: 10
+}
+layer {
+  name: "net_out"
+  type: "Convolution"
+  bottom: "data"
+  top: "net_out"
+  convolution_param {
+    num_output: 2
+    pad: 1
+    kernel_size: 3
+  }
+}
+layer {
+  name: "_layer_1"
+  type: "Softmax"
+  bottom: "net_out"
+  top: "_layer_1"
+}

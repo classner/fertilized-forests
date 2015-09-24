@@ -2,8 +2,10 @@
 #include "fertilized/feature_extraction/feature_extraction.h"
 #include "fertilized/feature_extraction/feature_extraction_vision.h"
 
+#ifdef WITH_OPENCV
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#endif
 
 #include <vector>
 #include <algorithm>
@@ -15,12 +17,15 @@
 #include "fertilized/util/gil.hpp"
 #include "fertilized/feature_extraction/hog_extractor.h"
 
+#ifdef WITH_OPENCV
 namespace ft = fertilized::vision::features::feature_channels;
+#endif
 #ifdef PYTHON_ENABLED
 namespace py = boost::python;
 #endif
 
 namespace fertilized {
+#ifdef WITH_OPENCV
     ft::HOGExtractor HOG_EXTRACTOR = ft::HOGExtractor();
 
     DllExport std::vector<cv::Mat> extract_hough_forest_features(
@@ -34,6 +39,7 @@ namespace fertilized {
       }
       return res;
     };
+#endif
 
     DllExport Array<uint8_t, 3, 3> extract_hough_forest_features(
                                                 const Array<uint8_t const, 3, 3> &image,
@@ -49,6 +55,7 @@ namespace fertilized {
       Array<uint8_t, 3, 3> result = allocate(makeVector(n_channels,
                                                         image.getSize<0>(),
                                                         image.getSize<1>()));
+#ifdef WITH_OPENCV
       // Checks done. The rest can happen in parallel.
       {
 #ifdef PYTHON_ENABLED
@@ -75,6 +82,10 @@ namespace fertilized {
           }
         }
       }
+#else
+    throw Fertilized_Exception("The library has been built without OpenCV and "
+                               "feature extraction is not available!");
+#endif
       return result;
     };
 }  // namespace fertilized

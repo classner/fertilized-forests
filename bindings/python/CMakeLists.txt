@@ -1,11 +1,7 @@
 
 if (WITH_PYTHON)
-  # Take care of Boost.NumPy.
-  set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Boost.NumPy/libs/numpy/cmake ${CMAKE_MODULE_PATH})
-  find_package(NumPy REQUIRED)
-  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Boost.NumPy)
-  add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Boost.NumPy/libs/numpy/src)
-
+  set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/fertilized)
+  set (CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
   # Chunk the python parts up to have faster compilation and lower memory
   # usage. Otherwise, memory requirements rise quickly on Windows machines
   # at link time.
@@ -53,7 +49,34 @@ if (WITH_PYTHON)
   target_compile_features(pyfertilized_vec PRIVATE ${REQ_CPP11_FEATURES})
   list(APPEND LIBLIST "pyfertilized_vec")
 
-  install(DIRECTORY fertilized DESTINATION python)
-  install(TARGETS ${LIBLIST} DESTINATION python/fertilized)
+  # Prepare for setuptools installation.
+  file (COPY fertilized/__init__.py DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/fertilized/)
+  file (COPY fertilized/TypeTranslations.py DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/fertilized/)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/setup.py.in
+                 ${CMAKE_CURRENT_BINARY_DIR}/setup.py @ONLY)
 
+  # On installation, run setuptools.
+  install(CODE "exec_program(${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR} ARGS setup.py install)")
+
+  # Add tests.
+  add_test (NAME py_classification COMMAND ${PYTHON_EXECUTABLE} classification.py quiet
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/examples/python)
+  add_test (NAME py_dnn_feature_extraction COMMAND ${PYTHON_EXECUTABLE} dnn_feature_extraction.py quiet
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/examples/python)
+  add_test (NAME py_effect_depth COMMAND ${PYTHON_EXECUTABLE} effect_depth.py quiet
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/examples/python)
+  add_test (NAME py_effect_weak_learner COMMAND ${PYTHON_EXECUTABLE} effect_weak_learner_rand.py quiet
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/examples/python)
+  add_test (NAME py_overview COMMAND ${PYTHON_EXECUTABLE} overview.py quiet
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/examples/python)
+  add_test (NAME py_custom COMMAND ${PYTHON_EXECUTABLE} custom.py quiet
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/examples/python)
+  add_test (NAME py_spiral COMMAND ${PYTHON_EXECUTABLE} spiral_rf.py quiet
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/examples/python)
+  add_test (NAME py_threshold_classifiers COMMAND ${PYTHON_EXECUTABLE} threshold_classifiers.py quiet
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/examples/python)
+  add_test (NAME py_regression COMMAND ${PYTHON_EXECUTABLE} regression.py quiet
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/examples/python)
+  add_test (NAME py_serialization COMMAND ${PYTHON_EXECUTABLE} serialization.py quiet
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/examples/python)
 endif()

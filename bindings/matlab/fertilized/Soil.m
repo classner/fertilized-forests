@@ -2484,7 +2484,7 @@ classdef Soil
             ptr = calllib(this.LibName, getter, entropy_function.ClassifierPtr);
             res = EntropyGain(this.getDataTypes(), this.LibName, ptr, '%s%s');    
         end
-        function [res] = DNNFeatureExtractor(this, use_cpu, device_id, net_layout_file, net_weights_file, net_outlayer, load_mean, mean_file)
+        function [res] = DNNFeatureExtractor(this, net_layout_file, net_weights_file, net_outlayer, use_cpu, device_id, mean_file)
             % Class information:
             % ==================
             % 
@@ -2541,6 +2541,18 @@ classdef Soil
             % Parameters
             % ==========
             % 
+            % net_layout_file : string
+            %   The protobuf file describing the network layout.
+            % 
+            % 
+            % net_weights_file : string
+            %   Filename of the pretrained network weights file.
+            % 
+            % 
+            % net_outlayer : string
+            %   The name of the blob and layer from which to read.
+            % 
+            % 
             % use_cpu : bool
             %   Whether to only use the CPU or use the GPU. Default: false.
             % 
@@ -2549,51 +2561,15 @@ classdef Soil
             %   The CUDA device id. Only relevant, if `use_cpu` is false. Default: 0.
             % 
             % 
-            % net_layout_file : string
-            %   The protobuf file describing the network layout. Default: "".
-            %   This reserved value is resolved to the path
-            %   to the AlexNet installed to the directory specified during
-            %   compilation as `--caffe-model-dir`.
-            % 
-            % 
-            % net_weights_file : string
-            %   Filename of the pretrained network weights file. Default: "".
-            %   This reserved value is resolved to the
-            %   AlexNet weights file installed to the directory specified during
-            %   compilation as `--caffe-model-dir`.
-            % 
-            % 
-            % net_outlayer : string
-            %   The name of the blob and layer from which to read. Default: "pool5".
-            % 
-            % 
-            % load_mean : bool
-            %   If set to true, loads the mean image specified by `mean_file`.
-            %   Default: true.
-            % 
-            % 
             % mean_file : string
             %   The filename of the mean image file to use. For a file
             %   format description, see the documentation of this class. Default: "".
-            %   This reserved value is resolved to the ImageNet mean file installed
-            %   to the `--caffe-model-dir`.
+            %   If this is an empty string, do not use a mean.
             if ~exist('use_cpu', 'var') || use_cpu == -1
                 use_cpu = 0;
             end    
             if ~exist('device_id', 'var') || device_id == -1
                 device_id = 0;
-            end    
-            if ~exist('net_layout_file', 'var') || net_layout_file == -1
-                net_layout_file = '';
-            end    
-            if ~exist('net_weights_file', 'var') || net_weights_file == -1
-                net_weights_file = '';
-            end    
-            if ~exist('net_outlayer', 'var') || net_outlayer == -1
-                net_outlayer = '';
-            end    
-            if ~exist('load_mean', 'var') || load_mean == -1
-                load_mean = 1;
             end    
             if ~exist('mean_file', 'var') || mean_file == -1
                 mean_file = '';
@@ -2604,7 +2580,7 @@ classdef Soil
                 tmp = strcat(tmp, '_', this.getDataTypes(i));
             end
             getter = sprintf('%s%s%s', 'get', 'DNNFeatureExtractor', tmp);
-            ptr = calllib(this.LibName, getter, use_cpu, device_id, net_layout_file, net_weights_file, net_outlayer, load_mean, mean_file);
+            ptr = calllib(this.LibName, getter, net_layout_file, net_weights_file, net_outlayer, use_cpu, device_id, mean_file);
             res = DNNFeatureExtractor(this.getDataTypes(), this.LibName, ptr, '%s%s');    
         end
         function [res] = StandardFeatureSelectionProvider(this, n_selections_per_node, selection_dimension, how_many_available, max_to_use, random_seed)
@@ -3208,7 +3184,8 @@ classdef Soil
             % 
             % Manages the leaf nodes of regression trees.
             % 
-            % This leaf manager creates leaf nodes and stores a probabilistic regression model at each leaf.
+            % This leaf manager creates leaf nodes and stores a probabilistic regression
+            % model at each leaf.
             % 
             % 
             % -----
@@ -3314,11 +3291,13 @@ classdef Soil
             % Class information:
             % ==================
             % 
-            % Allows the boosting strategies to set their own tree functions to influence the combined result.
+            % Allows the boosting strategies to set their own tree functions
+            % to influence the combined result.
             % 
             % Using thes LeafManager may lead to better classifcation results.
             % 
-            % Note that the output does not represent probabilites and may vary when using different IBoostingStrategies
+            % Note that the output does not represent probabilites and may vary when
+            % using different IBoostingStrategies
             % 
             % 
             % -----
@@ -3378,11 +3357,13 @@ classdef Soil
             % 
             % Implements the original AdaBoost algorithm proposed by Freund and Schapire
             % 
-            % See "A decision-theoretic generalization of on-line learning and an application to boosting". Journal of Computer and System Sciences 55. 1997
+            % See "A decision-theoretic generalization of on-line learning and an
+            % application to boosting". Journal of Computer and System Sciences 55. 1997
             % 
-            % To support multi-class classification, the AdaBoost.M2 algorithm is used
+            % To support multi-class classification, the AdaBoost.M2 algorithm is used.
             % 
-            % Output when using BoostingLeafManager is estimator_probability*std::log(1.f/beta)
+            % Output when using BoostingLeafManager is
+            % estimator_probability*std::log(1.f/beta).
             % 
             % 
             % -----
@@ -3435,15 +3416,18 @@ classdef Soil
             % 
             % SAMME.R real boosting algorithm implementation
             % 
-            % Implements the SAMME.R real boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
+            % Implements the SAMME.R real boosting algorithm proposed by J. Zhu,
+            % H. Zou, S. Rosset and T. Hastie ("Multi-class AdaBoost", 2009).
             % 
-            % See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
+            % One can set the learning rate which specifies the contribution of
+            % each classifier.
             % 
-            % One can set the learning rate which specifies the contribution of each classifier
+            % Output when using BoostingLeafManager is
+            % :math:`log(p_k^m(x))-1/K*sum_k(log(p_k^m(x)))`.
             % 
-            % Output when using BoostingLeafManager is log(p_k^m(x))-1/K*sum_k(log(p_k^m(x)))
-            % 
-            % with x the sample to classify, K the number of classes, k the classIndex, m the estimatorIndex and p the estimator probability
+            % with :math:`x` the sample to classify, :math:`K` the number of classes,
+            % :math:`k` the classIndex, :math:`m` the estimatorIndex and :math:`p` the
+            % estimator probability.
             % 
             % 
             % -----
@@ -3499,13 +3483,14 @@ classdef Soil
             % 
             % SAMME boosting algorithm implementation
             % 
-            % Implements the SAMME boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
+            % Implements the SAMME boosting algorithm proposed by J. Zhu, H. Zou,
+            % S. Rosset and T. Hastie ("Multi-class AdaBoost", 2009).
             % 
-            % See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
+            % One can set the learning rate which specifies the contribution of each
+            % classifier.
             % 
-            % One can set the learning rate which specifies the contribution of each classifier
-            % 
-            % Output when using BoostingLeafManager is estimator_probability*estimator_weight
+            % Output when using BoostingLeafManager is
+            % estimator_probability*estimator_weight.
             % 
             % 
             % -----

@@ -1,7 +1,8 @@
 classdef RegressionLeafManager < FertilizedObject
     % Manages the leaf nodes of regression trees.
     % 
-    % This leaf manager creates leaf nodes and stores a probabilistic regression model at each leaf.
+    % This leaf manager creates leaf nodes and stores a probabilistic regression
+    % model at each leaf.
     % 
     % 
     % -----

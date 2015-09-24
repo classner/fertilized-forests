@@ -3,10 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__VolumeFeatureSelectionProvider_exporter.h"
+#include "./__AlignedSurfaceCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_157() {
-    export_VolumeFeatureSelectionProvider("");
+    export_AlignedSurfaceCalculator<
+              float,
+              float
+                            >("_f_f");
   };
 }  // namespace pyfertilized

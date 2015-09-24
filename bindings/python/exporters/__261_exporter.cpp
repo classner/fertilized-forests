@@ -3,14 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__DifferenceSurfaceCalculator_exporter.h"
+#include "./__EqualDistBagging_exporter.h"
 
 namespace pyfertilized {
   void __python_export_261() {
-    export_DifferenceSurfaceCalculator<
-              float,
-              float,
-              uint
-                            >("_f_f_uint");
+    export_EqualDistBagging<
+              uint8_t,
+              int16_t,
+              int16_t,
+              std::vector<float>,
+              std::vector<float>
+                            >("_uint8_int16_int16_fv_fv");
   };
 }  // namespace pyfertilized

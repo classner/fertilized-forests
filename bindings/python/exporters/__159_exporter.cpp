@@ -3,13 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__LinearSurfaceCalculator_exporter.h"
+#include "./__AlignedSurfaceCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_159() {
-    export_LinearSurfaceCalculator<
-              uint8_t,
-              uint
-                            >("_uint8_uint");
+    export_AlignedSurfaceCalculator<
+              double,
+              double
+                            >("_d_d");
   };
 }  // namespace pyfertilized

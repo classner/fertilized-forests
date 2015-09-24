@@ -5,12 +5,12 @@
  *      Author: Juergen Gall, mdantone, Christoph Lassner
  */
 
+#include "fertilized/feature_extraction/hog_extractor.h"
+#ifdef WITH_OPENCV
 #include <deque>
 
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
-
-#include "fertilized/feature_extraction/hog_extractor.h"
 
 #if defined(_MSC_VER)
 #if _MSC_VER < 1800
@@ -556,3 +556,4 @@ void HOGExtractor::minfilt(uchar* data, unsigned int step, unsigned int size,
 } // namespace features
 } // namespace feature_channels
 } // namespace fertilized
+#endif  // WITH_OPENCV

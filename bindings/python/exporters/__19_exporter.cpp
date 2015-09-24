@@ -3,16 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ITraining_exporter.h"
+#include "./__IBoostingStrategy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_19() {
-    export_ITraining<
-              uint8_t,
-              int16_t,
-              int16_t,
+    export_IBoostingStrategy<
+              double,
+              double,
+              uint,
               std::vector<float>,
               std::vector<float>
-                            >("_uint8_int16_int16_fv_fv");
+                            >("_d_d_uint_fv_fv");
   };
 }  // namespace pyfertilized

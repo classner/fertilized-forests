@@ -3,8 +3,6 @@
 
 #include <boost/test/unit_test.hpp>
 
-//#include "boost\python.hpp"
-
 #include <chrono>
 #include <string>
 #include <vector>
@@ -64,7 +62,8 @@ typedef std::tuple<std::pair<float, float>,
                        EThresholdSelection,
                        unsigned int, unsigned int, float>
                        optimization_tuple_t;
-typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> Matrix_t;
+typedef Eigen::Matrix<float, Eigen::Dynamic,
+  Eigen::Dynamic, Eigen::RowMajor> Matrix_t;
 typedef Eigen::Matrix<float, Eigen::Dynamic, 1> Vector_t;
 
 
@@ -110,7 +109,8 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_constant_regression) {
         error_var(0) = 0.f;
       else {
         for (int j=lower_boundary; j<i; j++) {
-          error_var(0) += ((*annotations)(j,0) - mean(0)) * ((*annotations)(j,0) - mean(0)) / (current_n_samples -1);
+          error_var(0) += ((*annotations)(j,0) - mean(0)) *
+           ((*annotations)(j,0) - mean(0)) / (current_n_samples -1);
         }
       }
 
@@ -127,12 +127,12 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_constant_regression) {
       CHECK_CLOSE_(mean(0), pred_mean(0));
       CHECK_CLOSE_(error_var(0), pred_var(0,0));
     }
-
   }
 
   // decrement the right interval boundary
   // compare the returned mean and variance with the manually computed one
-  calculator_ptr->change_index_interval(std::make_pair(lower_boundary,upper_boundary));
+  calculator_ptr->change_index_interval(
+    std::make_pair(lower_boundary,upper_boundary));
   for (int i=lower_boundary; i<=upper_boundary; i++) {
     int current_n_samples = upper_boundary - i;
     // manual computation of mean and error variance
@@ -148,10 +148,10 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_constant_regression) {
         error_var(0) = 0.f;
       else {
         for (int j=i; j<upper_boundary; j++) {
-          error_var(0) += ((*annotations)(j,0) - mean(0)) * ((*annotations)(j,0) - mean(0)) / (current_n_samples -1);
+          error_var(0) += ((*annotations)(j,0) - mean(0)) *
+           ((*annotations)(j,0) - mean(0)) / (current_n_samples -1);
         }
       }
-
     }
     calculator_ptr->change_index_interval(std::make_pair(i, upper_boundary));
 
@@ -166,20 +166,20 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_constant_regression) {
       // cppcheck-suppress variableScope
       CHECK_CLOSE(error_var(0), pred_var(0,0), 0.001f, 0.0001f);
     }
-
   }
 }
 
 BOOST_AUTO_TEST_CASE(Correctness_1d_1d_linear_regression) {
   auto mat = std::make_shared<Matrix_t> (4,2);
   (*mat) <<  1, 1,
-          3, 1,
-          5, 1,
-          10, 1;
+             3, 1,
+             5, 1,
+             10, 1;
   auto annotations = std::make_shared<Matrix_t>(4,1);
   (*annotations) << 2.0001f, 4.0001f, 5.9998f, 10.9997f;
 
-  auto calculator_ptr = std::make_shared<LinearRegressionCalculator<float>>(false, 1E-6f);
+  auto calculator_ptr = std::make_shared<LinearRegressionCalculator<float>>(
+    false, 1E-6f);
   calculator_ptr->initialize(mat, annotations, std::make_pair(0, 4));
   auto restored_ptr =
 #ifdef SERIALIZATION_ENABLED
@@ -208,7 +208,8 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_1d_linear_regression) {
   // cppcheck-suppress variableScope
   CHECK_CLOSE(pred_2(0), 11.f, 0.05f, 0.0001f);
   BOOST_CHECK(covar_2(0,0) < 1e-7);
-  // Check, that samples further away from the training samples produce a higher variance (lower confidence).
+  // Check, that samples further away from the training samples
+  // produce a higher variance (lower confidence).
   BOOST_CHECK(covar_1(0,0) < covar_2(0,0));
 }
 
@@ -225,7 +226,8 @@ BOOST_AUTO_TEST_CASE(Correctness_QR_1d_1d_linear_regression) {
 
   // Force numerical stability
   bool force_numerical_stability = true;
-  auto calculator_ptr = std::make_shared<LinearRegressionCalculator<float>>(force_numerical_stability, 1E-6f);
+  auto calculator_ptr = std::make_shared<LinearRegressionCalculator<float>>(
+    force_numerical_stability, 1E-6f);
   calculator_ptr->initialize(mat, annotations, std::make_pair(0, 4));
   auto restored_ptr =
 #ifdef SERIALIZATION_ENABLED
@@ -254,7 +256,8 @@ BOOST_AUTO_TEST_CASE(Correctness_QR_1d_1d_linear_regression) {
   // cppcheck-suppress variableScope
   CHECK_CLOSE(pred_2(0), 11.f, 0.05f, 0.0001f);
   BOOST_CHECK(covar_2(0,0) < 1e-7);
-  // Check, that samples further away from the training samples produce a higher variance (lower confidence).
+  // Check, that samples further away from the training samples
+  // produce a higher variance (lower confidence).
   BOOST_CHECK(covar_1(0,0) < covar_2(0,0));
 }
 
@@ -271,7 +274,8 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_2d_linear_regression) {
                  5.9998f, 5.f,
                  10.9997f, 10.0001f;
 
-  auto calculator_ptr = std::make_shared<LinearRegressionCalculator<float>>(false, 1E-5f);
+  auto calculator_ptr = std::make_shared<LinearRegressionCalculator<float>>(
+    false, 1E-5f);
   calculator_ptr->initialize(mat, annotations, std::make_pair(0,4));
   bool success = calculator_ptr->has_solution();
 
@@ -297,12 +301,14 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_2d_linear_regression) {
   CHECK_CLOSE(pred_2(1), 10.f, 0.05f, 0.0001f);
   BOOST_CHECK(covar_1(0,0) < 1e-7);
   BOOST_CHECK(covar_2(0,0) < 1e-7);
-  // Check, that samples further away from the training samples produce a higher variance (lower confidence).
+  // Check, that samples further away from the training samples
+  // produce a higher variance (lower confidence).
   BOOST_CHECK(covar_1(0,0) < covar_2(0,0));
 
   BOOST_CHECK(covar_1(1,1) < 1e-7);
   BOOST_CHECK(covar_2(1,1) < 1e-7);
-  // Check, that samples further away from the training samples produce a higher variance (lower confidence).
+  // Check, that samples further away from the training samples
+  // produce a higher variance (lower confidence).
   BOOST_CHECK(covar_1(1,1) < covar_2(1,1));
 }
 
@@ -317,58 +323,12 @@ BOOST_AUTO_TEST_CASE(Reject_non_full_rank_2d_1d_linear_regression) {
   auto annotations = std::make_shared<Matrix_t>(5,1);
   (*annotations).setRandom();
 
-  auto calculator_ptr = std::make_shared<LinearRegressionCalculator<float>>(false, 1E-5f);
+  auto calculator_ptr = std::make_shared<LinearRegressionCalculator<float>>(
+    false, 1E-5f);
   calculator_ptr->initialize(mat, annotations, std::make_pair(0,5));
   bool success = calculator_ptr->has_solution();
   BOOST_CHECK(success == false);
 }
-
-//BOOST_AUTO_TEST_CASE(Speed_2d_1d_linear_regression) {
-//
-//  struct regression_calc_timer : Utility::ITimefunc {
-//    regression_calc_timer(std::shared_ptr<Matrix_t> sample_mat,
-//                          std::shared_ptr<Matrix_t> annotation_mat,
-//                          std::shared_ptr<LinearRegressionCalculator<float>> reg_calc)
-//    : sample_mat(sample_mat), annotation_mat (annotation_mat), reg_calc(reg_calc){
-//      line_params = std::shared_ptr<Matrix_t>();
-//      covar_mats = std::vector<std::shared_ptr<Matrix_t>>();
-//      error_vars = std::vector<float>();
-//    }
-//
-//    int operator () () {
-//      reg_calc->initialize(sample_mat, annotation_mat, std::make_pair(0, static_cast<int>(annotation_mat->rows())));
-//      return (reg_calc->has_solution() ? (1) : (0));
-//    }
-//
-//    private:
-//      std::shared_ptr<Matrix_t> sample_mat;
-//      std::shared_ptr<Matrix_t> annotation_mat;
-//      std::shared_ptr<Matrix_t> line_params;
-//      std::vector<std::shared_ptr<Matrix_t>> covar_mats;
-//      std::vector<float> error_vars;
-//      std::shared_ptr<LinearRegressionCalculator<float>> reg_calc;
-//  };
-//
-//
-//  auto mat = std::shared_ptr<Matrix_t>(new Matrix_t(50,3));
-//  mat->setRandom();
-//  mat->col(2).fill(1.f);
-//  auto annotations = std::shared_ptr<Matrix_t>(new Matrix_t(50,1));
-//  annotations->setRandom();
-//
-//  auto fast_calculator_ptr = std::make_shared<LinearRegressionCalculator<float>>(false);
-//  auto slow_calculator_ptr = std::make_shared<LinearRegressionCalculator<float>>(true);
-//
-//  float first_time_meassurement = Utility::timeit<std::chrono::nanoseconds>(
-//    & regression_calc_timer(mat, annotations, fast_calculator_ptr), false, 3, 2);
-//
-//  float second_time_meassurement = Utility::timeit<std::chrono::nanoseconds>(
-//    & regression_calc_timer(mat, annotations, slow_calculator_ptr), false, 3, 2);
-//
-//
-//  BOOST_CHECK(second_time_meassurement >= first_time_meassurement);
-//}
-
 
 BOOST_AUTO_TEST_CASE(Reject_non_full_rank_QR_4d_1d_linear_regression) {
   auto mat = std::make_shared<Matrix_t>(10,5);
@@ -380,7 +340,8 @@ BOOST_AUTO_TEST_CASE(Reject_non_full_rank_QR_4d_1d_linear_regression) {
   (*annotations).setRandom();
   // Use QR decomposition
   bool force_numerical_stability = true;
-  auto calculator_ptr = std::make_shared<LinearRegressionCalculator<float>>(force_numerical_stability, 1E-6f);
+  auto calculator_ptr = std::make_shared<LinearRegressionCalculator<float>>(
+    force_numerical_stability, 1E-6f);
   calculator_ptr->initialize(mat, annotations, std::make_pair(0,5));
   bool success = calculator_ptr->has_solution();
   BOOST_CHECK(success == false);
@@ -390,7 +351,6 @@ BOOST_AUTO_TEST_CASE(Reject_non_full_rank_QR_4d_1d_linear_regression) {
 
 
 BOOST_AUTO_TEST_CASE(Correctness_1d_1d_linear_regression_threshold_optimizer) {
-  //std::cout << "Testing 1D-1D Regression Threshold Optimizer" << std::endl;
   size_t node_id = 1;
   const int n_threads = 1;
   const unsigned int random_seed = 3001;
@@ -473,67 +433,6 @@ BOOST_AUTO_TEST_CASE(Correctness_1d_1d_constant_regression_threshold_optimizer) 
   unsigned int samples_right = std::get<3>(result);
   BOOST_CHECK((samples_left == 4) && (samples_right == 3));
 }
-
-//BOOST_AUTO_TEST_CASE(Correctness_1d_2d_linear_regression_threshold_optimizer) {
-//  size_t node_id = 1;
-//  const int n_threads = 1;
-//  unsigned int random_seed = 2001;
-//  int suggestion_index = 0;
-//  size_t min_samples_at_leaf = 2;
-//  size_t n_samples = 7;
-//  size_t n_thresholds = 40;
-//  float selected_data [] = {1,2,4,5,8,9,11};
-//  size_t data_dimension = 1;
-//  float * features = selected_data;
-//  float annotations [] = {3,10, 4.5f,12.5f, 6,13.5f, 7,14.8f, 0.1f,19, -0.5f,18.7f, -0.9f,21};
-//  size_t annotation_dimension = 2;
-//  float weights [] = {1,1,1,1,1,1,1};
-//  bool valid = false;
-//
-//  size_t annotation_step = 1;
-//  auto entropy = std::make_shared<ShannonEntropy<float>>();
-//  auto linear_reg_calc = std::make_shared<LinearRegressionCalculator<float>>(true, 1E-5f);
-//  auto optimizer = std::make_shared<RegressionThresholdOptimizer<float,float>> (n_thresholds, linear_reg_calc,entropy);
-//  optimizer->prepare_for_optimizing(node_id, n_threads);
-//  optimization_tuple_t result;
-//  result = optimizer->optimize(node_id,suggestion_index,min_samples_at_leaf,n_samples,
-//                      selected_data,data_dimension,annotations,annotation_dimension,weights,features,&valid);
-//  BOOST_CHECK(valid);
-//  unsigned int samples_left = std::get<2>(result);
-//  unsigned int samples_right = std::get<3>(result);
-//  BOOST_CHECK((samples_left == 4) && (samples_right == 3));
-//}
-//
-//BOOST_AUTO_TEST_CASE(Correctness_1d_2d_constant_regression_threshold_optimizer) {
-//  size_t node_id = 1;
-//  const int n_threads = 1;
-//  unsigned int random_seed = 2001;
-//  int suggestion_index = 0;
-//  size_t min_samples_at_leaf = 2;
-//  size_t n_samples = 7;
-//  size_t n_thresholds = 40;
-//  float selected_data [] = {1,2,4,5,8,9,11};
-//  size_t data_dimension = 1;
-//  float * features = selected_data;
-//  float annotations [] = {3,10, 4.5f,12.5f, 6,13.5f, 7,14.8f, 0.1f,19, -0.5f,18.7f, -0.9f,21};
-//  size_t annotation_dimension = 2;
-//  float weights [] = {1,1,1,1,1,1,1};
-//  bool valid = false;
-//
-//  size_t annotation_step = 1;
-//  auto entropy = std::make_shared<ShannonEntropy<float>>();
-//  auto linear_reg_calc = std::make_shared<ConstantRegressionCalculator<float>>();
-//  auto optimizer = std::make_shared<RegressionThresholdOptimizer<float,float>> (n_thresholds, linear_reg_calc,entropy);
-//  optimizer->prepare_for_optimizing(node_id, n_threads);
-//  optimization_tuple_t result;
-//  result = optimizer->optimize(node_id,suggestion_index,min_samples_at_leaf,n_samples,
-//                      selected_data,data_dimension,annotations,annotation_dimension,weights,features,&valid);
-//  BOOST_CHECK(valid);
-//  unsigned int samples_left = std::get<2>(result);
-//  unsigned int samples_right = std::get<3>(result);
-//  BOOST_CHECK((samples_left == 4) && (samples_right == 3));
-//}
-
 
 BOOST_AUTO_TEST_CASE(Correctness_regression_leaf_manager) {
    StandardFeatureSelectionProvider *selection_provider  = new StandardFeatureSelectionProvider(2,1,2,2);
@@ -714,7 +613,9 @@ BOOST_AUTO_TEST_CASE(Correctness_regression_tree) {
   size_t n_thresholds = 20;
   unsigned int random_seed = 3001;
 
-  auto tree = fertilized::construct_regression_tree<float>(n_features, max_depth, test_n_features_per_node, n_thresholds, 4, 8, static_cast<float>(1E-7), true,random_seed);
+  auto tree = fertilized::construct_regression_tree<float>(
+    n_features, max_depth, test_n_features_per_node,
+    n_thresholds, 4, 8, static_cast<float>(1E-7), true,random_seed);
 
    auto input_array = external(input_data,
                                makeVector(n_samples,
@@ -752,7 +653,6 @@ BOOST_AUTO_TEST_CASE(Correctness_regression_tree) {
   BOOST_CHECK((* result1.first)[1] < (* result2.first)[1]);
   BOOST_CHECK((* result2.first)[1] < (* result3.first)[1]);
 }
-
 
 BOOST_AUTO_TEST_CASE(Correctness_regression_forest) {
   size_t annot_dim = 2;
@@ -848,14 +748,7 @@ BOOST_AUTO_TEST_CASE(Correctness_regression_forest) {
     // => result1[1] < result2[1] < result3[1]
     BOOST_CHECK((* single_result1.first.get())[1] < (* single_result2.first)[1]);
     BOOST_CHECK((* single_result2.first.get())[1] < (* single_result3.first)[1]);
-
   }
-
 }
 
-
-
-
 BOOST_AUTO_TEST_SUITE_END();
-
-

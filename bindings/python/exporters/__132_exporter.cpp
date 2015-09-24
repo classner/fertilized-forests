@@ -3,13 +3,12 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__AlignedSurfaceCalculator_exporter.h"
+#include "./__RegressionLeafManager_exporter.h"
 
 namespace pyfertilized {
   void __python_export_132() {
-    export_AlignedSurfaceCalculator<
-              uint8_t,
-              uint
-                            >("_uint8_uint");
+    export_RegressionLeafManager<
+              double
+                            >("_d");
   };
 }  // namespace pyfertilized

@@ -3,16 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__Samme_exporter.h"
+#include "./__ClassicTraining_exporter.h"
 
 namespace pyfertilized {
   void __python_export_124() {
-    export_Samme<
-              float,
-              float,
+    export_ClassicTraining<
+              double,
+              double,
               uint,
               std::vector<float>,
               std::vector<float>
-                            >("_f_f_uint_fv_fv");
+                            >("_d_d_uint_fv_fv");
   };
 }  // namespace pyfertilized

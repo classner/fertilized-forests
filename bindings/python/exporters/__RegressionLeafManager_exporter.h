@@ -55,11 +55,12 @@ namespace pyfertilized {
     py::class_<RegressionLeafManager<input_dtype>,
                std::shared_ptr<RegressionLeafManager<input_dtype>>,
                boost::noncopyable,
-               py::bases<ILeafManager<input_dtype, input_dtype,std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>>> >>
+               py::bases<ILeafManager<input_dtype, input_dtype, std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>>> >>
                (("RegressionLeafManager" + type_short).c_str(),
                 "Manages the leaf nodes of regression trees.\n\
 \n\
-This leaf manager creates leaf nodes and stores a probabilistic regression model at each leaf.\n\
+This leaf manager creates leaf nodes and stores a probabilistic regression\n\
+model at each leaf.\n\
 \n\
 \n\
 -----\n\
@@ -108,7 +109,7 @@ Available in:\n\
     ;
 
     py::implicitly_convertible<std::shared_ptr<RegressionLeafManager<input_dtype>>,
-                               std::shared_ptr<ILeafManager<input_dtype, input_dtype,std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>>> > >();
+                               std::shared_ptr<ILeafManager<input_dtype, input_dtype, std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>>> > >();
   };
 }  // namespace fertilized
 

@@ -4,6 +4,7 @@
 // Christoph Lassner
 */
 #include "fertilized/feature_extraction/hog/hog.h"
+#ifdef WITH_OPENCV
 
 using namespace std;
 using namespace cv;
@@ -77,3 +78,4 @@ void HoG::extractOBin(Mat& Iorient, Mat& Imagn, vector<Mat>& out, int off) {
   delete[] desc;
 
 }
+#endif  // WITH_OPENCV

@@ -12,7 +12,6 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
-#include <opencv2/opencv.hpp>
 
 #ifdef CAFFE_FEATURE_EXTRACTION_ENABLED
 #ifdef _MSC_VER
@@ -23,6 +22,10 @@
 
 #ifdef _MSC_VER
 #include "fertilized/global.h"
+#endif
+
+#ifdef WITH_OPENCV
+#include <opencv2/opencv.hpp>
 #endif
 
 #include "fertilized/feature_extraction/dnnfeatureextractor.h"

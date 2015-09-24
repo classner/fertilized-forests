@@ -16,7 +16,7 @@ namespace fertilized {
   /**
    * \brief Calculator for constant regression.
    *
-   * This regression calculator uses a constant value to predict the output value. 
+   * This regression calculator uses a constant value to predict the output value.
    * Therefore, it provides a constant prediction and a constant prediction covariance matrix.
    *
    * -----
@@ -39,7 +39,7 @@ namespace fertilized {
     typedef IRegressionCalculator<input_dtype> IRegressionCalculator_t;
     using typename IRegressionCalculator_t::Matrix_regression_t;
     using typename IRegressionCalculator_t::Vector_regression_t;
-    using typename IRegressionCalculator_t::interval_t; 
+    using typename IRegressionCalculator_t::interval_t;
 
     /**
      * -----
@@ -48,7 +48,7 @@ namespace fertilized {
      * - Python
      * - Matlab
      * .
-     * 
+     *
      * -----
      */
     ConstantRegressionCalculator()
@@ -60,7 +60,7 @@ namespace fertilized {
         current_interval(std::make_pair(-1,-1)),
         solution(Vector_regression_t()),
         error_vars(Vector_regression_t()) {
-      static_assert(std::is_floating_point<input_dtype>::value, 
+      static_assert(std::is_floating_point<input_dtype>::value,
         "Regression datatype must be floating point.");
     };
 
@@ -68,7 +68,7 @@ namespace fertilized {
     * \brief Copy constructor for a ConstantRegressionCalculator
     *
     */
-    ConstantRegressionCalculator(const ConstantRegressionCalculator<input_dtype> * other) 
+    ConstantRegressionCalculator(const ConstantRegressionCalculator<input_dtype> * other)
       : annotation_mat(other->annotation_mat),
         annot_dim(other->annot_dim),
         n_samples(other->n_samples),
@@ -77,7 +77,7 @@ namespace fertilized {
         error_vars(other->error_vars),
         solution_available(other->solution_available),
         interval_freezed(other->interval_freezed){
-      static_assert(std::is_floating_point<input_dtype>::value, 
+      static_assert(std::is_floating_point<input_dtype>::value,
         "Regression datatype must be floating point.");
     }
 
@@ -231,8 +231,6 @@ namespace fertilized {
     }
 #endif
 
-
-
    private:
 
      bool check_interval_valid(const interval_t & interval) {
@@ -282,11 +280,11 @@ namespace fertilized {
        for (int j=0; j<annot_dim; j++) {
          input_dtype mean_new = solution(j) + (((*annotation_mat)(added_index,j) - solution(j)) / (static_cast<input_dtype>(new_n_samples)));
          error_vars(j) *= ((static_cast<input_dtype>(old_n_samples - 1)) / (static_cast<input_dtype>(old_n_samples)));
-         error_vars(j) += ((*annotation_mat)(added_index,j) - solution(j))*((*annotation_mat)(added_index,j) - mean_new) 
+         error_vars(j) += ((*annotation_mat)(added_index,j) - solution(j))*((*annotation_mat)(added_index,j) - mean_new)
                           / (static_cast<input_dtype>(old_n_samples));
          solution(j) = mean_new;
        }
-       
+
        return true;
      };
 
@@ -304,13 +302,13 @@ namespace fertilized {
        for (int j=0; j<annot_dim; j++) {
          input_dtype mean_new  = solution(j) + ((solution(j) - (*annotation_mat)(removed_index,j)) / static_cast<input_dtype>(new_n_samples));
          error_vars(j) *= ((static_cast<input_dtype>(old_n_samples - 1)) / (static_cast<input_dtype>(new_n_samples - 1)));
-         error_vars(j) -= ((*annotation_mat)(removed_index,j) - solution(j))*((*annotation_mat)(removed_index,j) - mean_new) 
+         error_vars(j) -= ((*annotation_mat)(removed_index,j) - solution(j))*((*annotation_mat)(removed_index,j) - mean_new)
                           / (static_cast<input_dtype>(new_n_samples - 1));
          solution(j) = mean_new;
          // check for numerical error with var < 0
          error_vars(j) = std::max(error_vars(j), static_cast<input_dtype>(0));
        }
-       
+
        return true;
      };
 

@@ -6,7 +6,7 @@ Created on Sun Apr 06 20:22:41 2014
 """
 import os
 import sys
-sys.path.insert(0, os.path.join('..', '..', 'bindings', 'python'))
+sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 if len(sys.argv) > 1:
   print 'Quiet mode. Plot display disabled.'
   INTERACTIVE = False
@@ -77,7 +77,7 @@ forest.fit(X, Y)
 plt.figure()
 point_prob_plot(forest, X, Y, plotx, ploty)
 plt.title('Random Forest $(T=%d, D=%d, |\Theta_j|=%d)$' % (n_trees, depth, suggestions * 2))
-plt.savefig('spiral_rf.png')
 if INTERACTIVE:
+    plt.savefig('spiral_rf.png')
     plt.show()
 assert sklearn.metrics.accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95

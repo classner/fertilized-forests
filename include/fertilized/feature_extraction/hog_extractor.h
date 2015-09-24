@@ -5,10 +5,11 @@
  *      Author: mdantone
  * Minor edits by Christoph Lassner.
  */
-
 #ifndef HOG_EXTRACTOR_H_
 #define HOG_EXTRACTOR_H_
 
+#include "../global.h"
+#ifdef WITH_OPENCV
 #include "hog/hog.h"
 
 namespace fertilized {
@@ -53,8 +54,9 @@ private:
   HoG hog;
 };
 
-} // namespace vision 
+} // namespace vision
 } // namespace features
 } // namespace feature_channels
-} // namespace fertilized 
+} // namespace fertilized
+#endif // WITH_OPENCV
 #endif /* HOG_EXTRACTOR_H_ */

@@ -17,7 +17,7 @@ namespace fertilized {
   namespace Result_Types {
     /**
      * \brief Classification result types.
-     *
+     * 
      * They are always defined as std::vector<float>.
      */
     struct probabilities {
@@ -32,7 +32,7 @@ namespace fertilized {
     };
     /**
      * \brief Regression result types.
-     *
+     * 
      * They depend on the input_dtype. See the documentation of the
      * \ref RegressionLeafManager.
      */
@@ -48,7 +48,7 @@ namespace fertilized {
     };
     /**
      * \brief Hough Forest result types.
-     *
+     * 
      * They consist of a pair of float (foreground prob.) and a pointer to
      * a vector of int16_t (offsets). For a forest, contains a vector of these
      * pairs.
@@ -326,7 +326,7 @@ namespace fertilized {
 *
 * Use exactly the library template names `input_dtype`, `feature_dtype`,
 * `annotation_dtype`, `leaf_return_dtype`, `forest_dtype` for your
-* objects as necessary (you may omit unnecessary ones). If your class is
+* objects as necessary (you may omit unnecessary ones). If your class is 
 * templated differently, only one possible
 * template instantiation can be used for the interfaces. In that case, you
 * have to specify this with a parser list "Soil type always:". You can find
@@ -628,7 +628,7 @@ namespace fertilized {
 * - double; double
 * - float; float
 * .
-*
+* 
 * -----
 */
   std::shared_ptr<fertilized::UnchangedFDataProvider<input_dtype,annotation_dtype>>
@@ -652,7 +652,7 @@ namespace fertilized {
 * It builds its sample database from two pointer on memory arrays with
 * data and annotations. Both must be provided in contiguous layout. The
 * data (but not the annotations!) can be provided row- or column-wise.
-* Column-wise layout is to be preferred, since it has more locality for
+* Column-wise layout is to be preferred, since it has more locality for 
 * most optimization processes.
 *
 * The annotations MUST always be provided in row major order, independent
@@ -676,7 +676,7 @@ namespace fertilized {
 * - double; double
 * - float; float
 * .
-*
+* 
 * -----
 */
   std::shared_ptr<fertilized::UnchangedDataProvider<input_dtype,annotation_dtype>>
@@ -860,7 +860,7 @@ namespace fertilized {
   /**
 * \brief Calculator for constant regression.
 *
-* This regression calculator uses a constant value to predict the output value.
+* This regression calculator uses a constant value to predict the output value. 
 * Therefore, it provides a constant prediction and a constant prediction covariance matrix.
 *
 * -----
@@ -1010,7 +1010,7 @@ namespace fertilized {
 * Soil type always:
 * - float
 * .
-*
+* 
 * -----
 */
   std::shared_ptr<fertilized::ShannonEntropy<float>>
@@ -1539,6 +1539,7 @@ namespace fertilized {
 */
   std::shared_ptr<fertilized::DNNFeatureExtractor>
   DNNFeatureExtractor(
+
         std::string net_layout_file,
         std::string net_weights_file,
         std::string net_outlayer,
@@ -1548,6 +1549,7 @@ namespace fertilized {
     ) {
    return std::shared_ptr<fertilized::DNNFeatureExtractor>(
      new fertilized::DNNFeatureExtractor(
+
          net_layout_file,
          net_weights_file,
          net_outlayer,
@@ -1642,7 +1644,7 @@ namespace fertilized {
 *
 *
 * \ingroup fertilizedfeaturesGroup
-*
+*   
 * -----
 * Available in:
 * - C++
@@ -1852,7 +1854,7 @@ namespace fertilized {
 * - uint8_t; uint
 * - uint8_t; int16_t
 * .
-*
+* 
 * -----
 */
   std::shared_ptr<fertilized::ClassificationLeafManager<input_dtype,annotation_dtype>>
@@ -1904,7 +1906,8 @@ namespace fertilized {
   /**
 * \brief Manages the leaf nodes of regression trees.
 *
-* This leaf manager creates leaf nodes and stores a probabilistic regression model at each leaf.
+* This leaf manager creates leaf nodes and stores a probabilistic regression
+* model at each leaf.
 *
 * \ingroup fertilizedleafsGroup
 *
@@ -1947,11 +1950,13 @@ namespace fertilized {
 
   auto boostingleafmanager_vec_t() -> std::vector<std::shared_ptr<fertilized::BoostingLeafManager<input_dtype,annotation_dtype>>>;
   /**
-* \brief Allows the boosting strategies to set their own tree functions to influence the combined result.
+* \brief Allows the boosting strategies to set their own tree functions
+* to influence the combined result.
 *
 * Using thes LeafManager may lead to better classifcation results.
 *
-* Note that the output does not represent probabilites and may vary when using different \ref IBoostingStrategies
+* Note that the output does not represent probabilites and may vary when
+* using different \ref IBoostingStrategies
 *
 * \ingroup fertilizedleafsGroup
 *
@@ -1991,11 +1996,13 @@ namespace fertilized {
 *
 * Implements the original AdaBoost algorithm proposed by Freund and Schapire
 *
-* See "A decision-theoretic generalization of on-line learning and an application to boosting". Journal of Computer and System Sciences 55. 1997
+* See "A decision-theoretic generalization of on-line learning and an
+* application to boosting". Journal of Computer and System Sciences 55. 1997
 *
-* To support multi-class classification, the AdaBoost.M2 algorithm is used
+* To support multi-class classification, the AdaBoost.M2 algorithm is used.
 *
-* Output when using BoostingLeafManager is estimator_probability*std::log(1.f/beta)
+* Output when using BoostingLeafManager is
+* estimator_probability*std::log(1.f/beta).
 *
 * \ingroup fertilizedboostingGroup
 *
@@ -2031,15 +2038,18 @@ namespace fertilized {
   /**
 * \brief SAMME.R real boosting algorithm implementation
 *
-* Implements the SAMME.R real boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
+* Implements the SAMME.R real boosting algorithm proposed by J. Zhu,
+* H. Zou, S. Rosset and T. Hastie ("Multi-class AdaBoost", 2009).
 *
-* See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
+* One can set the learning rate which specifies the contribution of
+* each classifier.
 *
-* One can set the learning rate which specifies the contribution of each classifier
+* Output when using BoostingLeafManager is
+* \f$log(p_k^m(x))-1/K*sum_k(log(p_k^m(x)))\f$.
 *
-* Output when using BoostingLeafManager is log(p_k^m(x))-1/K*sum_k(log(p_k^m(x)))
-*
-*  with x the sample to classify, K the number of classes, k the classIndex, m the estimatorIndex and p the estimator probability
+* with \f$x\f$ the sample to classify, \f$K\f$ the number of classes,
+* \f$k\f$ the classIndex, \f$m\f$ the estimatorIndex and \f$p\f$ the
+* estimator probability.
 *
 * \ingroup fertilizedboostingGroup
 *
@@ -2077,13 +2087,14 @@ namespace fertilized {
   /**
 * \brief SAMME boosting algorithm implementation
 *
-* Implements the SAMME boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
+* Implements the SAMME boosting algorithm proposed by J. Zhu, H. Zou,
+* S. Rosset and T. Hastie ("Multi-class AdaBoost", 2009).
 *
-* See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
+* One can set the learning rate which specifies the contribution of each
+* classifier.
 *
-* One can set the learning rate which specifies the contribution of each classifier
-*
-* Output when using BoostingLeafManager is estimator_probability*estimator_weight
+* Output when using BoostingLeafManager is
+* estimator_probability*estimator_weight.
 *
 * \ingroup fertilizedboostingGroup
 *
@@ -2936,7 +2947,7 @@ namespace fertilized {
     };
 
   /**
-* Extract the Hough forest features. If `full` is set, uses the
+* Extract the Hough forest features. If `full` is set, uses the 
 * 32 feature channels used by Juergen Gall in his original publications,
 * else use 15 feature channels as used by Matthias Dantone.
 *
@@ -2948,7 +2959,7 @@ namespace fertilized {
 * - Python
 * - Matlab
 * .
-*
+* 
 * -----
 *
 * \param image Array<uint8_t>, row-major contiguous

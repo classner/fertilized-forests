@@ -1,6 +1,6 @@
 // Author: ...
 // Leave this as the first import to automatically prevent gcc to
-// emit a warning about boost test on older gcc version.
+// emit a warning about boost test on older gcc versions.
 #include <fertilized/fertilized.h>
 
 #include "boost/test/unit_test.hpp"

@@ -3,13 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__AlignedSurfaceCalculator_exporter.h"
+#include "./__QuadraticSurfaceCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_134() {
-    export_AlignedSurfaceCalculator<
-              float,
-              float
-                            >("_f_f");
+    export_QuadraticSurfaceCalculator<
+              uint8_t,
+              uint
+                            >("_uint8_uint");
   };
 }  // namespace pyfertilized

@@ -1,8 +1,9 @@
-/* 
+/*
 // Author: Juergen Gall, BIWI, ETH Zurich
 // Email: gall@vision.ee.ethz.ch
 */
-
+#include "../../global.h"
+#ifdef WITH_OPENCV
 #include "opencv2/core/core.hpp"
 
 #include <iostream>
@@ -46,10 +47,11 @@ inline void HoG::binning(float v, float w, double* desc, int maxb) {
   int bin2;
   float delta = v-bin1-0.5f;
   if(delta<0) {
-    bin2 = bin1 < 1 ? maxb-1 : bin1-1; 
+    bin2 = bin1 < 1 ? maxb-1 : bin1-1;
     delta = -delta;
   } else
-    bin2 = bin1 < maxb-1 ? bin1+1 : 0; 
+    bin2 = bin1 < maxb-1 ? bin1+1 : 0;
   desc[bin1] += (1-delta)*w;
   desc[bin2] += delta*w;
 }
+#endif

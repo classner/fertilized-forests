@@ -3,12 +3,12 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__LinearRegressionCalculator_exporter.h"
+#include "./__ShannonEntropy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_238() {
-    export_LinearRegressionCalculator<
-              double
-                            >("_d");
+    export_ShannonEntropy<
+              uint
+                            >("_uint");
   };
 }  // namespace pyfertilized

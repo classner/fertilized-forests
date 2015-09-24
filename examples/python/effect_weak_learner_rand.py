@@ -6,7 +6,7 @@ Created on Sun Apr 06 15:29:28 2014
 """
 import os
 import sys
-sys.path.insert(0, os.path.join('..', '..', 'bindings', 'python'))
+sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 if len(sys.argv) > 1:
   print 'Quiet mode. Plot display disabled.'
   INTERACTIVE = False
@@ -74,6 +74,6 @@ for suggestions in [3, 250]:
     assert sklearn.metrics.accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95
     point_prob_plot(forest, X, Y, plotx, ploty)
     plt.title('%s decider, $|\Theta_j|=%d$' %(dec_name, suggestions * 2))
-    plt.savefig('effect_wl%s_rand_%d.png' % (dec_name, suggestions * 2))
     if INTERACTIVE:
+        plt.savefig('effect_wl%s_rand_%d.png' % (dec_name, suggestions * 2))
         plt.show()

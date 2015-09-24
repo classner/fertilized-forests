@@ -28,7 +28,8 @@ namespace fertilized {
   /**
    * \brief Manages the leaf nodes of regression trees.
    *
-   * This leaf manager creates leaf nodes and stores a probabilistic regression model at each leaf.
+   * This leaf manager creates leaf nodes and stores a probabilistic regression
+   * model at each leaf.
    *
    * \ingroup fertilizedleafsGroup
    *
@@ -47,24 +48,29 @@ namespace fertilized {
    */
   template <typename input_dtype>
   class RegressionLeafManager
-    : public ILeafManager<input_dtype, input_dtype,std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>>> {
+    : public ILeafManager<input_dtype, input_dtype, std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>>> {
    public:
     typedef ILeafManager<input_dtype, input_dtype,
-                         std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,
-                         std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>> >
+                         std::pair<std::shared_ptr<std::vector<input_dtype>>,
+                                   std::shared_ptr<std::vector<input_dtype>>>,
+                         std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,
+                                               std::shared_ptr<std::vector<input_dtype>>>,float>> >
                          leaf_man_t;
     using typename leaf_man_t::dprov_t;
     using typename leaf_man_t::wlresult_list_t;
 
     typedef IRegressionCalculator<input_dtype> IRegressionCalculator_t;
-    typedef Eigen::Matrix<input_dtype, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor, Eigen::Dynamic, Eigen::Dynamic> Matrix_regression_t;
-    typedef Eigen::Matrix<input_dtype, Eigen::Dynamic, 1, Eigen::ColMajor, Eigen::Dynamic, 1> Vector_regression_t;
+    typedef Eigen::Matrix<input_dtype, Eigen::Dynamic, Eigen::Dynamic,
+      Eigen::RowMajor, Eigen::Dynamic, Eigen::Dynamic> Matrix_regression_t;
+    typedef Eigen::Matrix<input_dtype, Eigen::Dynamic, 1,
+      Eigen::ColMajor, Eigen::Dynamic, 1> Vector_regression_t;
 
     typedef std::tuple<std::vector<size_t>, FeatCalcParamSet,
       EThresholdSelection, std::pair<int16_t, int16_t>>
       decision_tuple_t;
 
-    typedef std::pair<std::shared_ptr<IRegressionCalculator_t>, std::vector<size_t>> regression_result_t;
+    typedef std::pair<std::shared_ptr<IRegressionCalculator_t>,
+                      std::vector<size_t>> regression_result_t;
 
 
     /**
@@ -213,7 +219,8 @@ namespace fertilized {
           processed_total)
 #endif
         {
-          auto private_reg_calc = std::unique_ptr<IRegressionCalculator<input_dtype>>(reg_calc_template->get_descendant_copy());
+          auto private_reg_calc = std::unique_ptr<IRegressionCalculator<input_dtype>>(
+            reg_calc_template->get_descendant_copy());
           while (suggested_feature_sets -> available() &&
                  processed_val_count < processed_val_max) {
             std::vector<size_t> feature_selection_vector;
@@ -253,7 +260,8 @@ namespace fertilized {
               for (int col = 0; col < hom_sel_input_dim; col++) {
                 if (col < (selected_input_dim)) {
                   (*sample_mat)(row,col) = *((*sample_list)[ element_list[row] ].data +
-                                          (*sample_list)[ element_list[row] ].data_step * feature_selection_vector[col]);
+                                             (*sample_list)[ element_list[row] ].data_step *
+                                                feature_selection_vector[col]);
                 } else {
                   (*sample_mat)(row,col) = static_cast<input_dtype>(1);
                 }
@@ -262,15 +270,18 @@ namespace fertilized {
 
 
             // Calculate regression output
-            private_reg_calc->initialize(sample_mat, annot_mat, std::make_pair(0,static_cast<int>(n_samples)));
+            private_reg_calc->initialize(sample_mat, annot_mat,
+               std::make_pair(0,static_cast<int>(n_samples)));
             private_reg_calc->freeze_interval();
             float entropy = 0.f;
             bool numerical_instable = false;
             feature_selection_could_be_used = private_reg_calc->has_solution();
             if (feature_selection_could_be_used) {
               // Now calculate the entropy
-              auto prediction = Eigen::Matrix<input_dtype, Eigen::Dynamic, 1, Eigen::ColMajor>(annot_dim);
-              auto pred_covar_mat = Eigen::Matrix<input_dtype, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>(annot_dim, annot_dim);
+              auto prediction = Eigen::Matrix<input_dtype, Eigen::Dynamic,
+                1, Eigen::ColMajor>(annot_dim);
+              auto pred_covar_mat = Eigen::Matrix<input_dtype, Eigen::Dynamic,
+                Eigen::Dynamic, Eigen::RowMajor>(annot_dim, annot_dim);
               if (private_reg_calc->has_constant_prediction_covariance()) {
                 // Calculate the determinant of the prediction covariance matrix (is diagonal!).
                  private_reg_calc->get_constant_prediction_covariance(pred_covar_mat);
@@ -279,54 +290,56 @@ namespace fertilized {
                    entropy = std::numeric_limits<float>::infinity();
                    numerical_instable = true;
                  } else {
-                   entropy = entropy_function->differential_normal(static_cast<float>(determinant), static_cast<const uint>(annot_dim))
-                             * static_cast<float>(n_samples);
+                   entropy = entropy_function->differential_normal(
+                     static_cast<float>(determinant),
+                     static_cast<const uint>(annot_dim)) *
+                     static_cast<float>(n_samples);
                  }
               } else {
                 for (size_t i = 0; i < n_samples; i++) {
                   // Calculate the determinant of the prediction covariance matrix (is diagonal!).
-                  private_reg_calc->predict((*sample_mat).row(i), prediction, pred_covar_mat);
+                  private_reg_calc->predict((*sample_mat).row(i),
+                    prediction, pred_covar_mat);
                   input_dtype determinant = pred_covar_mat.diagonal().prod();
                   if (determinant < 0.f) {
                     numerical_instable=true;
                     break;
                   }
-                  entropy += entropy_function->differential_normal(static_cast<float>(determinant), static_cast<const uint>(annot_dim));
+                  entropy += entropy_function->differential_normal(
+                    static_cast<float>(determinant),
+                    static_cast<const uint>(annot_dim));
                 }
               }
 
               if (! numerical_instable) {
-                //#pragma omp critical (FERTILIZED_CLASSIFIERS_H_THRESHOLD_CLASSIFIER_1_)
                 {
                   std::lock_guard<std::mutex> lock(mutex_opt);
-                  //#pragma omp flush(best_gain, best_configuration, best_config_index)
                   if (entropy < best_entropy ||
                       entropy == best_entropy &&
                       my_suggestion_index < best_config_index) {
                     best_entropy = entropy;
                     valid_feature_found = true;
                     best_config_index = my_suggestion_index;
-                    auto best_reg_calc = std::shared_ptr<IRegressionCalculator<input_dtype>>(private_reg_calc->get_descendant_copy());
-                    best_regression_result = std::make_pair(best_reg_calc, feature_selection_vector);
-
-                    //#pragma omp flush(best_gain, best_configuration, best_config_index)
+                    auto best_reg_calc = std::shared_ptr<
+                      IRegressionCalculator<input_dtype>>(
+                        private_reg_calc->get_descendant_copy());
+                    best_regression_result =
+                      std::make_pair(best_reg_calc, feature_selection_vector);
                   }
                 }
               }
 
             }
-            if (((! feature_selection_could_be_used) || numerical_instable) && (n_valids_to_use > 0)) {
-            //#pragma omp critical (FERTILIZED_CLASSIFIERS_H_THRESHOLD_CLASSIFIER_0_)
-            {
+            if (((! feature_selection_could_be_used) ||
+                 numerical_instable) && (n_valids_to_use > 0)) {
+              {
               std::lock_guard<std::mutex> lock(mutex_track);
               processed_val_count--;
 #if defined(_OPENMP)
               #pragma omp flush(processed_val_count)
 #endif
+              }
             }
-            }
-
-
           } // END WHILE
         }
 
@@ -350,12 +363,15 @@ namespace fertilized {
       if ((! needs_feature_selection) || ((! valid_feature_found) && use_fallback_reg_calc)) {
         std::shared_ptr<IRegressionCalculator<input_dtype>> best_reg_calc;
         if (reg_calc_template->needs_input_data())
-          best_reg_calc = std::shared_ptr<IRegressionCalculator<input_dtype>>(new ConstantRegressionCalculator<input_dtype>());
+          best_reg_calc = std::shared_ptr<IRegressionCalculator<input_dtype>>(
+            new ConstantRegressionCalculator<input_dtype>());
         else
-          best_reg_calc = std::shared_ptr<IRegressionCalculator<input_dtype>>(reg_calc_template->get_descendant_copy());
+          best_reg_calc = std::shared_ptr<IRegressionCalculator<input_dtype>>(
+            reg_calc_template->get_descendant_copy());
 
         auto sample_mat = std::make_shared<Matrix_regression_t>(1, 1);
-        best_reg_calc->initialize(sample_mat, annot_mat, std::make_pair(0,static_cast<int>(n_samples)));
+        best_reg_calc->initialize(sample_mat, annot_mat,
+          std::make_pair(0,static_cast<int>(n_samples)));
         best_reg_calc->freeze_interval();
 
         std::vector<size_t> empty_feat_selection = std::vector<size_t>(1);
@@ -382,11 +398,11 @@ namespace fertilized {
     };
 
     /** \brief Returns the prediction probability distribution. */
-    std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>> get_result(const node_id_t &node_id,
-                                  const input_dtype *data,
-                                  const size_t &data_step=1,
-                                  const std::function<void(void*)> &dptf = nullptr) const {
-
+    std::pair<std::shared_ptr<std::vector<input_dtype>>,
+              std::shared_ptr<std::vector<input_dtype>>> get_result(const node_id_t &node_id,
+                                                                    const input_dtype *data,
+                                                                    const size_t &data_step=1,
+                                                                    const std::function<void(void*)> &dptf = nullptr) const {
       // TODO Moritz: Use the transfer function, if given
       auto best_result = leaf_regression_map.at(node_id);
       auto reg_calc = best_result.first;
@@ -439,7 +455,8 @@ namespace fertilized {
     };
 
     /** Returns the plain leaf results. */
-    std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>> get_combined_result(
+    std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,
+                          std::shared_ptr<std::vector<input_dtype>>>,float>> get_combined_result(
       const wlresult_list_t &leaf_results) {
       return leaf_results;
     };
@@ -456,8 +473,10 @@ namespace fertilized {
      */
     bool operator==(const ILeafManager<input_dtype,
                                  input_dtype,
-                                 std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,
-                                 std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>> > &rhs) const {
+                                 std::pair<std::shared_ptr<std::vector<input_dtype>>,
+                                           std::shared_ptr<std::vector<input_dtype>>>,
+                                 std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,
+                                                       std::shared_ptr<std::vector<input_dtype>>>,float>> > &rhs) const {
       const auto *rhs_c = dynamic_cast<RegressionLeafManager<input_dtype> const*>(&rhs);
       if (rhs_c == nullptr)
         return false;
@@ -482,7 +501,8 @@ namespace fertilized {
     };
 
     /** Returns the prediction value and the covariance values. */
-    void summarize_tree_result(const std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>> &tree_result,
+    void summarize_tree_result(const std::pair<std::shared_ptr<std::vector<input_dtype>>,
+                                               std::shared_ptr<std::vector<input_dtype>>> &tree_result,
                                const ArrayRef<double, 1, 1> &result_row)
       const {
       std::copy((tree_result.first) -> begin(),
@@ -494,7 +514,8 @@ namespace fertilized {
     };
 
     /** Returns the prediction value and the variance of a mixed gaussian distribution. */
-    void summarize_forest_result(const std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>> &forest_result,
+    void summarize_forest_result(const std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,
+                                                             std::shared_ptr<std::vector<input_dtype>>>,float>> &forest_result,
                                  const ArrayRef<double, 1, 1> &result_row)
       const {
       // Initialize the row to zeros.
@@ -557,7 +578,8 @@ namespace fertilized {
     };
 
     /** Throws. */
-    void add_tree_prediction_to_image(const std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>> &tree_result,
+    void add_tree_prediction_to_image(const std::pair<std::shared_ptr<std::vector<input_dtype>>,
+                                                                      std::shared_ptr<std::vector<input_dtype>>> &tree_result,
                                       const Array<float, 2, 2> &result,
                                       const size_t &write_x,
                                       const size_t &write_y,
@@ -568,7 +590,8 @@ namespace fertilized {
     /** Throws. */
     void add_forest_prediction_to_image(
       const std::vector<float> &tree_weights,
-      const std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,std::shared_ptr<std::vector<input_dtype>>>,float>> &forest_result,
+      const std::vector<std::pair<std::pair<std::shared_ptr<std::vector<input_dtype>>,
+                                  std::shared_ptr<std::vector<input_dtype>>>,float>> &forest_result,
       const Array<float, 2, 2> &result,
       const size_t &write_x,
       const size_t &write_y,
@@ -592,7 +615,6 @@ namespace fertilized {
     }
 #endif
 
-
    protected:
     RegressionLeafManager() {}
 
@@ -606,8 +628,6 @@ namespace fertilized {
     std::unordered_map<node_id_t, regression_result_t> leaf_regression_map;
     size_t summary_mode;
  };
-
-
 
 };  // namespace fertilized
 #endif  // FERTILIZED_LEAFS_REGRESSIONLEAFMANAGER_H_

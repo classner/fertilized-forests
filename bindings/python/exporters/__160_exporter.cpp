@@ -3,13 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__LinearSurfaceCalculator_exporter.h"
+#include "./__TwoSideClassificationThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_160() {
-    export_LinearSurfaceCalculator<
-              float,
+    export_TwoSideClassificationThresholdOptimizer<
+              int,
+              int,
               uint
-                            >("_f_uint");
+                            >("_i_i_uint");
   };
 }  // namespace pyfertilized

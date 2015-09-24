@@ -10,9 +10,9 @@ namespace pyfertilized {
     export_NoBagging<
               double,
               double,
-              double,
-              std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,
-              std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>
-                            >("_d_d_d_rpd_vprpfd");
+              uint,
+              std::vector<float>,
+              std::vector<float>
+                            >("_d_d_uint_fv_fv");
   };
 }  // namespace pyfertilized

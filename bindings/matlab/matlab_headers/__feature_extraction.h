@@ -18,12 +18,11 @@ extern "C"
 
      void * getDNNFeatureExtractor (
 
-        int use_cpu,
-        int device_id,
         char* net_layout_file,
         char* net_weights_file,
         char* net_outlayer,
-        int load_mean,
+        int use_cpu,
+        int device_id,
         char* mean_file
 );
 

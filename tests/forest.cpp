@@ -4,7 +4,7 @@
 #include <random>
 #include "boost/test/unit_test.hpp"
 #include "timeit.h"
-//
+
 #include <fertilized/fertilized.h>
 
 #include "setup.h"
@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(Correctness_Forests_threaded_prediction) {
   // Get results in parallel.
   auto res_parallel = tf -> predict(data, 1);
   BOOST_CHECK(all(equal(res_serial, res_parallel)));
-  //auto timestruct = PredictTimer<Forest<float, float, uint, std::vector<float>, std::vector<float>>, Array<float, 2, 2>>(tf.get(), &data);
-  //float time = Utility::timeit<std::chrono::nanoseconds>(&timestruct, false, 3, 2);
-  //std::cout << time;
 };
 
 BOOST_AUTO_TEST_CASE(Correctness_Forest_depths) {

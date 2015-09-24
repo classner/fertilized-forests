@@ -3,13 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__UnchangedDataProvider_exporter.h"
+#include "./__ThresholdDecider_exporter.h"
 
 namespace pyfertilized {
   void __python_export_277() {
-    export_UnchangedDataProvider<
-              uint8_t,
+    export_ThresholdDecider<
+              double,
+              double,
               uint
-                            >("_uint8_uint");
+                            >("_d_d_uint");
   };
 }  // namespace pyfertilized

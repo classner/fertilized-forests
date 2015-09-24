@@ -4,7 +4,7 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.join('..', '..', 'bindings', 'python'))
+sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 
 # Classifiers
 from cv2 import RTrees, Boost, BOOST_REAL, CV_ROW_SAMPLE, TERM_CRITERIA_MAX_ITER

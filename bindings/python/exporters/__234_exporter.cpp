@@ -3,11 +3,11 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ClassificationError_exporter.h"
+#include "./__InducedEntropy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_234() {
-    export_ClassificationError<
+    export_InducedEntropy<
               uint
                             >("_uint");
   };

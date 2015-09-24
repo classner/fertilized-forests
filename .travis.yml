@@ -4,6 +4,7 @@ language: cpp
 compiler: gcc
 branches:
   only:
+    - dev_cmake
     - unstable
 
 notifications:
@@ -25,27 +26,30 @@ before_install:
   - sudo /home/travis/miniconda/bin/conda update --yes conda
   - sudo /home/travis/miniconda/bin/conda install --yes pip
   - export PATH=$MINICONDA_BIN:$PATH
+  ## Setup the build environment.
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+  - sudo add-apt-repository ppa:boost-latest/ppa
+  - sudo apt-get update -qq
 
 install:
-  - ./setup_environment.sh --quiet --ub12 --pyenabled --nomat --nocaffe /home/travis/caffe-models --cpu-only --suppress-caffe-model-download /home/travis/miniconda/bin
-  ## valgrind
-  - sudo apt-get install -qq libc6-dbg > allout.txt 2>&1
-  - wget http://valgrind.org/downloads/valgrind-3.10.1.tar.bz2 > allout.txt 2>&1
-  - tar -xvf valgrind-3.10.1.tar.bz2 > allout.txt 2>&1
-  - cd valgrind-3.10.1
-  - ./configure > allout.txt 2>&1 && make > allout.txt 2>&1 && sudo make install > allout.txt 2>&1
-  - cd ..
+  - sudo /home/travis/miniconda/bin/conda install --yes networkx ply numpy scipy pillow scikit-image matplotlib scikit-learn
+  - sudo apt-get -y install libboost-thread1.55-dev libboost-system1.55-dev libboost-test1.55-dev libboost-filesystem1.55-dev libboost-date-time1.55-dev libboost-serialization1.55-dev libboost-python1.55-dev
+  - sudo apt-get -y install g++-4.8
+  ## CMake
+  - wget http://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.sh
+  - chmod a+x cmake-3.2.3-Linux-x86_64.sh
+  - sudo ./cmake-3.2.3-Linux-x86_64.sh --skip-license --prefix=/usr/local
+  - export PATH=/usr/local/bin:$PATH
+  - cmake --version
 
 before_script:
   - export OMP_NUM_THREADS=2
+  - export CXX=g++-4.8
+  - export CC=g++4.8
+  - mkdir build
+  - cd build
 
 script:
-  - source setup_paths.sh
-  - scons --with-tests --with-examples
-  - cd fertilized_tests
-  - valgrind --leak-check=full --show-reachable=yes --suppressions=./fertilized_tests.supp ./fertilized_tests --run_test=Correctness*/*
-  - cd ..
-
-after_failure:
-  - cat config.log
-
+  - cmake ..
+  - cmake --build .
+  - cmake --build . --target=test

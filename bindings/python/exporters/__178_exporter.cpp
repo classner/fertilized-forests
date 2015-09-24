@@ -8,9 +8,9 @@
 namespace pyfertilized {
   void __python_export_178() {
     export_ClassificationThresholdOptimizer<
-              uint8_t,
-              uint8_t,
+              double,
+              double,
               uint
-                            >("_uint8_uint8_uint");
+                            >("_d_d_uint");
   };
 }  // namespace pyfertilized

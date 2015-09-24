@@ -9,10 +9,10 @@ namespace pyfertilized {
   void __python_export_189() {
     export_Samme_R<
               uint8_t,
-              int16_t,
-              int16_t,
+              uint8_t,
+              uint,
               std::vector<float>,
               std::vector<float>
-                            >("_uint8_int16_int16_fv_fv");
+                            >("_uint8_uint8_uint_fv_fv");
   };
 }  // namespace pyfertilized

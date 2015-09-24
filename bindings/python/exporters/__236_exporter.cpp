@@ -3,11 +3,11 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__TsallisEntropy_exporter.h"
+#include "./__RenyiEntropy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_236() {
-    export_TsallisEntropy<
+    export_RenyiEntropy<
               uint
                             >("_uint");
   };

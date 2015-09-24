@@ -6,7 +6,7 @@ Created on Sat Apr 05 10:56:16 2014
 """
 import os
 import sys
-sys.path.insert(0, os.path.join('..', '..', 'bindings', 'python'))
+sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 if len(sys.argv) > 1:
   print 'Quiet mode. Plot display disabled.'
   INTERACTIVE = False
@@ -72,7 +72,7 @@ for dec_name in ['aligned', 'linear', 'quadratic']:
   plt.figure()
   plt.contour(Xm, Ym, Zm)
   plt.scatter(X[:, 0], X[:, 1], c=Y)
-  plt.title(dec_name)
-  plt.savefig('decider_%s.png' % (dec_name))
   if INTERACTIVE:
+      plt.title(dec_name)
+      plt.savefig('decider_%s.png' % (dec_name))
       plt.show()

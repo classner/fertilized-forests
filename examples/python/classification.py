@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Apr 06 09:32:17 2014
-
-@author: lassnech
-"""
 import os
 import sys
-sys.path.insert(0, os.path.join('..', '..', 'bindings', 'python'))
+sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 if len(sys.argv) > 1:
   print 'Quiet mode. Plot display disabled.'
   INTERACTIVE = False
@@ -50,7 +45,8 @@ for rs in xrange(1, 201):
   dec_name='aligned'
   #%% Create stump.
   if dec_name == 'aligned':
-    feat_sel_prov = soil.StandardFeatureSelectionProvider(2, 1, 2, 2, random_seed=rs)
+    feat_sel_prov = soil.StandardFeatureSelectionProvider(2, 1, 2, 2,
+                                                          random_seed=rs)
   else:
     feat_sel_prov = soil.StandardFeatureSelectionProvider(1, 2, 2, 2)
   if dec_name == 'aligned':
@@ -59,11 +55,11 @@ for rs in xrange(1, 201):
     feat_calc = soil.LinearSurfaceCalculator(400)
   elif dec_name == 'quadratic':
     feat_calc = soil.QuadraticSurfaceCalculator(400,
-                                                       np.array([X[:, 0].min(),
-                                                                 X[:, 0].max(),
-                                                                 X[:, 1].min(),
-                                                                 X[:, 1].max()],
-                                                                dtype='float32'))
+                                                np.array([X[:, 0].min(),
+                                                          X[:, 0].max(),
+                                                          X[:, 1].min(),
+                                                          X[:, 1].max()],
+                                                         dtype='float32'))
   stump = soil.Tree(1,
                     1,
                     2,
@@ -94,21 +90,22 @@ for rs in xrange(1, 201):
     plt.ylim((ploty[0], ploty[1]))
     plt.gca().set_aspect('equal')
     plt.title('Tree %d' % (rs))
-    plt.savefig('classification_stump_%d.png' % (rs))
     if INTERACTIVE:
+        plt.savefig('classification_stump_%d.png' % (rs))
         plt.show()
 
 print "Stump 0 depth: ", stumps[0].depth()
 forest8 = soil.CombineTrees(stumps[:8])
 forest = soil.CombineTrees(stumps)
 
-plt.figure()
-point_prob_plot(forest8, X, Y, plotx, ploty)
-plt.title('8 Trees')
-plt.savefig('uncertainty_quality_8.png')
+if INTERACTIVE:
+    plt.figure()
+    point_prob_plot(forest8, X, Y, plotx, ploty)
+    plt.title('8 Trees')
+    plt.savefig('uncertainty_quality_8.png')
 
-plt.figure()
-point_prob_plot(forest, X, Y, plotx, ploty)
-plt.title('200 Trees')
-plt.savefig('uncertainty_quality_200.png')
+    plt.figure()
+    point_prob_plot(forest, X, Y, plotx, ploty)
+    plt.title('200 Trees')
+    plt.savefig('uncertainty_quality_200.png')
 assert sklearn.metrics.accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95

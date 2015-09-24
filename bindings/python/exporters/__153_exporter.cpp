@@ -3,13 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ClassificationLeafManager_exporter.h"
+#include "./__DirectPatchDifferenceSurfCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_153() {
-    export_ClassificationLeafManager<
-              float,
-              uint
-                            >("_f_uint");
+    export_DirectPatchDifferenceSurfCalculator<
+              uint8_t,
+              int16_t,
+              int16_t
+                            >("_uint8_int16_int16");
   };
 }  // namespace pyfertilized

@@ -3,14 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ThresholdDecider_exporter.h"
+#include "./__AdaBoost_exporter.h"
 
 namespace pyfertilized {
   void __python_export_267() {
-    export_ThresholdDecider<
-              int,
-              int,
-              uint
-                            >("_i_i_uint");
+    export_AdaBoost<
+              double,
+              double,
+              uint,
+              std::vector<float>,
+              std::vector<float>
+                            >("_d_d_uint_fv_fv");
   };
 }  // namespace pyfertilized

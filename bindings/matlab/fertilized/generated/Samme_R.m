@@ -1,15 +1,18 @@
 classdef Samme_R < FertilizedObject
     % SAMME.R real boosting algorithm implementation
     % 
-    % Implements the SAMME.R real boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie
+    % Implements the SAMME.R real boosting algorithm proposed by J. Zhu,
+    % H. Zou, S. Rosset and T. Hastie ("Multi-class AdaBoost", 2009).
     % 
-    % See Zhu, H. Zou, S. Rosset, T. Hastie, "Multi-class AdaBoost", 2009
+    % One can set the learning rate which specifies the contribution of
+    % each classifier.
     % 
-    % One can set the learning rate which specifies the contribution of each classifier
+    % Output when using BoostingLeafManager is
+    % :math:`log(p_k^m(x))-1/K*sum_k(log(p_k^m(x)))`.
     % 
-    % Output when using BoostingLeafManager is log(p_k^m(x))-1/K*sum_k(log(p_k^m(x)))
-    % 
-    % with x the sample to classify, K the number of classes, k the classIndex, m the estimatorIndex and p the estimator probability
+    % with :math:`x` the sample to classify, :math:`K` the number of classes,
+    % :math:`k` the classIndex, :math:`m` the estimatorIndex and :math:`p` the
+    % estimator probability.
     % 
     % 
     % -----

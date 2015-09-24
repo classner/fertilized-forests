@@ -244,12 +244,12 @@ BOOST_AUTO_TEST_CASE(Speeds_EntropyGainSpeedIsNormal) {
   test_IGainCalcSpeed<unsigned int>(&euis.egain, 220.f,
       "EntropyGain<unsigned int>(ShannonEntropy)");
 
-  auto egfip =     std::shared_ptr<IGainCalculator<float>>(
+  auto egfip = std::shared_ptr<IGainCalculator<float>>(
         new EntropyGain<float>(std::make_shared<InducedEntropy<float>>(2.f)));
   test_IGainCalcSpeed<float>(&egfip, 100.f,
     "EntropyGain<float>(InducedPEntropy(2))");
 
-  auto eguiip =     std::shared_ptr<IGainCalculator<unsigned int>>(
+  auto eguiip = std::shared_ptr<IGainCalculator<unsigned int>>(
         new EntropyGain<unsigned int>(
           std::make_shared<InducedEntropy<unsigned int>>(2.f)));
   test_IGainCalcSpeed<unsigned int>(&eguiip, 105.f,

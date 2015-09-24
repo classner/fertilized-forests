@@ -5,14 +5,14 @@
 
 #include <vector>
 
-#include <opencv2/opencv.hpp>
-
 #include "../global.h"
+#ifdef WITH_OPENCV
+#include <opencv2/opencv.hpp>
 #include "./hog_extractor.h"
 
 namespace fertilized {
     /**
-     * Extract the Hough forest features. If `full` is set, uses the 
+     * Extract the Hough forest features. If `full` is set, uses the
      * 32 feature channels used by Juergen Gall in his original publications,
      * else use 15 feature channels as used by Matthias Dantone.
      *
@@ -28,5 +28,5 @@ namespace fertilized {
                                                   const cv::Mat &image,
                                                   const bool &full=false);
 }  // namespace fertilized
-
+#endif // WITH_OPENCV
 #endif // FERTILIZED_FEATURE_EXTRACTION_VISION_H_

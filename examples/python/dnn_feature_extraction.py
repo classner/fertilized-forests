@@ -6,7 +6,7 @@ Created on Fri Mar 13 11:40:48 2015
 """
 import os
 import sys
-sys.path.insert(0, os.path.join('..', '..', 'bindings', 'python'))
+sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 
 import numpy as np
 import numpy.testing as npt

@@ -59,13 +59,14 @@ namespace pyfertilized {
                (("Samme" + type_short).c_str(),
                 "SAMME boosting algorithm implementation\n\
 \n\
-Implements the SAMME boosting algorithm proposed by J. Zhu, H. Zou, S. Rosset and T. Hastie\n\
+Implements the SAMME boosting algorithm proposed by J. Zhu, H. Zou,\n\
+S. Rosset and T. Hastie (\"Multi-class AdaBoost\", 2009).\n\
 \n\
-See Zhu, H. Zou, S. Rosset, T. Hastie, \"Multi-class AdaBoost\", 2009\n\
+One can set the learning rate which specifies the contribution of each\n\
+classifier.\n\
 \n\
-One can set the learning rate which specifies the contribution of each classifier\n\
-\n\
-Output when using BoostingLeafManager is estimator_probability*estimator_weight\n\
+Output when using BoostingLeafManager is\n\
+estimator_probability*estimator_weight.\n\
 \n\
 \n\
 -----\n\

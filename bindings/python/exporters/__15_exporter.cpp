@@ -10,9 +10,9 @@ namespace pyfertilized {
     export_ITraining<
               float,
               float,
-              uint,
-              std::vector<float>,
-              std::vector<float>
-                            >("_f_f_uint_fv_fv");
+              float,
+              std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,
+              std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
+                            >("_f_f_f_rpf_vprpff");
   };
 }  // namespace pyfertilized

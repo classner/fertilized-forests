@@ -58,7 +58,9 @@ void test_ClassThresholdOptFindsPerfectSplit(
   for (size_t i =0; i < 300; ++i)
     feats[i] = static_cast<F>(i);
   bool valid;
-  auto res = to -> optimize(0, 0, 1, 300, dp2.input_data.get(),10, dp2.annot_data.get(), 1, dp2.weights.get(), &feats[0], &valid);
+  auto res = to -> optimize(0, 0, 1, 300, dp2.input_data.get(),
+                                      10, dp2.annot_data.get(),
+                                       1, dp2.weights.get(), &feats[0], &valid);
   BOOST_REQUIRE(valid);
   if (std::is_floating_point<F>())
     BOOST_CHECK(std::get<1>(res) == EThresholdSelection::less_only &&
@@ -85,7 +87,10 @@ void test_ClassThresholdOptFindsPerfectSplit(
       *annot_p = static_cast<unsigned int>(i / 100);
   });
   auto elem_ids3 = dp3.dprov -> get_initial_sample_list();
-  auto res3 = to3 -> optimize(0, 0, 1, 300, dp3.input_data.get(), 10, dp3.annot_data.get(), 1, dp3.weights.get(), &feats[0], &valid);
+  auto res3 = to3 -> optimize(0, 0, 1, 300, dp3.input_data.get(),
+                                        10, dp3.annot_data.get(),
+                                         1, dp3.weights.get(),
+                              &feats[0], &valid);
   BOOST_REQUIRE(valid);
   if (std::is_floating_point<F>())
     BOOST_CHECK(std::get<1>(res) == EThresholdSelection::less_only &&
@@ -145,20 +150,7 @@ BOOST_AUTO_TEST_CASE(Correctness_ThresholdFindsPerfectSplit) {
   to3uiui.prepare_for_optimizing(0, 1);
   test_ClassThresholdOptFindsPerfectSplit(&to2uiui, 0.0460885167f, false,
     &to3uiui, 0.918295920f, false);
-/*
-  RandomizedClassificationThresholdOptimizer<unsigned int, float, unsigned int> rto2uif(300, 2, ef.egain);
-  rto2uif.prepare_for_optimizing(0, 1);
-  RandomizedClassificationThresholdOptimizer<unsigned int, float, unsigned int> rto3uif(300, 3, ef.egain);
-  rto3uif.prepare_for_optimizing(0, 1);
-  test_ClassThresholdOptFindsPerfectSplit(&rto2uif, 0.0447055697f, false,
-    &rto3uif, 0.918295920f, false);
-  RandomizedClassificationThresholdOptimizer<unsigned int, unsigned int, unsigned int> rto2uiui(300, 2, ef.egain);
-  rto2uiui.prepare_for_optimizing(0, 1);
-  RandomizedClassificationThresholdOptimizer<unsigned int, unsigned int, unsigned int> rto3uiui(300, 3, ef.egain);
-  rto3uiui.prepare_for_optimizing(0, 1);
-  test_ClassThresholdOptFindsPerfectSplit(&rto2uiui, 0.0460885167f, false,
-    &rto3uiui, 0.918295920f, false);
-*/
+
   auto indpent = std::shared_ptr<fertilized::IEntropyFunction<float>>(
     new InducedEntropy<float>(1.50001f - 0.25f));
   VarianceClassificationThresholdOptimizer<float, float, unsigned int> vct2(
@@ -182,16 +174,22 @@ BOOST_AUTO_TEST_CASE(Correctness_ThresholdFindsPerfectSplit) {
   std::vector<float> feats(300);
   for (size_t i = 0; i < 300; ++i)
     feats[i] = static_cast<float>(i);
-  auto res = vct2.optimize(0, 0, 1, 300, dp2.input_data.get(), 10, dp2.annot_data.get(), 3, dp2.weights.get(), &feats[0], &valid);
+  auto res = vct2.optimize(0, 0, 1, 300, dp2.input_data.get(),
+                                     10, dp2.annot_data.get(),
+                                      3, dp2.weights.get(), &feats[0], &valid);
   BOOST_CHECK_EQUAL(std::get<2>(res), 150);
   BOOST_CHECK_EQUAL(std::get<3>(res), 150);
   BOOST_CHECK_EQUAL(std::get<4>(res), 11250.f);
-  res = vct3.optimize(0, 0, 1, 300, dp2.input_data.get(), 10, dp2.annot_data.get(), 3, dp2.weights.get(), &feats[0], &valid);
+  res = vct3.optimize(0, 0, 1, 300, dp2.input_data.get(),
+                                10, dp2.annot_data.get(),
+                                 3, dp2.weights.get(), &feats[0], &valid);
   BOOST_CHECK_EQUAL(std::get<2>(res), 150);
   BOOST_CHECK_EQUAL(std::get<3>(res), 150);
 
-  auto to2fuip = std::make_shared<ClassificationThresholdOptimizer<int, float, unsigned int>>(true, 2, ef.egain, 1E-7f, 3);
-  auto vct2p = std::make_shared<VarianceClassificationThresholdOptimizer<int, float, unsigned int>>(300, 2, 2);
+  auto to2fuip = std::make_shared<ClassificationThresholdOptimizer<int, float, unsigned int>>(
+    true, 2, ef.egain, 1E-7f, 3);
+  auto vct2p = std::make_shared<VarianceClassificationThresholdOptimizer<int, float, unsigned int>>(
+    300, 2, 2);
   AlternatingThresholdOptimizer<int, float, unsigned int> atp2(to2fuip, vct2p);
 };
 
@@ -238,13 +236,20 @@ BOOST_AUTO_TEST_CASE(Serialization_RandomizedClassificationThresholdOptimizer) {
   auto rto2 = std::make_shared<RandomizedClassificationThresholdOptimizer<float, float, unsigned int>>(
                       10, 2, ef.egain);
   rto2 -> prepare_for_optimizing(0, 1);
-  rto2 -> optimize(0, 0, 1, 10, dp2.input_data.get(), 10, dp2.annot_data.get(), 1, dp2.weights.get(), &feats[0], &valid);
+  rto2 -> optimize(0, 0, 1, 10, dp2.input_data.get(),
+                            10, dp2.annot_data.get(),
+                             1, dp2.weights.get(), &feats[0], &valid);
   auto restored_rto2 = serialize_deserialize(rto2);
   rto2 -> prepare_for_optimizing(0, 1);
-  auto res = rto2 -> optimize(0, 0, 1, 10, dp2.input_data.get(), 10, dp2.annot_data.get(), 1, dp2.weights.get(), &feats[0], &valid);
+  auto res = rto2 -> optimize(0, 0, 1, 10, dp2.input_data.get(),
+                                       10, dp2.annot_data.get(),
+                                        1, dp2.weights.get(), &feats[0], &valid);
   BOOST_REQUIRE(valid);
   restored_rto2 -> prepare_for_optimizing(0, 1);
-  auto res_restored = restored_rto2 -> optimize(0, 0, 1, 10, dp2.input_data.get(), 10, dp2.annot_data.get(), 1, dp2.weights.get(), &feats[0], &valid);
+  auto res_restored = restored_rto2 -> optimize(0, 0, 1, 10, dp2.input_data.get(),
+                                                         10, dp2.annot_data.get(),
+                                                          1, dp2.weights.get(),
+                                                &feats[0], &valid);
   BOOST_REQUIRE(valid);
   BOOST_CHECK_EQUAL(std::get<0>(res).first, std::get<0>(res_restored).first);
   BOOST_CHECK_EQUAL(std::get<0>(res).second, std::get<0>(res_restored).second);
@@ -275,7 +280,10 @@ void test_ClassifThresholdOptimizerSpeed(IThresholdOptimizer<T, F, unsigned int>
     : features(feats), feat_ids(elem_ids), pfix(pfix), to(to) {
       to -> prepare_for_optimizing(0, 1);
     }
-    int operator()() { return static_cast<int>(std::get<2>(to -> optimize(0, 0, 1, 10, pfix -> input_data.get(), 10, pfix -> annot_data.get(), 1, pfix -> weights.get(), &features[0], &valid))); }
+    int operator()() { return static_cast<int>(std::get<2>(to -> optimize(
+      0, 0, 1, 10, pfix -> input_data.get(),
+               10, pfix -> annot_data.get(),
+                1, pfix -> weights.get(), &features[0], &valid))); }
    private:
     std::vector<F> features;
     std::shared_ptr<const std::vector<size_t>> feat_ids;

@@ -32,16 +32,19 @@ int main() {
   decltype(soil.ileafmanager_vec_t()) lm;  // Leaf managers
 
   for (uint i = 0; i < n_trees; ++i) {
-      auto stdFeatureSelect = soil.StandardFeatureSelectionProvider(1, 2, 2, 2, 1+i);
+      auto stdFeatureSelect = soil.StandardFeatureSelectionProvider(
+        1, 2, 2, 2, 1+i);
       auto linSurface = soil.LinearSurfaceCalculator(400, 2, 1+i);
 
       // RandomizedClassificationThresholdOptimizer
       auto shannon = soil.ShannonEntropy();
       auto entropyGain = soil.EntropyGain(shannon);
-      auto rcto = soil.RandomizedClassificationThresholdOptimizer(1, 2, entropyGain, 0, 1, 1+i);
+      auto rcto = soil.RandomizedClassificationThresholdOptimizer(
+        1, 2, entropyGain, 0, 1, 1+i);
 
       // ThresholdDecider
-      auto tClassifier = soil.ThresholdDecider(stdFeatureSelect, linSurface, rcto);
+      auto tClassifier = soil.ThresholdDecider(
+        stdFeatureSelect, linSurface, rcto);
 
       // ClassificationLeafManager
       auto leafMgr = soil.ClassificationLeafManager(2);
