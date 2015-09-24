@@ -7,24 +7,8 @@ branches:
     - dev_cmake
 
 env:
-  serialization:
-    - BUILD_WITH_SERIALIZATION=ON
-    - BUILD_WITH_SERIALIZATION=OFF
-  python_bindings:
-    - BUILD_WITH_PYTHON=ON
-    - BUILD_WITH_PYTHON=OFF
-
-matrix:
-  exclude:
-    - env: BUILD_WITH_SERIALIZATION=ON
-        env: BUILD_WITH_PYTHON=ON
-    - env: BUILD_WITH_SERIALIZATION=OFF
-        env: BUILD_WITH_PYTHON=OFF
-
-notifications:
-  email:
-    on_success: changed
-    on_failure: changed
+    - BUILD_WITH_SERIALIZATION_WO_PYTHON=true
+    - BUILD_WITH_SERIALIZATION_WO_PYTHON=false
 
 before_install:
   ## Use Miniconda for Python.
@@ -67,6 +51,6 @@ before_script:
   - cd build
 
 script:
-  - cmake -DWITH_SERIALIZATION=$BUILD_WITH_SERIALIZATION -DWITH_PYTHON=$BUILD_WITH_PYTHON ..
+  - ../build_support/travis/cmake_call.sh
   - cmake --build . -- -j2
   - cmake --build . --target test
