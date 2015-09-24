@@ -23,7 +23,12 @@ usual name, because they are meant to be included by library end-users.
    interface.
 * `SERIALIZATION_ENABLED`: If this symbol is defined, all serialization
    methods of the library can be used. This adds a dependendy on boost
-   serialization. It is automatically defined by the build system if the flag `--with-serialization`  is used.
+   serialization. It is automatically defined by the build system if the flag
+   `--with-serialization`  is used.
+* `CAFFE_CPU_ONLY`: Defined, if only the CPU build of caffe is used to be
+   linked against.
+* `WITH_OPENCV`: If defined, the feature extraction methods for images are
+   built, otherwise they are omitted.
 
 ## Pointers
 

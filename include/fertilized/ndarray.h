@@ -11,7 +11,7 @@
 #ifndef NDARRAY_ndarray_h_INCLUDED
 #define NDARRAY_ndarray_h_INCLUDED
 
-/** 
+/**
  *  @file ndarray.h
  *  @brief Main public header file for ndarray.
  */
@@ -28,7 +28,7 @@
 
 namespace ndarray {
 
-/** 
+/**
  * @mainpage Multidimensional Arrays in C++
  *
  * %ndarray is a template library that provides multidimensional array objects in C++, with
@@ -84,7 +84,7 @@ namespace ndarray {
  * strides are not appropriately RMC, while static_dimension_cast does no checking).
  *
  * @section ndarrayViews Indexing and Views
- * An Array with dimension N>1 behaves like largely like 
+ * An Array with dimension N>1 behaves like largely like
  * an STL container of Array of dimension N-1.  An Array with dimension 1 behaves like a
  * simple container of elements.  Iterators over an Array with N>1 thus dereference
  * to Arrays with dimension N-1, and standard [] indexing also yields
@@ -115,7 +115,7 @@ namespace ndarray {
  * http://ndarray.googlecode.com/svn/trunk/COPYING
  */
 
-/** 
+/**
  * @page ndarrayTutorial Multidimensional Arrays Tutorial (ndarray)
  *
  * Array objects have two normal constructors intended for public use, the default
@@ -137,6 +137,15 @@ namespace ndarray {
  * used to specify shape and strides for Array.  The appropriate Vector template
  * for a particular Array template is available as the Index typedef within the
  * Array class.
+ *
+ * The template parameters to `Array` are:
+ *
+ *   * the datatype,
+ *   * the total number of dimensions,
+ *   * the number of row-major contiguous dimensions.
+ *
+ * Since the fertilized library currently only works with row-major arrays,
+ * you have to currently always set the two numbers to an equal value.
  *
  * The allocate function can also take an STL allocator as a template argument
  * and/or regular argument:
@@ -246,7 +255,7 @@ namespace ndarray {
  * it may be advantageous to move the calls to end() outside their loops.
  *
  * Just like direct indexing, multidimensional array iterators dereference to ArrayRef, not Array.
- * 
+ *
  * STL-compliant typedefs "iterator", "const_iterator", "reference", "const_reference", and "value"
  * are also provided, though the const variants are not actually const (because Array provides
  * smart-pointer const-correctness rather than container const-correctness).
@@ -324,7 +333,7 @@ namespace ndarray {
  * bool v1 = all(logical_or(greater(a, b), greater(a, 3.0)));
  * bool v2 = any(less(b, a));
  * @endcode
- * 
+ *
  * Array does overload the equality and inequality operators, but these compare for "shallow" equality,
  * not element-wise equality:
  * @code
