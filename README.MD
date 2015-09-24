@@ -49,7 +49,7 @@ to the CMake call.
 If you plan to extend or modify the library, please have a look at the
 dedicated [developers guide](http://www.multimedia-computing.de/fertilized/pages/developers-guide.html).
 There is a `fertilized-devtools` project that provides a code generator to
-automatically keep the bindings and the serializationi code up-to-date.
+automatically keep the bindings and the serialization code up-to-date.
 
 ## Troubleshooting
 

@@ -6,6 +6,21 @@ branches:
   only:
     - dev_cmake
 
+env:
+  serialization:
+    - BUILD_WITH_SERIALIZATION=ON
+    - BUILD_WITH_SERIALIZATION=OFF
+  python_bindings:
+    - BUILD_WITH_PYTHON=ON
+    - BUILD_WITH_PYTHON=OFF
+
+matrix:
+  exclude:
+    - env: BUILD_WITH_SERIALIZATION=ON
+        env: BUILD_WITH_PYTHON=ON
+    - env: BUILD_WITH_SERIALIZATION=OFF
+        env: BUILD_WITH_PYTHON=OFF
+
 notifications:
   email:
     on_success: changed
@@ -52,6 +67,6 @@ before_script:
   - cd build
 
 script:
-  - cmake ..
+  - cmake -DWITH_SERIALIZATION=$BUILD_WITH_SERIALIZATION -DWITH_PYTHON=$BUILD_WITH_PYTHON ..
   - cmake --build . -- -j2
   - cmake --build . --target test

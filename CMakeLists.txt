@@ -140,8 +140,9 @@ endif ()
 
 # Configure the dependencies.
 find_package (Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+find_package(Eigen3 REQUIRED)
 add_definitions (-DEIGEN_MPL2_ONLY)
-include_directories (${PROJECT_SOURCE_DIR}/build_support/external/eigen3)
+include_directories (${EIGEN3_INCLUDE_DIR})
 
 
 # Targets.

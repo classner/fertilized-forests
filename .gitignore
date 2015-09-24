@@ -6,6 +6,7 @@ build_debug
 examples/python/*.png
 examples/python/*.pyc
 examples/python/__pycache__
+examples/matlab/test_tree.ft
 
 # The developer tools if installed.
 fertilized-devtools

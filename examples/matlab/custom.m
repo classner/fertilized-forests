@@ -1,6 +1,6 @@
 clear;
 close all;
-addpath('../../bindings/matlab/fertilized');
+addpath('../../build/bindings/matlab/fertilized');
 
 % load('testdata.mat');
 % Y = uint32(randi([0 1],200,1));

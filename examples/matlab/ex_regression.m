@@ -1,6 +1,6 @@
 clear;
 close all;
-addpath('../../bindings/matlab/fertilized');
+addpath('../../build/bindings/matlab/fertilized');
 
 % generate 2D samples from a polynomial function
 n_samples = 45;

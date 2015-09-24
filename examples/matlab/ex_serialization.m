@@ -1,6 +1,6 @@
 clear;
 close all;
-addpath('../../bindings/matlab/fertilized');
+addpath('../../build/bindings/matlab/fertilized');
 
 [X, Y] = make_spiral(100, 2, 0.1);
 
@@ -19,7 +19,7 @@ tree = soil.StandardClassificationTree(2, 2, 6, 2, 2);
 
 % fit tree
 tree.fit(X, Y);
-filename = strcat(pwd, '\test_tree.ser');
+filename = strcat('test_tree.ft');
 tree.save(filename);
 
 clear tree;

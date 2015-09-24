@@ -1,6 +1,6 @@
 clear;
 close all;
-addpath('../../bindings/matlab/fertilized');
+addpath('../../build/bindings/matlab/fertilized');
 
 load('classification_data.mat');
 
@@ -62,18 +62,15 @@ for i = 1:n_trees
     end
 end
 
-nss = s.NoBagging();
-training = s.ClassicTraining(nss);
-
 % create forest from first 8 stumps
-fft8 = s.ForestFromTrees(stumps(1:8), training);
+fft8 = s.CombineTrees(stumps(1:8));
 
 % paint prediction plot
 figure;
 point_prob_plot(fft8, X, Y, plotX, plotY);
 
 % create forest from stumps
-fft = s.ForestFromTrees(stumps, training);
+fft = s.CombineTrees(stumps);
 
 % paint prediction plot
 figure;
