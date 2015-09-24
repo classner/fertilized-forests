@@ -3,16 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__Forest_exporter.h"
+#include "./__Tree_exporter.h"
 
 namespace pyfertilized {
   void __python_export_112() {
-    export_Forest<
+    export_Tree<
               uint8_t,
-              uint8_t,
-              uint,
+              int16_t,
+              int16_t,
               std::vector<float>,
               std::vector<float>
-                            >("_uint8_uint8_uint_fv_fv");
+                            >("_uint8_int16_int16_fv_fv");
   };
 }  // namespace pyfertilized

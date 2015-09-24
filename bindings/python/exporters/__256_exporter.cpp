@@ -3,16 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__EqualDistBagging_exporter.h"
+#include "./__Samme_R_exporter.h"
 
 namespace pyfertilized {
   void __python_export_256() {
-    export_EqualDistBagging<
-              int,
-              int,
+    export_Samme_R<
+              uint8_t,
+              int16_t,
               uint,
               std::vector<float>,
               std::vector<float>
-                            >("_i_i_uint_fv_fv");
+                            >("_uint8_int16_uint_fv_fv");
   };
 }  // namespace pyfertilized

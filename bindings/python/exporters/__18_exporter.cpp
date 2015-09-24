@@ -8,11 +8,11 @@
 namespace pyfertilized {
   void __python_export_18() {
     export_IBoostingStrategy<
-              float,
-              float,
+              int,
+              int,
               uint,
               std::vector<float>,
               std::vector<float>
-                            >("_f_f_uint_fv_fv");
+                            >("_i_i_uint_fv_fv");
   };
 }  // namespace pyfertilized

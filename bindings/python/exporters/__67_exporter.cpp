@@ -3,13 +3,15 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IDataProvider_exporter.h"
+#include "./__ILeafManager_exporter.h"
 
 namespace pyfertilized {
   void __python_export_67() {
-    export_IDataProvider<
-              uint8_t,
-              uint
-                            >("_uint8_uint");
+    export_ILeafManager<
+              double,
+              double,
+              std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,
+              std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>
+                            >("_d_d_rpd_vprpfd");
   };
 }  // namespace pyfertilized

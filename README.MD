@@ -63,3 +63,11 @@ If all this fails or you find a bug, please post it on github!
 _Hint_: When building with MATLAB on Linux, you might run into an issue with
 MATLAB not finding GLIBCXX_X.Y.ZZ. It's a known issue of MATLAB and easy to fix.
 You can find the solution [here](https://fantasticzr.wordpress.com/2013/05/29/matlab-error-libstdc-so-version-glibcxx_3-4-15-not-found/).
+
+_Hint_: When building the Python bindings for Python 3 on Linux, you might
+have to
+
+    cd /usr/lib/x86_64-linux-gnu/
+    sudo ln -s libboost_python-py34.so libboost_python3.so
+
+if you encounter the problem that `boost_python3` can not be found.

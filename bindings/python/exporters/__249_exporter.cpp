@@ -3,16 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__NoBagging_exporter.h"
+#include "./__Samme_exporter.h"
 
 namespace pyfertilized {
   void __python_export_249() {
-    export_NoBagging<
-              double,
-              double,
+    export_Samme<
+              uint8_t,
+              uint8_t,
               uint,
               std::vector<float>,
               std::vector<float>
-                            >("_d_d_uint_fv_fv");
+                            >("_uint8_uint8_uint_fv_fv");
   };
 }  // namespace pyfertilized

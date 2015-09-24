@@ -3,11 +3,11 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ClassificationThresholdOptimizer_exporter.h"
+#include "./__DifferenceSurfaceCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_178() {
-    export_ClassificationThresholdOptimizer<
+    export_DifferenceSurfaceCalculator<
               double,
               double,
               uint

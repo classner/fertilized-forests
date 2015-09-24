@@ -3,12 +3,12 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__TsallisEntropy_exporter.h"
+#include "./__RegressionLeafManager_exporter.h"
 
 namespace pyfertilized {
   void __python_export_241() {
-    export_TsallisEntropy<
-              float
-                            >("_f");
+    export_RegressionLeafManager<
+              double
+                            >("_d");
   };
 }  // namespace pyfertilized

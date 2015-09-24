@@ -3,14 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__DifferenceSurfaceCalculator_exporter.h"
+#include "./__DirectPatchDifferenceSurfCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_180() {
-    export_DifferenceSurfaceCalculator<
-              int,
-              int,
+    export_DirectPatchDifferenceSurfCalculator<
+              uint8_t,
+              int16_t,
               uint
-                            >("_i_i_uint");
+                            >("_uint8_int16_uint");
   };
 }  // namespace pyfertilized

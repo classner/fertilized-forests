@@ -3,11 +3,11 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__BoostedTraining_exporter.h"
+#include "./__AdaBoost_exporter.h"
 
 namespace pyfertilized {
   void __python_export_116() {
-    export_BoostedTraining<
+    export_AdaBoost<
               int,
               int,
               uint,

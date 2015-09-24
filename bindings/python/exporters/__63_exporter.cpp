@@ -3,16 +3,15 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IBaggingStrategy_exporter.h"
+#include "./__ILeafManager_exporter.h"
 
 namespace pyfertilized {
   void __python_export_63() {
-    export_IBaggingStrategy<
-              float,
-              float,
-              float,
-              std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,
-              std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
-                            >("_f_f_f_rpf_vprpff");
+    export_ILeafManager<
+              uint8_t,
+              uint,
+              std::vector<float>,
+              std::vector<float>
+                            >("_uint8_uint_fv_fv");
   };
 }  // namespace pyfertilized

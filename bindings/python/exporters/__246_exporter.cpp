@@ -3,12 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ConstantRegressionCalculator_exporter.h"
+#include "./__Samme_exporter.h"
 
 namespace pyfertilized {
   void __python_export_246() {
-    export_ConstantRegressionCalculator<
-              double
-                            >("_d");
+    export_Samme<
+              int,
+              int,
+              uint,
+              std::vector<float>,
+              std::vector<float>
+                            >("_i_i_uint_fv_fv");
   };
 }  // namespace pyfertilized

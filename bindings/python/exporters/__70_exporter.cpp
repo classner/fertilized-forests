@@ -3,13 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IDataProvider_exporter.h"
+#include "./__ISampleManager_exporter.h"
 
 namespace pyfertilized {
   void __python_export_70() {
-    export_IDataProvider<
-              double,
-              double
-                            >("_d_d");
+    export_ISampleManager<
+              uint8_t,
+              int16_t
+                            >("_uint8_int16");
   };
 }  // namespace pyfertilized

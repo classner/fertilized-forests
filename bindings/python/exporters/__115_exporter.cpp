@@ -3,11 +3,11 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__Forest_exporter.h"
+#include "./__Tree_exporter.h"
 
 namespace pyfertilized {
   void __python_export_115() {
-    export_Forest<
+    export_Tree<
               double,
               double,
               double,

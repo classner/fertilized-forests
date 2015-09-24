@@ -9,12 +9,12 @@
 
 #include "../global.h"
 #include "../util.h"
-#include <fertilized/forest.h>
+#include <fertilized/feature_extraction/dnnfeatureextractor.h>
 
 using namespace fertilized;
 
 namespace pyfertilized {
   void __export_vectors_20() {
-    custom_vector_from_seq<typename fertilized::Forest<double,double,double,std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>>::tree_ptr_t>();
+    custom_vector_from_seq<fertilized::Array<float, 3, 3>>();
   };
 }  // namespace pyfertilized

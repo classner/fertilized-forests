@@ -15,6 +15,6 @@ using namespace fertilized;
 
 namespace pyfertilized {
   void __export_vectors_14() {
-    custom_vector_from_seq<std::shared_ptr<typename fertilized::Forest<uint8_t,uint8_t,uint,std::vector<float>,std::vector<float>>::dec_t>>();
+    custom_vector_from_seq<std::shared_ptr<typename fertilized::Forest<uint8_t,uint8_t,uint,std::vector<float>,std::vector<float>>::leaf_man_t>>();
   };
 }  // namespace pyfertilized

@@ -322,7 +322,7 @@ using namespace fertilized;
     auto __converted_fdata_provider = *reinterpret_cast<std::shared_ptr<fertilized::Forest<uint8_t, int16_t, int16_t, std::pair<float, std::shared_ptr<std::vector<int16_t>>>, std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>>>::fdprov_t>*>(fdata_provider);
               
 
-    auto __shptr_execution_strategy = *reinterpret_cast<std::shared_ptr<fertilized::Forest<uint8_t,int16_t,int16_t,std::pair<float, std::shared_ptr<std::vector<int16_t>>>,std::vector<std::pair<float, std::shared_ptr<std::vector<int16_t>>>>>::exec_strat_t>*>(execution_strategy);
+    auto __shptr_execution_strategy = *reinterpret_cast<std::shared_ptr<fertilized::exec_strat_t>*>(execution_strategy);
     auto __converted_execution_strategy = (__shptr_execution_strategy.get());
             
 

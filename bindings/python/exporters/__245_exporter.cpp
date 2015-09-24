@@ -3,12 +3,12 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ConstantRegressionCalculator_exporter.h"
+#include "./__RenyiEntropy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_245() {
-    export_ConstantRegressionCalculator<
-              float
-                            >("_f");
+    export_RenyiEntropy<
+              uint
+                            >("_uint");
   };
 }  // namespace pyfertilized

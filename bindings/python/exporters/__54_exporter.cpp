@@ -3,12 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IRegressionCalculator_exporter.h"
+#include "./__IForestDataProvider_exporter.h"
 
 namespace pyfertilized {
   void __python_export_54() {
-    export_IRegressionCalculator<
-              double
-                            >("_d");
+    export_IForestDataProvider<
+              uint8_t,
+              int16_t
+                            >("_uint8_int16");
   };
 }  // namespace pyfertilized

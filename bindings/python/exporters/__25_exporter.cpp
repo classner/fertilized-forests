@@ -3,12 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IGainCalculator_exporter.h"
+#include "./__IDataProvider_exporter.h"
 
 namespace pyfertilized {
   void __python_export_25() {
-    export_IGainCalculator<
+    export_IDataProvider<
+              int,
               uint
-                            >("_uint");
+                            >("_i_uint");
   };
 }  // namespace pyfertilized

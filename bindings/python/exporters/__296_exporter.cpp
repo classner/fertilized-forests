@@ -3,16 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__LocalExecutionStrategy_exporter.h"
+#include "./__UnchangedFDataProvider_exporter.h"
 
 namespace pyfertilized {
   void __python_export_296() {
-    export_LocalExecutionStrategy<
+    export_UnchangedFDataProvider<
               float,
-              float,
-              uint,
-              std::vector<float>,
-              std::vector<float>
-                            >("_f_f_uint_fv_fv");
+              float
+                            >("_f_f");
   };
 }  // namespace pyfertilized

@@ -3,16 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ClassicTraining_exporter.h"
+#include "./__AlignedSurfaceCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_125() {
-    export_ClassicTraining<
-              uint8_t,
-              uint8_t,
-              uint,
-              std::vector<float>,
-              std::vector<float>
-                            >("_uint8_uint8_uint_fv_fv");
+    export_AlignedSurfaceCalculator<
+              float,
+              float
+                            >("_f_f");
   };
 }  // namespace pyfertilized

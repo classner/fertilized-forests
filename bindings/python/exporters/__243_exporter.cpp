@@ -3,12 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__LinearRegressionCalculator_exporter.h"
+#include "./__RegressionThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_243() {
-    export_LinearRegressionCalculator<
-              float
-                            >("_f");
+    export_RegressionThresholdOptimizer<
+              double,
+              double
+                            >("_d_d");
   };
 }  // namespace pyfertilized

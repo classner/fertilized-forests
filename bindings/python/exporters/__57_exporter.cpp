@@ -3,16 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IBaggingStrategy_exporter.h"
+#include "./__IForestDataProvider_exporter.h"
 
 namespace pyfertilized {
   void __python_export_57() {
-    export_IBaggingStrategy<
+    export_IForestDataProvider<
               float,
-              float,
-              uint,
-              std::vector<float>,
-              std::vector<float>
-                            >("_f_f_uint_fv_fv");
+              float
+                            >("_f_f");
   };
 }  // namespace pyfertilized

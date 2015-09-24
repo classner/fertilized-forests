@@ -3,14 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__VarianceClassificationThresholdOptimizer_exporter.h"
+#include "./__LinearSurfaceCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_199() {
-    export_VarianceClassificationThresholdOptimizer<
-              int,
-              float,
+    export_LinearSurfaceCalculator<
+              uint8_t,
               uint
-                            >("_i_f_uint");
+                            >("_uint8_uint");
   };
 }  // namespace pyfertilized

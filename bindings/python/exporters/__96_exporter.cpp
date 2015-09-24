@@ -3,16 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IExecutionStrategy_exporter.h"
+#include "./__ITraining_exporter.h"
 
 namespace pyfertilized {
   void __python_export_96() {
-    export_IExecutionStrategy<
-              float,
-              float,
-              float,
-              std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,
-              std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
-                            >("_f_f_f_rpf_vprpff");
+    export_ITraining<
+              int,
+              int,
+              uint,
+              std::vector<float>,
+              std::vector<float>
+                            >("_i_i_uint_fv_fv");
   };
 }  // namespace pyfertilized

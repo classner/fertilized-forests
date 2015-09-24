@@ -3,13 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IForestDataProvider_exporter.h"
+#include "./__IThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_88() {
-    export_IForestDataProvider<
+    export_IThresholdOptimizer<
               float,
-              float
-                            >("_f_f");
+              int,
+              uint
+                            >("_f_i_uint");
   };
 }  // namespace pyfertilized

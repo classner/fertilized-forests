@@ -53,5 +53,5 @@ before_script:
 
 script:
   - cmake ..
-  - cmake --build .
+  - cmake --build . -- -j2
   - cmake --build . --target=test

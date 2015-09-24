@@ -3,12 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__InducedEntropy_exporter.h"
+#include "./__RandomizedClassificationThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_233() {
-    export_InducedEntropy<
-              float
-                            >("_f");
+    export_RandomizedClassificationThresholdOptimizer<
+              uint8_t,
+              int,
+              uint
+                            >("_uint8_i_uint");
   };
 }  // namespace pyfertilized

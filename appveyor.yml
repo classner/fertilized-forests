@@ -1,6 +1,6 @@
 branches:
   only:
-    - unstable
+    - dev_cmake
 
 install:
   - set ANACONDA_ROOT=C:\Anaconda
@@ -8,9 +8,8 @@ install:
   ## miniconda
   - appveyor DownloadFile http://repo.continuum.io/miniconda/Miniconda-latest-Windows-x86_64.exe
   - Miniconda-latest-Windows-x86_64.exe /S /D=C:\Anaconda
-  - cd C:\projects\fertilized-forests
   - C:\Anaconda\Scripts\conda update --yes --quiet conda
-  - C:\Anaconda\Scripts\conda install --yes --quiet pip
+  - C:\Anaconda\Scripts\conda install --yes --quiet networkx ply numpy scipy pillow scikit-image matplotlib scikit-learn
   - cd "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC"
   - vcvarsall.bat amd64
   - cd C:\projects\fertilized-forests
@@ -27,4 +26,3 @@ test_script:
   - cd fertilized_tests
   - fertilized_tests --run_test=Correctness*/*
   - cd ..
-

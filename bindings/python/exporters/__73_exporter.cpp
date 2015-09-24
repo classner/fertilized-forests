@@ -3,13 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__ISampleManager_exporter.h"
+#include "./__ISurfaceCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_73() {
-    export_ISampleManager<
-              uint8_t,
+    export_ISurfaceCalculator<
+              int,
+              float,
               uint
-                            >("_uint8_uint");
+                            >("_i_f_uint");
   };
 }  // namespace pyfertilized

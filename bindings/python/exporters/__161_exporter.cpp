@@ -3,14 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__TwoSideClassificationThresholdOptimizer_exporter.h"
+#include "./__ClassificationLeafManager_exporter.h"
 
 namespace pyfertilized {
   void __python_export_161() {
-    export_TwoSideClassificationThresholdOptimizer<
-              int,
-              float,
-              uint
-                            >("_i_f_uint");
+    export_ClassificationLeafManager<
+              uint8_t,
+              int16_t
+                            >("_uint8_int16");
   };
 }  // namespace pyfertilized

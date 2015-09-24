@@ -3,16 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__EqualDistBagging_exporter.h"
+#include "./__ThresholdDecider_exporter.h"
 
 namespace pyfertilized {
   void __python_export_264() {
-    export_EqualDistBagging<
-              double,
-              double,
-              double,
-              std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,
-              std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>
-                            >("_d_d_d_rpd_vprpfd");
+    export_ThresholdDecider<
+              uint8_t,
+              uint8_t,
+              uint
+                            >("_uint8_uint8_uint");
   };
 }  // namespace pyfertilized

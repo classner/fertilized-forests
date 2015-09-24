@@ -3,13 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__HoughLeafManager_exporter.h"
+#include "./__BoostedTraining_exporter.h"
 
 namespace pyfertilized {
   void __python_export_144() {
-    export_HoughLeafManager<
+    export_BoostedTraining<
               uint8_t,
-              int16_t
-                            >("_uint8_int16");
+              int16_t,
+              uint,
+              std::vector<float>,
+              std::vector<float>
+                            >("_uint8_int16_uint_fv_fv");
   };
 }  // namespace pyfertilized

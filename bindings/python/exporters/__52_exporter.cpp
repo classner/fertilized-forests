@@ -3,10 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__DNNFeatureExtractor_exporter.h"
+#include "./__IForestDataProvider_exporter.h"
 
 namespace pyfertilized {
   void __python_export_52() {
-    export_DNNFeatureExtractor("");
+    export_IForestDataProvider<
+              int,
+              uint
+                            >("_i_uint");
   };
 }  // namespace pyfertilized

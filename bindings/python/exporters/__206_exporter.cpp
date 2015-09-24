@@ -3,14 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__VarianceClassificationThresholdOptimizer_exporter.h"
+#include "./__LocalExecutionStrategy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_206() {
-    export_VarianceClassificationThresholdOptimizer<
+    export_LocalExecutionStrategy<
               double,
               double,
-              uint
-                            >("_d_d_uint");
+              uint,
+              std::vector<float>,
+              std::vector<float>
+                            >("_d_d_uint_fv_fv");
   };
 }  // namespace pyfertilized

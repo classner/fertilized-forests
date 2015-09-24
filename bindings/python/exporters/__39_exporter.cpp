@@ -8,7 +8,7 @@
 namespace pyfertilized {
   void __python_export_39() {
     export_IEntropyFunction<
-              uint
-                            >("_uint");
+              float
+                            >("_f");
   };
 }  // namespace pyfertilized

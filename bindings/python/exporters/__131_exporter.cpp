@@ -3,12 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__RegressionLeafManager_exporter.h"
+#include "./__AlternatingThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_131() {
-    export_RegressionLeafManager<
-              float
-                            >("_f");
+    export_AlternatingThresholdOptimizer<
+              int,
+              float,
+              uint
+                            >("_i_f_uint");
   };
 }  // namespace pyfertilized

@@ -3,16 +3,12 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__EqualDistBagging_exporter.h"
+#include "./__ShannonEntropy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_258() {
-    export_EqualDistBagging<
-              double,
-              double,
-              uint,
-              std::vector<float>,
-              std::vector<float>
-                            >("_d_d_uint_fv_fv");
+    export_ShannonEntropy<
+              float
+                            >("_f");
   };
 }  // namespace pyfertilized

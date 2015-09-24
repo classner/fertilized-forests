@@ -60,7 +60,7 @@ _matlab_cpp_translation = {"mxDOUBLE_CLASS":"double",
                            "mxUINT8_CLASS":"uint8_t",
                            "mxINT8_CLASS":"int8_t"};
 _cpp_matlab_translation = {}
-for _key, _val in _matlab_cpp_translation.items():
+for _key, _val in list(_matlab_cpp_translation.items()):
   _cpp_matlab_translation[_val] = _key
   if not _val in ['float', 'double']:
     _cpp_matlab_translation['std::'+_val] = _key

@@ -3,14 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__AlternatingThresholdOptimizer_exporter.h"
+#include "./__PatchSampleManager_exporter.h"
 
 namespace pyfertilized {
   void __python_export_222() {
-    export_AlternatingThresholdOptimizer<
-              double,
-              double,
-              double
-                            >("_d_d_d");
+    export_PatchSampleManager<
+              uint8_t,
+              int16_t
+                            >("_uint8_int16");
   };
 }  // namespace pyfertilized

@@ -3,14 +3,12 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IThresholdOptimizer_exporter.h"
+#include "./__IEntropyFunction_exporter.h"
 
 namespace pyfertilized {
   void __python_export_40() {
-    export_IThresholdOptimizer<
-              float,
-              float,
-              float
-                            >("_f_f_f");
+    export_IEntropyFunction<
+              uint
+                            >("_uint");
   };
 }  // namespace pyfertilized

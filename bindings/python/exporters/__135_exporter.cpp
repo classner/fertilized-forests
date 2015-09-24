@@ -3,13 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__QuadraticSurfaceCalculator_exporter.h"
+#include "./__AlternatingThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_135() {
-    export_QuadraticSurfaceCalculator<
+    export_AlternatingThresholdOptimizer<
+              uint8_t,
               float,
               uint
-                            >("_f_uint");
+                            >("_uint8_f_uint");
   };
 }  // namespace pyfertilized

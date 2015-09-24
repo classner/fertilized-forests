@@ -3,12 +3,13 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__TsallisEntropy_exporter.h"
+#include "./__RegressionThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_242() {
-    export_TsallisEntropy<
-              uint
-                            >("_uint");
+    export_RegressionThresholdOptimizer<
+              float,
+              float
+                            >("_f_f");
   };
 }  // namespace pyfertilized

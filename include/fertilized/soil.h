@@ -860,7 +860,7 @@ namespace fertilized {
   /**
 * \brief Calculator for constant regression.
 *
-* This regression calculator uses a constant value to predict the output value. 
+* This regression calculator uses a constant value to predict the output value.
 * Therefore, it provides a constant prediction and a constant prediction covariance matrix.
 *
 * -----

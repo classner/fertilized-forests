@@ -3,11 +3,11 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__Forest_exporter.h"
+#include "./__Tree_exporter.h"
 
 namespace pyfertilized {
   void __python_export_113() {
-    export_Forest<
+    export_Tree<
               uint8_t,
               int16_t,
               int16_t,

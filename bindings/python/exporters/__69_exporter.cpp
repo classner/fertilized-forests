@@ -3,13 +3,12 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IDataProvider_exporter.h"
+#include "./__IRegressionCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_69() {
-    export_IDataProvider<
-              double,
-              uint
-                            >("_d_uint");
+    export_IRegressionCalculator<
+              double
+                            >("_d");
   };
 }  // namespace pyfertilized

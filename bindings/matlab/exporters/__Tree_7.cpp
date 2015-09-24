@@ -87,7 +87,7 @@ using namespace fertilized;
   auto __instance_unpacked = *static_cast<std::shared_ptr<Tree<float,float,float,std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>>>*>(__instance);
   // From C types conversions.
 
-    auto __shptr_data_provider = *reinterpret_cast<std::shared_ptr<fertilized::Tree<float,float,float,std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>>::dprov_t>*>(data_provider);
+    auto __shptr_data_provider = *reinterpret_cast<std::shared_ptr<fertilized::dprov_t>*>(data_provider);
     auto __converted_data_provider = (__shptr_data_provider.get());
             
 
@@ -227,7 +227,7 @@ using namespace fertilized;
   auto __instance_unpacked = *static_cast<std::shared_ptr<Tree<float,float,float,std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>>>*>(__instance);
   // From C types conversions.
 
-    auto __shptr_data_provider = *reinterpret_cast<std::shared_ptr<fertilized::Tree<float,float,float,std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>>::dprov_t>*>(data_provider);
+    auto __shptr_data_provider = *reinterpret_cast<std::shared_ptr<fertilized::dprov_t>*>(data_provider);
     auto __converted_data_provider = (__shptr_data_provider.get());
             
 
@@ -577,7 +577,7 @@ using namespace fertilized;
   auto __instance_unpacked = *static_cast<std::shared_ptr<Tree<float,float,float,std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>>>*>(__instance);
   // From C types conversions.
 
-    auto __shptr_rhs = *reinterpret_cast<std::shared_ptr<fertilized::Tree<float,float,float,std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>>::tree_t>*>(rhs);
+    auto __shptr_rhs = *reinterpret_cast<std::shared_ptr<fertilized::tree_t>*>(rhs);
     auto &__converted_rhs = *(__shptr_rhs.get());
             
 

@@ -3,13 +3,16 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__RegressionThresholdOptimizer_exporter.h"
+#include "./__LocalExecutionStrategy_exporter.h"
 
 namespace pyfertilized {
   void __python_export_208() {
-    export_RegressionThresholdOptimizer<
-              float,
-              float
-                            >("_f_f");
+    export_LocalExecutionStrategy<
+              uint8_t,
+              int16_t,
+              uint,
+              std::vector<float>,
+              std::vector<float>
+                            >("_uint8_int16_uint_fv_fv");
   };
 }  // namespace pyfertilized

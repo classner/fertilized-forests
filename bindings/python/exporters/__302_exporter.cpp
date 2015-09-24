@@ -3,16 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__LocalExecutionStrategy_exporter.h"
+#include "./__VarianceClassificationThresholdOptimizer_exporter.h"
 
 namespace pyfertilized {
   void __python_export_302() {
-    export_LocalExecutionStrategy<
+    export_VarianceClassificationThresholdOptimizer<
+              uint8_t,
               float,
-              float,
-              float,
-              std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,
-              std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>
-                            >("_f_f_f_rpf_vprpff");
+              uint
+                            >("_uint8_f_uint");
   };
 }  // namespace pyfertilized

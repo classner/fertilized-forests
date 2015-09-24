@@ -3,14 +3,14 @@
 /**
  * This is an automatically generated file!
  */
-#include "./__IDecider_exporter.h"
+#include "./__ISurfaceCalculator_exporter.h"
 
 namespace pyfertilized {
   void __python_export_77() {
-    export_IDecider<
-              float,
+    export_ISurfaceCalculator<
+              uint8_t,
               float,
               uint
-                            >("_f_f_uint");
+                            >("_uint8_f_uint");
   };
 }  // namespace pyfertilized
