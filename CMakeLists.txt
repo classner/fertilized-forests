@@ -92,6 +92,7 @@ if (WITH_PYTHON)
   # Take care of Boost.NumPy.
   set (CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/build_support/external/Boost.NumPy/libs/numpy/cmake ${CMAKE_MODULE_PATH})
   find_package (NumPy REQUIRED)
+  include_directories (${NUMPY_INCLUDE_DIRS})
   include_directories (${PROJECT_SOURCE_DIR}/build_support/external/Boost.NumPy)
   add_subdirectory (${PROJECT_SOURCE_DIR}/build_support/external/Boost.NumPy/libs/numpy/src)
 endif ()
