@@ -25,7 +25,6 @@ before_install:
   - cd build
 
 install:
-  - sudo /home/travis/miniconda/bin/conda install --yes --quiet numpy scipy pillow scikit-image matplotlib scikit-learn
   - sudo apt-get -y install libboost-thread1.55-dev libboost-system1.55-dev libboost-test1.55-dev libboost-filesystem1.55-dev libboost-date-time1.55-dev libboost-serialization1.55-dev libboost-python1.55-dev
   ## Fix boost Python for Python3
   - sudo ln -s /usr/lib/x86_64-linux-gnu/libboost_python-py34.so /usr/lib/x86_64-linux-gnu/libboost_python3.so
