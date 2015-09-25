@@ -28,9 +28,9 @@ if [ "${PYTHON_VERSION}" = "3" ]; then
   export PYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.4m.so
   export PYTHON_EXECUTABLE=/usr/bin/python3
 fi
-if [ ! "${PYTHON_VERSION}" = "none" ]; then
+# if [ ! "${PYTHON_VERSION}" = "none" ]; then
   # sudo ${MINICONDA_BIN}/conda update --yes --quiet conda
   # sudo ${MINICONDA_BIN}/conda install --yes --quiet numpy scikit-learn
   # export PATH=$MINICONDA_BIN:$PATH
   # sudo pip install --yes --quiet numpy scikit-learn
-fi
+# fi
