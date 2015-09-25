@@ -16,19 +16,23 @@ else:
 import numpy as np
 if INTERACTIVE:
     import matplotlib.pyplot as plt
-import sklearn.metrics
-from sklearn.datasets import make_classification
+
 import fertilized as f
 
 np.random.seed(2)
-#%% Prepare.
-X, Y = make_classification(n_features=2,
-                           n_redundant=0,
-                           n_repeated=0,
-                           n_classes=4,
-                           n_clusters_per_class=1)
-X = X.astype("float32")
-Y = np.atleast_2d(Y.astype("uint32")).T
+# #%% Prepare.
+# from sklearn.datasets import make_classification
+# X, Y = make_classification(n_features=2,
+#                            n_redundant=0,
+#                            n_repeated=0,
+#                            n_classes=4,
+#                            n_clusters_per_class=1)
+# X = X.astype("float32")
+# Y = np.atleast_2d(Y.astype("uint32")).T
+# np.savetxt('toydata2_x.csv', X)
+# np.savetxt('toydata2_y.csv', Y)
+X = np.genfromtxt('toydata2_x.csv').astype('float32')
+Y = np.atleast_2d(np.genfromtxt('toydata2_y.csv').astype('uint32')).T
 soil = f.Soil()
 xs = np.linspace(X[:, 0].min() - 1, X[:, 0].max() + 1, 100)
 ys = np.linspace(X[:, 1].min() - 1, X[:, 1].max() + 1, 100)

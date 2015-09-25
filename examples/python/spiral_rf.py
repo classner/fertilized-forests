@@ -16,10 +16,10 @@ else:
 import fertilized as f
 if INTERACTIVE:
     import matplotlib.pyplot as plt
-import sklearn.metrics
+
 import numpy as np
 np.random.seed(8)
-from plottools import make_spiral, point_prob_plot, probaproxy
+from plottools import make_spiral, point_prob_plot, probaproxy, accuracy_score
 #plt.rc('text', usetex=True)
 #plt.rc('font', family='serif')
 np.random.seed(1)
@@ -80,4 +80,4 @@ if INTERACTIVE:
     plt.title('Random Forest $(T=%d, D=%d, |\Theta_j|=%d)$' % (n_trees, depth, suggestions * 2))
     plt.savefig('spiral_rf.png')
     plt.show()
-assert sklearn.metrics.accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95
+assert accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95

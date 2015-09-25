@@ -10,23 +10,25 @@ sys.path.insert(0, os.path.join('..', '..', 'build', 'bindings', 'python'))
 
 import numpy as np
 import numpy.testing as npt
-from PIL import Image
 import fertilized
 
-np.random.seed(1)
 ###############################################################################
-# Prepare the images.
-timage_zeros = np.zeros((227, 227, 3), dtype='float32')
-timage_ones = np.ones((227, 227, 3), dtype='float32')
-timage_opencv = np.array(Image.open(os.path.join(os.path.dirname(__file__), 'sample-resized.png'))).astype('float32')
-timage_opencv = np.ascontiguousarray(timage_opencv[:, :, ::-1])
-# Extract.
+# Check the availability (since it's an optional module).
 soil = fertilized.Soil()
 try:
     extractor = soil.DNNFeatureExtractor(True) # CPU only.
 except:
     print("The library has been built without caffe. Features cannot be extracted.")
     sys.exit(0)
+
+###############################################################################
+# Prepare the images.
+from PIL import Image
+timage_zeros = np.zeros((227, 227, 3), dtype='float32')
+timage_ones = np.ones((227, 227, 3), dtype='float32')
+timage_opencv = np.array(Image.open(os.path.join(os.path.dirname(__file__), 'sample-resized.png'))).astype('float32')
+timage_opencv = np.ascontiguousarray(timage_opencv[:, :, ::-1])
+
 # Assume the image has had its means subtracted already.
 zero_res = extractor.extract([timage_zeros], False)
 one_res = extractor.extract([timage_ones], False)

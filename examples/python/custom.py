@@ -15,12 +15,12 @@ else:
 
 from fertilized import *
 import numpy as np
-from plottools import make_spiral, point_prob_plot
+from plottools import make_spiral, point_prob_plot, accuracy_score
 
 # Only for plotting, evaluation.
 if INTERACTIVE:
     import matplotlib.pyplot as plt
-import sklearn.metrics
+
 np.random.seed(8)
 
 # Generate the spiral dataset for further use.
@@ -61,7 +61,7 @@ forest = soil.Forest(depth,
                      lm,
                      soil.ClassicTraining(soil.NoBagging()))
 forest.fit(X, Y)
-assert sklearn.metrics.accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95
+assert accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95
 if INTERACTIVE:
   plt.figure()
   point_prob_plot(forest, X, Y, plotx, ploty)

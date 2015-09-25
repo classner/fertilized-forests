@@ -16,9 +16,9 @@ else:
 import fertilized as f
 if INTERACTIVE:
     import matplotlib.pyplot as plt
-import sklearn.metrics
+
 import numpy as np
-from plottools import make_spiral, point_prob_plot
+from plottools import make_spiral, point_prob_plot, accuracy_score
 np.random.seed(1)
 
 # Prepare...
@@ -57,7 +57,7 @@ for depth in [3, 6, 15]:
                        soil.ClassicTraining(soil.NoBagging()))
   forest.fit(X, Y, 1)
 
-  assert sklearn.metrics.accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95
+  assert accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95
 
   if INTERACTIVE:
     plt.figure()

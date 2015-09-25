@@ -15,9 +15,10 @@ else:
 
 from fertilized import *
 import numpy as np
+from plottools import mean_squared_error
 # For plotting and evaluation.
-import sklearn.metrics
-import matplotlib.pyplot as plt
+if INTERACTIVE:
+    import matplotlib.pyplot as plt
 np.random.seed(1)
 
 # generate 2D samples from a polynomial function
@@ -81,4 +82,4 @@ if INTERACTIVE:
     plt.savefig('regression.png')
     plt.show()
 
-assert sklearn.metrics.mean_squared_error(samplesY, forest.predict(samplesX)[:, 0]) < 5.
+assert mean_squared_error(samplesY, forest.predict(samplesX)[:, 0]) < 5.

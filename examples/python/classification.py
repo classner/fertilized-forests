@@ -9,12 +9,11 @@ else:
   INTERACTIVE = True
 
 import numpy as np
-from sklearn.datasets import make_classification
-import sklearn.metrics
+
 import fertilized as f
 if INTERACTIVE:
     import matplotlib.pyplot as plt
-from plottools import point_prob_plot, make_spiral
+from plottools import point_prob_plot, make_spiral, accuracy_score
 
 np.random.seed(1)
 
@@ -22,16 +21,21 @@ ploty = [-8, 8, 100]
 plotx = [-8, 8, 100]
 
 #%% Prepare.
-X, Y = make_classification(n_features=2,
-                           n_redundant=0,
-                           n_repeated=0,
-                           n_classes=2,
-                           n_clusters_per_class=1,
-                           class_sep=5.,
-                           flip_y=0.,
-                           random_state=6)
-X = X.astype("float32")
-Y = np.atleast_2d(Y.astype("uint32")).T
+# from sklearn.datasets import make_classification
+# X, Y = make_classification(n_features=2,
+#                            n_redundant=0,
+#                            n_repeated=0,
+#                            n_classes=2,
+#                            n_clusters_per_class=1,
+#                            class_sep=5.,
+#                            flip_y=0.,
+#                            random_state=6)
+# X = X.astype("float32")
+# Y = np.atleast_2d(Y.astype("uint32")).T
+# np.savetxt('toydata_x.csv', X)
+# np.savetxt('toydata_y.csv', Y)
+X = np.genfromtxt('toydata_x.csv').astype('float32')
+Y = np.atleast_2d(np.genfromtxt('toydata_y.csv').astype('uint32')).T
 
 if INTERACTIVE:
     plt.scatter(X[:, 0], X[:, 1], c=Y)
@@ -110,4 +114,4 @@ if INTERACTIVE:
     point_prob_plot(forest, X, Y, plotx, ploty)
     plt.title('200 Trees')
     plt.savefig('uncertainty_quality_200.png')
-assert sklearn.metrics.accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95
+assert accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95

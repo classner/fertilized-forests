@@ -6,8 +6,15 @@ Created on Sun Apr 06 11:42:42 2014
 """
 
 import numpy as np
-import matplotlib
-import matplotlib.pyplot as plt
+
+
+def accuracy_score(gt, pred):
+    return np.sum(gt.flat == pred.flat) / float(len(gt.flat))
+
+
+def mean_squared_error(gt, pred):
+    return np.mean(np.power(gt.flat[:] - pred.flat[:], 2))
+
 
 def to_im_coords(points, im_spec):
   retpoints = []
@@ -19,6 +26,8 @@ def to_im_coords(points, im_spec):
   return np.array(retpoints)
 
 def point_prob_plot(classifier, X, Y, plotx, ploty):
+  import matplotlib
+  import matplotlib.pyplot as plt
   n_classes = np.unique(Y).shape[0]
   xmb = np.linspace(plotx[0], plotx[1], num=plotx[2])
   ymb = np.linspace(ploty[0], ploty[1], num=ploty[2])
