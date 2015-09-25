@@ -8,22 +8,15 @@ branches:
 
 env:
     - BUILD_WITH_SERIALIZATION_WO_PYTHON=true
+      PYTHON_VERSION=none
     - BUILD_WITH_SERIALIZATION_WO_PYTHON=false
+      PYTHON_VERSION=2
+    - BUILD_WITH_SERIALIZATION_WO_PYTHON=false
+      PYTHON_VERSION=3
 
 before_install:
-  ## Use Miniconda for Python.
-  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
-  - chmod +x miniconda.sh
-  - ./miniconda.sh -b
-  - export MINICONDA_BIN=/home/travis/miniconda/bin
-  - export PYTHONPATH=/home/travis/miniconda/lib/python2.7/site-packages
-  - sudo rm /usr/lib/libpython2.7.so
-  - sudo ln -s /home/travis/miniconda/lib/libpython2.7.so.1.0 /usr/lib/libpython2.7.so
-  - sudo rm /usr/lib/libpython2.7.so.1.0
-  - sudo ln -s /home/travis/miniconda/lib/libpython2.7.so.1.0 /usr/lib/libpython2.7.so.1.0
-  - sudo /home/travis/miniconda/bin/conda update --yes --quiet conda
-  - sudo /home/travis/miniconda/bin/conda install --yes --quiet pip
-  - export PATH=$MINICONDA_BIN:$PATH
+  ## Setup Miniconda for Python.
+  - build_support/travis/setup_python.sh
   ## For the build environment.
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo add-apt-repository -y ppa:boost-latest/ppa
@@ -32,10 +25,11 @@ before_install:
   - cd build
 
 install:
-  - sudo /home/travis/miniconda/bin/conda install --yes --quiet networkx ply numpy scipy pillow scikit-image matplotlib scikit-learn
+  - sudo /home/travis/miniconda/bin/conda install --yes --quiet numpy scipy pillow scikit-image matplotlib scikit-learn
   - sudo apt-get -y install libboost-thread1.55-dev libboost-system1.55-dev libboost-test1.55-dev libboost-filesystem1.55-dev libboost-date-time1.55-dev libboost-serialization1.55-dev libboost-python1.55-dev
+  ## Fix boost Python for Python3
+  - sudo ln -s /usr/lib/x86_64-linux-gnu/libboost_python-py34.so /usr/lib/x86_64-linux-gnu/libboost_python3.so
   - sudo apt-get -y install build-essential g++-4.8
-  - sudo ldconfig
   ## CMake
   - export CMAKE_C_COMPILER=gcc-4.8
   - export CMAKE_CXX_COMPILER=g++-4.8
@@ -52,6 +46,8 @@ before_script:
   - export OMP_NUM_THREADS=2
   - export CC=/usr/bin/gcc-4.8
   - export CXX=/usr/bin/g++-4.8
+  - export CTEST_OUTPUT_ON_FAILURE=1
+  - export CTEST_PARALLEL_LEVEL=1
 
 script:
   - ../build_support/travis/cmake_call.sh
