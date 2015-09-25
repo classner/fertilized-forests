@@ -14,7 +14,8 @@ else:
   INTERACTIVE = True
 
 import fertilized as f
-import matplotlib.pyplot as plt
+if INTERACTIVE:
+    import matplotlib.pyplot as plt
 import sklearn.metrics
 import numpy as np
 from plottools import make_spiral, point_prob_plot
@@ -70,10 +71,11 @@ for suggestions in [3, 250]:
                          lm,
                          soil.ClassicTraining(soil.NoBagging()))
     forest.fit(X, Y, 1)
-    plt.figure()
     assert sklearn.metrics.accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95
-    point_prob_plot(forest, X, Y, plotx, ploty)
-    plt.title('%s decider, $|\Theta_j|=%d$' %(dec_name, suggestions * 2))
+
     if INTERACTIVE:
+        plt.figure()
+        plt.title('%s decider, $|\Theta_j|=%d$' %(dec_name, suggestions * 2))
+        point_prob_plot(forest, X, Y, plotx, ploty)
         plt.savefig('effect_wl%s_rand_%d.png' % (dec_name, suggestions * 2))
         plt.show()

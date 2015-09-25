@@ -14,7 +14,8 @@ else:
   INTERACTIVE = True
 
 import numpy as np
-import matplotlib.pyplot as plt
+if INTERACTIVE:
+    import matplotlib.pyplot as plt
 import sklearn.metrics
 from sklearn.datasets import make_classification
 import fertilized as f
@@ -69,10 +70,10 @@ for dec_name in ['aligned', 'linear', 'quadratic']:
   #%% Plot.
   Zm = stump.predict(np.ascontiguousarray(
                        np.vstack((Xm.ravel(), Ym.ravel())).T.astype('float32')))[:, 0].reshape(100, 100)
-  plt.figure()
-  plt.contour(Xm, Ym, Zm)
-  plt.scatter(X[:, 0], X[:, 1], c=Y)
   if INTERACTIVE:
+      plt.figure()
+      plt.contour(Xm, Ym, Zm)
+      plt.scatter(X[:, 0], X[:, 1], c=Y)
       plt.title(dec_name)
       plt.savefig('decider_%s.png' % (dec_name))
       plt.show()

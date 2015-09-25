@@ -14,7 +14,8 @@ else:
   INTERACTIVE = True
 
 import fertilized as f
-import matplotlib.pyplot as plt
+if INTERACTIVE:
+    import matplotlib.pyplot as plt
 import sklearn.metrics
 import numpy as np
 from plottools import make_spiral, point_prob_plot
@@ -55,10 +56,12 @@ for depth in [3, 6, 15]:
                        lm,
                        soil.ClassicTraining(soil.NoBagging()))
   forest.fit(X, Y, 1)
-  plt.figure()
-  point_prob_plot(forest, X, Y, plotx, ploty)
+
   assert sklearn.metrics.accuracy_score(Y, np.argmax(forest.predict(X), axis=1)) > 0.95
-  plt.title('Depth %d' %(depth))
+
   if INTERACTIVE:
+    plt.figure()
+    plt.title('Depth %d' %(depth))
+    point_prob_plot(forest, X, Y, plotx, ploty)
     plt.savefig('effect_depth_%d.png' % (depth))
     plt.show()

@@ -9,10 +9,11 @@ else:
   INTERACTIVE = True
 
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
 import sklearn.metrics
 import fertilized as f
+if INTERACTIVE:
+    import matplotlib.pyplot as plt
 from plottools import point_prob_plot, make_spiral
 
 np.random.seed(1)
@@ -31,8 +32,9 @@ X, Y = make_classification(n_features=2,
                            random_state=6)
 X = X.astype("float32")
 Y = np.atleast_2d(Y.astype("uint32")).T
-plt.scatter(X[:, 0], X[:, 1], c=Y)
+
 if INTERACTIVE:
+    plt.scatter(X[:, 0], X[:, 1], c=Y)
     plt.show()
 
 soil = f.Soil()
@@ -83,14 +85,14 @@ for rs in range(1, 201):
   if rs in [1, 2]:
     Zm = stump.predict(np.ascontiguousarray(
                          np.vstack((Xm.ravel(), Ym.ravel())).T.astype('float32')))[:, 0].reshape(100, 100)
-    plt.figure()
-    plt.contour(Xm, Ym, Zm)
-    plt.scatter(X[:, 0], X[:, 1], c=Y)
-    plt.xlim((plotx[0], plotx[1]))
-    plt.ylim((ploty[0], ploty[1]))
-    plt.gca().set_aspect('equal')
-    plt.title('Tree %d' % (rs))
     if INTERACTIVE:
+        plt.figure()
+        plt.contour(Xm, Ym, Zm)
+        plt.scatter(X[:, 0], X[:, 1], c=Y)
+        plt.xlim((plotx[0], plotx[1]))
+        plt.ylim((ploty[0], ploty[1]))
+        plt.gca().set_aspect('equal')
+        plt.title('Tree %d' % (rs))
         plt.savefig('classification_stump_%d.png' % (rs))
         plt.show()
 

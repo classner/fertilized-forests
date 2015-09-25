@@ -18,7 +18,8 @@ import numpy as np
 from plottools import make_spiral, point_prob_plot
 
 # Only for plotting, evaluation.
-import matplotlib.pyplot as plt
+if INTERACTIVE:
+    import matplotlib.pyplot as plt
 import sklearn.metrics
 np.random.seed(8)
 
@@ -26,8 +27,9 @@ np.random.seed(8)
 X, Y = make_spiral()
 plotx = [-6, 6, 100]
 ploty = [-6, 6, 100]
-plt.scatter(X[:, 0], X[:, 1], c=Y)
+
 if INTERACTIVE:
+    plt.scatter(X[:, 0], X[:, 1], c=Y)
     plt.show()
 
 # Generate a soil to produce all succeeding forest elements.

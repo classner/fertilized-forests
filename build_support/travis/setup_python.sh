@@ -19,7 +19,7 @@ if [ "${PYTHON_VERSION}" = "3" ]; then
   export MINICONDA_BIN=/home/travis/miniconda3/bin
 fi
 if [ ! "${PYTHON_VERSION}" = "none" ]; then
-  sudo ${MINIDONDA_BIN}/conda update --yes --quiet conda
-  sudo ${MINIDONDA_BIN}/conda install --yes --quiet numpy scipy pillow scikit-image matplotlib scikit-learn
+  sudo ${MINICONDA_BIN}/conda update --yes --quiet conda
+  sudo ${MINICONDA_BIN}/conda install --yes --quiet numpy scipy pillow scikit-image matplotlib scikit-learn
   export PATH=$MINICONDA_BIN:$PATH
 fi
