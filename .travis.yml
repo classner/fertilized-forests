@@ -16,7 +16,7 @@ env:
 
 before_install:
   ## Setup Miniconda for Python.
-  - build_support/travis/setup_python.sh
+  - source build_support/travis/setup_python.sh
   ## For the build environment.
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo add-apt-repository -y ppa:boost-latest/ppa
@@ -49,7 +49,7 @@ before_script:
   - export CTEST_PARALLEL_LEVEL=1
 
 script:
-  - ../build_support/travis/cmake_call.sh
+  - source ../build_support/travis/cmake_call.sh
   - cmake --build . -- -j2
   - cmake --build . --target test
 
