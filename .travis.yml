@@ -35,7 +35,7 @@ install:
   - wget http://bitbucket.org/eigen/eigen/get/3.2.5.tar.gz
   - tar -xzvf 3.2.5.tar.gz
   ## Python (must be setup after boost was installed).
-  - source build_support/travis/setup_python.sh
+  - source ../build_support/travis/setup_python.sh
   ## CMake.
   - export CMAKE_C_COMPILER=gcc-4.8
   - export CMAKE_CXX_COMPILER=g++-4.8
