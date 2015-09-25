@@ -52,3 +52,6 @@ script:
   - ../build_support/travis/cmake_call.sh
   - cmake --build . -- -j2
   - cmake --build . --target test
+
+after_failure:
+  - cat /home/travis/build/classner/fertilized-forests/build/CMakeFiles/CMakeOutput.log
