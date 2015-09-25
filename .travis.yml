@@ -6,6 +6,10 @@ branches:
   only:
     - dev_cmake
 
+cache:
+  directories:
+    - $HOME/.cache/pip
+
 env:
     - BUILD_WITH_SERIALIZATION_WO_PYTHON=true
       PYTHON_VERSION="none"
