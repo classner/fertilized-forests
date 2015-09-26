@@ -30,13 +30,13 @@ if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
   export PATH=/usr/local/bin:$PATH
 fi
 if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-  # wget –quiet https://cmake.org/files/v3.3/cmake-3.3.2.tar.gz
-  # tar -xzvf cmake-3.3.2.tar.gz 2>/dev/null
-  # cd cmake-3.3.2
-  # ./configure 2>/dev/null && make && sudo make install
-  # export PATH=/usr/local/bin:$PATH
-  # cd ..
-  brew update
+  wget –quiet https://cmake.org/files/v3.3/cmake-3.3.2.tar.gz
+  tar -xzvf cmake-3.3.2.tar.gz 2>/dev/null
+  cd cmake-3.3.2
+  ./configure 2>/dev/null && make && sudo make install
+  export PATH=/usr/local/bin:$PATH
+  cd ..
+  # brew update
   # Update to 3.2
   brew install cmake
   brew install python
