@@ -21,10 +21,20 @@ tar -xzvf 3.2.5.tar.gz
 # Python (must be setup after boost was installed).
 source ../build_support/travis/setup_python.sh
 # CMake.
-export CMAKE_C_COMPILER=gcc-4.8
-export CMAKE_CXX_COMPILER=g++-4.8
-wget http://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.sh
-chmod a+x cmake-3.2.3-Linux-x86_64.sh
-sudo ./cmake-3.2.3-Linux-x86_64.sh --skip-license --prefix=/usr/local
-export PATH=/usr/local/bin:$PATH
+if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
+  export CMAKE_C_COMPILER=gcc-4.8
+  export CMAKE_CXX_COMPILER=g++-4.8
+  wget http://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.sh
+  chmod a+x cmake-3.2.3-Linux-x86_64.sh
+  sudo ./cmake-3.2.3-Linux-x86_64.sh --skip-license --prefix=/usr/local
+  export PATH=/usr/local/bin:$PATH
+fi
+if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+  wget https://cmake.org/files/v3.3/cmake-3.3.2.tar.gz
+  tar -xzvf cmake-3.3.2.tar.gz
+  cd cmake-3.3.2
+  sudo ./configure && make && make install
+  export PATH=/usr/local/bin:$PATH
+fi
+
 cmake --version
