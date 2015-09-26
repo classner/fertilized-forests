@@ -6,7 +6,7 @@ branches:
   only:
     - dev_cmake
 
-os: # - linux
+os: - linux
     - osx
 
 env:
@@ -16,15 +16,15 @@ env:
       PYTHON_VERSION="2"
     - BUILD_WITH_SERIALIZATION_WO_PYTHON=false
       PYTHON_VERSION="3"
-#
-# matrix:
-#   exclude:
-#     - os: osx
-#       env: BUILD_WITH_SERIALIZATION_WO_PYTHON=true
-#            PYTHON_VERSION="none"
-#     - os: osx
-#       env: BUILD_WITH_SERIALIZATION_WO_PYTHON=false
-#            PYTHON_VERSION="3"
+
+matrix:
+  exclude:
+    - os: osx
+      env: BUILD_WITH_SERIALIZATION_WO_PYTHON=true
+           PYTHON_VERSION="none"
+    - os: osx
+      env: BUILD_WITH_SERIALIZATION_WO_PYTHON=false
+           PYTHON_VERSION="3"
 
 before_install:
   - source build_support/travis/prepare_install.sh
