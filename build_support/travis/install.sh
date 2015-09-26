@@ -11,9 +11,9 @@ if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
                           libboost-python1.54-dev \
                           build-essential g++-4.8
 fi
-if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-  # brew outdated <package-name> || brew upgrade <package-name>
-fi
+# if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+#   # brew outdated <package-name> || brew upgrade <package-name>
+# fi
 
 # Eigen3.
 wget http://bitbucket.org/eigen/eigen/get/3.2.5.tar.gz
