@@ -1,7 +1,7 @@
 
 
 if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
-  ## C++ libraries and compiler.
+  # Boost and compiler.
   sudo apt-get -y install libboost-thread1.54-dev \
                           libboost-system1.54-dev \
                           libboost-test1.54-dev \
@@ -10,18 +10,9 @@ if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
                           libboost-serialization1.54-dev \
                           libboost-python1.54-dev \
                           build-essential g++-4.8
-fi
-# if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-#   # brew outdated <package-name> || brew upgrade <package-name>
-# fi
-
-# Eigen3.
-wget http://bitbucket.org/eigen/eigen/get/3.2.5.tar.gz
-tar -xzvf 3.2.5.tar.gz
-# Python (must be setup after boost was installed).
-source ../build_support/travis/setup_python.sh
-# CMake.
-if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
+  # Cmake.
+  export CC=/usr/bin/gcc-4.8
+  export CXX=/usr/bin/g++-4.8
   export CMAKE_C_COMPILER=gcc-4.8
   export CMAKE_CXX_COMPILER=g++-4.8
   wget –quiet http://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.sh
@@ -30,15 +21,15 @@ if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
   export PATH=/usr/local/bin:$PATH
 fi
 if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-  # wget –quiet https://cmake.org/files/v3.3/cmake-3.3.2.tar.gz
-  # tar -xzvf cmake-3.3.2.tar.gz 2>/dev/null
-  # cd cmake-3.3.2
-  # ./configure 2>/dev/null && make && sudo make install
-  # export PATH=/usr/local/bin:$PATH
-  # cd ..
-  brew upgrade boost
+  # Boost.
+  brew outdated boost || brew upgrade boost
   brew install boost-python
-  brew upgrade cmake
+  # Cmake.
+  brew outdated cmake || brew upgrade cmake
 fi
 
 cmake --version
+
+# Eigen3.
+wget -quiet http://bitbucket.org/eigen/eigen/get/3.2.5.tar.gz
+tar -xzvf 3.2.5.tar.gz 2>/dev/null

@@ -33,7 +33,9 @@ before_install:
   - cd build
 
 install:
-  source ../build_support/travis/install.sh
+  - source ../build_support/travis/install.sh
+  ## Python (must be setup after boost was installed).
+  - source ../build_support/travis/setup_python.sh
 
 before_script:
   - export OMP_NUM_THREADS=2

@@ -6,10 +6,6 @@ if [ "${PYTHON_VERSION}" = "2" ]; then
     export PYTHON_LIBRARY=/usr/lib/libpython2.7.so
     export PYTHON_EXECUTABLE=/usr/bin/python
   fi
-  # if [ "{$TRAVIS_OS_NAME}" = "osx" ]; then
-  #   export PYTHON_EXECUTABLE=/usr/local/Cellar/python/2.7.10_2/bin/python
-  #   export PYTHON_LIBRARY=/usr/local/Cellar/python/2.7.10_2/lib/
-  # fi
 fi
 if [ "${PYTHON_VERSION}" = "3" ]; then
   if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
