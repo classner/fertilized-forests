@@ -36,7 +36,8 @@ if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
   # ./configure 2>/dev/null && make && sudo make install
   # export PATH=/usr/local/bin:$PATH
   # cd ..
-
+  brew upgrade boost
+  brew install boost-python
   brew upgrade cmake
 fi
 
