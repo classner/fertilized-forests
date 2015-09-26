@@ -24,17 +24,18 @@ source ../build_support/travis/setup_python.sh
 if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
   export CMAKE_C_COMPILER=gcc-4.8
   export CMAKE_CXX_COMPILER=g++-4.8
-  wget http://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.sh
+  wget –quiet ttp://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.sh
   chmod a+x cmake-3.2.3-Linux-x86_64.sh
   sudo ./cmake-3.2.3-Linux-x86_64.sh --skip-license --prefix=/usr/local
   export PATH=/usr/local/bin:$PATH
 fi
 if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-  wget https://cmake.org/files/v3.3/cmake-3.3.2.tar.gz
-  tar -xzvf cmake-3.3.2.tar.gz
+  wget –quiet https://cmake.org/files/v3.3/cmake-3.3.2.tar.gz
+  tar -xzvf cmake-3.3.2.tar.gz 2>/dev/null
   cd cmake-3.3.2
-  ./configure && make && sudo make install
+  ./configure 2>/dev/null && make && sudo make install
   export PATH=/usr/local/bin:$PATH
+  cd ..
 fi
 
 cmake --version
