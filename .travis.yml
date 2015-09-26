@@ -6,8 +6,8 @@ branches:
   only:
     - dev_cmake
 
-# os: - linux
-#     - osx
+os: # - linux
+    - osx
 
 env:
     - BUILD_WITH_SERIALIZATION_WO_PYTHON=true
