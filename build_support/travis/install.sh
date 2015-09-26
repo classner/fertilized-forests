@@ -24,7 +24,7 @@ source ../build_support/travis/setup_python.sh
 if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
   export CMAKE_C_COMPILER=gcc-4.8
   export CMAKE_CXX_COMPILER=g++-4.8
-  wget –quiet ttp://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.sh
+  wget –quiet http://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.sh
   chmod a+x cmake-3.2.3-Linux-x86_64.sh
   sudo ./cmake-3.2.3-Linux-x86_64.sh --skip-license --prefix=/usr/local
   export PATH=/usr/local/bin:$PATH
@@ -36,6 +36,9 @@ if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
   ./configure 2>/dev/null && make && sudo make install
   export PATH=/usr/local/bin:$PATH
   cd ..
+  # Python.
+  brew update
+  brew install python
 fi
 
 cmake --version

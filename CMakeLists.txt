@@ -76,7 +76,7 @@ if (WITH_SERIALIZATION)
   add_definitions (-DSERIALIZATION_ENABLED)
 endif()
 if (WITH_PYTHON)
-  if (NOT PYTHONINTERP_FOUND AND PYTHONLIBS_FOUND)
+  if (NOT PYTHONINTERP_FOUND OR NOT PYTHONLIBS_FOUND)
     message (FATAL_ERROR "You specified WITH_PYTHON, but interpreter or libs \
                           weren't found!")
   endif ()
