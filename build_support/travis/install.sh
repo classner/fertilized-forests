@@ -1,6 +1,6 @@
 
 
-if [ "${$TRAVIS_OS_NAME}" = "linux" ]; then
+if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
   ## C++ libraries and compiler.
   sudo apt-get -y install libboost-thread1.54-dev \
                           libboost-system1.54-dev \
@@ -11,7 +11,7 @@ if [ "${$TRAVIS_OS_NAME}" = "linux" ]; then
                           libboost-python1.54-dev \
                           build-essential g++-4.8
 fi
-if [ "${$TRAVIS_OS_NAME}" = "osx" ]; then
+if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
   # brew outdated <package-name> || brew upgrade <package-name>
 fi
 
