@@ -33,7 +33,7 @@ if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
   wget https://cmake.org/files/v3.3/cmake-3.3.2.tar.gz
   tar -xzvf cmake-3.3.2.tar.gz
   cd cmake-3.3.2
-  sudo ./configure && make && make install
+  ./configure && make && sudo make install
   export PATH=/usr/local/bin:$PATH
 fi
 
