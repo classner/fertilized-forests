@@ -122,7 +122,7 @@ public:
     ArrayRef const &
 #endif
     operator =(Scalar const & scalar) const {
-        std::fill(this->begin(),this->end(),scalar);
+        for (auto it = this->begin(); it != this->end(); ++it) (*it) = scalar;
         return *this;
     }
 

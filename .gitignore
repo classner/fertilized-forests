@@ -10,3 +10,6 @@ examples/matlab/test_tree.ft
 
 # The developer tools if installed.
 fertilized-devtools
+
+# OS specific files.
+.DS_store

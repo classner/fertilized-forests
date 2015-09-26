@@ -8,7 +8,12 @@ if (WITH_MATLAB)
   add_library (matfertilized SHARED ${Matlab_CPP})
   target_compile_features (matfertilized PRIVATE ${REQ_CPP11_FEATURES})
   set_target_properties (matfertilized PROPERTIES PREFIX "")
-  set_target_properties (matfertilized PROPERTIES INSTALL_RPATH "$ORIGIN/../lib:$ORIGIN/")
+  if (APPLE)
+    set_target_properties (matfertilized PROPERTIES SUFFIX .so)
+    set_target_properties (matfertilized PROPERTIES INSTALL_RPATH "@loader_path/")
+  else()
+    set_target_properties (matfertilized PROPERTIES INSTALL_RPATH "$ORIGIN/:$$ORIGIN")
+  endif()
   target_compile_definitions (matfertilized PRIVATE -D__BUILD_MATFERTILIZED_LIBRARY)
   target_link_libraries (matfertilized
     fertilized

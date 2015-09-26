@@ -91,10 +91,6 @@ if (WITH_PYTHON)
   endif ()
   # Take care of Boost.NumPy.
   set (CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/build_support/external/Boost.NumPy/libs/numpy/cmake ${CMAKE_MODULE_PATH})
-  find_package (NumPy REQUIRED)
-  include_directories (${NUMPY_INCLUDE_DIRS})
-  include_directories (${PROJECT_SOURCE_DIR}/build_support/external/Boost.NumPy)
-  add_subdirectory (${PROJECT_SOURCE_DIR}/build_support/external/Boost.NumPy/libs/numpy/src)
 endif ()
 if (WITH_MATLAB)
   if (NOT MATLAB_FOUND)
@@ -135,11 +131,23 @@ set (REQ_CPP11_FEATURES
 # Check for OpenMP support.
 find_package (OpenMP)
 if (OPENMP_FOUND)
-  # list (APPEND CMAKE_CXX_FLAGS ${OpenMP_CXX_FLAGS})
+  list (APPEND CMAKE_CXX_FLAGS ${OpenMP_CXX_FLAGS})
 endif ()
+
+# Fix clang warnings.
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+  list (APPEND CMAKE_CXX_FLAGS "-Wno-tautological-compare -Wno-logical-op-parentheses")
+endif()
 
 # Configure the dependencies.
 find_package (Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+include_directories (${Boost_INCLUDE_DIRS})
+if (WITH_PYTHON)
+  find_package (NumPy REQUIRED)
+  include_directories (${NUMPY_INCLUDE_DIRS})
+  include_directories (${PROJECT_SOURCE_DIR}/build_support/external/Boost.NumPy)
+  add_subdirectory (${PROJECT_SOURCE_DIR}/build_support/external/Boost.NumPy/libs/numpy/src)
+endif()
 find_package(Eigen3 REQUIRED)
 add_definitions (-DEIGEN_MPL2_ONLY)
 include_directories (${EIGEN3_INCLUDE_DIR})

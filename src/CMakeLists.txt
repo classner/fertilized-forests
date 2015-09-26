@@ -7,6 +7,9 @@ target_link_libraries (fertilized ${Boost_LIBRARIES} ${OpenCV_LIBRARIES})
 if (WITH_PYTHON)
   target_link_libraries (fertilized ${PYTHON_LIBRARIES})
 endif()
+if (APPLE)
+  set_target_properties (fertilized PROPERTIES INSTALL_RPATH "@rpath")
+endif()
 if (WITH_CAFFE)
   # The CPU_ONLY flag is only added to not have CUDA dependencies pulled in
   # by caffe headers. It is still possible to use the GPU!
