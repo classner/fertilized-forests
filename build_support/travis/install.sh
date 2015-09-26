@@ -15,7 +15,7 @@ if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
   export CXX=/usr/bin/g++-4.8
   export CMAKE_C_COMPILER=gcc-4.8
   export CMAKE_CXX_COMPILER=g++-4.8
-  wget –quiet http://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.sh
+  wget --quiet http://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.sh
   chmod a+x cmake-3.2.3-Linux-x86_64.sh
   sudo ./cmake-3.2.3-Linux-x86_64.sh --skip-license --prefix=/usr/local
   export PATH=/usr/local/bin:$PATH
@@ -31,5 +31,5 @@ fi
 cmake --version
 
 # Eigen3.
-wget -quiet http://bitbucket.org/eigen/eigen/get/3.2.5.tar.gz
+wget --quiet http://bitbucket.org/eigen/eigen/get/3.2.5.tar.gz
 tar -xzvf 3.2.5.tar.gz 2>/dev/null
