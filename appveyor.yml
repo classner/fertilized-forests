@@ -3,26 +3,29 @@ branches:
     - dev_cmake
 
 install:
+  ## miniconda.
   - set ANACONDA_ROOT=C:\Anaconda
   - set ANACONDA_BIN=%ANACONDA_ROOT%\bin
-  ## miniconda
   - appveyor DownloadFile http://repo.continuum.io/miniconda/Miniconda-latest-Windows-x86_64.exe
   - Miniconda-latest-Windows-x86_64.exe /S /D=C:\Anaconda
   - C:\Anaconda\Scripts\conda update --yes --quiet conda
-  - C:\Anaconda\Scripts\conda install --yes --quiet networkx ply numpy scipy pillow scikit-image matplotlib scikit-learn
+  - C:\Anaconda\Scripts\conda install --yes --quiet numpy
+  ## Visual Studio.
   - cd "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC"
   - vcvarsall.bat amd64
   - cd C:\projects\fertilized-forests
+  - mkdir build
+  - cd build
+  ## Boost, Eigen3, CMake 3.3.
+  - %ANACONDA_BIN%\python ..\build_support\appveyor\setup_environment.py
+  - set PATH=C:\projects\fertilized-forests\build\cmake\cmake-3.3.2-win32-x86\bin;%PATH%
 
 build_script:
-  - setup_environment.bat --quiet C:\Anaconda --nopy --nomat --nocaffe --nopath --notmp --cpu-only --suppress-caffe-model-download
-  - setup_paths.bat
-  - C:\Anaconda\Scripts\scons --with-tests
+  - cmake -DWITH_SERIALIZATION=OFF -DWITH_PYTHON=ON -DPYTHON_EXECUTABLE=C:\Anaconda\bin\python.exe -DPYTHON_INCLUDE_DIR=C:\Anaconda\include -DPYTHON_LIBRARY=C:\Anaconda\libs\python27.lib -DEIGEN3_INCLUDE_DIR=C:\projects\fertilized-forests\build\nuget-deps\Eigen\build\native\include\Eigen -DBOOST_ROOT=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled ..
+  - cmake --build .
 
 on_failure:
-  - type config.log
+  - type CMakeFiles/CMakeOutput.log
 
 test_script:
-  - cd fertilized_tests
-  - fertilized_tests --run_test=Correctness*/*
-  - cd ..
+  - cmake --build . --target test
