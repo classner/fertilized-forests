@@ -11,8 +11,9 @@ import zipfile
 
 STDOUT = open("setup-stdout.txt","wb")
 STDERR = open("setup-stderr.txt","wb")
+PIP = 'C:\Anaconda\Scripts\pip'
 VSVERSION_FIT = True
-QUIET_MODE = False
+QUIET_MODE = True
 
 #######################################
 # Console fanciness
