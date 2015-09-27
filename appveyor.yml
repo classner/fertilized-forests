@@ -4,8 +4,6 @@ branches:
 
 install:
   ## miniconda.
-  - set ANACONDA_ROOT=C:\Anaconda
-  - set ANACONDA_BIN=%ANACONDA_ROOT%\bin
   - appveyor DownloadFile http://repo.continuum.io/miniconda/Miniconda-latest-Windows-x86_64.exe
   - Miniconda-latest-Windows-x86_64.exe /S /D=C:\Anaconda
   - C:\Anaconda\Scripts\conda update --yes --quiet conda
@@ -17,11 +15,11 @@ install:
   - mkdir build
   - cd build
   ## Boost, Eigen3, CMake 3.3.
-  - C:\Anaconda\bin\python ..\build_support\appveyor\setup_environment.py
+  - C:\Anaconda\python.exe ..\build_support\appveyor\setup_environment.py
   - set PATH=C:\projects\fertilized-forests\build\cmake\cmake-3.3.2-win32-x86\bin;%PATH%
 
 build_script:
-  - cmake -DWITH_SERIALIZATION=OFF -DWITH_PYTHON=ON -DPYTHON_EXECUTABLE=C:\Anaconda\bin\python.exe -DPYTHON_INCLUDE_DIR=C:\Anaconda\include -DPYTHON_LIBRARY=C:\Anaconda\libs\python27.lib -DEIGEN3_INCLUDE_DIR=C:\projects\fertilized-forests\build\nuget-deps\Eigen\build\native\include\Eigen -DBOOST_ROOT=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled ..
+  - cmake -DWITH_SERIALIZATION=OFF -DWITH_PYTHON=ON -DPYTHON_EXECUTABLE=C:\Anaconda\python.exe -DPYTHON_INCLUDE_DIR=C:\Anaconda\include -DPYTHON_LIBRARY=C:\Anaconda\libs\python27.lib -DEIGEN3_INCLUDE_DIR=C:\projects\fertilized-forests\build\nuget-deps\Eigen\build\native\include\Eigen -DBOOST_ROOT=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled ..
   - cmake --build .
 
 on_failure:
