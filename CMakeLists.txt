@@ -125,7 +125,6 @@ endif ()
 # Use C++11 features.
 set (REQ_CPP11_FEATURES
      cxx_strong_enums
-     cxx_constexpr
      cxx_auto_type)
 
 # Check for OpenMP support.
