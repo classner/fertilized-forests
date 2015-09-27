@@ -23,7 +23,7 @@ build_script:
   - cmake --build .
 
 on_failure:
-  - type C:\projects\fertilized-forests\CMakeFiles\CMakeOutput.log
+  - type C:\projects\fertilized-forests\build\CMakeFiles\CMakeOutput.log
 
 test_script:
   - cmake --build . --target test
