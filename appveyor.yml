@@ -17,7 +17,7 @@ install:
   - mkdir build
   - cd build
   ## Boost, Eigen3, CMake 3.3.
-  - %ANACONDA_BIN%\python ..\build_support\appveyor\setup_environment.py
+  - C:\Anaconda\bin\python ..\build_support\appveyor\setup_environment.py
   - set PATH=C:\projects\fertilized-forests\build\cmake\cmake-3.3.2-win32-x86\bin;%PATH%
 
 build_script:
