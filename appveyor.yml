@@ -19,7 +19,7 @@ install:
   - set PATH=C:\projects\fertilized-forests\build\cmake\cmake-3.3.2-win32-x86\bin;%PATH%
 
 build_script:
-  - cmake -DWITH_SERIALIZATION=OFF -DWITH_PYTHON=ON -DPYTHON_EXECUTABLE=C:\Anaconda\python.exe -DPYTHON_INCLUDE_DIR=C:\Anaconda\include -DPYTHON_LIBRARY=C:\Anaconda\libs\python27.lib -DEIGEN3_INCLUDE_DIR=C:\projects\fertilized-forests\build\nuget-deps\Eigen\build\native\include\Eigen -DBOOST_ROOT=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled ..
+  - cmake -DWITH_SERIALIZATION=OFF -DWITH_PYTHON=ON -DPYTHON_EXECUTABLE=C:\Anaconda\python.exe -DPYTHON_INCLUDE_DIR=C:\Anaconda\include -DPYTHON_LIBRARY=C:\Anaconda\libs\python27.lib -DEIGEN3_INCLUDE_DIR=C:\projects\fertilized-forests\build\nuget-deps\Eigen\build\native\include\Eigen -DBOOST_INCLUDEDIR=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled -DBOOST_LIBRARYDIR=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled\stage\lib ..
   - cmake --build .
 
 on_failure:

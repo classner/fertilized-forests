@@ -131,7 +131,7 @@ set (REQ_CPP11_FEATURES
 # Check for OpenMP support.
 find_package (OpenMP)
 if (OPENMP_FOUND)
-  list (APPEND CMAKE_CXX_FLAGS ${OpenMP_CXX_FLAGS})
+  list (APPEND CMAKE_CXX_FLAGS " ${OpenMP_CXX_FLAGS}")
 endif ()
 
 # Fix clang warnings.
