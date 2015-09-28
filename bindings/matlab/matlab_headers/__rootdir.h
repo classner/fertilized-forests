@@ -520,6 +520,18 @@ extern "C"
      void delete_Forest_d_d_d_rpd_vprpfd(void *ptr);
 
 
+     void * getObjectTemplate_i_i_uint_fv_fv (
+
+        unsigned int example_param
+);
+     void * getObjectTemplate_f_f_uint_fv_fv (
+
+        unsigned int example_param
+);
+     void delete_ObjectTemplate_i_i_uint_fv_fv(void *ptr);
+     void delete_ObjectTemplate_f_f_uint_fv_fv(void *ptr);
+
+
      void * getTree_i_i_uint_fv_fv (
 
         unsigned int max_depth,
@@ -1198,18 +1210,6 @@ extern "C"
      void delete_Tree_uint8_int16_int16_hp_vhp(void *ptr);
      void delete_Tree_f_f_f_rpf_vprpff(void *ptr);
      void delete_Tree_d_d_d_rpd_vprpfd(void *ptr);
-
-
-     void * getObjectTemplate_i_i_uint_fv_fv (
-
-        unsigned int example_param
-);
-     void * getObjectTemplate_f_f_uint_fv_fv (
-
-        unsigned int example_param
-);
-     void delete_ObjectTemplate_i_i_uint_fv_fv(void *ptr);
-     void delete_ObjectTemplate_f_f_uint_fv_fv(void *ptr);
 #ifdef __cplusplus
 }
 #endif 

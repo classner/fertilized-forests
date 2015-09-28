@@ -15,6 +15,6 @@ using namespace fertilized;
 
 namespace pyfertilized {
   void __export_vectors_7() {
-    custom_vector_from_seq<std::shared_ptr<typename fertilized::Forest<double,double,double,std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>>::dec_t>>();
+    custom_vector_from_seq<typename fertilized::Forest<float,float,float,std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<float>>,std::shared_ptr<std::vector<float>>>,float>>>::tree_ptr_t>();
   };
 }  // namespace pyfertilized

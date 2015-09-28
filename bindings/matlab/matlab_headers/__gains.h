@@ -14,8 +14,6 @@
 extern "C"
 {
 #endif
-     void delete_IGainCalculator_f(void *ptr);
-     void delete_IGainCalculator_uint(void *ptr);
 
 
      void * getEntropyGain_f (
@@ -38,6 +36,8 @@ extern "C"
 );
      void delete_EntropyGain_f(void *ptr);
      void delete_EntropyGain_uint(void *ptr);
+     void delete_IGainCalculator_f(void *ptr);
+     void delete_IGainCalculator_uint(void *ptr);
 #ifdef __cplusplus
 }
 #endif 

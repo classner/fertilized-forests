@@ -16,6 +16,26 @@ extern "C"
 #endif
 
 
+     void * getConstantRegressionCalculator_f (
+
+);
+     void * getConstantRegressionCalculator_d (
+
+);
+
+
+     int eqConstantRegressionCalculator_f (void *__instance,
+
+        void * rhs
+);
+     int eqConstantRegressionCalculator_d (void *__instance,
+
+        void * rhs
+);
+     void delete_ConstantRegressionCalculator_f(void *ptr);
+     void delete_ConstantRegressionCalculator_d(void *ptr);
+
+
      void * getLinearRegressionCalculator_f (
 
         int force_numerical_stability,
@@ -38,26 +58,6 @@ extern "C"
 );
      void delete_LinearRegressionCalculator_f(void *ptr);
      void delete_LinearRegressionCalculator_d(void *ptr);
-
-
-     void * getConstantRegressionCalculator_f (
-
-);
-     void * getConstantRegressionCalculator_d (
-
-);
-
-
-     int eqConstantRegressionCalculator_f (void *__instance,
-
-        void * rhs
-);
-     int eqConstantRegressionCalculator_d (void *__instance,
-
-        void * rhs
-);
-     void delete_ConstantRegressionCalculator_f(void *ptr);
-     void delete_ConstantRegressionCalculator_d(void *ptr);
 #ifdef __cplusplus
 }
 #endif 

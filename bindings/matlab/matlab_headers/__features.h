@@ -16,26 +16,56 @@ extern "C"
 #endif
 
 
-     void * getStandardFeatureSelectionProvider (
+     void * getAlignedSurfaceCalculator_i_uint (
 
-        size_t n_selections_per_node,
-        size_t selection_dimension,
-        size_t how_many_available,
-        size_t max_to_use,
-        unsigned int random_seed
+);
+     void * getAlignedSurfaceCalculator_uint8_uint (
+
+);
+     void * getAlignedSurfaceCalculator_f_uint (
+
+);
+     void * getAlignedSurfaceCalculator_f_f (
+
+);
+     void * getAlignedSurfaceCalculator_d_uint (
+
+);
+     void * getAlignedSurfaceCalculator_d_d (
+
 );
 
 
-     int eqStandardFeatureSelectionProvider (void *__instance,
+     int eqAlignedSurfaceCalculator_i_uint (void *__instance,
 
         void * rhs
 );
+     int eqAlignedSurfaceCalculator_uint8_uint (void *__instance,
 
-
-     size_t get_n_available_featuresStandardFeatureSelectionProvider (void *__instance
-
+        void * rhs
 );
-     void delete_StandardFeatureSelectionProvider(void *ptr);
+     int eqAlignedSurfaceCalculator_f_uint (void *__instance,
+
+        void * rhs
+);
+     int eqAlignedSurfaceCalculator_f_f (void *__instance,
+
+        void * rhs
+);
+     int eqAlignedSurfaceCalculator_d_uint (void *__instance,
+
+        void * rhs
+);
+     int eqAlignedSurfaceCalculator_d_d (void *__instance,
+
+        void * rhs
+);
+     void delete_AlignedSurfaceCalculator_i_uint(void *ptr);
+     void delete_AlignedSurfaceCalculator_uint8_uint(void *ptr);
+     void delete_AlignedSurfaceCalculator_f_uint(void *ptr);
+     void delete_AlignedSurfaceCalculator_f_f(void *ptr);
+     void delete_AlignedSurfaceCalculator_d_uint(void *ptr);
+     void delete_AlignedSurfaceCalculator_d_d(void *ptr);
 
 
      void * getDifferenceSurfaceCalculator_i_i_uint (
@@ -90,42 +120,33 @@ extern "C"
      void delete_DifferenceSurfaceCalculator_d_d_d(void *ptr);
 
 
-     void * getVolumeFeatureSelectionProvider (
+     void * getDirectPatchDifferenceSurfCalculator_uint8_int16_uint (
 
-        size_t selection_dimension,
-        size_t size_x,
-        size_t size_y,
-        size_t size_z,
-        size_t how_many_per_node,
-        unsigned int random_seed
+        size_t psx,
+        size_t psy,
+        size_t psz,
+        int luc
+);
+     void * getDirectPatchDifferenceSurfCalculator_uint8_int16_int16 (
+
+        size_t psx,
+        size_t psy,
+        size_t psz,
+        int luc
 );
 
 
-     int eqVolumeFeatureSelectionProvider (void *__instance,
+     int eqDirectPatchDifferenceSurfCalculator_uint8_int16_uint (void *__instance,
 
         void * rhs
 );
+     int eqDirectPatchDifferenceSurfCalculator_uint8_int16_int16 (void *__instance,
 
-
-     size_t get_size_xVolumeFeatureSelectionProvider (void *__instance
-
+        void * rhs
 );
-
-
-     size_t get_size_yVolumeFeatureSelectionProvider (void *__instance
-
-);
-
-
-     size_t get_size_zVolumeFeatureSelectionProvider (void *__instance
-
-);
-
-
-     size_t get_n_available_featuresVolumeFeatureSelectionProvider (void *__instance
-
-);
-     void delete_VolumeFeatureSelectionProvider(void *ptr);
+     void delete_DirectPatchDifferenceSurfCalculator_uint8_int16_uint(void *ptr);
+     void delete_DirectPatchDifferenceSurfCalculator_uint8_int16_int16(void *ptr);
+     void delete_FeatCalcParamSet(void *ptr);
 
 
      void * getLinearSurfaceCalculator_i_uint (
@@ -198,87 +219,6 @@ extern "C"
      void delete_LinearSurfaceCalculator_d_uint(void *ptr);
 
 
-     void * getDirectPatchDifferenceSurfCalculator_uint8_int16_uint (
-
-        size_t psx,
-        size_t psy,
-        size_t psz,
-        int luc
-);
-     void * getDirectPatchDifferenceSurfCalculator_uint8_int16_int16 (
-
-        size_t psx,
-        size_t psy,
-        size_t psz,
-        int luc
-);
-
-
-     int eqDirectPatchDifferenceSurfCalculator_uint8_int16_uint (void *__instance,
-
-        void * rhs
-);
-     int eqDirectPatchDifferenceSurfCalculator_uint8_int16_int16 (void *__instance,
-
-        void * rhs
-);
-     void delete_DirectPatchDifferenceSurfCalculator_uint8_int16_uint(void *ptr);
-     void delete_DirectPatchDifferenceSurfCalculator_uint8_int16_int16(void *ptr);
-     void delete_FeatCalcParamSet(void *ptr);
-
-
-     void * getAlignedSurfaceCalculator_i_uint (
-
-);
-     void * getAlignedSurfaceCalculator_uint8_uint (
-
-);
-     void * getAlignedSurfaceCalculator_f_uint (
-
-);
-     void * getAlignedSurfaceCalculator_f_f (
-
-);
-     void * getAlignedSurfaceCalculator_d_uint (
-
-);
-     void * getAlignedSurfaceCalculator_d_d (
-
-);
-
-
-     int eqAlignedSurfaceCalculator_i_uint (void *__instance,
-
-        void * rhs
-);
-     int eqAlignedSurfaceCalculator_uint8_uint (void *__instance,
-
-        void * rhs
-);
-     int eqAlignedSurfaceCalculator_f_uint (void *__instance,
-
-        void * rhs
-);
-     int eqAlignedSurfaceCalculator_f_f (void *__instance,
-
-        void * rhs
-);
-     int eqAlignedSurfaceCalculator_d_uint (void *__instance,
-
-        void * rhs
-);
-     int eqAlignedSurfaceCalculator_d_d (void *__instance,
-
-        void * rhs
-);
-     void delete_AlignedSurfaceCalculator_i_uint(void *ptr);
-     void delete_AlignedSurfaceCalculator_uint8_uint(void *ptr);
-     void delete_AlignedSurfaceCalculator_f_uint(void *ptr);
-     void delete_AlignedSurfaceCalculator_f_f(void *ptr);
-     void delete_AlignedSurfaceCalculator_d_uint(void *ptr);
-     void delete_AlignedSurfaceCalculator_d_d(void *ptr);
-
-
      void * getQuadraticSurfaceCalculator_i_uint (
 
         size_t n_params_per_feat_sel,
@@ -347,6 +287,66 @@ extern "C"
      void delete_QuadraticSurfaceCalculator_f_f(void *ptr);
      void delete_QuadraticSurfaceCalculator_d_uint(void *ptr);
      void delete_QuadraticSurfaceCalculator_d_d(void *ptr);
+
+
+     void * getStandardFeatureSelectionProvider (
+
+        size_t n_selections_per_node,
+        size_t selection_dimension,
+        size_t how_many_available,
+        size_t max_to_use,
+        unsigned int random_seed
+);
+
+
+     int eqStandardFeatureSelectionProvider (void *__instance,
+
+        void * rhs
+);
+
+
+     size_t get_n_available_featuresStandardFeatureSelectionProvider (void *__instance
+
+);
+     void delete_StandardFeatureSelectionProvider(void *ptr);
+
+
+     void * getVolumeFeatureSelectionProvider (
+
+        size_t selection_dimension,
+        size_t size_x,
+        size_t size_y,
+        size_t size_z,
+        size_t how_many_per_node,
+        unsigned int random_seed
+);
+
+
+     int eqVolumeFeatureSelectionProvider (void *__instance,
+
+        void * rhs
+);
+
+
+     size_t get_size_xVolumeFeatureSelectionProvider (void *__instance
+
+);
+
+
+     size_t get_size_yVolumeFeatureSelectionProvider (void *__instance
+
+);
+
+
+     size_t get_size_zVolumeFeatureSelectionProvider (void *__instance
+
+);
+
+
+     size_t get_n_available_featuresVolumeFeatureSelectionProvider (void *__instance
+
+);
+     void delete_VolumeFeatureSelectionProvider(void *ptr);
 #ifdef __cplusplus
 }
 #endif 

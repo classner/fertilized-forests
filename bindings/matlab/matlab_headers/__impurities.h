@@ -16,6 +16,28 @@ extern "C"
 #endif
 
 
+     void * getClassificationError_f (
+
+);
+     void * getClassificationError_uint (
+
+);
+
+
+     int eqClassificationError_f (void *__instance,
+
+        void * rhs
+);
+     int eqClassificationError_uint (void *__instance,
+
+        void * rhs
+);
+     void delete_ClassificationError_f(void *ptr);
+     void delete_ClassificationError_uint(void *ptr);
+     void delete_IEntropyFunction_f(void *ptr);
+     void delete_IEntropyFunction_uint(void *ptr);
+
+
      void * getInducedEntropy_f (
 
         float p
@@ -104,26 +126,6 @@ extern "C"
      void delete_ShannonEntropy_uint(void *ptr);
 
 
-     void * getClassificationError_f (
-
-);
-     void * getClassificationError_uint (
-
-);
-
-
-     int eqClassificationError_f (void *__instance,
-
-        void * rhs
-);
-     int eqClassificationError_uint (void *__instance,
-
-        void * rhs
-);
-     void delete_ClassificationError_f(void *ptr);
-     void delete_ClassificationError_uint(void *ptr);
-
-
      void * getTsallisEntropy_f (
 
         float q
@@ -144,8 +146,6 @@ extern "C"
 );
      void delete_TsallisEntropy_f(void *ptr);
      void delete_TsallisEntropy_uint(void *ptr);
-     void delete_IEntropyFunction_f(void *ptr);
-     void delete_IEntropyFunction_uint(void *ptr);
 #ifdef __cplusplus
 }
 #endif 

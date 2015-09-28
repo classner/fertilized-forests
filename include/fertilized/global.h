@@ -10,7 +10,19 @@
 // redefines. It must be the boost version, because otherwise under Windows
 // usually the debug build breaks because of the not provided python27_d.lib.
 #include <boost/python/detail/wrap_python.hpp>
-#endif
+#if BOOST_VERSION < 105300 || defined BOOST_NO_CXX11_SMART_PTR
+#include <memory>
+namespace boost {
+  template<class T> const T* get_pointer(std::shared_ptr<T> const& p) {
+    return p.get();
+  }
+
+  template<class T> T* get_pointer(std::shared_ptr<T>& p)  {
+    return p.get();
+  }
+} // namespace boost
+#endif  // BOOST_VERSION < 105300 || defined BOOST_NO_CXX11_SMART_PTR
+#endif  // PYTHON_ENABLED
 
 //#define DISABLE_DYNAMIC
 

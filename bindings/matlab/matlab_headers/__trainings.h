@@ -14,15 +14,64 @@
 extern "C"
 {
 #endif
-     void delete_ITraining_i_i_uint_fv_fv(void *ptr);
-     void delete_ITraining_f_f_uint_fv_fv(void *ptr);
-     void delete_ITraining_d_d_uint_fv_fv(void *ptr);
-     void delete_ITraining_uint8_uint8_uint_fv_fv(void *ptr);
-     void delete_ITraining_uint8_int16_uint_fv_fv(void *ptr);
-     void delete_ITraining_uint8_int16_int16_fv_fv(void *ptr);
-     void delete_ITraining_uint8_int16_int16_hp_vhp(void *ptr);
-     void delete_ITraining_f_f_f_rpf_vprpff(void *ptr);
-     void delete_ITraining_d_d_d_rpd_vprpfd(void *ptr);
+
+
+     void * getBoostedTraining_i_i_uint_fv_fv (
+
+        void * boosting_strategy
+);
+     void * getBoostedTraining_f_f_uint_fv_fv (
+
+        void * boosting_strategy
+);
+     void * getBoostedTraining_d_d_uint_fv_fv (
+
+        void * boosting_strategy
+);
+     void * getBoostedTraining_uint8_uint8_uint_fv_fv (
+
+        void * boosting_strategy
+);
+     void * getBoostedTraining_uint8_int16_uint_fv_fv (
+
+        void * boosting_strategy
+);
+     void * getBoostedTraining_uint8_int16_int16_fv_fv (
+
+        void * boosting_strategy
+);
+
+
+     int eqBoostedTraining_i_i_uint_fv_fv (void *__instance,
+
+        void * rhs
+);
+     int eqBoostedTraining_f_f_uint_fv_fv (void *__instance,
+
+        void * rhs
+);
+     int eqBoostedTraining_d_d_uint_fv_fv (void *__instance,
+
+        void * rhs
+);
+     int eqBoostedTraining_uint8_uint8_uint_fv_fv (void *__instance,
+
+        void * rhs
+);
+     int eqBoostedTraining_uint8_int16_uint_fv_fv (void *__instance,
+
+        void * rhs
+);
+     int eqBoostedTraining_uint8_int16_int16_fv_fv (void *__instance,
+
+        void * rhs
+);
+     void delete_BoostedTraining_i_i_uint_fv_fv(void *ptr);
+     void delete_BoostedTraining_f_f_uint_fv_fv(void *ptr);
+     void delete_BoostedTraining_d_d_uint_fv_fv(void *ptr);
+     void delete_BoostedTraining_uint8_uint8_uint_fv_fv(void *ptr);
+     void delete_BoostedTraining_uint8_int16_uint_fv_fv(void *ptr);
+     void delete_BoostedTraining_uint8_int16_int16_fv_fv(void *ptr);
 
 
      void * getClassicTraining_i_i_uint_fv_fv (
@@ -108,64 +157,15 @@ extern "C"
      void delete_ClassicTraining_uint8_int16_int16_hp_vhp(void *ptr);
      void delete_ClassicTraining_f_f_f_rpf_vprpff(void *ptr);
      void delete_ClassicTraining_d_d_d_rpd_vprpfd(void *ptr);
-
-
-     void * getBoostedTraining_i_i_uint_fv_fv (
-
-        void * boosting_strategy
-);
-     void * getBoostedTraining_f_f_uint_fv_fv (
-
-        void * boosting_strategy
-);
-     void * getBoostedTraining_d_d_uint_fv_fv (
-
-        void * boosting_strategy
-);
-     void * getBoostedTraining_uint8_uint8_uint_fv_fv (
-
-        void * boosting_strategy
-);
-     void * getBoostedTraining_uint8_int16_uint_fv_fv (
-
-        void * boosting_strategy
-);
-     void * getBoostedTraining_uint8_int16_int16_fv_fv (
-
-        void * boosting_strategy
-);
-
-
-     int eqBoostedTraining_i_i_uint_fv_fv (void *__instance,
-
-        void * rhs
-);
-     int eqBoostedTraining_f_f_uint_fv_fv (void *__instance,
-
-        void * rhs
-);
-     int eqBoostedTraining_d_d_uint_fv_fv (void *__instance,
-
-        void * rhs
-);
-     int eqBoostedTraining_uint8_uint8_uint_fv_fv (void *__instance,
-
-        void * rhs
-);
-     int eqBoostedTraining_uint8_int16_uint_fv_fv (void *__instance,
-
-        void * rhs
-);
-     int eqBoostedTraining_uint8_int16_int16_fv_fv (void *__instance,
-
-        void * rhs
-);
-     void delete_BoostedTraining_i_i_uint_fv_fv(void *ptr);
-     void delete_BoostedTraining_f_f_uint_fv_fv(void *ptr);
-     void delete_BoostedTraining_d_d_uint_fv_fv(void *ptr);
-     void delete_BoostedTraining_uint8_uint8_uint_fv_fv(void *ptr);
-     void delete_BoostedTraining_uint8_int16_uint_fv_fv(void *ptr);
-     void delete_BoostedTraining_uint8_int16_int16_fv_fv(void *ptr);
+     void delete_ITraining_i_i_uint_fv_fv(void *ptr);
+     void delete_ITraining_f_f_uint_fv_fv(void *ptr);
+     void delete_ITraining_d_d_uint_fv_fv(void *ptr);
+     void delete_ITraining_uint8_uint8_uint_fv_fv(void *ptr);
+     void delete_ITraining_uint8_int16_uint_fv_fv(void *ptr);
+     void delete_ITraining_uint8_int16_int16_fv_fv(void *ptr);
+     void delete_ITraining_uint8_int16_int16_hp_vhp(void *ptr);
+     void delete_ITraining_f_f_f_rpf_vprpff(void *ptr);
+     void delete_ITraining_d_d_d_rpd_vprpfd(void *ptr);
 #ifdef __cplusplus
 }
 #endif 

@@ -18,7 +18,7 @@ install:
   - set PATH=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled\stage\lib;C:\projects\fertilized-forests\build\cmake\cmake-3.3.2-win32-x86\bin;%PATH%
 
 build_script:
-  - cmake -G "Visual Studio 12 2013 Win64" -DCMAKE_BUILD_TYPE=Release -DWITH_SERIALIZATION=OFF -DWITH_PYTHON=OFF -DEIGEN3_INCLUDE_DIR=C:\projects\fertilized-forests\build\nuget-deps\Eigen\build\native\include -DBOOST_ROOT=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled ..
+  - cmake -G "Visual Studio 12 2013 Win64" -DCMAKE_BUILD_TYPE=Release -DWITH_SERIALIZATION=ON -DWITH_PYTHON=OFF -DEIGEN3_INCLUDE_DIR=C:\projects\fertilized-forests\build\nuget-deps\Eigen\build\native\include -DBOOST_ROOT=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled ..
   - cmake --build . --config Release
 
 on_failure:

@@ -16,6 +16,55 @@ extern "C"
 #endif
 
 
+     void * getBoostingLeafManager_i_uint (
+
+        unsigned int n_classes
+);
+     void * getBoostingLeafManager_f_uint (
+
+        unsigned int n_classes
+);
+     void * getBoostingLeafManager_d_uint (
+
+        unsigned int n_classes
+);
+     void * getBoostingLeafManager_uint8_uint (
+
+        unsigned int n_classes
+);
+     void * getBoostingLeafManager_uint8_int16 (
+
+        unsigned int n_classes
+);
+
+
+     int eqBoostingLeafManager_i_uint (void *__instance,
+
+        void * rhs
+);
+     int eqBoostingLeafManager_f_uint (void *__instance,
+
+        void * rhs
+);
+     int eqBoostingLeafManager_d_uint (void *__instance,
+
+        void * rhs
+);
+     int eqBoostingLeafManager_uint8_uint (void *__instance,
+
+        void * rhs
+);
+     int eqBoostingLeafManager_uint8_int16 (void *__instance,
+
+        void * rhs
+);
+     void delete_BoostingLeafManager_i_uint(void *ptr);
+     void delete_BoostingLeafManager_f_uint(void *ptr);
+     void delete_BoostingLeafManager_d_uint(void *ptr);
+     void delete_BoostingLeafManager_uint8_uint(void *ptr);
+     void delete_BoostingLeafManager_uint8_int16(void *ptr);
+
+
      void * getClassificationLeafManager_i_uint (
 
         unsigned int n_classes
@@ -111,55 +160,6 @@ extern "C"
 );
      void delete_RegressionLeafManager_f(void *ptr);
      void delete_RegressionLeafManager_d(void *ptr);
-
-
-     void * getBoostingLeafManager_i_uint (
-
-        unsigned int n_classes
-);
-     void * getBoostingLeafManager_f_uint (
-
-        unsigned int n_classes
-);
-     void * getBoostingLeafManager_d_uint (
-
-        unsigned int n_classes
-);
-     void * getBoostingLeafManager_uint8_uint (
-
-        unsigned int n_classes
-);
-     void * getBoostingLeafManager_uint8_int16 (
-
-        unsigned int n_classes
-);
-
-
-     int eqBoostingLeafManager_i_uint (void *__instance,
-
-        void * rhs
-);
-     int eqBoostingLeafManager_f_uint (void *__instance,
-
-        void * rhs
-);
-     int eqBoostingLeafManager_d_uint (void *__instance,
-
-        void * rhs
-);
-     int eqBoostingLeafManager_uint8_uint (void *__instance,
-
-        void * rhs
-);
-     int eqBoostingLeafManager_uint8_int16 (void *__instance,
-
-        void * rhs
-);
-     void delete_BoostingLeafManager_i_uint(void *ptr);
-     void delete_BoostingLeafManager_f_uint(void *ptr);
-     void delete_BoostingLeafManager_d_uint(void *ptr);
-     void delete_BoostingLeafManager_uint8_uint(void *ptr);
-     void delete_BoostingLeafManager_uint8_int16(void *ptr);
 #ifdef __cplusplus
 }
 #endif 

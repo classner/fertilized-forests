@@ -68,64 +68,6 @@ extern "C"
      void delete_AdaBoost_uint8_int16_int16_fv_fv(void *ptr);
 
 
-     void * getSamme_R_i_i_uint_fv_fv (
-
-        float learning_rate
-);
-     void * getSamme_R_f_f_uint_fv_fv (
-
-        float learning_rate
-);
-     void * getSamme_R_d_d_uint_fv_fv (
-
-        float learning_rate
-);
-     void * getSamme_R_uint8_uint8_uint_fv_fv (
-
-        float learning_rate
-);
-     void * getSamme_R_uint8_int16_uint_fv_fv (
-
-        float learning_rate
-);
-     void * getSamme_R_uint8_int16_int16_fv_fv (
-
-        float learning_rate
-);
-
-
-     int eqSamme_R_i_i_uint_fv_fv (void *__instance,
-
-        void * rhs
-);
-     int eqSamme_R_f_f_uint_fv_fv (void *__instance,
-
-        void * rhs
-);
-     int eqSamme_R_d_d_uint_fv_fv (void *__instance,
-
-        void * rhs
-);
-     int eqSamme_R_uint8_uint8_uint_fv_fv (void *__instance,
-
-        void * rhs
-);
-     int eqSamme_R_uint8_int16_uint_fv_fv (void *__instance,
-
-        void * rhs
-);
-     int eqSamme_R_uint8_int16_int16_fv_fv (void *__instance,
-
-        void * rhs
-);
-     void delete_Samme_R_i_i_uint_fv_fv(void *ptr);
-     void delete_Samme_R_f_f_uint_fv_fv(void *ptr);
-     void delete_Samme_R_d_d_uint_fv_fv(void *ptr);
-     void delete_Samme_R_uint8_uint8_uint_fv_fv(void *ptr);
-     void delete_Samme_R_uint8_int16_uint_fv_fv(void *ptr);
-     void delete_Samme_R_uint8_int16_int16_fv_fv(void *ptr);
-
-
      void * getSamme_i_i_uint_fv_fv (
 
         float learning_rate
@@ -182,6 +124,64 @@ extern "C"
      void delete_Samme_uint8_uint8_uint_fv_fv(void *ptr);
      void delete_Samme_uint8_int16_uint_fv_fv(void *ptr);
      void delete_Samme_uint8_int16_int16_fv_fv(void *ptr);
+
+
+     void * getSamme_R_i_i_uint_fv_fv (
+
+        float learning_rate
+);
+     void * getSamme_R_f_f_uint_fv_fv (
+
+        float learning_rate
+);
+     void * getSamme_R_d_d_uint_fv_fv (
+
+        float learning_rate
+);
+     void * getSamme_R_uint8_uint8_uint_fv_fv (
+
+        float learning_rate
+);
+     void * getSamme_R_uint8_int16_uint_fv_fv (
+
+        float learning_rate
+);
+     void * getSamme_R_uint8_int16_int16_fv_fv (
+
+        float learning_rate
+);
+
+
+     int eqSamme_R_i_i_uint_fv_fv (void *__instance,
+
+        void * rhs
+);
+     int eqSamme_R_f_f_uint_fv_fv (void *__instance,
+
+        void * rhs
+);
+     int eqSamme_R_d_d_uint_fv_fv (void *__instance,
+
+        void * rhs
+);
+     int eqSamme_R_uint8_uint8_uint_fv_fv (void *__instance,
+
+        void * rhs
+);
+     int eqSamme_R_uint8_int16_uint_fv_fv (void *__instance,
+
+        void * rhs
+);
+     int eqSamme_R_uint8_int16_int16_fv_fv (void *__instance,
+
+        void * rhs
+);
+     void delete_Samme_R_i_i_uint_fv_fv(void *ptr);
+     void delete_Samme_R_f_f_uint_fv_fv(void *ptr);
+     void delete_Samme_R_d_d_uint_fv_fv(void *ptr);
+     void delete_Samme_R_uint8_uint8_uint_fv_fv(void *ptr);
+     void delete_Samme_R_uint8_int16_uint_fv_fv(void *ptr);
+     void delete_Samme_R_uint8_int16_int16_fv_fv(void *ptr);
 #ifdef __cplusplus
 }
 #endif 
