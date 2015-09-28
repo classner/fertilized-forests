@@ -228,3 +228,10 @@ message ("Installation options:")
 message ("  Installation prefix path: " ${CMAKE_INSTALL_PREFIX})
 message ("")
 message ("--------------------------------------------------------------------")
+if (WIN32)
+  if (WITH_CAFFE)
+    message (WARNING "Caffe linking is experimental (at best) on Windows! "
+                     "Expect to mess around with the build system! It probably "
+                     "works best with https://github.com/willyd/caffe-builder.")
+  endif()
+endif()
