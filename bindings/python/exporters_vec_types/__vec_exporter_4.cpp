@@ -9,12 +9,12 @@
 
 #include "../global.h"
 #include "../util.h"
-#include <fertilized/forest.h>
+#include <fertilized/standard_trees.h>
 
 using namespace fertilized;
 
 namespace pyfertilized {
   void __export_vectors_4() {
-    custom_vector_from_seq<std::shared_ptr<typename fertilized::Forest<double,double,double,std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,std::vector<std::pair<std::pair<std::shared_ptr<std::vector<double>>,std::shared_ptr<std::vector<double>>>,float>>>::dec_t>>();
+    custom_vector_from_seq<size_t>();
   };
 }  // namespace pyfertilized

@@ -2,6 +2,7 @@
 #include <fertilized/global.h>
 #include <boost/test/unit_test.hpp>
 
+#include <cmath>
 #include <chrono>
 #include <functional>
 #include <string>
@@ -64,12 +65,12 @@ void test_ClassThresholdOptFindsPerfectSplit(
   BOOST_REQUIRE(valid);
   if (std::is_floating_point<F>())
     BOOST_CHECK(std::get<1>(res) == EThresholdSelection::less_only &&
-                (abs(std::get<0>(res).first - 99.5) < 0.5 || abs(std::get<0>(res).first - 200.5) < 0.5) ||
+                (std::abs(std::get<0>(res).first - 99.5) < 0.5 || std::abs(std::get<0>(res).first - 200.5) < 0.5) ||
                 std::get<1>(res) == EThresholdSelection::greater_only &&
-                (abs(std::get<0>(res).second - 99.5) < 0.5 || abs(std::get<0>(res).second - 200.5) < 0.5) ||
+                (std::abs(std::get<0>(res).second - 99.5) < 0.5 || std::abs(std::get<0>(res).second - 200.5) < 0.5) ||
                 std::get<1>(res) == EThresholdSelection::both &&
-                (abs(std::get<0>(res).first - 99.5) < 0.5 && abs(std::get<0>(res).second - 200.5) < 0.5 ||
-                 abs(std::get<0>(res).first - 200.5) < 0.5 && abs(std::get<0>(res).second - 99.5) < 0.5));
+                (std::abs(std::get<0>(res).first - 99.5) < 0.5 && std::abs(std::get<0>(res).second - 200.5) < 0.5 ||
+                 std::abs(std::get<0>(res).first - 200.5) < 0.5 && std::abs(std::get<0>(res).second - 99.5) < 0.5));
   else
     BOOST_CHECK(std::get<1>(res) == EThresholdSelection::less_only &&
                 (std::get<0>(res).first == 100 || std::get<0>(res).first == 201) ||
@@ -94,12 +95,12 @@ void test_ClassThresholdOptFindsPerfectSplit(
   BOOST_REQUIRE(valid);
   if (std::is_floating_point<F>())
     BOOST_CHECK(std::get<1>(res) == EThresholdSelection::less_only &&
-                (abs(std::get<0>(res).first - 99.5) < 0.5 || abs(std::get<0>(res).first - 200.5) < 0.5) ||
+                (std::abs(std::get<0>(res).first - 99.5) < 0.5 || std::abs(std::get<0>(res).first - 200.5) < 0.5) ||
                 std::get<1>(res) == EThresholdSelection::greater_only &&
-                (abs(std::get<0>(res).second - 99.5) < 0.5 || abs(std::get<0>(res).second - 200.5) < 0.5) ||
+                (std::abs(std::get<0>(res).second - 99.5) < 0.5 || std::abs(std::get<0>(res).second - 200.5) < 0.5) ||
                 std::get<1>(res) == EThresholdSelection::both &&
-                (abs(std::get<0>(res).first - 99.5) < 0.5 && abs(std::get<0>(res).second - 200.5) < 0.5 ||
-                 abs(std::get<0>(res).first - 200.5) < 0.5 && abs(std::get<0>(res).second - 99.5) < 0.5));
+                (std::abs(std::get<0>(res).first - 99.5) < 0.5 && std::abs(std::get<0>(res).second - 200.5) < 0.5 ||
+                 std::abs(std::get<0>(res).first - 200.5) < 0.5 && std::abs(std::get<0>(res).second - 99.5) < 0.5));
   else
     BOOST_CHECK(std::get<1>(res) == EThresholdSelection::less_only &&
                 (std::get<0>(res).first == 100 || std::get<0>(res).first == 201) ||
