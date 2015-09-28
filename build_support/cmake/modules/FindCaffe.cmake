@@ -52,11 +52,18 @@ if (WIN32)
     PATH_SUFFIXES
     lib install/lib ../lib build/lib)
 else()
-  # Explicitely link to the shared library.
-  find_library(CAFFE_LIBRARY libcaffe.so
-    PATHS ${CAFFE_ROOT_DIR}
-    PATH_SUFFIXES
-    lib install/lib ../lib build/lib)
+  if (WIN32)
+    find_library(CAFFE_LIBRARY caffe.lib
+      PATHS ${CAFFE_ROOT_DIR}
+      PATH_SUFFIXES
+      lib install/lib ../lib build/lib)  
+  else()
+    # Explicitly link to the shared library.
+    find_library(CAFFE_LIBRARY libcaffe.so
+      PATHS ${CAFFE_ROOT_DIR}
+      PATH_SUFFIXES
+      lib install/lib ../lib build/lib)
+    endif()
 endif()
 
 find_package_handle_standard_args(CAFFE DEFAULT_MSG

@@ -7,7 +7,7 @@ install:
   - appveyor DownloadFile http://repo.continuum.io/miniconda/Miniconda-latest-Windows-x86_64.exe
   - Miniconda-latest-Windows-x86_64.exe /S /D=C:\Anaconda
   - C:\Anaconda\Scripts\conda update --yes --quiet conda
-  - C:\Anaconda\Scripts\conda install --yes --quiet numpy
+  # - C:\Anaconda\Scripts\conda install --yes --quiet numpy
   ## Visual Studio.
   - cd "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC"
   - vcvarsall.bat amd64
@@ -19,7 +19,8 @@ install:
   - set PATH=C:\projects\fertilized-forests\build\cmake\cmake-3.3.2-win32-x86\bin;%PATH%
 
 build_script:
-  - cmake -G "Visual Studio 12 2013 Win64" -DCMAKE_BUILD_TYPE=Release -DWITH_SERIALIZATION=OFF -DWITH_PYTHON=ON -DPYTHON_EXECUTABLE=C:\Anaconda\python.exe -DPYTHON_INCLUDE_DIR=C:\Anaconda\include -DPYTHON_LIBRARY=C:\Anaconda\libs\python27.lib -DEIGEN3_INCLUDE_DIR=C:\projects\fertilized-forests\build\nuget-deps\Eigen\build\native\include -DBOOST_ROOT=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled ..
+  # - cmake -G "Visual Studio 12 2013 Win64" -DCMAKE_BUILD_TYPE=Release -DWITH_SERIALIZATION=OFF -DWITH_PYTHON=ON -DPYTHON_EXECUTABLE=C:\Anaconda\python.exe -DPYTHON_INCLUDE_DIR=C:\Anaconda\include -DPYTHON_LIBRARY=C:\Anaconda\libs\python27.lib -DEIGEN3_INCLUDE_DIR=C:\projects\fertilized-forests\build\nuget-deps\Eigen\build\native\include -DBOOST_ROOT=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled ..
+  - cmake -G "Visual Studio 12 2013 Win64" -DCMAKE_BUILD_TYPE=Release -DWITH_SERIALIZATION=ON -DWITH_PYTHON=OFF -DEIGEN3_INCLUDE_DIR=C:\projects\fertilized-forests\build\nuget-deps\Eigen\build\native\include -DBOOST_ROOT=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled ..
   - cmake --build .
 
 on_failure:
