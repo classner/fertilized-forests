@@ -12,7 +12,7 @@
 #include <boost/python/detail/wrap_python.hpp>
 // Fix a boost Python pointer issue with older versions of Boost and clang.
 // Does not happen on the apple clang builds.
-#if (BOOST_VERSION < 105300 || defined BOOST_NO_CXX11_SMART_PTR) && !defined(__APPLE__)
+#if (BOOST_VERSION < 105300 || defined BOOST_NO_CXX11_SMART_PTR) && !defined(__APPLE__) && defined(__clang__)
 #include <memory>
 namespace boost {
   template<class T> const T* get_pointer(std::shared_ptr<T> const& p) {
