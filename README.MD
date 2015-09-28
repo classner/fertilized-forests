@@ -25,9 +25,11 @@ The project has a CMake build system. In the best case, the series of
     cmake --build . --target install  # run the installation.
 
 is sufficient to create the project in a `Release` configuration on all
-platforms, including Windows. The build does require `Boost`, `Eigen` and
-`OpenCV` to link against. Additionally, it offers to build Python and MATLAB
-bindings and some more options. Hence, the following switches might be
+platforms (for Windows, just add `cmake --build . --config Release`).
+The build does require `Boost` and `Eigen` to link against.
+
+Additionally, it offers to have feature extraction with OpenCV, and
+to build Python and MATLAB. Hence, the following switches might be
 interesting for you:
 
     -DCMAKE_BUILD_TYPE={Release|Debug}

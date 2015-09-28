@@ -21,10 +21,10 @@ install:
 build_script:
   # - cmake -G "Visual Studio 12 2013 Win64" -DCMAKE_BUILD_TYPE=Release -DWITH_SERIALIZATION=OFF -DWITH_PYTHON=ON -DPYTHON_EXECUTABLE=C:\Anaconda\python.exe -DPYTHON_INCLUDE_DIR=C:\Anaconda\include -DPYTHON_LIBRARY=C:\Anaconda\libs\python27.lib -DEIGEN3_INCLUDE_DIR=C:\projects\fertilized-forests\build\nuget-deps\Eigen\build\native\include -DBOOST_ROOT=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled ..
   - cmake -G "Visual Studio 12 2013 Win64" -DCMAKE_BUILD_TYPE=Release -DWITH_SERIALIZATION=ON -DWITH_PYTHON=OFF -DEIGEN3_INCLUDE_DIR=C:\projects\fertilized-forests\build\nuget-deps\Eigen\build\native\include -DBOOST_ROOT=C:\projects\fertilized-forests\build\nuget-deps\boost-compiled ..
-  - cmake --build .
+  - cmake --build . --config Release
 
 on_failure:
   - type C:\projects\fertilized-forests\build\CMakeFiles\CMakeOutput.log
 
 test_script:
-  - cmake --build . --target run_tests
+  - cmake --build . --config Release --target run_tests
