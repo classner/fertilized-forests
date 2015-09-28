@@ -228,6 +228,12 @@ message ("Installation options:")
 message ("  Installation prefix path: " ${CMAKE_INSTALL_PREFIX})
 message ("")
 message ("--------------------------------------------------------------------")
+if (WITH_MATLAB)
+  message (WARNING "After building, the MATLAB files can not be installed "
+           "automatically. They will reside in the folder `bindings/matlab` in "
+           "your build folder. They are relocatable, so move them to your "
+           "favorite location.")
+endif()
 if (WIN32)
   if (WITH_CAFFE)
     message (WARNING "Caffe linking is experimental (at best) on Windows! "

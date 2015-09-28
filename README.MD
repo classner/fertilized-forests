@@ -23,7 +23,7 @@ The project has a CMake build system. The series of
     cd build
     cmake ..
     cmake --build . # add `--config Release` for Windows
-    cmake --build . --target test  # run the tests (again, with `--config Release` on Windows).
+    cmake --build . --target test  # run the tests (with `--target run_tests` and `--config Release` on Windows).
     cmake --build . --target install  # run the installation (... for Windows).
 
 is sufficient to create the project in a `Release` configuration on all
