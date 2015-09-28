@@ -10,7 +10,9 @@
 // redefines. It must be the boost version, because otherwise under Windows
 // usually the debug build breaks because of the not provided python27_d.lib.
 #include <boost/python/detail/wrap_python.hpp>
-#if BOOST_VERSION < 105300 || defined BOOST_NO_CXX11_SMART_PTR
+// Fix a boost Python pointer issue with older versions of Boost and clang.
+// Does not happen on the apple clang builds.
+#if (BOOST_VERSION < 105300 || defined BOOST_NO_CXX11_SMART_PTR) && !defined(__APPLE__)
 #include <memory>
 namespace boost {
   template<class T> const T* get_pointer(std::shared_ptr<T> const& p) {
