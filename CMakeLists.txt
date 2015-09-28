@@ -1,6 +1,5 @@
 cmake_minimum_required (VERSION 3.2)
 # Requirement for the findMatlab script shipped with CMake.
-set(Boost_DEBUG 1)
 project (fertilized C CXX)
 list (APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/build_support/cmake/modules)
 
@@ -140,7 +139,8 @@ endif()
 
 # Configure the dependencies.
 find_package (Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})
-link_directories (${Boost_LIBRARY_DIRS})
+# Deactivate boost auto-linking in favor of direct CMake linking.
+add_definitions (-DBOOST_ALL_NO_LIB)
 include_directories (${Boost_INCLUDE_DIRS})
 if (WITH_PYTHON)
   find_package (NumPy REQUIRED)
