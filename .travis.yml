@@ -4,7 +4,7 @@ language: cpp
 compiler: gcc
 branches:
   only:
-    - dev_cmake
+    - unstable
 
 os:
   - linux

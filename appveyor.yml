@@ -1,6 +1,6 @@
 branches:
   only:
-    - dev_cmake
+    - unstable
 
 install:
   ## miniconda.
