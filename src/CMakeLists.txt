@@ -36,3 +36,15 @@ if (WITH_MATLAB)
        "${CMAKE_BINARY_DIR}/bindings/matlab/fertilized/$<TARGET_FILE_NAME:fertilized>"
     COMMENT "Copying to MATLAB directory")
 endif()
+if (WIN32)
+  add_custom_command (TARGET fertilized POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy
+       "$<TARGET_FILE:fertilized>"
+       "${CMAKE_BINARY_DIR}/tests/$<TARGET_FILE_NAME:fertilized>"
+    COMMENT "Copying to test directory")
+  add_custom_command (TARGET fertilized POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy
+       "$<TARGET_FILE:fertilized>"
+       "${CMAKE_BINARY_DIR}/examples/c++/$<TARGET_FILE_NAME:fertilized>"
+    COMMENT "Copying to example directory")
+endif()

@@ -134,12 +134,12 @@ set (REQ_CPP11_FEATURES
 # Check for OpenMP support.
 find_package (OpenMP)
 if (OPENMP_FOUND)
-  list (APPEND CMAKE_CXX_FLAGS " ${OpenMP_CXX_FLAGS}")
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif ()
 
 # Fix clang warnings.
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-  list (APPEND CMAKE_CXX_FLAGS "-Wno-tautological-compare -Wno-logical-op-parentheses")
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-tautological-compare -Wno-logical-op-parentheses")
 endif()
 
 # Configure the dependencies.

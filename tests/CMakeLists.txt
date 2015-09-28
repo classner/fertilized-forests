@@ -1,6 +1,11 @@
 
 FILE(GLOB_RECURSE Test_CPP "*.cpp")
-add_executable(fertilized_tests ${Test_CPP})
+foreach (OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
+  string (TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
+  set (CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_CURRENT_BINARY_DIR}/)
+endforeach (OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
+
+add_executable (fertilized_tests ${Test_CPP})
 target_compile_features(fertilized_tests PRIVATE ${REQ_CPP11_FEATURES})
 target_compile_definitions(fertilized_tests
   PRIVATE -DBOOST_TEST_DYN_LINK)

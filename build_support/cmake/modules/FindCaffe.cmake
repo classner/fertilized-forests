@@ -53,10 +53,17 @@ if (WIN32)
     lib install/lib ../lib build/lib)
 else()
   if (WIN32)
-    find_library(CAFFE_LIBRARY caffe.lib
-      PATHS ${CAFFE_ROOT_DIR}
-      PATH_SUFFIXES
-      lib install/lib ../lib build/lib)  
+    if ("${CMAKE_BUILD_TYPE}" MATCHES "Debug")
+      find_library(CAFFE_LIBRARY caffe-d.lib
+        PATHS ${CAFFE_ROOT_DIR}
+        PATH_SUFFIXES
+        lib install/lib ../lib build/lib)
+    else()
+      find_library(CAFFE_LIBRARY caffe.lib
+        PATHS ${CAFFE_ROOT_DIR}
+        PATH_SUFFIXES
+        lib install/lib ../lib build/lib)
+    endif()
   else()
     # Explicitly link to the shared library.
     find_library(CAFFE_LIBRARY libcaffe.so
