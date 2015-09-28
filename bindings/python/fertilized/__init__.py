@@ -36,9 +36,9 @@ import fertilized.pyfertilized_mf as _pyfertilized_mf
 
 def _enum(*sequential, **named):
     enums = dict(zip(sequential, range(len(sequential))), **named)
-    reverse = dict((value, key) for key, value in list(enums.iteritems()))
+    reverse = dict((value, key) for key, value in list(enums.items()))
     enums['reverse_mapping'] = reverse
-    enums['keys'] = range(len(sequential))
+    enums['keys'] = list(range(len(sequential)))
     return type('Enum', (), enums)
 
 __all__ = ["Soil", "Result_Types", "_pyfertilized", "_pyfertilized_mf"]
@@ -98,17 +98,19 @@ class Soil:
       self._inp_str = _dtype_str_translation[input_dtype_str]
     else:
       raise Exception("Unknown input dtype string! Knwon strings are: " +\
-                      ', '.join(_dtype_str_translation.keys()))
+                      ', '.join(list(_dtype_str_translation.keys())))
+
     if feature_dtype_str in _dtype_str_translation:
       self._feat_str = _dtype_str_translation[feature_dtype_str]
     else:
       raise Exception("Unknown feature dtype string! Knwon strings are: " +\
-                      ', '.join(_dtype_str_translation.keys()))
+                      ', '.join(list(_dtype_str_translation.keys())))
     if annotation_dtype_str in _dtype_str_translation:
       self._ann_str = _dtype_str_translation[annotation_dtype_str]
     else:
       raise Exception("Unknown annotation dtype string! Knwon strings are: " +\
-                      ', '.join(_dtype_str_translation.keys()))
+                      ', '.join(list(_dtype_str_translation.keys())))
+
     self._res_type = result_type
     if self._res_type == Result_Types.regression:
       self._tres = _res_type_str_translation[result_type][0] + self._inp_str
