@@ -24,7 +24,7 @@ endif()
 # Setup the library.
 include_directories (include)
 include_directories (${CMAKE_CURRENT_BINARY_DIR}/include)
-add_subdirectory (include)
+
 set (BOOST_COMPONENTS date_time
                       serialization
                       filesystem
@@ -101,7 +101,6 @@ if (WITH_OPENCV)
   if (NOT OpenCV_FOUND)
     message (FATAL_ERROR "You specified WITH_OPENCV, but it wasn't found!")
   endif ()
-  set (WITH_OPENCV ON)
 endif ()
 if (WITH_CAFFE)
   if (NOT CAFFE_FOUND)
@@ -161,6 +160,7 @@ include_directories (${EIGEN3_INCLUDE_DIR})
 
 # Targets.
 # Create the library.
+add_subdirectory (include)
 add_subdirectory (src)
 
 # Create the tests.
