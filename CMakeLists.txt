@@ -24,7 +24,7 @@ endif()
 # Setup the library.
 include_directories (include)
 include_directories (${CMAKE_CURRENT_BINARY_DIR}/include)
-add_subdirectory (include)
+
 set (BOOST_COMPONENTS date_time
                       serialization
                       filesystem
@@ -161,6 +161,7 @@ include_directories (${EIGEN3_INCLUDE_DIR})
 
 # Targets.
 # Create the library.
+add_subdirectory (include)
 add_subdirectory (src)
 
 # Create the tests.
