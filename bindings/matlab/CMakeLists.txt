@@ -24,7 +24,7 @@ if (WITH_MATLAB)
   target_link_libraries (matfertilized
     fertilized
     ${Boost_LIBRARIES}
-    ${OpenCV_LIBRARIES}
+    ${OpenCV_COMATIBLE_LIBRARIES}
     ${Matlab_LIBRARIES}
   )
 

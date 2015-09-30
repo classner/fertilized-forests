@@ -51,6 +51,7 @@ endif()
 # OpenCV.
 find_package (OpenCV COMPONENTS core imgproc highgui)
 if (OpenCV_FOUND)
+  set (OpenCV_COMATIBLE_LIBRARIES "${OpenCV_LIBRARIES} ${OpenCV_LIBS}")
   option (WITH_OPENCV "Enable feature extraction with OpenCV" ON)
 else()
   option (WITH_OPENCV "Enable feature extraction with OpenCV" OFF)

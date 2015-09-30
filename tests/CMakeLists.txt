@@ -18,7 +18,7 @@ if (WITH_CAFFE)
   endif()
 endif()
 target_link_libraries(fertilized_tests
-  fertilized ${Boost_LIBRARIES} ${OpenCV_LIBRARIES})
+  fertilized ${Boost_LIBRARIES} ${OpenCV_COMATIBLE_LIBRARIES})
 # Add the test supplementaries.
 file(COPY netspec.prototxt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(COPY netweights.prototxt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
