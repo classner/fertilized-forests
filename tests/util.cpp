@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE(Correctness_UniqueIndicesDiffMean) {
       }
       n_vals++;
     }
-    BOOST_CHECK_SMALL(static_cast<float>(abs(mean + 10.f)), .7f);
+    BOOST_CHECK_SMALL(static_cast<float>(std::abs(mean + 10.f)), .7f);
   }
 };
 

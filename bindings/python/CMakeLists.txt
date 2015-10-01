@@ -5,7 +5,7 @@ if (WITH_PYTHON)
     string (TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
     set (CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_CURRENT_BINARY_DIR}/fertilized)
     set (CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_CURRENT_BINARY_DIR}/fertilized)
-  endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
+  endforeach (OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
   set (CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
   # Chunk the python parts up to have faster compilation and lower memory
   # usage. Otherwise, memory requirements rise quickly on Windows machines
@@ -36,7 +36,7 @@ if (WITH_PYTHON)
       set_target_properties ("pyfertilized_${PFPART}" PROPERTIES INSTALL_RPATH "$ORIGIN/:$$ORIGIN")
     endif()
     target_compile_features ("pyfertilized_${PFPART}" PRIVATE ${REQ_CPP11_FEATURES})
-    target_link_libraries ("pyfertilized_${PFPART}" fertilized boost_numpy ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_COMATIBLE_LIBRARIES})
+    target_link_libraries ("pyfertilized_${PFPART}" fertilized boost_numpy ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_COMPATIBLE_LIBRARIES})
     math (EXPR PFPART "${PFPART}+1")
   endwhile (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/__${ELEM_IDX}_exporter.cpp")
 
@@ -60,7 +60,7 @@ if (WITH_PYTHON)
   if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     set_target_properties (pyfertilized_mf PROPERTIES INSTALL_RPATH "$ORIGIN/:$$ORIGIN")
   endif()
-  target_link_libraries (pyfertilized_mf fertilized boost_numpy ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_COMATIBLE_LIBRARIES})
+  target_link_libraries (pyfertilized_mf fertilized boost_numpy ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_COMPATIBLE_LIBRARIES})
   target_compile_features (pyfertilized_mf PRIVATE ${REQ_CPP11_FEATURES})
   list (APPEND LIBLIST pyfertilized_mf)
 
@@ -84,7 +84,7 @@ if (WITH_PYTHON)
     set_target_properties (pyfertilized_vec PROPERTIES INSTALL_RPATH "$ORIGIN/:$$ORIGIN")
   endif()
 
-  target_link_libraries (pyfertilized_vec fertilized boost_numpy ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_COMATIBLE_LIBRARIES})
+  target_link_libraries (pyfertilized_vec fertilized boost_numpy ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_COMPATIBLE_LIBRARIES})
   target_compile_features (pyfertilized_vec PRIVATE ${REQ_CPP11_FEATURES})
   list(APPEND LIBLIST "pyfertilized_vec")
 
@@ -96,6 +96,11 @@ if (WITH_PYTHON)
 
   # On installation, run setuptools.
   install (CODE "exec_program(${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR} ARGS setup.py install)")
+  # Install to the right directory.
+  install (FILES ${CMAKE_CURRENT_BINARY_DIR}/setup.py DESTINATION bindings/python/)
+  install (FILES ${CMAKE_CURRENT_BINARY_DIR}/fertilized/__init__.py DESTINATION bindings/python/fertilized/)
+  install (FILES ${CMAKE_CURRENT_BINARY_DIR}/fertilized/TypeTranslations.py DESTINATION bindings/python/fertilized/)
+  install (TARGETS ${LIBLIST} DESTINATION bindings/python/fertilized/)
 
   # Add tests.
   add_test (NAME py_classification COMMAND ${PYTHON_EXECUTABLE} classification.py quiet

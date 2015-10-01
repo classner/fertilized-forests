@@ -17,12 +17,23 @@ if (WITH_CAFFE)
     PRIVATE -DCAFFE_CPU_ONLY)
   endif()
 endif()
+if (APPLE)
+  set_target_properties (fertilized_tests PROPERTIES INSTALL_RPATH "@loader_path/")
+else()
+  set_target_properties (fertilized_tests PROPERTIES INSTALL_RPATH "$ORIGIN/:$$ORIGIN")
+endif()
 target_link_libraries(fertilized_tests
-  fertilized ${Boost_LIBRARIES} ${OpenCV_COMATIBLE_LIBRARIES})
+  fertilized ${Boost_LIBRARIES} ${OpenCV_COMPATIBLE_LIBRARIES})
 # Add the test supplementaries.
 file(COPY netspec.prototxt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(COPY netweights.prototxt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+# Installation.
+install (TARGETS fertilized_tests DESTINATION tests)
+install (FILES netspec.prototxt DESTINATION tests)
+install (FILES netweights.prototxt DESTINATION tests)
+
+# Add the test to the test suite.
 add_test (NAME TestsRun
   COMMAND fertilized_tests --run_test=Correctness*/*
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})

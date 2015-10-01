@@ -24,7 +24,7 @@ if (WITH_MATLAB)
   target_link_libraries (matfertilized
     fertilized
     ${Boost_LIBRARIES}
-    ${OpenCV_COMATIBLE_LIBRARIES}
+    ${OpenCV_COMPATIBLE_LIBRARIES}
     ${Matlab_LIBRARIES}
   )
 
@@ -43,4 +43,6 @@ if (WITH_MATLAB)
   foreach (HEADER ${MATLAB_GENERATED})
     file(COPY ${HEADER} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/fertilized/generated/)
   endforeach (HEADER ${MATLAB_GENERATED})
+  # Installation.
+  install (DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/fertilized DESTINATION bindings/matlab/)
 endif()
