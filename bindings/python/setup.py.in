@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=invalid-name
 """
 The python setup script for the python project.
 
@@ -6,29 +7,31 @@ Created on Tue Mar 04 14:23:00 2014
 
 @author: Christoph Lassner
 """
-from distutils.core import setup
-import sys
 import os
 import platform
 from glob import glob
 
+from setuptools import setup
+
 ext_files = []
 if platform.system() == 'Windows':
-  bindeps = glob(os.path.join(os.path.dirname(__file__), 'fertilized', '*.dll')) +\
-            glob(os.path.join(os.path.dirname(__file__), 'fertilized', '*.pyd'))
-  ext_files.extend([os.path.basename(fname) for fname in bindeps])
+    bindeps = glob(os.path.join(os.path.dirname(__file__),
+                                'fertilized', '*.dll')) +\
+              glob(os.path.join(os.path.dirname(__file__),
+                                'fertilized', '*.pyd'))
+    ext_files.extend([os.path.basename(fname) for fname in bindeps])
 else:
-  bindeps = glob(os.path.join(os.path.dirname(__file__), 'fertilized', '*.so'))
-  ext_files.extend([os.path.basename(fname) for fname in bindeps])
+    bindeps = glob(os.path.join(os.path.dirname(__file__), 'fertilized', '*.so'))
+    ext_files.extend([os.path.basename(fname) for fname in bindeps])
 
 setup(
-    name = 'fertilized',
-    author = 'Christoph Lassner',
-    author_email = 'Christoph.Lassner@tue.mpg.de',
-    url = 'http://www.fertilized-forests.org',
-    package_dir = {'fertilized': 'fertilized'},
+    name='fertilized',
+    author='Christoph Lassner',
+    author_email='Christoph.Lassner@tue.mpg.de',
+    url='http://www.fertilized-forests.org',
+    package_dir={'fertilized': 'fertilized'},
     packages=['fertilized'],
     package_data={'fertilized': ext_files},
-    version = '@fertilized_VERSION@',
+    version='@fertilized_VERSION@',
     license='BSD 2-clause'
 )
