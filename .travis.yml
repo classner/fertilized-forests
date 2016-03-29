@@ -8,7 +8,10 @@ branches:
 
 os:
   - linux
-  - osx
+  # Disable OSX builds for now, since boost 1.60 MPL has problems with the Apple
+  # CLANG compiler and it is not easily possible to get earlier versions
+  # installed using homebrew.
+  #- osx
 
 env:
     - BUILD_WITH_SERIALIZATION_WO_PYTHON=true
@@ -18,14 +21,14 @@ env:
     - BUILD_WITH_SERIALIZATION_WO_PYTHON=false
       PYTHON_VERSION="3"
 
-matrix:
-  exclude:
-    - os: osx
-      env: BUILD_WITH_SERIALIZATION_WO_PYTHON=true
-           PYTHON_VERSION="none"
-    - os: osx
-      env: BUILD_WITH_SERIALIZATION_WO_PYTHON=false
-           PYTHON_VERSION="3"
+#matrix:
+#  exclude:
+    #- os: osx
+    #  env: BUILD_WITH_SERIALIZATION_WO_PYTHON=true
+    #       PYTHON_VERSION="none"
+    #- os: osx
+    #  env: BUILD_WITH_SERIALIZATION_WO_PYTHON=false
+    #       PYTHON_VERSION="3"
 
 before_install:
   - source build_support/travis/prepare_install.sh
