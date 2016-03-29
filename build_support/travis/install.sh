@@ -27,7 +27,8 @@ fi
 if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
   # Boost.
   #brew outdated boost || brew upgrade boost
-  brew install boost-python
+  brew install homebrew/versions/boost155 --with-python
+  #brew install boost-python
   # Cmake.
   brew outdated cmake || brew upgrade cmake
 fi
