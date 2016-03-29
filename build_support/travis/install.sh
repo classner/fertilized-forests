@@ -19,7 +19,7 @@ if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
   # export CXX=/usr/bin/clang++-3.6
   # export CMAKE_C_COMPILER=clang-3.6
   # export CMAKE_CXX_COMPILER=clang++-3.6
-  wget -O cmake-3.2.3.sh - http://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.sh
+  wget -O cmake-3.2.3.sh --no-check-certificate http://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.sh
   chmod a+x cmake-3.2.3.sh
   sudo ./cmake-3.2.3.sh --skip-license --prefix=/usr/local
   export PATH=/usr/local/bin:$PATH
