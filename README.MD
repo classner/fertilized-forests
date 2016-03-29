@@ -13,7 +13,7 @@ passing and all builds running.
 **The current status of `unstable` is as follows:**
 
 * [![Windows build status](https://ci.appveyor.com/api/projects/status/ypw6pxe1sp26hv62?svg=true)](https://ci.appveyor.com/project/classner/fertilized-forests) Build and tests, core library - Windows
-* [![Linux & Mac build Status](https://travis-ci.org/classner/fertilized-forests.svg?branch=unstable)](https://travis-ci.org/classner/fertilized-forests) Build and tests, core library and Python interface - Linux & Mac OS
+* [![Linux & Mac build Status](https://travis-ci.org/classner/fertilized-forests.svg?branch=unstable)](https://travis-ci.org/classner/fertilized-forests) Build and tests, core library and Python interface - Linux (MacOS temporarily deactivated)
 
 ## Compilation & Installation
 
