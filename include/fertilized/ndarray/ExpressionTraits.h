@@ -19,6 +19,7 @@
 
 #include "fertilized/ndarray_fwd.h"
 #include <boost/static_assert.hpp>
+#include <boost/mpl/bool.hpp>
 
 namespace ndarray {
 
