@@ -1,8 +1,8 @@
 # Fertilized Forests Decision Forest library
 
 The fertilized forests library is a general purpose, platform independent, easy
-to extend, Decision Forest library. You can find detailed information including
-API documentation on [http://www.fertilized-forests.org](http://www.fertilized-forests.org).
+to extend, Decision Forest library. It is unmaintained at the moment. For an even
+more efficient rewrite of the library, see also https://github.com/classner/forpy . 
 
 ## Build status
 
@@ -51,16 +51,13 @@ to another CMake call to adjust the configuration.
 
 ## Developing
 
-If you plan to extend or modify the library, please have a look at the
-dedicated [developers guide](http://www.multimedia-computing.de/fertilized/pages/developers-guide.html).
-There is a [fertilized-devtools](https://github.com/classner/fertilized-devtools)
+If you plan to extend or modify the library, you may also need the [fertilized-devtools](https://github.com/classner/fertilized-devtools)
 project that provides a code generator to
 automatically keep the bindings and the serialization code up-to-date.
 
 ## Troubleshooting
 
-There is an [FAQ page](http://www.multimedia-computing.de/fertilized/pages/faq-troubleshooting.html)
-on the homepage with many helpful tips. If you want to see how
+If you want to see how
 environment setup in general works, see the files `appveyor.yaml` (Windows) or
 `.travis.yaml` (Linux).
 
